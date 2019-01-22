@@ -12,11 +12,16 @@ public class IndividualComponent : MonoBehaviour {
     float ticks = 0;
     bool tickDown;
     public bool dontDespawn; //publically checked for items that bounce but don't destroy themselves
+    private SpriteRenderer sprite;
+
+    public bool isTopBun;
 
     void Awake () //sets variables for other scripts, mostly
     {
         burgerSpawner = GameObject.Find("BurgerSpawner");
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        sprite = GetComponent<SpriteRenderer>();
+        //sprite.sortingOrder = BCI.componentNumber;
         restingPosition = new Vector3(0, transform.position.y, 0);
         bouncingPosition = new Vector3(0, transform.position.y - 0.1f, 0);
         prevTrigger = BCI.bounceTrigger;
@@ -30,6 +35,11 @@ public class IndividualComponent : MonoBehaviour {
     public void componentStatic() //called when the static animation begins
     {
         BCI.canSpawn = true;
+    }
+
+    public void layerSort() //sets sorting order when called from animation
+    {
+            sprite.sortingOrder = BCI.componentNumber;
     }
 
     IEnumerator Despawn() //called when BCI reaches the component cap or space is pressed. This will eventually trigger the 'end of attack' animations

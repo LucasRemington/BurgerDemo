@@ -99,6 +99,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burgerSpawner: {fileID: 0}
   BCI: {fileID: 0}
+  restingPosition: {x: 0, y: 0, z: 0}
+  bouncingPosition: {x: 0, y: 0, z: 0}
+  dontDespawn: 0
 --- !u!212 &212092435087415140
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -133,7 +136,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 37db8bac1571c224c8c8764e585c914e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
