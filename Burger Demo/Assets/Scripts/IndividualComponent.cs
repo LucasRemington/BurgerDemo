@@ -13,6 +13,7 @@ public class IndividualComponent : MonoBehaviour {
     bool tickDown;
     public bool dontDespawn; //publically checked for items that bounce but don't destroy themselves
     private SpriteRenderer sprite;
+    public Animator anim;
 
     public bool isTopBun;
 
@@ -20,6 +21,7 @@ public class IndividualComponent : MonoBehaviour {
     {
         burgerSpawner = GameObject.Find("BurgerSpawner");
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         //sprite.sortingOrder = BCI.componentNumber;
         restingPosition = new Vector3(0, transform.position.y, 0);
@@ -45,6 +47,11 @@ public class IndividualComponent : MonoBehaviour {
     IEnumerator Despawn() //called when BCI reaches the component cap or space is pressed. This will eventually trigger the 'end of attack' animations
     {
         yield return new WaitUntil(() => BCI.spawnReset == true);
+        anim.SetTrigger("Vanish");
+    }
+
+    public void KillThis() //called at end of vanish with event
+    {
         Destroy(this.gameObject);
     }
 

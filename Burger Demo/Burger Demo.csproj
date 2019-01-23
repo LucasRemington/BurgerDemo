@@ -308,6 +308,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BurgerComponentInstantiator.cs" />
     <Compile Include="Assets\Scripts\IndividualComponent.cs" />
+    <Compile Include="Assets\Scripts\PlayerHealth.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />

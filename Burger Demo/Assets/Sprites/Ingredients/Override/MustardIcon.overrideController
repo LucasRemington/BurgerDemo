@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: MustardIcon
+  m_Controller: {fileID: 9100000, guid: 83fa779e6c88ffd41bbd0987bce738d4, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 432630afa4fad414fa922679fb3b25c4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4b8a758766794f7428fd6add81cf0f51, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bc6f0a7999cf4f1479e819322995d492, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d42a3d4371d714d42aadf9a384a1dca0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9dcd78caeadd68e4795e540964aa5bf5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5f8f335f28197ea4bba8817dfbb7ee7d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 29de8db12db64ab4e9d637418d4360c7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1d5f8aa9f0620da44b79dae9252ce89b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 14757a59171b26146a61d32c246789be, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 496ab2a01b0f2e2468535be99e313c21, type: 2}
