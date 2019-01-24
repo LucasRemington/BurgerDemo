@@ -8,6 +8,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     //necessary scripts + gameobjects
     public PlayerHealth ph;
     public GameObject player;
+    public EnemyBehavior eb;
+    public GameObject enemy;
 
     public float burgerPosition; //add 0.2 per pixel of the object
     float formerBurgerPosition; //burger position before prefab was instantiated
@@ -76,23 +78,12 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public Text slowText;
     public Text damageText;
 
-    //public attack stats - monster? TBD
-    public float drops;
-    public float missChance;
-    public float enemyArmor;
-    public bool vulnKetchup;
-    public bool vulnMustard;
-    public bool resistsKetchup;
-    public bool resistsMustard;
-    public bool resistsBun;
-    public float enemySpeed;
-    public float enemyDamage;
-    public float enemyHealth;
-
     //called on start
     void Start () {
         player = GameObject.Find("Player");
         ph = player.GetComponent<PlayerHealth>();
+        enemy= GameObject.Find("Friedman");
+        eb = enemy.GetComponent<EnemyBehavior>();
         canSpawn = true;
         finalCombo = new int[componentCap];
         turns = 1;
@@ -284,16 +275,16 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     void LaunchBurger () //unsure if any of this will calculate correctly. Treat with caution
     {
-        drops = drops * (dropMult * 0.01f);
+        eb.drops = eb.drops * (dropMult * 0.01f);
         //permanent drop text
         ph.HealDamage(Mathf.RoundToInt(heal));
         //heal icon
         if (crying > 0) 
         {
-            missChance = 0;
+            eb.missChance = 0;
             for (int i = 1; i <= crying+1; i++)
             {
-                missChance = missChance + (20 / i);
+                eb.missChance = eb.missChance + (20 / i);
             }
             //crying text
         }
@@ -302,7 +293,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             //take rawspeed to cleanse slow?
             for (int i = 1; i <= crying+1; i++)
             {
-                enemySpeed = enemySpeed + (2 / i);
+                eb.enemySpeed = eb.enemySpeed + (2 / i);
             }
         }
         critRoll = Random.Range(1, 100);
@@ -311,28 +302,26 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             finalDamage = finalDamage * 2;
             //crit text critical hit
         }
-        if (ketchupDamage == true && resistsKetchup == true)
+        if (ketchupDamage == true && eb.resistsKetchup == true)
         {
             finalDamage = finalDamage / 2;
-        } else if (mustardDamage == true && resistsMustard == true)
-        {
-            finalDamage = finalDamage / 2;
-        }
-        else if (mustardDamage == false && ketchupDamage == false && resistsBun == true)
+        } else if (mustardDamage == true && eb.resistsMustard == true)
         {
             finalDamage = finalDamage / 2;
         }
-        else if (mustardDamage == true && vulnMustard == true)
+        else if (mustardDamage == false && ketchupDamage == false && eb.resistsBun == true)
+        {
+            finalDamage = finalDamage / 2;
+        }
+        else if (mustardDamage == true && eb.vulnMustard == true)
         {
             finalDamage = finalDamage * 1.5f;
         }
-        else if (ketchupDamage == true && vulnKetchup == true)
+        else if (ketchupDamage == true && eb.vulnKetchup == true)
         {
             finalDamage = finalDamage * 1.5f;
         }
-        enemyArmor = enemyArmor * (1 - armorPen);
-        finalDamage = finalDamage - enemyArmor;
-        enemyHealth = enemyHealth - finalDamage;
+        eb.TakeDamage(finalDamage);
     }
 
     IEnumerator ClearBurger() //resets most variables
@@ -340,7 +329,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         spawnReset = true;
         hidePickles(0, false);
         topPlaced = false;
-        canSpawn = true;
         pattyDropped = false;
         heal = 0;
         burgerPosition = 0;
@@ -441,7 +429,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     {
         for (int i = 0; i < componentCap; i++)
         {
-            infoText[i].text = "";
+            infoText[i].text = "--";
         }
     }
 
