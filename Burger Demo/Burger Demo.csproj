@@ -306,10 +306,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AttackLaunch.cs" />
     <Compile Include="Assets\Scripts\BurgerComponentInstantiator.cs" />
     <Compile Include="Assets\Scripts\EnemyBehavior.cs" />
+    <Compile Include="Assets\Scripts\FollowWithOffset.cs" />
     <Compile Include="Assets\Scripts\IndividualComponent.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\TurnOffWhenDone.cs" />
     <Compile Include="Assets\Scripts\UIActivate.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,14 +13,20 @@ public class EnemyBehavior : MonoBehaviour {
 
     //public attack stats
     public float drops;
-    public float missChance;
+    public float baseMissChance;
+    public float finalMissChance;
+    public int cryingStacks;
+    public float baseArmor;
     public float enemyArmor;
     public bool vulnKetchup;
     public bool vulnMustard;
     public bool resistsKetchup;
     public bool resistsMustard;
     public bool resistsBun;
+    public float baseSpeed;
     public float enemySpeed;
+    public int slowStacks;
+    public int baseDamage;
     public int enemyDamage;
     public float enemyHealth;
 
@@ -30,8 +36,9 @@ public class EnemyBehavior : MonoBehaviour {
     public bool movingForwards;
     public bool movingBackwards;
     public bool cantMove;
+    public bool attackCalled;
 
-    float ticks = 0;
+    public float ticks = 0;
     public Vector3 startPosition; //initial position
     public Vector3 endPosition; //in front of player
     public Vector3 damagedPosition; //position where damaged
@@ -40,9 +47,22 @@ public class EnemyBehavior : MonoBehaviour {
 
     public Animator anim; //animator
 
-    public int seconds;
+    public int seconds; //for timer at top
     public Text secondsText;
     public bool timerStarted;
+
+    public TextMesh[] aboveText; //text following position
+    public int targetAT; //target above text to put words in
+    public TextMesh HealthText; // text displaying enemy health
+    public Animator healthBar;
+    public GameObject clock;
+    public Animator clockAnim;
+    public TextMesh cheeseText;
+    public GameObject cheese;
+    public Animator cheeseAnim;
+    public TextMesh tearText;
+    public GameObject tear;
+    public Animator tearAnim;
 
     void Start () {
         startPosition = new Vector3(start.position.x, start.position.y, start.position.z);
@@ -51,37 +71,91 @@ public class EnemyBehavior : MonoBehaviour {
         player = GameObject.Find("Player");
         ph = player.GetComponent<PlayerHealth>();
         burgerSpawner = GameObject.Find("BurgerSpawner");
+        //clock = GameObject.Find("UIClock");
+        clockAnim = clock.GetComponent<Animator>();
+        cheeseAnim = cheese.GetComponent<Animator>();
+        tearAnim = tear.GetComponent<Animator>();
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         movingForwards = true;
         seconds = Mathf.RoundToInt(enemySpeed-2);
     }
 
-    public void TakeDamage (float finalDamage)
+    public void TakeDamage (float finalDamage) //calculates damage taken by enemy
     {
-        enemyArmor = enemyArmor * (1 - BCI.armorPen);
+        enemyArmor = baseArmor;
+        enemyArmor = enemyArmor - (enemyArmor * BCI.armorPen * 0.01f);
+        if (enemyArmor <= 0)
+        {
+            enemyArmor = 0;
+        }
         finalDamage = finalDamage - enemyArmor;
+        if (BCI.ketchupDamage == true && resistsKetchup == true) //resistances
+        {
+            finalDamage = finalDamage / 2;
+            StartCoroutine(setAboveText("Resisted!"));
+        }
+        else if (BCI.ketchupDamage == true && vulnKetchup == true){
+            finalDamage = finalDamage * 1.5f;
+            StartCoroutine(setAboveText("Vulnerable!"));
+        }
+        else if (BCI.mustardDamage == true && resistsMustard == true){
+            finalDamage = finalDamage / 2;
+            StartCoroutine(setAboveText("Resisted!"));
+        }
+        else if (BCI.mustardDamage == true && vulnMustard == true){
+            finalDamage = finalDamage * 1.5f;
+            StartCoroutine(setAboveText("Vulnerable!"));
+        }
+        else if (BCI.ketchupDamage == false && BCI.mustardDamage == false && resistsBun == true){
+            finalDamage = finalDamage / 2;
+            StartCoroutine(setAboveText("Resisted!"));
+        }
+        SlowEnemy();
         hasBeenDamaged = true;
         cantMove = true;
         damagedPosition = this.transform.position;
-        ticks = 0;
+        StartCoroutine(SetTicksWhenReady());
+        clockAnim.SetBool("Stopped", true);
         if (finalDamage > 0)
         {
             enemyHealth = enemyHealth - finalDamage;
             anim.SetTrigger("Damaged");
-            
+            HealthText.text = Mathf.RoundToInt(enemyHealth).ToString();
+            healthBar.SetTrigger("Damaged");
+            StartCoroutine(setAboveText(finalDamage + " damage!"));
         } else
         {
             cantMove = false;
+            StartCoroutine(setAboveText("No damage!"));
             StartCoroutine(MoveForwards());
+        }
+        if (cryingStacks > 0)
+        {
+            StartCoroutine(setAboveText("Crying!"));
         }
     }
 
-    /*IEnumerator SetTicksWhenReady ()
+    public IEnumerator setAboveText(string text)
+    {
+        for (int i = 0; i < aboveText.Length; i++)
+        {
+            if (aboveText[i].text == "")
+            {
+                aboveText[i].text = text;
+                yield return new WaitForSeconds(2f);
+                aboveText[i].text = "";
+                i = aboveText.Length + 1;
+            }
+        }
+    }
+
+    IEnumerator SetTicksWhenReady ()
     {
         float tempTicks = ticks;
-        Wai
+        yield return new WaitUntil(() => tempTicks != ticks);
+        ticks = 0;
     }
-    */
+    
     public void CheckDeath ()
     {
         if (enemyHealth <= 0)
@@ -95,7 +169,7 @@ public class EnemyBehavior : MonoBehaviour {
         }
     }
 
-    public IEnumerator MoveForwards ()
+    public IEnumerator MoveForwards () //movement function. contains turn reset
     {
 
         if (movingForwards == true && hasBeenDamaged == false && cantMove == false)
@@ -130,17 +204,46 @@ public class EnemyBehavior : MonoBehaviour {
             yield return new WaitForSeconds(0.01f);
             ticks++;
             transform.position = Vector3.Lerp(endPosition, startPosition, (ticks/50f));
-            if (transform.position == startPosition)
+            if (transform.position == startPosition) // turn reset
             {
                 anim.SetTrigger("Reset");
+                if (cryingStacks > 0)
+                {
+                    tearText.text = cryingStacks.ToString();
+                    cryingStacks--;
+                }
+                else if (slowStacks <= 0)
+                {
+                    tearText.text = "";
+                    if (tear.activeInHierarchy == true)
+                    {
+                        tearAnim.SetTrigger("tearEnd");
+                    }
+                }
+                if (slowStacks > 0)
+                {
+                    cheeseText.text = slowStacks.ToString();
+                    slowStacks--;
+                }
+                else if (slowStacks <= 0)
+                {
+                    cheeseText.text = "";
+                    if (cheese.activeInHierarchy == true)
+                    {
+                        cheeseAnim.SetTrigger("endCheese");
+                    }
+                }
+                enemyDamage = baseDamage;
                 movingBackwards = false;
                 movingForwards = true;
-                ticks = 0;
+                StartCoroutine(SetTicksWhenReady());
                 hasBeenDamaged = false;
                 BCI.turns++;
                 BCI.canSpawn = true;
                 seconds = Mathf.RoundToInt(enemySpeed-2);
                 timerStarted = false;
+                attackCalled = false;
+                clockAnim.SetBool("Stopped", false);
             }
             else
             {
@@ -151,15 +254,57 @@ public class EnemyBehavior : MonoBehaviour {
 
     public void Attack ()
     {
-        anim.SetTrigger("TimesUp");
+        if (attackCalled == false)
+        {
+            anim.SetTrigger("TimesUp");
+        }
+        attackCalled = true;
     }
 
     public void DamagePlayer ()
     {
+        ChanceToMiss();
         ph.DealDamage(enemyDamage);
         movingBackwards = true;
         movingForwards = false;
-        ticks = 0;
+        ticks = 0;//StartCoroutine(SetTicksWhenReady());
+    }
+
+    public void ChanceToMiss()
+    {
+        finalMissChance = baseMissChance;
+        if (cryingStacks > 0)
+        {
+            tear.SetActive(true);
+        }
+        for (int i = 1; i <= cryingStacks; i++)
+        {
+            finalMissChance = finalMissChance + (20 / i);
+            tearText.text = cryingStacks.ToString();
+        }
+        if (finalMissChance >= Random.Range(1, 100))
+        {
+            enemyDamage = 0;
+            StartCoroutine(setAboveText("Miss!"));
+        }
+    }
+
+    public void SlowEnemy()
+    {
+        enemySpeed = baseSpeed;
+        for (int i = 1; i <= slowStacks; i++)
+        {
+            enemySpeed = enemySpeed + (2 / i);
+        }
+        if (baseSpeed != enemySpeed)
+        {
+            StartCoroutine(setAboveText("Slowed!"));
+            cheeseText.text = slowStacks.ToString();
+            if (cheese.activeInHierarchy == false)
+            {
+                cheese.SetActive(true);
+            }
+        }
     }
 
     public void setStartTimer ()
@@ -169,6 +314,10 @@ public class EnemyBehavior : MonoBehaviour {
 
     public IEnumerator EnemyTimer ()
     {
+        if (clock.activeInHierarchy == false)
+        {
+            clock.SetActive(true);
+        }
         yield return new WaitForSeconds(1f);
         if (hasBeenDamaged == false || movingBackwards == false)
         {

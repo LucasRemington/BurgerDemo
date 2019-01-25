@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour {
     public Animator[] healthAnim;
     public Animator protag;
     public Text healthText;
+    public GameObject healIcon; //icon that pops up for healing
 
     void Start () {
         burgerSpawner = GameObject.Find("BurgerSpawner");
@@ -48,12 +49,13 @@ public class PlayerHealth : MonoBehaviour {
         healthText.text = playerHealth.ToString();
         if (playerHealth <= 0)
         {
-            //die
+            protag.SetBool("Dead", true);
         }
     }
 
     public void HealDamage(int healing) //used to heal damage, takes amount of healing as an argument
     {
+        healIcon.SetActive(true);
         Debug.Log("gavehealing");
         previousHealth = playerHealth;
         playerHealth = playerHealth + healing;

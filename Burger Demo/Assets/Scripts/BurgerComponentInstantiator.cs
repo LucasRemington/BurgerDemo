@@ -47,9 +47,15 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public Animator[] iconAnim; //icons flash when buttons are pressed
     public Text[] iconText; //text giving information about ingredients
 
-    //combo strings
-    public int[] classicCombo = { 7, 8, 6, 10, 9, 1, 2, 3, 5, 0 };
+    //combo strings. identity: 0 = blank 1 = tomato 2 = lettuce 3 = onion 4 = bacon 5 = sauce 6 = pickles 7 = ketchup 8 = mustard 9 = cheese 10 = patty
+    public int[] classicCombo3 = { 7, 8, 6, 10, 9, 1, 2, 3, 5, 0 };
     public int[] baconCombo = { 9, 10, 9, 4, 10, 9, 4, 7, 5, 0 };
+    public int[] simpleCombo = { 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public int[] classicCombo = { 10, 1, 2, 3, 0, 0, 0, 0, 0, 0 };
+    public int[] veggieCombo = { 2, 10, 2, 0, 0, 0, 0, 0, 0, 0 };
+    public int[] weepCombo = { 3, 10, 3, 2, 1, 0, 0, 0, 0, 0 };
+    public int[] doubleCombo = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
+    public int[] doubleCombo3 = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
 
     //final attack stats - ingredient modified
     public float dropMult; //multiplies loot recieved when fight is over
@@ -268,60 +274,39 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             StartCoroutine(ClearBurger());
         } else if (Input.GetKeyDown(KeyCode.Space) == true)
         {
-            LaunchBurger();
+            ph.protag.SetTrigger("Attack");
+            if (heal > 0)
+            {
+                ph.HealDamage(Mathf.RoundToInt(heal));
+            }
             StartCoroutine(ClearBurger());
         }
     }
 
-    void LaunchBurger () //unsure if any of this will calculate correctly. Treat with caution
+    public void LaunchBurger () //unsure if any of this will calculate correctly. Treat with caution. called from protag attack animation
     {
-        eb.drops = eb.drops * (dropMult * 0.01f);
-        //permanent drop text
-        ph.HealDamage(Mathf.RoundToInt(heal));
-        //heal icon
         if (crying > 0) 
         {
-            eb.missChance = 0;
-            for (int i = 1; i <= crying+1; i++)
-            {
-                eb.missChance = eb.missChance + (20 / i);
-            }
-            //crying text
+            eb.cryingStacks = eb.cryingStacks + crying;
+            //crying icon
         }
         if (slow > 0)
         {
-            //take rawspeed to cleanse slow?
-            for (int i = 1; i <= crying+1; i++)
-            {
-                eb.enemySpeed = eb.enemySpeed + (2 / i);
-            }
+            eb.slowStacks = eb.slowStacks + slow;
+            //slow icon
         }
         critRoll = Random.Range(1, 100);
         if (critRoll <= critChance)
         {
             finalDamage = finalDamage * 2;
-            //crit text critical hit
-        }
-        if (ketchupDamage == true && eb.resistsKetchup == true)
-        {
-            finalDamage = finalDamage / 2;
-        } else if (mustardDamage == true && eb.resistsMustard == true)
-        {
-            finalDamage = finalDamage / 2;
-        }
-        else if (mustardDamage == false && ketchupDamage == false && eb.resistsBun == true)
-        {
-            finalDamage = finalDamage / 2;
-        }
-        else if (mustardDamage == true && eb.vulnMustard == true)
-        {
-            finalDamage = finalDamage * 1.5f;
-        }
-        else if (ketchupDamage == true && eb.vulnKetchup == true)
-        {
-            finalDamage = finalDamage * 1.5f;
+            StartCoroutine(eb.setAboveText("Critical Hit!"));
         }
         eb.TakeDamage(finalDamage);
+        eb.drops = eb.drops + dropMult;
+        if (dropMult > 0)
+        {
+            StartCoroutine(eb.setAboveText("+" + dropMult + " Drops!"));
+        }
     }
 
     IEnumerator ClearBurger() //resets most variables
@@ -357,8 +342,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 break;
             case 1: //tomato
                 damage = damage + 1;
-                DropMultUpdate(10, false);
-                infoText[componentNumber - 2].text = "+10% Loot Drops, +1 Damage";
+                DropMultUpdate(3, false);
+                infoText[componentNumber - 2].text = "+3 Loot Drops, +1 Damage";
                 finalDamageCalculator();
                 break;
             case 2: //lettuce
@@ -455,10 +440,36 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     void executeCombo() // checks all combos against final combo, resets array for next loop
     {
         fcArray = 0;
-        if (CheckCombo(classicCombo) == true) //checking combos
+        if (CheckCombo(simpleCombo) == true) //checking combos
+        {
+            StartCoroutine(setComboText("Make It Fast Combo: +1 Slow, You Poor Soul"));
+            SlowUpdate(1, false);
+        }
+        else if (CheckCombo(classicCombo) == true) //checking combos
+        {
+            StartCoroutine(setComboText("The Classic Combo: +10% Crit Chance"));
+            CritUpdate(10, false);
+        }
+        else if (CheckCombo(veggieCombo) == true) //checking combos
+        {
+            StartCoroutine(setComboText("The Vegetarian(?) Combo: +5 Healing"));
+            HealUpdate(5, false);
+        }
+        else if (CheckCombo(weepCombo) == true) //checking combos
+        {
+            StartCoroutine(setComboText("Make Them Weep Combo: +1 Crying, +1 Slow"));
+            SlowUpdate(1, false);
+            CryingUpdate(1, false);
+        }
+        else if (CheckCombo(doubleCombo) == true) //checking combos
+        {
+            StartCoroutine(setComboText("Double Combo: +20% Penetration"));
+            ArmorPenUpdate(20, false);
+        }
+        else if (CheckCombo(classicCombo3) == true) //checking combos
         {
             StartCoroutine(setComboText("The Classic Combo 3: +5% to Everything"));
-            DropMultUpdate(5, false);
+            DropMultUpdate(1, false);
             HealUpdate(2, false);
             DamageMultUpdate(5, false);
             CritUpdate(5, false);
@@ -507,7 +518,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         {
             dropMult = 0;
         }
-        dropText.text = "+" + dropMult + "% Loot Drop";
+        dropText.text = "+" + dropMult + " Loot Drops";
     }
 
     void HealUpdate(int x, bool reset)

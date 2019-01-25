@@ -3,7 +3,6 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
-
 *.dll filter=lfs diff=lfs merge=lfs -text
 *.resS filter=lfs diff=lfs merge=lfs -text
 *.3dm filter=lfs diff=lfs merge=lfs -text
@@ -25,7 +24,6 @@
 *.skp filter=lfs diff=lfs merge=lfs -text
 *.stl filter=lfs diff=lfs merge=lfs -text
 *.ztl filter=lfs diff=lfs merge=lfs -text
-
 *.aif filter=lfs diff=lfs merge=lfs -text
 *.aiff filter=lfs diff=lfs merge=lfs -text
 *.it filter=lfs diff=lfs merge=lfs -text
@@ -35,10 +33,8 @@
 *.s3m filter=lfs diff=lfs merge=lfs -text
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.xm filter=lfs diff=lfs merge=lfs -text
-
 *.otf filter=lfs diff=lfs merge=lfs -text
 *.ttf filter=lfs diff=lfs merge=lfs -text
-
 *.bmp filter=lfs diff=lfs merge=lfs -text
 *.exr filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
@@ -52,3 +48,8 @@
 *.tga filter=lfs diff=lfs merge=lfs -text
 *.tif filter=lfs diff=lfs merge=lfs -text
 *.tiff filter=lfs diff=lfs merge=lfs -text
+43e57ba1a4722ed468e5b0d73f28ecc7 filter=lfs diff=lfs merge=lfs -text
+C:/Users/lreming1/Documents/Github/BurgerDemo/Burger filter=lfs diff=lfs merge=lfs -text
+Demo/Library/metadata/43/43e57ba1a4722ed468e5b0d73f28ecc7 filter=lfs diff=lfs merge=lfs -text
+C:/Users/lreming1/Documents/Github/BurgerDemo/Burger[[:space:]]Demo/Library/metadata/43/43e57ba1a4722ed468e5b0d73f28ecc7 filter=lfs diff=lfs merge=lfs -text
+Burger[[:space:]]Demo/Library/metadata/43/43e57ba1a4722ed468e5b0d73f28ecc7 filter=lfs diff=lfs merge=lfs -text
