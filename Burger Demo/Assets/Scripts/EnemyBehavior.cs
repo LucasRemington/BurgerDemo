@@ -10,6 +10,9 @@ public class EnemyBehavior : MonoBehaviour {
     public GameObject player;
     public GameObject burgerSpawner; //This and BCI reference the static script
     public BurgerComponentInstantiator BCI;
+    public GameObject mainCamera;
+    public AudioSource background;
+    public AudioSource victory;
 
     //public attack stats
     public float drops;
@@ -78,6 +81,8 @@ public class EnemyBehavior : MonoBehaviour {
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         movingForwards = true;
         seconds = Mathf.RoundToInt(enemySpeed-2);
+        mainCamera = GameObject.Find("Main Camera");
+        background = mainCamera.GetComponent<AudioSource>();
     }
 
     public void TakeDamage (float finalDamage) //calculates damage taken by enemy
@@ -162,6 +167,11 @@ public class EnemyBehavior : MonoBehaviour {
         {
             anim.SetTrigger("Damaged");
             anim.SetTrigger("Dead");
+            StartCoroutine(BCI.FadeImageToFullAlpha(2, BCI.fadeBlack));
+            StartCoroutine(BCI.whenBlackScreen());
+            background.Stop();
+            victory.Play();
+
         } else
         {
             cantMove = false;

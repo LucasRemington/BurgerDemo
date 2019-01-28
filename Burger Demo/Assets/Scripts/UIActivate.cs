@@ -11,13 +11,13 @@ public class UIActivate : MonoBehaviour {
     public static int entryOrder;
     public Text[] textToFade;
 
-    void Start () {
-        //entryOrder = 0;
+    void Awake () {
+        entryOrder = 0;
 	}
 	
 	void ExtendUI ()
     {
-        switch(entryOrder)
+        switch (entryOrder)
         {
             case 0:
                 icons.SetActive(true);
@@ -30,8 +30,7 @@ public class UIActivate : MonoBehaviour {
                     StartCoroutine(FadeTextToFullAlpha(1f, textToFade[i]));
                 }
                 break;
-        }
-        
+        } 
 	}
 
     public IEnumerator FadeTextToFullAlpha(float t, Text i)

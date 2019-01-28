@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class AttackLaunch : MonoBehaviour {
 
+    //launches attack and triggers death through animation
+
     public GameObject burgerSpawner; //This and BCI reference the static script
     public BurgerComponentInstantiator BCI;
+    private bool didDie;
 
     void Start()
     {
@@ -16,5 +19,14 @@ public class AttackLaunch : MonoBehaviour {
     void LaunchAttack () {
         BCI.LaunchBurger();
 	}
-	
+
+    void Die ()
+    {
+        if (didDie == false)
+        {
+            didDie = true;
+            BCI.UponDeath();
+        }
+    }
+
 }

@@ -70,6 +70,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public float damage; //raw damage number
     public float finalDamage; //final damage number after multipliers and resistances are taken into account
     public bool pattyDropped; // active when a patty is dropped
+    public bool playerDead; // true when dead
 
     // player variables INV = inventory
     public int[] ingredientINV = new int[10];
@@ -83,6 +84,15 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public Text damageTypeText;
     public Text slowText;
     public Text damageText;
+
+    //beginning and ending UI
+    public Image fadeBlack; //fades in and out
+    public Text winOrLose;
+    public GameObject lootRecieved;
+    public Text totalLoot;
+    public Image[] lootIcon;
+    public Text[] lootText;
+    public Text replayDemo;
 
     //called on start
     void Start () {
@@ -99,6 +109,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         //IconDimmer();
         IconTextUpdate();
         StartCoroutine(enableCheats());
+        StartCoroutine(FadeImageToZeroAlpha(1, fadeBlack));
     }
 
     void IconTextUpdate()
@@ -268,7 +279,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         topPlaced = true;
         Instantiate(topBun, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
         executeCombo();
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true || Input.GetKeyDown(KeyCode.LeftControl) == true);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && eb.movingBackwards == false|| Input.GetKeyDown(KeyCode.LeftControl) == true);
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
         {
             StartCoroutine(ClearBurger());
@@ -662,4 +673,72 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         DamageTypeUpdate(false, true);
         SlowUpdate(0, true);
     }
+
+    public void UponDeath () //triggers through animation on death
+    {
+        playerDead = true;
+        ClearBurger();
+        ResetAttack();
+        StartCoroutine(FadeImageToFullAlpha(2, fadeBlack));
+    }
+
+    public IEnumerator whenBlackScreen () //controls UI, triggering when screen is fully black
+    {
+        //yield return new WaitUntil(() => fadeBlack.color.a == 1);
+        yield return new WaitForSeconds(1f);
+        Debug.Log("fully black");
+        if (playerDead == false)
+        {
+            Debug.Log("player alive");
+            winOrLose.enabled = true;
+            winOrLose.text = "Order Filled";
+            yield return new WaitForSeconds(0.5f);
+            float totalDrops = eb.drops;
+            lootRecieved.SetActive(true);
+            totalLoot.text = totalDrops.ToString() + " Ingredients Recieved";
+            yield return new WaitForSeconds(0.25f);
+            for (int j = 0; j < lootIcon.Length; j++) //uses enemy behavior and expended ingredients to figure out drops. Or it will, eventually.
+            {
+                lootIcon[j].enabled = true;
+                lootText[j].text = "+1";
+            }
+            yield return new WaitForSeconds(0.5f);
+            replayDemo.enabled = true;
+        }
+        else if (playerDead == true)
+        {
+            winOrLose.enabled = true;
+            winOrLose.text = "Employee Terminated";
+            yield return new WaitForSeconds(0.5f);
+            replayDemo.enabled = true;
+        }
+    }
+
+    public IEnumerator FadeImageToFullAlpha(float t, Image i) //used to fade in and fade out scene, and controls UI for death
+    {
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
+        bool coCalled = false;
+        while (i.color.a < 1.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
+            yield return null;
+        }
+        while (i.color.a == 1.0f && coCalled == false)
+        {
+            StartCoroutine(whenBlackScreen());
+            coCalled = true;
+            yield return null;
+        }
+    }
+
+    public IEnumerator FadeImageToZeroAlpha(float t, Image i)
+    {
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
+        while (i.color.a > 0.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+
 }
