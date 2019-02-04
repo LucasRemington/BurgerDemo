@@ -9,11 +9,13 @@ public class BattleTranistions : MonoBehaviour {
     public int playerHealth = 100;
     public GameObject player;
     public PlayerHealth ph;
+    public GameObject[] OverworldObjects;
+    public GameObject currentEnemy;
 
     public bool battling = false;
 	// Use this for initialization
 	void Start () {
-		
+        OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
 	}
 	
 	// Update is called once per frame
@@ -23,7 +25,12 @@ public class BattleTranistions : MonoBehaviour {
 	}
 
     public IEnumerator StartBattle(GameObject enemy) {
+        currentEnemy = enemy;
         Instantiate(enemy.GetComponent<Enemy>().battlePrefab, new Vector3(0,-6,0), new Quaternion(0,0,0,0),this.transform);
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < OverworldObjects.Length; i++) {
+            OverworldObjects[i].SetActive(false);
+        }
         //Instantiate(battlePrefab, this.gameObject.transform);
         battle = GameObject.Find("FullBattlePrefab(Clone)");
         battle.transform.parent = null;
@@ -32,15 +39,22 @@ public class BattleTranistions : MonoBehaviour {
         //Instantiate(enemy.GetComponent<Enemy>().battlePrefab, this.transform);
         battling = true;
         yield return new WaitUntil(() => battle == null);
-        Destroy(enemy.gameObject);
-        battling = false;
+        
     }
 
-    public IEnumerator EndOfBattle()
+    public IEnumerator EndOfBattle()            //this gets called by the enemy's death in enemyBehavior
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
+        for (int i = 0; i < OverworldObjects.Length; i++)
+        {
+            OverworldObjects[i].SetActive(true);
+        }
+        yield return new WaitForSeconds(1);
         ph.healthUpdate();
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Destroy(battle);
+        Destroy(currentEnemy.gameObject);
+        battling = false;
+        currentEnemy = null;
     }
 }

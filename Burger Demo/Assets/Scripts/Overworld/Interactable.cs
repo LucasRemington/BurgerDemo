@@ -5,6 +5,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour {
     private bool playerTouch = false;
     public GameObject player;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,14 +19,16 @@ public class Interactable : MonoBehaviour {
 	}
 
     public void Interact() {
-        // here i'll put a bunch of if statements that check if certain interactable scripts are on the same object
-        if (GetComponent<Sign>() != null && !GetComponent<Sign>().reading) {
-            StartCoroutine(GetComponent<Sign>().DisplayText(player));
+        // here i'll put a bunch of if statements that check if certain interactable scripts are on the same object. stuff like signs, doors, buttons and such
+        if (GetComponent<Sign>() != null && !GetComponent<Sign>().reading)
+        {
+            StartCoroutine(GetComponent<Sign>().ShowDialogue());
         }
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.name == "OverworldPlayer")
         {
             playerTouch = true;
             player = other.gameObject;
@@ -33,6 +36,6 @@ public class Interactable : MonoBehaviour {
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player") playerTouch = false;
+        if (other.name == "OverworldPlayer") playerTouch = false;
     }
 }

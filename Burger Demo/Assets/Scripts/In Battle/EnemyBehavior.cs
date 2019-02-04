@@ -180,7 +180,7 @@ public class EnemyBehavior : MonoBehaviour {
             StartCoroutine(BCI.whenBlackScreen());  
             background.Stop();                  // sound
             victory.Play();                     // sound
-            StartCoroutine(gameController.GetComponent<BattleTranistions>().EndOfBattle());
+            StartCoroutine(gameController.GetComponent<BattleTranistions>().EndOfBattle());     // i think this the only thing i added to this
 
         } else
         {

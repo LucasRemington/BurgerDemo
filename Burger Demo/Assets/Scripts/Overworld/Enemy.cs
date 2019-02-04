@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    public GameObject battlePrefab;
+    public GameObject battlePrefab;             // i currently have the battle on the enemy, because the battle needs to be instantiated as a whole, each battle will be a modified prefab
     public GameObject gameController;
     public float leftBound = -10, rightBound = 10;
     public bool movingLeft = true;
@@ -18,20 +18,15 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        /*if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && transform.position.x > leftBound)
+        if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && transform.position.x > leftBound)
         {
-            transform.Translate(-1 * moveSpeed * 0.1f,0,0);
-            if (rotates) {
-                transform.Rotate(0, 0, rotateSpeed);
-            }
+            GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x - moveSpeed *0.1f, transform.position.y));
+           
         }
         else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && transform.position.x < rightBound)
         {
-            transform.Translate(Vector3.right * moveSpeed * 0.1f);
-            if (rotates)                                                                                                                    // I'll figure this out
-            {
-                transform.Rotate(0, 0, -rotateSpeed);
-            }
+            GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x + moveSpeed *0.1f, transform.position.y));
+            
         }
         else if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && leftBound >= transform.position.x) {
             movingLeft = false;
@@ -39,10 +34,10 @@ public class Enemy : MonoBehaviour {
         else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && rightBound <= transform.position.x)
         {
             movingLeft = true;
-        }*/
+        }
     }
     private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.tag == "Player" && !gameController.GetComponent<BattleTranistions>().battling) {
+        if (other.gameObject.name == "OverworldPlayer" && !gameController.GetComponent<BattleTranistions>().battling) {
             StartCoroutine(gameController.GetComponent<BattleTranistions>().StartBattle(this.gameObject));
         }
     }

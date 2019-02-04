@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour {
     void Start () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         burgerSpawner = GameObject.Find("BurgerSpawner");
-        playerHealth = gameController.GetComponent<BattleTranistions>().playerHealth;
+        playerHealth = gameController.GetComponent<BattleTranistions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         healthText.text = playerHealth.ToString();
 

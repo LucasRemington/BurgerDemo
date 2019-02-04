@@ -5,32 +5,50 @@ using UnityEngine.UI;
 
 public class Sign : MonoBehaviour {
 
-    public string signText;
-    public Text textBox;
+    public GameObject player;           // make sure the player is named this
     public bool reading = false;
+    private bool scrolling = false;
+    public float timeBetween = 0.05f;      // the amount of time between each letter
+    private float between;
+    public Text textBox;
+    public string[] dialogueLines;      // this is where you write lines of text, each part in the array is a seperate line
 
-    public float timeBetween = 1.0f;
-
-	// Use this for initialization
-	void Start () {
-		
+    // Use this for initialization
+    void Start () {
+        player = GameObject.Find("OverworldPlayer");
+        between = timeBetween;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Space) && scrolling) {         // if the player hits space while the text is still scrolling, it will speed up
+            between = 0;
+        }
 	}
 
-    public IEnumerator DisplayText(GameObject player) {
-        player.GetComponent<OverworldMovement>().canMove = false;
-        reading = true;
-        for (int i = 0; i < signText.Length; i++) {
-            yield return new WaitForSeconds(timeBetween);
-            textBox.text = textBox.text + signText[i];
+    public IEnumerator ShowDialogue(/*string[] dialogue*/) {
+        if (player != null)
+        {
+            player.GetComponent<OverworldMovement>().canMove = false;
         }
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        textBox.text = "";
+        reading = true;
+        for (int i = 0; i < dialogueLines.Length; i++)           // this loop cycles every time you press space
+        {
+            scrolling = true;
+            for (int j = 0; j < dialogueLines[i].Length; j++)    // this loop cycles every "timeBetween" seconds and puts a letter down
+            {
+                yield return new WaitForSeconds(between);
+                textBox.text = textBox.text + dialogueLines[i][j];
+            }
+            scrolling = false;
+            between = timeBetween;
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            textBox.text = "";
+        }
         reading = false;
-        player.GetComponent<OverworldMovement>().canMove = true;
+        if (player != null)
+        {
+            player.GetComponent<OverworldMovement>().canMove = true;
+        }
     }
 }

@@ -58,6 +58,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int[] weepCombo = { 3, 10, 3, 2, 1, 0, 0, 0, 0, 0 };
     public int[] doubleCombo = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
     public int[] doubleCombo3 = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
+    public int[] TripleMeatCombo = { 10, 1, 2, 10, 9, 10, 9, 10, 0, 0 };
 
     //subcombo strings, same as above but you can have multiple and some are bad
     public int[] twoPatt = { 10, 10 };
@@ -633,7 +634,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 finalDamageCalculator();
             }
         }
-            else
+        else
         {
             noCombo = true;
         }
@@ -889,12 +890,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 }
             }
         }
-        //Debug.Log("WELL, AT LEAST ITS CHECKING");
         if (numCombo > 0) {         // take off some of the damage multiplier
             damage = damage/2;
             finalDamageCalculator();
-            StartCoroutine(setComboText("Two Patties In A Row: -Damage"));
-            //Debug.Log((numCombo) + " too many patties in a row");
+            if (noCombo)
+            {
+                StartCoroutine(setComboText("Two Patties In A Row: -Damage"));
+            }
+
         }
         found = false;
 
