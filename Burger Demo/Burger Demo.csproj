@@ -318,6 +318,8 @@
     <Compile Include="Assets\Scripts\Overworld\Enemy.cs" />
     <Compile Include="Assets\Scripts\Overworld\Interactable.cs" />
     <Compile Include="Assets\Scripts\Overworld\OverworldMovement.cs" />
+    <Compile Include="Assets\Scripts\Overworld\SceneSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Overworld\ScriptedMovement.cs" />
     <Compile Include="Assets\Scripts\Overworld\Sign.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
   </ItemGroup>

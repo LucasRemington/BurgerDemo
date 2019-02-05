@@ -17,6 +17,7 @@ public class PlayerHealth : MonoBehaviour {
     public Text healthText;
     public GameObject healIcon; //icon that pops up for healing
     public GameObject gameController;
+    public int shields;
 
     void Start () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
@@ -42,47 +43,65 @@ public class PlayerHealth : MonoBehaviour {
 	
 	public void DealDamage(int damage) //used to deal damage, takes amount of damage as an argument
     {
+        int newDamage = damage;
         Debug.Log("dealtdamage");
-        if (damage >= 3)
-        {
-            protag.SetTrigger("Damaged");
+        if (shields > 0) {
+            newDamage = damage - shields;
         }
-        previousHealth = playerHealth;
-        playerHealth = playerHealth - damage;
-        roundedHealth = Mathf.FloorToInt(playerHealth / 10);
-        roundedPreviousHealth = Mathf.FloorToInt(previousHealth / 10);
-        for (int i = 0; i < healthAnim.Length; i++)
+        if (newDamage >= 3)
         {
-            healthAnim[i].SetBool("Healing", false);
-            if (i == roundedHealth)
+            protag.SetTrigger("Hurt");
+        }
+        else if (newDamage >= 0) {
+            shields = 0;
+            previousHealth = playerHealth;
+            playerHealth = playerHealth - newDamage;
+            roundedHealth = Mathf.FloorToInt(playerHealth / 10);
+            roundedPreviousHealth = Mathf.FloorToInt(previousHealth / 10);
+            for (int i = 0; i < healthAnim.Length; i++)
             {
-                healthAnim[roundedHealth].SetInteger("Health", playerHealth % 10);
-            }
-            else if (i == roundedPreviousHealth)
-            {
-                healthAnim[roundedPreviousHealth].SetInteger("Health", 0);
+                healthAnim[i].SetBool("Healing", false);
+                if (i == roundedHealth)
+                {
+                    healthAnim[roundedHealth].SetInteger("Health", playerHealth % 10);
+                }
+                else if (i == roundedPreviousHealth)
+                {
+                    healthAnim[roundedPreviousHealth].SetInteger("Health", 0);
+                }
             }
         }
+        else
+        {
+            shields -= damage;
+        }
+        
         healthText.text = playerHealth.ToString();
         if (playerHealth <= 0)
         {
-            protag.SetBool("Dead", true);
+            protag.SetBool("CombatLost", true);
         }
     }
 
-    public void HealDamage(int healing) //used to heal damage, takes amount of healing as an argument
+    public void HealDamage(int addShields) //used to heal damage, takes amount of healing as an argument
     {
         healIcon.SetActive(true);
-        Debug.Log("gavehealing");
-        previousHealth = playerHealth;
-        playerHealth = playerHealth + healing;
-        if (playerHealth > 100)
-        {
-            playerHealth = 100;
+        Debug.Log("gaveShields");
+        if ((playerHealth + addShields) >= playerHealthMax) {
+            addShields = (100 - playerHealth);
+            shields = addShields;
         }
+        else {
+            shields += addShields;
+            if (playerHealth + shields >= playerHealthMax) {
+                shields = (100 - playerHealth);
+            }
+        }
+        previousHealth = playerHealth;
+        playerHealth = playerHealth + addShields;
         roundedHealth = Mathf.FloorToInt(playerHealth / 10);
         roundedPreviousHealth = Mathf.FloorToInt(previousHealth / 10);
-        for (int i = 0; i < healthAnim.Length; i++)
+        for (int i = 0; i < healthAnim.Length; i++)                                         // if health bar changes, this also needs to change
         {
             healthAnim[i].SetBool("Healing", true);
             if (i == roundedHealth)
@@ -99,5 +118,4 @@ public class PlayerHealth : MonoBehaviour {
     public void healthUpdate() {
         gameController.GetComponent<BattleTranistions>().playerHealth = playerHealth;
     }
-
 }

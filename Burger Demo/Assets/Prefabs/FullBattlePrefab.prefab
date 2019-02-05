@@ -1460,7 +1460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1517951836838934
 GameObject:
   m_ObjectHideFlags: 1
@@ -3723,7 +3723,7 @@ Transform:
   m_GameObject: {fileID: 1300552409540402}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.1234617, y: -4.5603676, z: -0.04352923}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 25, y: 25, z: 1}
   m_Children: []
   m_Father: {fileID: 4355486729403982}
   m_RootOrder: 1
@@ -3980,7 +3980,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497922835245840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.23896761, y: 0.8075848, z: -3.7910144}
+  m_LocalPosition: {x: -0.23896761, y: -4.19, z: -3.7910144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4734869365034062}
@@ -5500,7 +5500,7 @@ Animator:
   m_GameObject: {fileID: 1300552409540402}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 53b70ce8991735a429078eee108b9b60, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2c854cbb1f1026d4e835e4f073a97b3c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5995,6 +5995,7 @@ MonoBehaviour:
   healthText: {fileID: 114242243208038778}
   healIcon: {fileID: 1450052434703552}
   gameController: {fileID: 0}
+  shields: 0
 --- !u!114 &114034014456165652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8228,7 +8229,7 @@ MonoBehaviour:
   player: {fileID: 0}
   eb: {fileID: 0}
   enemy: {fileID: 0}
-  originalBurgerPosition: -6.7
+  originalBurgerPosition: -5
   burgerPosition: 0
   sinkBP: 0
   canSpawn: 0
@@ -8293,6 +8294,7 @@ MonoBehaviour:
   weepCombo: 030000000a0000000300000002000000010000000000000000000000000000000000000000000000
   doubleCombo: 0a0000000100000002000000030000000a0000000000000000000000000000000000000000000000
   doubleCombo3: 0a0000000100000002000000030000000a0000000000000000000000000000000000000000000000
+  TripleMeatCombo: 0a00000001000000020000000a000000090000000a000000090000000a0000000000000000000000
   twoPatt: 0a0000000a000000
   burgCheese: 0a00000009000000
   dropMult: 0
@@ -10217,7 +10219,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5b3083df02b805b4190467478bbc0efe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a309ee5928fde57418ec8eb2e3d435d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

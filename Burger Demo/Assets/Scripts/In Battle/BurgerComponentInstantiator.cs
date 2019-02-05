@@ -128,7 +128,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
     }
 
-    void IconDimmer() //dims icons who are at 0 inventory
+    void IconDimmer() //dims icons that are at 0 inventory
     {
         for (int i = 0; i < 9; i++)
         {
@@ -198,50 +198,61 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         StartCoroutine(TopBunSpawn());
+                        ph.protag.SetTrigger("BunPlace");
                         break;
                     case 1:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
+                        burgPlaceAnim();
                         break;
                     case 2:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
+                        burgPlaceAnim();
                         break;
                     case 3:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
+                        burgPlaceAnim();
                         break;
                     case 4:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
+                        burgPlaceAnim();
                         break;
                     case 5:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
+                        burgPlaceAnim();
                         break;
                     case 6:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
                         hidePickles(0.2f, true);
+                        burgPlaceAnim();
                         break;
                     case 7:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
                         hidePickles(0.2f, true);
+                        burgPlaceAnim();
                         break;
                     case 8:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
                         hidePickles(0.2f, true);
+                        burgPlaceAnim();
                         break;
                     case 9:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.4f - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
+                        burgPlaceAnim();
                         break;
                     case 10:
                         Instantiate(prefab, new Vector3(0, burgerPosition - sinkBP, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         ph.DealDamage(2);
+                        burgPlaceAnim();
                         break;
                 }
                 setBurger(pixels);
@@ -294,7 +305,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             StartCoroutine(ClearBurger());
         } else if (Input.GetKeyDown(KeyCode.Space) == true)
         {
-            ph.protag.SetTrigger("Attack");
+            ph.protag.SetTrigger("BurgerThrow");
             if (heal > 0)
             {
                 ph.HealDamage(Mathf.RoundToInt(heal));
@@ -331,6 +342,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     IEnumerator ClearBurger() //resets most variables
     {
+        
         spawnReset = true;
         hidePickles(0, false);
         topPlaced = false;
@@ -909,5 +921,16 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         for (int i = 0; i < componentCount.Length; i++) {
             componentCount[i] = 0;
         }
+    }
+    public void burgPlaceAnim() {
+        
+        if (ph.protag.GetBool("OddIngredient"))
+        {
+            ph.protag.SetBool("OddIngredient", false);
+        }
+        else {
+            ph.protag.SetBool("OddIngredient", true);
+        }
+        ph.protag.SetTrigger("IngredientPlace");
     }
 }

@@ -16,6 +16,7 @@ public class BattleTranistions : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
+        DontDestroyOnLoad(this);
 	}
 	
 	// Update is called once per frame
@@ -39,14 +40,12 @@ public class BattleTranistions : MonoBehaviour {
         //Instantiate(enemy.GetComponent<Enemy>().battlePrefab, this.transform);
         battling = true;
         yield return new WaitUntil(() => battle == null);
-        
     }
 
     public IEnumerator EndOfBattle()            //this gets called by the enemy's death in enemyBehavior
     {
         yield return new WaitForSeconds(1.5f);
-        for (int i = 0; i < OverworldObjects.Length; i++)
-        {
+        for (int i = 0; i < OverworldObjects.Length; i++) {
             OverworldObjects[i].SetActive(true);
         }
         yield return new WaitForSeconds(1);

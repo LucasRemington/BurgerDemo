@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
     public float leftBound = -10, rightBound = 10;
     public bool movingLeft = true;
     public bool rotates = false;
+    public bool patrols = false;
     public float moveSpeed = 1;
     public float rotateSpeed = 1;
 
@@ -18,22 +19,26 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && transform.position.x > leftBound)
+        if (patrols)
         {
-            GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x - moveSpeed *0.1f, transform.position.y));
-           
-        }
-        else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && transform.position.x < rightBound)
-        {
-            GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x + moveSpeed *0.1f, transform.position.y));
-            
-        }
-        else if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && leftBound >= transform.position.x) {
-            movingLeft = false;
-        }
-        else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && rightBound <= transform.position.x)
-        {
-            movingLeft = true;
+            if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && transform.position.x > leftBound)
+            {
+                GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x - moveSpeed * 0.1f, transform.position.y));
+
+            }
+            else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && transform.position.x < rightBound)
+            {
+                GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x + moveSpeed * 0.1f, transform.position.y));
+
+            }
+            else if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && leftBound >= transform.position.x)
+            {
+                movingLeft = false;
+            }
+            else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && rightBound <= transform.position.x)
+            {
+                movingLeft = true;
+            }
         }
     }
     private void OnCollisionEnter2D(Collision2D other) {
