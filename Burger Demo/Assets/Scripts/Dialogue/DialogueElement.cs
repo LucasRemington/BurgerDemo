@@ -10,8 +10,9 @@ public class DialogueElement
     public enum AvatarPos { overworld, combat};
     public Characters Character;
     public AvatarPos CharacterPosition;
-    public Texture2D CharacterPic;
+    public Sprite CharacterPic;
     public string DialogueText;
+    public string CharacterName;
     public GUIStyle DialogueTextStyle;
     public float TextPlayBackSpeed;
     public AudioClip PlayBackSoundFile;
