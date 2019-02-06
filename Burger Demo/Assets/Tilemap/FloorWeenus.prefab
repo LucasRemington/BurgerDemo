@@ -90,7 +90,11 @@ Grid:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1464676551746142}
   m_Enabled: 1
+<<<<<<< HEAD
   m_CellSize: {x: 1, y: 1, z: 0}
+=======
+  m_CellSize: {x: 6.4, y: 6.4, z: 0}
+>>>>>>> origin/Matt
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -130,7 +134,11 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
+<<<<<<< HEAD
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+=======
+  m_ChunkCullingBounds: {x: 2.2, y: 2.2, z: 0}
+>>>>>>> origin/Matt
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -144,7 +152,11 @@ Tilemap:
   m_GameObject: {fileID: 1864579201062952}
   m_Enabled: 1
   m_Tiles:
+<<<<<<< HEAD
   - first: {x: -4, y: 0, z: 0}
+=======
+  - first: {x: 0, y: 0, z: 0}
+>>>>>>> origin/Matt
     second:
       m_TileIndex: 0
       m_TileSpriteIndex: 0
@@ -184,8 +196,13 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+<<<<<<< HEAD
   m_Origin: {x: -4, y: 0, z: 0}
   m_Size: {x: 4, y: 1, z: 1}
+=======
+  m_Origin: {x: -6, y: -1, z: 0}
+  m_Size: {x: 8, y: 12, z: 1}
+>>>>>>> origin/Matt
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
