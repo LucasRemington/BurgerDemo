@@ -17,22 +17,35 @@ public class NarrativeScript1 : MonoBehaviour {
     public bool[] interactConvoDone; //used to track which conversations have finished
 
     public int sizeOfList; //set equal to the number of items in a dialogue element
-    public int numberOfScripted; //used to control number of arrays
-    public int numberOfInteract; //used to control number of arrays
 
-    private void Start()
+    public bool ongoingEvent; //true when a dialogue event is ongoing
+
+    private void Start() //sets certain array lengths equal to scripted or interactable
     {
         nm = GetComponent<NarrativeManager>();
-        scriptedConvo = new int[numberOfScripted];
-        scriptedConvoStart = new bool [numberOfScripted];
-        scriptedConvoDone = new bool [numberOfScripted];
-        interactConvo = new int[numberOfInteract];
-        interactConvoStart = new bool[numberOfInteract];
-        interactConvoDone = new bool[numberOfInteract];
-        StartCoroutine(interactableTester());
+        scriptedConvo = new int [Scripted.Length];
+        scriptedConvoStart = new bool [Scripted.Length];
+        scriptedConvoDone = new bool [Scripted.Length];
+        interactConvo = new int[Interactable.Length];
+        interactConvoStart = new bool[Interactable.Length];
+        interactConvoDone = new bool[Interactable.Length];
+        StartCoroutine(interactableTester()); //test function, won't be in final
     }
 
-    public IEnumerator eventOne()
+    IEnumerator masterCombatStarter() //test function, won't be in final
+    {
+        yield return new WaitUntil(() => nm.combat == true && nm.combatText == true);
+        Debug.Log("master start");
+        StartCoroutine(GenericFirstConvo(2, true));
+    }
+
+    IEnumerator interactableTester() //test function, won't be in final
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.O));
+        StartCoroutine(GenericInteractable(0));
+    }
+
+    public IEnumerator eventOne() //first event. Eventually, this will be the 'master function' calling shit in order via coroutines.
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.I));
 
@@ -43,7 +56,7 @@ public class NarrativeScript1 : MonoBehaviour {
         nm.CheckEvent();
     }
 
-    IEnumerator GenericFirstConvo(int scriptedConversation, bool inCombat)
+    IEnumerator GenericFirstConvo(int scriptedConversation, bool inCombat) //whenever a conversation is going to start, pass it to this, indicating the number from the dialog array the conversation is placed into, as well as whether or not it takes place during combat.
     {
         if (scriptedConvoStart[scriptedConversation] == false)
         {
@@ -57,9 +70,9 @@ public class NarrativeScript1 : MonoBehaviour {
         nm.setTalksprite(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]);
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(nm.AnimateText(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]));
+        convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]); //here is where we put a switch(?) statement calling other functions when appropriate
         scriptedConvo[scriptedConversation]++;
-        //here is where we put a switch(?) statement calling other functions when appropriate
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && ongoingEvent == false);
         if (scriptedConvo[scriptedConversation] >= sizeOfList)
         {
             StartCoroutine(nm.dialogueEnd());
@@ -93,19 +106,43 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             StartCoroutine(GenericInteractable(interactableIdentity));
         }
+    } //same as conversation except for interactable objects. These probably could be one function, but it was a little more readable to split them/
+
+    void convoChecker(int dia, int scriptedConvo) //nested switch statements, expanded to other functions 
+    {
+        switch (dia)
+        {
+            case 0:
+                StartCoroutine(convo1Events(scriptedConvo));
+                break;
+        }
     }
 
-    IEnumerator masterCombatStarter ()
+    IEnumerator convo1Events (int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
-        yield return new WaitUntil(() => nm.combat == true && nm.combatText == true);
-        Debug.Log("master start");
-        StartCoroutine(GenericFirstConvo(2, true));
-    }
-
-    IEnumerator interactableTester ()
-    {
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.O));
-        StartCoroutine(GenericInteractable(0));
+        switch (scriptedConvo)
+        {
+            case 0:
+                ongoingEvent = true;
+                Debug.Log("press l");
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.L));
+                ongoingEvent = false;
+                break;
+            case 1:
+                ongoingEvent = true;
+                Debug.Log("press u");
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.U));
+                ongoingEvent = false;
+                break;
+            case 2:
+                break;
+            case 3:
+                ongoingEvent = true;
+                Debug.Log("press c");
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.C));
+                ongoingEvent = false;
+                break;
+        }
     }
 
 }
