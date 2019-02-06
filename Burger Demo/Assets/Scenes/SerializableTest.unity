@@ -154,7 +154,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 40711662}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Protagonist
+  m_Text: 
 --- !u!222 &40711665
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 121544118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -305,7 +305,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 086289563f52ba24596f0fcd462575bc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 321817857}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -457,8 +457,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'ah, my weenus penis slammer jammer nut hut butt: it sings to me ah, my
-    weenus penis slammer jammer nut hut butt'
+  m_Text: 
 --- !u!222 &321817860
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -477,6 +476,7 @@ GameObject:
   - component: {fileID: 656067873}
   - component: {fileID: 656067872}
   - component: {fileID: 656067871}
+  - component: {fileID: 656067874}
   m_Layer: 5
   m_Name: CombatUI
   m_TagString: Untagged
@@ -556,6 +556,19 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 656067869}
   m_CullTransparentMesh: 0
+--- !u!114 &656067874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 656067869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97768886f9c8f8a4da65c8b08ffa0df7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  nm: {fileID: 0}
 --- !u!1 &834968801
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +676,6 @@ MonoBehaviour:
   ns1: {fileID: 0}
   ev: 0
   reading: 0
-  timeBetween: 0.05
   area: 0
   room: 0
   textTS: {fileID: 1567888864}
@@ -678,6 +690,7 @@ MonoBehaviour:
   nameTSCombat: {fileID: 40711664}
   imageTSCombat: {fileID: 121544120}
   combat: 0
+  combatText: 0
   dbStartStop: 0
   canAdvance: 1
   textActive: 0
@@ -693,16 +706,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nm: {fileID: 0}
-  dennis1:
+  Scripted:
   - {fileID: 11400000, guid: dd981484593549c469cdcc78ebc80cd9, type: 2}
   - {fileID: 11400000, guid: b3b727edbaecc5c4f836dbdedaca125c, type: 2}
-  dennisConvo1: 0
-  dennisConvo1Start: 0
-  dennisConvo1Done: 0
-  masterConvo1: 0
-  masterConvo1Start: 0
-  masterConvo1Done: 0
+  - {fileID: 11400000, guid: b3b727edbaecc5c4f836dbdedaca125c, type: 2}
+  scriptedConvo: 
+  scriptedConvoStart: 
+  scriptedConvoDone: 
+  Interactable:
+  - {fileID: 11400000, guid: 58fad5dfc010e07419749e0c3519fa1d, type: 2}
+  interactConvo: 00000000
+  interactConvoStart: 00
+  interactConvoDone: 00
   sizeOfList: 0
+  numberOfScripted: 3
+  numberOfInteract: 1
 --- !u!1 &904167673
 GameObject:
   m_ObjectHideFlags: 0

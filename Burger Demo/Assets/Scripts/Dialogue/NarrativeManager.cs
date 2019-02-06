@@ -9,9 +9,6 @@ public class NarrativeManager : MonoBehaviour {
 
     public int ev; //integer that determines what can happen. Each 'event' to occur should increase it by one.
     public bool reading; //true when text is onscreen
-    private float between;
-    private bool scrolling;
-    public float timeBetween = 0.05f;      // the amount of time between each letter
 
     public int area; //used to identify area
     public int room; //used to identify room
@@ -32,10 +29,10 @@ public class NarrativeManager : MonoBehaviour {
     public Image imageTSCombat; //talksprite image component
 
     public bool combat = false; // true when in combat
+    public bool combatText; //true when combat text can be activated
     public bool dbStartStop; //triggered briefly to start and stop text
     public bool canAdvance = true; //true when you can advance text
     public bool textActive; //wait for text
-    //public Animator popUp;
 
     void Start ()
     {
@@ -43,15 +40,25 @@ public class NarrativeManager : MonoBehaviour {
         CheckEvent();
         StartCoroutine(waitForText());
         StartCoroutine(combatUIOn());
+        StartCoroutine(tempCombatCaller());
         ClearText();
     }
-	
+
+    IEnumerator tempCombatCaller()
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.P));
+        combat = true;
+    }
+
     void ClearText ()
     {
         imageTS.enabled = false;
         textTS.enabled = false;
         nameTS.enabled = false;
         db.enabled = false;
+        textTSCombat.enabled = false;
+        nameTSCombat.enabled = false;
+        imageTSCombat.enabled = false;
     }
 
     public void CheckEvent ()
@@ -120,6 +127,12 @@ public class NarrativeManager : MonoBehaviour {
     {
         yield return new WaitUntil(() => combat == true);
         combatUI.SetActive(true);
+        yield return new WaitUntil(() => dbStartStop == true);
+        dbStartStop = false;
+        textTSCombat.enabled = true;
+        nameTSCombat.enabled = true;
+        imageTSCombat.enabled = true;
+        combatText = true;
     }
 
     public void setTalksprite (Dialogue dia, int convoNumber)

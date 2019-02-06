@@ -6,88 +6,106 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public NarrativeManager nm;
 
-    public Dialogue[] dennis1; //each 'dialogue' is a different conversation, each element is a different dialog box. 1 indicates that this takes place during the first event only.
-    public int dennisConvo1; //used to keep track of the point in conversation one would be at.
-    public bool dennisConvo1Start; //true when the convo has started
-    public bool dennisConvo1Done; //used to track which conversations have finished
+    public Dialogue[] Scripted; //each 'dialogue' is a different conversation, each element is a different dialog box. 1 indicates that this takes place during the first event only.
+    public int[] scriptedConvo; //used to keep track of the point in conversation one would be at.
+    public bool[] scriptedConvoStart; //true when the convo has started
+    public bool[] scriptedConvoDone; //used to track which conversations have finished
 
-    //public Dialogue[] master1; //each 'dialogue' is a different conversation, each element is a different dialog box. 1 indicates that this takes place during the first event only.
-    public int masterConvo1; //used to keep track of the point in conversation one would be at.
-    public bool masterConvo1Start; //true when the convo has started
-    public bool masterConvo1Done; //used to track which conversations have finished
+    public Dialogue[] Interactable; //each 'interactable' is a different interactable 
+    public int[] interactConvo; //used to keep track of the point in conversation one would be at.
+    public bool[] interactConvoStart; //true when the convo has started
+    public bool[] interactConvoDone; //used to track which conversations have finished
 
     public int sizeOfList; //set equal to the number of items in a dialogue element
+    public int numberOfScripted; //used to control number of arrays
+    public int numberOfInteract; //used to control number of arrays
 
     private void Start()
     {
         nm = GetComponent<NarrativeManager>();
+        scriptedConvo = new int[numberOfScripted];
+        scriptedConvoStart = new bool [numberOfScripted];
+        scriptedConvoDone = new bool [numberOfScripted];
+        interactConvo = new int[numberOfInteract];
+        interactConvoStart = new bool[numberOfInteract];
+        interactConvoDone = new bool[numberOfInteract];
+        StartCoroutine(interactableTester());
     }
 
     public IEnumerator eventOne()
     {
-        yield return new WaitForSeconds(2f);
-        StartCoroutine(dennisFirstConvo());
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.I));
+
+        StartCoroutine(GenericFirstConvo(0, false));
         StartCoroutine(masterCombatStarter());
         yield return new WaitUntil(() => nm.room == 1);
         nm.ev++;
         nm.CheckEvent();
     }
 
-    IEnumerator dennisFirstConvo()
+    IEnumerator GenericFirstConvo(int scriptedConversation, bool inCombat)
     {
-        if (dennisConvo1Start == false)
+        if (scriptedConvoStart[scriptedConversation] == false)
         {
-            dennisConvo1Start = true;
-            StartCoroutine(nm.dialogueBox(true));
-            sizeOfList = dennis1[0].DialogItems.Count;
+            scriptedConvoStart[scriptedConversation] = true;
+            if (inCombat == false)
+            {
+                StartCoroutine(nm.dialogueBox(true));
+            }
+            sizeOfList = Scripted[scriptedConversation].DialogItems.Count;
         }
-        nm.setTalksprite(dennis1[0], dennisConvo1);
+        nm.setTalksprite(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]);
         yield return new WaitForSeconds(0.1f);
-        StartCoroutine(nm.AnimateText(dennis1[0], dennisConvo1));
-        dennisConvo1++;
+        StartCoroutine(nm.AnimateText(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]));
+        scriptedConvo[scriptedConversation]++;
+        //here is where we put a switch(?) statement calling other functions when appropriate
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true);
-        if (dennisConvo1 >= sizeOfList)
+        if (scriptedConvo[scriptedConversation] >= sizeOfList)
         {
             StartCoroutine(nm.dialogueEnd());
-            dennisConvo1Done = true;
-            nm.combat = true;
+            scriptedConvoDone[scriptedConversation] = true;
         }
         else
         {
-            Debug.Log("began coroutine again");
-            StartCoroutine(dennisFirstConvo());
+            StartCoroutine(GenericFirstConvo(scriptedConversation, inCombat));
+        }
+    }
+
+    IEnumerator GenericInteractable(int interactableIdentity)
+    {
+        if (interactConvoStart[interactableIdentity] == false)
+        {
+            interactConvoStart[interactableIdentity] = true;
+            StartCoroutine(nm.dialogueBox(false));
+            sizeOfList = Interactable[interactableIdentity].DialogItems.Count;
+        }
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(nm.AnimateText(Interactable[interactableIdentity], interactConvo[interactableIdentity]));
+        interactConvo[interactableIdentity]++;
+        //here is where we put a switch(?) statement calling other functions when appropriate
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true);
+        if (interactConvo[interactableIdentity] >= sizeOfList)
+        {
+            StartCoroutine(nm.dialogueEnd());
+            interactConvoDone[interactableIdentity] = true;
+        }
+        else
+        {
+            StartCoroutine(GenericInteractable(interactableIdentity));
         }
     }
 
     IEnumerator masterCombatStarter ()
     {
-        yield return new WaitUntil(() => nm.combat == true);
-        yield return new WaitForSeconds(2f);
-        StartCoroutine(masterCombatConvo2());
+        yield return new WaitUntil(() => nm.combat == true && nm.combatText == true);
+        Debug.Log("master start");
+        StartCoroutine(GenericFirstConvo(2, true));
     }
 
-    IEnumerator masterCombatConvo2 ()
+    IEnumerator interactableTester ()
     {
-
-        if (masterConvo1Start == false)
-        {
-            masterConvo1Start = true;
-            sizeOfList = dennis1[1].DialogItems.Count;
-        }
-        nm.setTalksprite(dennis1[1], masterConvo1);
-        yield return new WaitForSeconds(0.1f);
-        StartCoroutine(nm.AnimateText(dennis1[1], masterConvo1));
-        masterConvo1++;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true);
-        if (masterConvo1 >= sizeOfList)
-        {
-            StartCoroutine(nm.dialogueEnd());
-            masterConvo1Done = true;
-        }
-        else
-        {
-            StartCoroutine(masterCombatConvo2());
-        }
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.O));
+        StartCoroutine(GenericInteractable(0));
     }
 
 }
