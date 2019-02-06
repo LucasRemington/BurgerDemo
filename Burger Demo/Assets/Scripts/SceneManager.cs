@@ -22,7 +22,7 @@ public class SceneManager : MonoBehaviour {
         }
         else
         {
-            Destroy(this.gameObject);
+            DestroyObject(gameObject);
         }
     }
 

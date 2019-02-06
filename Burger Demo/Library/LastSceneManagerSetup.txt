@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
 - path: Assets/Scenes/SerializableTest.unity
-=======
-- path: Assets/Scenes/TestScene.unity
->>>>>>> origin/Matt
   isLoaded: 1
   isActive: 1
