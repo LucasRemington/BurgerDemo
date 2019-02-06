@@ -113,11 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &508182079 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1227134858670700, guid: 6e1ce6469e16b5647b1689ec653fa910,
-    type: 2}
-  m_PrefabInternal: {fileID: 745479393}
 --- !u!1 &726726774
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,28 +218,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4784813612228806, guid: 6e1ce6469e16b5647b1689ec653fa910, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784813612228806, guid: 6e1ce6469e16b5647b1689ec653fa910, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 224251408455945530, guid: 6e1ce6469e16b5647b1689ec653fa910,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1514600738891936, guid: 6e1ce6469e16b5647b1689ec653fa910, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114044771397666996, guid: 6e1ce6469e16b5647b1689ec653fa910,
-        type: 2}
-      propertyPath: burgerSpawner
-      value: 
-      objectReference: {fileID: 508182079}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e1ce6469e16b5647b1689ec653fa910, type: 2}
   m_IsPrefabAsset: 0
@@ -296,7 +269,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

@@ -199,6 +199,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         StartCoroutine(TopBunSpawn());
                         ph.protag.SetTrigger("BunPlace");
+                        ph.protag.SetBool("isBunPlaced", true);
                         break;
                     case 1:
                         Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
@@ -306,6 +307,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         } else if (Input.GetKeyDown(KeyCode.Space) == true)
         {
             ph.protag.SetTrigger("BurgerThrow");
+            ph.protag.SetBool("isBunPlaced", false);
             if (heal > 0)
             {
                 ph.HealDamage(Mathf.RoundToInt(heal));
@@ -903,7 +905,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             }
         }
         if (numCombo > 0) {         // take off some of the damage multiplier
-            damage = damage/2;
+            damage = damage/1.5f;
             finalDamageCalculator();
             if (noCombo)
             {

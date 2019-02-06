@@ -52,7 +52,7 @@ public class PlayerHealth : MonoBehaviour {
         {
             protag.SetTrigger("Hurt");
         }
-        else if (newDamage >= 0) {
+        if (newDamage >= 0) {
             shields = 0;
             previousHealth = playerHealth;
             playerHealth = playerHealth - newDamage;

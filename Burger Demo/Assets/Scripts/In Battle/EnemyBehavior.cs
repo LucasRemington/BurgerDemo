@@ -283,6 +283,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     public void DamagePlayer ()
     {
+        Debug.Log("its trying");
         ChanceToMiss();
         ph.DealDamage(enemyDamage);
         movingBackwards = true;
