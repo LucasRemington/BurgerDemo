@@ -310,6 +310,7 @@
     <Compile Include="Assets\Scripts\BurgerComponentInstantiator.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\IconBAnimEvent.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogHolder.cs" />
     <Compile Include="Assets\Scripts\Dialogue\Dialogue.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueElement.cs" />
     <Compile Include="Assets\Scripts\Dialogue\NarrativeManager.cs" />

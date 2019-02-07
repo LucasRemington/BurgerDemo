@@ -32,22 +32,21 @@ public class NarrativeManager : MonoBehaviour {
     public bool combatText; //true when combat text can be activated
     public bool dbStartStop; //triggered briefly to start and stop text
     public bool canAdvance = true; //true when you can advance text
-    public bool textActive; //wait for text
 
     void Start () //note that the Narrative Script and each sub-script are intended to be on the same object. Other scripts currently reference MainCamera, so use that.
     {
         ns1 = GetComponent<NarrativeScript1>();
         CheckEvent();
-        StartCoroutine(waitForText());
         StartCoroutine(combatUIOn());
-        StartCoroutine(tempCombatCaller());
         ClearText();
     }
 
-    IEnumerator tempCombatCaller() //temp script, won't be in final
+    IEnumerator eventZero() //'event zero' occurs right at the beginning of the game. Might also be phased out.
     {
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.P));
-        combat = true;
+        //yield return new WaitUntil(() => room == 1);
+        yield return new WaitForSeconds(0.5f);
+        ev++;
+        CheckEvent();
     }
 
     void ClearText () //clears all text and dialog boxes
@@ -69,26 +68,13 @@ public class NarrativeManager : MonoBehaviour {
                 StartCoroutine(eventZero());
                 break;
             case 1:
+
                 StartCoroutine(ns1.eventOne());
                 break;
         }
     }
 
-    IEnumerator waitForText ()
-    {
-        yield return new WaitUntil(() => textActive == true);
-
-    }//this currently doesn't do anything. It'll probably be phased out
-
-	IEnumerator eventZero () //'event zero' occurs right at the beginning of the game. Might also be phased out.
-    {
-        //yield return new WaitUntil(() => room == 1);
-        yield return new WaitForSeconds(0.5f);
-        ev++;
-        CheckEvent();
-    }
-
-    public IEnumerator dialogueBox (bool talkSprite) //other scripts pas to this functon - enables appropriate dialog box
+    public IEnumerator dialogueBox (bool talkSprite) //other scripts pass to this functon - enables appropriate dialog box
     {
         db.enabled = true;
         if (talkSprite == true)
@@ -135,7 +121,7 @@ public class NarrativeManager : MonoBehaviour {
         combatText = true;
     }
 
-    public void setTalksprite (Dialogue dia, int convoNumber)
+    public void setTalksprite (Dialogue dia, int convoNumber) //sets the appropriate talksprite of the image when called.
     {
         string name = dia.DialogItems[convoNumber].CharacterName;
         Sprite sprite = dia.DialogItems[convoNumber].CharacterPic;
@@ -149,9 +135,9 @@ public class NarrativeManager : MonoBehaviour {
             nameTSCombat.text = name;
             imageTSCombat.sprite = sprite;
         }
-    }//sets the appropriate talksprite of the image when called.
-
-    public IEnumerator AnimateText(Dialogue dia, int convoNumber)
+    }
+     
+    public IEnumerator AnimateText(Dialogue dia, int convoNumber) //makes text scroll retro-style instead of coming in all at once.
     {
         string strComplete = dia.DialogItems[convoNumber].DialogueText;
         int i = 0;
@@ -178,5 +164,5 @@ public class NarrativeManager : MonoBehaviour {
         {
             canAdvance = true;
         }
-    }//makes text scroll retro-style instead of coming in all at once.
+    }
 }
