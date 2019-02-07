@@ -44,11 +44,10 @@ public class OverworldMovement : MonoBehaviour {
         }
     }
 
-    /*private void OnCollisionEnter2D(Collision2D other) {
-        lastTouched = other.gameObject;                 
-        Debug.Log("Touched " + other.gameObject.name);
+    private void OnCollisionEnter2D(Collision2D other) {
+        jumping = false;
     }
-                                                                        // these two are also in the interactable script now
+       /*                                                                 // these two are also in the interactable script now
     private void OnCollisionExit2D(Collision2D other) {
         if(other.gameObject == lastTouched)
             lastTouched = null;
@@ -65,7 +64,7 @@ public class OverworldMovement : MonoBehaviour {
         }
         GetComponent<Rigidbody2D>().gravityScale = 2;
         GetComponent<CapsuleCollider2D>().isTrigger = false;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         GetComponent<Rigidbody2D>().gravityScale = 1;
         jumping = false;
     }

@@ -14,6 +14,7 @@ public class EnemyBehavior : MonoBehaviour {
     public AudioSource background;
     public AudioSource victory;
     public GameObject gameController;
+    public GameObject CheeseParent;
 
     //public attack stats
     public float drops;
@@ -91,7 +92,7 @@ public class EnemyBehavior : MonoBehaviour {
         seconds = Mathf.RoundToInt(enemySpeed-2);
         mainCamera = GameObject.Find("Main Camera");
         background = mainCamera.GetComponent<AudioSource>();
-        clock = GameObject.Find("ClockUI");
+        //clock = GameObject.Find("ClockUI");
     }
 
     public void TakeDamage (float finalDamage) //calculates damage taken by enemy
@@ -129,7 +130,7 @@ public class EnemyBehavior : MonoBehaviour {
         cantMove = true;
         damagedPosition = this.transform.position;
         StartCoroutine(SetTicksWhenReady());
-        clockAnim.SetBool("Stopped", true);
+        //clockAnim.SetBool("Stopped", true);                           fix this later
         if (finalDamage > 0)
         {
             enemyHealth = enemyHealth - finalDamage;
@@ -180,6 +181,9 @@ public class EnemyBehavior : MonoBehaviour {
             StartCoroutine(BCI.whenBlackScreen());  
             background.Stop();                  // sound
             victory.Play();                     // sound
+            for (int i = 0; i<aboveText.Length; i++) {
+                aboveText[i].GetComponent<FollowWithOffset>().stop = true;
+            }
             StartCoroutine(gameController.GetComponent<BattleTranistions>().EndOfBattle());     // i think this the only thing i added to this
 
         } else
@@ -223,6 +227,7 @@ public class EnemyBehavior : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.01f);
             ticks++;
+            tear = HealthText.transform.GetChild(3).gameObject;
             transform.position = Vector3.Lerp(endPosition, startPosition, (ticks/50f));
             if (transform.position == startPosition) // turn reset
             {
@@ -263,7 +268,7 @@ public class EnemyBehavior : MonoBehaviour {
                 seconds = Mathf.RoundToInt(enemySpeed-2);
                 timerStarted = false;
                 attackCalled = false;
-                clockAnim.SetBool("Stopped", false);
+                // clockAnim.SetBool("Stopped", false);                                                             Fix this later too
             }
             else
             {
@@ -281,9 +286,7 @@ public class EnemyBehavior : MonoBehaviour {
         attackCalled = true;
     }
 
-    public void DamagePlayer ()
-    {
-        Debug.Log("its trying");
+    public void DamagePlayer () {
         ChanceToMiss();
         ph.DealDamage(enemyDamage);
         movingBackwards = true;
@@ -294,6 +297,7 @@ public class EnemyBehavior : MonoBehaviour {
     public void ChanceToMiss()
     {
         finalMissChance = baseMissChance;
+        tear = HealthText.transform.GetChild(3).gameObject;
         if (cryingStacks > 0)
         {
             tear.SetActive(true);
@@ -301,6 +305,7 @@ public class EnemyBehavior : MonoBehaviour {
         for (int i = 1; i <= cryingStacks; i++)
         {
             finalMissChance = finalMissChance + (20 / i);
+            tearText = HealthText.transform.GetChild(2).gameObject.GetComponent<TextMesh>();
             tearText.text = cryingStacks.ToString();
         }
         if (finalMissChance >= Random.Range(1, 100))
@@ -320,7 +325,9 @@ public class EnemyBehavior : MonoBehaviour {
         if (baseSpeed != enemySpeed)
         {
             StartCoroutine(setAboveText("Slowed!"));
+            cheeseText = HealthText.transform.GetChild(1).gameObject.GetComponent<TextMesh>();
             cheeseText.text = slowStacks.ToString();
+            cheese = HealthText.transform.GetChild(4).gameObject;
             if (cheese.activeInHierarchy == false)
             {
                 cheese.SetActive(true);
@@ -342,13 +349,13 @@ public class EnemyBehavior : MonoBehaviour {
 
     public IEnumerator EnemyTimer ()
     {
-        if (clock == null) {
+        /*if (clock == null) {
             yield return new WaitUntil(() => clock != null);
         }
         if (clock.activeInHierarchy == false)
         {
             clock.SetActive(true);
-        }
+        }*/
         yield return new WaitForSeconds(1f);
         if (hasBeenDamaged == false || movingBackwards == false)
         {
@@ -368,26 +375,35 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
     public IEnumerator StartSets() {
-        while (clock == null || clockAnim == null || start == null || end == null || secondsText == null || HealthText == null || healthBar == null || cheese == null || cheeseText == null || tearText == null || tear == null || GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target == null || GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target == null) {
+        while (/*clock == null || clockAnim == null ||*/ start == null || end == null || secondsText == null || HealthText == null || healthBar == null || cheese == null || cheeseText == null || tearText == null || tear == null || GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target == null || GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target == null) {
             start = GameObject.Find("EnemyStart").transform;
             end = GameObject.Find("EnemyEnd").transform;
+            aboveText[0] = GameObject.Find("AboveText").GetComponent<TextMesh>();
+            aboveText[1] = GameObject.Find("AboveText (1)").GetComponent<TextMesh>();
+            aboveText[2] = GameObject.Find("AboveText (2)").GetComponent<TextMesh>();
+            aboveText[3] = GameObject.Find("AboveText (3)").GetComponent<TextMesh>();
+            aboveText[4] = GameObject.Find("AboveText (4)").GetComponent<TextMesh>();
+            aboveText[5] = GameObject.Find("AboveText (5)").GetComponent<TextMesh>();
+            aboveText[6] = GameObject.Find("AboveText (6)").GetComponent<TextMesh>();
+            aboveText[7] = GameObject.Find("AboveText (7)").GetComponent<TextMesh>();
+            aboveText[8] = GameObject.Find("AboveText (8)").GetComponent<TextMesh>();
             secondsText = GameObject.Find("enemytimer").GetComponent<Text>();
             HealthText = GameObject.Find("HealthText").GetComponent<TextMesh>();
             healthBar = GameObject.Find("EnemyHealth_0").GetComponent<Animator>();
-            clock = GameObject.Find("ClockUI");
-            clockAnim = GameObject.Find("ClockUI").GetComponent<Animator>();
-            cheeseText = GameObject.Find("cheesetext").GetComponent<TextMesh>();
-            cheese = GameObject.Find("cheese slow_0");
+            //clock = GameObject.Find("ClockUI");
+            //clockAnim = GameObject.Find("ClockUI").GetComponent<Animator>();
+            cheeseText = HealthText.transform.GetChild(1).gameObject.GetComponent<TextMesh>();
+            cheese = HealthText.transform.GetChild(4).gameObject;
             cheeseAnim = cheese.GetComponent<Animator>();
-            tearText = GameObject.Find("TearText").GetComponent<TextMesh>();
-            tear = GameObject.Find("Tear (1)_0");
+            tearText = HealthText.transform.GetChild(2).gameObject.GetComponent<TextMesh>();
+            tear = HealthText.transform.GetChild(3).gameObject;
             tearAnim = tear.GetComponent<Animator>();
             GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target = this.gameObject.transform;
             GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target = this.gameObject.transform;
             for (int i = 0; i < aboveText.Length; i++) {
-                aboveText[i].transform.parent = gameController.GetComponent<BattleTranistions>().battle.gameObject.transform;
+                aboveText[i].GetComponent<FollowWithOffset>().stop = false;
             }
-            yield return new WaitForSeconds(0);
+            yield return new WaitForEndOfFrame();
         }
     }
 }

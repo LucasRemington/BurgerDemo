@@ -101,12 +101,18 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public Text[] lootText;
     public Text replayDemo;
 
+    private void Awake()
+    {
+        
+    }
+
     //called on start
     void Start () {
-        player = GameObject.Find("Player");
+        fadeBlack.gameObject.SetActive(true);
+        //player = GameObject.Find("Player");
         ph = player.GetComponent<PlayerHealth>();
-        enemy= GameObject.FindGameObjectWithTag("BattleEnemy");
-        eb = enemy.GetComponent<EnemyBehavior>();
+        enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        StartCoroutine(StartStuff());
         canSpawn = true;
         burgerPosition = originalBurgerPosition;
         finalCombo = new int[componentCap];
@@ -118,6 +124,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         IconTextUpdate();
         StartCoroutine(enableCheats());
         StartCoroutine(FadeImageToZeroAlpha(1, fadeBlack));
+        StartCoroutine(setComboText(""));
     }
 
     void IconTextUpdate()
@@ -380,19 +387,19 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DropMultUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3 Loot Drops, +1 Damage";
+                    StartCoroutine(setComboText("+3 Loot Drops, +1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     DropMultUpdate(2, false);
-                    infoText[componentNumber - 2].text = "+2 Loot Drops, +1 Damage";
+                    StartCoroutine(setComboText("+2 Loot Drops, +1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     DropMultUpdate(1, false);
-                    infoText[componentNumber - 2].text = "+1 Loot Drops, +1 Damage";
+                    StartCoroutine(setComboText("+1 Loot Drops, +1 Damage"));
                 } else {
-                    infoText[componentNumber - 2].text = "+0 Loot Drops, Too Many Tomatoes";
+                    StartCoroutine(setComboText("+0 Loot Drops, Too Many Tomatoes"));
                 }
                 finalDamageCalculator();
                 break;
@@ -402,21 +409,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     HealUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10 Shield, +1 Damage";
+                    StartCoroutine(setComboText("+10 Shield, +1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     HealUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5 Shield, +1 Damage";
+                    StartCoroutine(setComboText("+5 Shield, +1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     HealUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3 Shield, +1 Damage";
+                    StartCoroutine(setComboText("+3 Shield, +1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "+0 Shield, Too Much Lettuce";
+                    StartCoroutine(setComboText("+0 Shield, Too Much Lettuce"));
                 }
                 finalDamageCalculator();
                 break;
@@ -426,10 +433,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] <= 3)
                 {
                     CryingUpdate(1, false);
-                    infoText[componentNumber - 2].text = "+1 Crying, +1 Damage";
+                    StartCoroutine(setComboText("+1 Crying, +1 Damage"));
                 }
                 else {
-                    infoText[componentNumber - 2].text = "+0 Crying, Too Many Onions";
+                    StartCoroutine(setComboText("+0 Crying, Too Many Onions"));
                 }
                 finalDamageCalculator();
                 break;
@@ -439,21 +446,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DamageMultUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10% Damage, + 1 Damage";
+                    StartCoroutine(setComboText("+10% Damage, + 1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     DamageMultUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5% Damage, + 1 Damage";
+                    StartCoroutine(setComboText("+5% Damage, + 1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     DamageMultUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3% Damage, + 1 Damage";
+                    StartCoroutine(setComboText("+3% Damage, + 1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "+0% Damage, Too Much Bacon";
+                    StartCoroutine(setComboText("+0% Damage, Too Much Bacon"));
                 }
                 finalDamageCalculator();
                 break;
@@ -463,21 +470,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     CritUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10% Critical, + 1 Damage";
+                    StartCoroutine(setComboText("+10% Critical, + 1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     CritUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5% Critical, + 1 Damage";
+                    StartCoroutine(setComboText("+5% Critical, + 1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     CritUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3% Critical, + 1 Damage";
+                    StartCoroutine(setComboText("+3% Critical, + 1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "+0% Critical, Too Much Sauce";
+                    StartCoroutine(setComboText("+0% Critical, Too Much Sauce"));
                 }
                 finalDamageCalculator();
                 break;
@@ -487,20 +494,20 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     ArmorPenUpdate(20, false);
-                    infoText[componentNumber - 2].text = "+20% Penetration, + 1 Damage";
+                    StartCoroutine(setComboText("+20% Penetration, + 1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     ArmorPenUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10% Penetration, + 1 Damage";
+                    StartCoroutine(setComboText("+10% Penetration, + 1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     ArmorPenUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5% Penetration, + 1 Damage";
+                    StartCoroutine(setComboText("+5% Penetration, + 1 Damage"));
                 }
                 else {
-                    infoText[componentNumber - 2].text = "+0% Penetration, Too Many Pickles";
+                    StartCoroutine(setComboText("+0% Penetration, Too Many Pickles"));
                 }
                 finalDamageCalculator();
                 break;
@@ -510,11 +517,11 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DamageTypeUpdate(true, false);
-                    infoText[componentNumber - 2].text = "Ketchup DMG, + 1 Damage";
+                    StartCoroutine(setComboText("Ketchup DMG, + 1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "Ketchup Already Applied";
+                    StartCoroutine(setComboText("Ketchup Already Applied"));
                 }
                 finalDamageCalculator();
                 break;
@@ -524,10 +531,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DamageTypeUpdate(false, false);
-                    infoText[componentNumber - 2].text = "Mustard DMG, + 1 Damage";
+                    StartCoroutine(setComboText("Mustard DMG, + 1 Damage"));
                 }
                 else {
-                    infoText[componentNumber - 2].text = "Mustard Already Applied";
+                    StartCoroutine(setComboText("Mustard Already Applied"));
                 }
                 finalDamageCalculator();
                 break;
@@ -536,11 +543,11 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 damage = damage + 1;
                 if (componentCount[component] <= 3)
                 {
-                    infoText[componentNumber - 2].text = "+1 Slow, +1 Damage";
+                    StartCoroutine(setComboText("+1 Slow, +1 Damage"));
                     SlowUpdate(1, false);
                 }
                 else {
-                    infoText[componentNumber - 2].text = "+0 Slow, Too Much Cheese";
+                    StartCoroutine(setComboText("+0 Slow, Too Much Cheese"));
                 }
                 finalDamageCalculator();
                 break;
@@ -550,22 +557,22 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 {
                     pattyDropped = true;
                     damage = damage + 10;
-                    infoText[componentNumber - 2].text = "Damage Activated";
+                    StartCoroutine(setComboText("Damage Activated"));
                 }
                 else
                 {
                     if (componentCount[component] == 2)
                     {
                         damage = damage + 10;
-                        infoText[componentNumber - 2].text = "+10 Damage";
+                        StartCoroutine(setComboText("+10 Damage"));
                     }
                     else if(componentCount[component] == 3)
                     {
                         damage = damage + 5;
-                        infoText[componentNumber - 2].text = "+5 Damage";
+                        StartCoroutine(setComboText("+5 Damage"));
                     } else if (componentCount[component] == 4)
                     {
-                        infoText[componentNumber - 2].text = "+0 Damage, Too Many Patties";
+                        StartCoroutine(setComboText("+0 Damage, Too Many Patties"));
                     }
                 }
                 finalDamageCalculator();
@@ -576,10 +583,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     //following functions are for combos
     void clearText()
     {
-        for (int i = 0; i < componentCap; i++)
+        /*for (int i = 0; i < componentCap; i++)
         {
             infoText[i].text = "--";
-        }
+        }*/
     }
 
     bool CheckCombo(int[] comboCheck) // checks if final combo is a combo
@@ -934,5 +941,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             ph.protag.SetBool("OddIngredient", true);
         }
         ph.protag.SetTrigger("IngredientPlace");
+    }
+
+    public IEnumerator StartStuff() {
+        while (enemy == null) {
+            yield return new WaitForEndOfFrame();
+            enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        }
+        yield return new WaitUntil(() => enemy != null);
+        eb = enemy.GetComponent<EnemyBehavior>();
     }
 }

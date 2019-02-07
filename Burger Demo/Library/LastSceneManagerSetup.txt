@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
 - path: Assets/Scenes/TestScene.unity
-=======
-- path: Assets/Scenes/SerializableTest.unity
->>>>>>> Lucas
   isLoaded: 1
   isActive: 1

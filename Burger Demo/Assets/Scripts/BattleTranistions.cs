@@ -11,13 +11,20 @@ public class BattleTranistions : MonoBehaviour {
     public PlayerHealth ph;
     public GameObject[] OverworldObjects;
     public GameObject currentEnemy;
+    public GameObject enemyStart;
 
     public bool battling = false;
-	// Use this for initialization
-	void Start () {
+
+    public GameObject MainCamera;
+    public NarrativeManager nm;
+
+    // Use this for initialization
+    void Start () {
         OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
         DontDestroyOnLoad(this);
-	}
+        MainCamera = GameObject.FindWithTag("MainCamera");
+        nm = MainCamera.GetComponent<NarrativeManager>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,19 +34,23 @@ public class BattleTranistions : MonoBehaviour {
 
     public IEnumerator StartBattle(GameObject enemy) {
         currentEnemy = enemy;
-        Instantiate(enemy.GetComponent<Enemy>().battlePrefab, new Vector3(0,-6,0), new Quaternion(0,0,0,0),this.transform);
+        nm.combat = true;
+        battling = true;
         yield return new WaitForSeconds(0.1f);
+        battlePrefab.SetActive(true);
+        battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0,0,0,0),this.transform);
         for (int i = 0; i < OverworldObjects.Length; i++) {
             OverworldObjects[i].SetActive(false);
         }
+        yield return new WaitForSeconds(0.1f);
         //Instantiate(battlePrefab, this.gameObject.transform);
-        battle = GameObject.Find("FullBattlePrefab(Clone)");
+        //battle = GameObject.Find("FullBattlePrefab(Clone)");
         battle.transform.parent = null;
-        player = GameObject.Find("Player");
+        
+        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
         ph = player.GetComponent<PlayerHealth>();
         //Instantiate(enemy.GetComponent<Enemy>().battlePrefab, this.transform);
         battling = true;
-        yield return new WaitUntil(() => battle == null);
     }
 
     public IEnumerator EndOfBattle()            //this gets called by the enemy's death in enemyBehavior
@@ -49,11 +60,19 @@ public class BattleTranistions : MonoBehaviour {
             OverworldObjects[i].SetActive(true);
         }
         yield return new WaitForSeconds(1);
-        ph.healthUpdate();
+        //ph.healthUpdate();
+        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
+        ph = player.GetComponent<PlayerHealth>();
+        playerHealth = ph.playerHealth;
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        Destroy(battle);
+        Destroy(battle.gameObject);
         Destroy(currentEnemy.gameObject);
+        GameObject thing = GameObject.Find("FullBattlePrefab");
+        thing.SetActive(false);
+        thing = null;
         battling = false;
+        nm.combat = false;
+        nm.combatUI.SetActive(false);
         currentEnemy = null;
     }
 }

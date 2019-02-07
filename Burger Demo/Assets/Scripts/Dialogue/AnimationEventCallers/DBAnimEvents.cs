@@ -6,6 +6,7 @@ public class DBAnimEvents : MonoBehaviour {
 
     public GameObject MainCamera;
     public NarrativeManager nm;
+    public GameObject IB;
 
     void Awake () {
         MainCamera = GameObject.FindWithTag("MainCamera");
@@ -21,5 +22,10 @@ public class DBAnimEvents : MonoBehaviour {
     void StopText ()
     {
         nm.dbStartStop = true;
+    }
+
+    void enableBackgrounds ()
+    {
+        IB.SetActive(true);
     }
 }
