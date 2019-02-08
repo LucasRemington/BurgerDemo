@@ -1,3 +1,6 @@
+*.unity binary diff=unity
+*.prefab binary diff=unity
+*.asset binary diff=unity
 *.asset linguist-generated
 *.mat linguist-generated
 *.meta linguist-generated

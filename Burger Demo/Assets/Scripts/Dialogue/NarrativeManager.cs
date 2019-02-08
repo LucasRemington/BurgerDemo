@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class NarrativeManager : MonoBehaviour {
 
     public OverworldMovement owm;
+    public BattleTranistions bt;
     public NarrativeScript1 ns1;
 
     public int ev; //integer that determines what can happen. Each 'event' to occur should increase it by one.
@@ -32,12 +33,12 @@ public class NarrativeManager : MonoBehaviour {
     public Text nameTSCombat; //name of talksprite
     public Image imageTSCombat; //talksprite image component
 
-    public bool combat = false; // true when in combat
     public bool choice = false; // true when making a choice
     public bool combatText; //true when combat text can be activated
     public bool dbStartStop; //triggered briefly to start and stop text
     public bool dbChoiceSS; //start stop but choice specific
     public bool canAdvance = true; //true when you can advance text
+    public bool autoAdvance; //autoadvances dialogue
 
     void Start () //note that the Narrative Script and each sub-script are intended to be on the same object. Other scripts currently reference MainCamera, so use that.
     {
@@ -119,7 +120,7 @@ public class NarrativeManager : MonoBehaviour {
 
     public IEnumerator combatUIOn () //activates UI for combat. Might be moved to a different script.
     {
-        yield return new WaitUntil(() => combat == true);
+        yield return new WaitUntil(() => bt.battling == true);
         combatUI.SetActive(true);
         yield return new WaitUntil(() => dbStartStop == true);
         dbStartStop = false;
@@ -133,7 +134,7 @@ public class NarrativeManager : MonoBehaviour {
     {
         string name = dia.DialogItems[convoNumber].CharacterName;
         Sprite sprite = dia.DialogItems[convoNumber].CharacterPic;
-        if (combat == false)
+        if (bt.battling == false)
         {
             nameTS.text = name;
             imageTS.sprite = sprite;
@@ -156,7 +157,7 @@ public class NarrativeManager : MonoBehaviour {
         }
         int i = 0;
         canAdvance = false;
-        if (combat == false)
+        if (bt.battling == false)
         {
             textTS.text = "";
             while (i < strComplete.Length)
@@ -208,7 +209,8 @@ public class NarrativeManager : MonoBehaviour {
         yield return new WaitForSeconds(0.05f);
         dbChoiceSS = false;
         AnimateText(dia, convoNumber);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || autoAdvance == true);
+        autoAdvance = false;
         choice = false;
         choiceText[0].transform.SetParent(db.transform);
         choiceText[1].transform.SetParent(db.transform);

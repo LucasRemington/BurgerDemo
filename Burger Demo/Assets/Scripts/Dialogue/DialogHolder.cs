@@ -23,6 +23,7 @@ public class DialogHolder : MonoBehaviour {
     public int choiceHover; // 1 for left choice 2 for right choice
     public int choiceSelected; //final choice
     public bool choiceMade; //
+    public bool autoAdvance; //when true automatically advances dialogue. Set from outside, if at all
 
     private void Start() //sets certain array lengths equal to scripted or interactable
     {
@@ -84,7 +85,8 @@ public class DialogHolder : MonoBehaviour {
         StartCoroutine(nm.AnimateText(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]));
         specifyScript(scriptedConversation); //here is where we put a switch(?) statement calling other functions when appropriate
         scriptedConvo[scriptedConversation]++;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && ongoingEvent == false);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && ongoingEvent == false || autoAdvance == true && nm.canAdvance == true && ongoingEvent == false);
+        autoAdvance = false;
         if (scriptedConvo[scriptedConversation] >= sizeOfList)
         {
             StartCoroutine(nm.dialogueEnd());
@@ -128,7 +130,7 @@ public class DialogHolder : MonoBehaviour {
         nm.choiceText[0].color = Color.red;
         choiceHover = 1;
         StartCoroutine(arrowColors());
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || autoAdvance == true);
         choiceSelected = choiceHover;
         choiceMade = true;
         yield return new WaitForSeconds(0.05f);

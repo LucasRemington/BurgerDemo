@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IndividualComponent : MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class IndividualComponent : MonoBehaviour {
     float ticks = 0;
     bool tickDown;
     public bool dontDespawn; //publically checked for items that bounce but don't destroy themselves
-    private SpriteRenderer sprite;
+    private Image sprite;
     public Animator anim;
 
     public bool isTopBun;
@@ -22,10 +23,10 @@ public class IndividualComponent : MonoBehaviour {
         burgerSpawner = GameObject.Find("BurgerSpawner");
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         anim = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
-        //sprite.sortingOrder = BCI.componentNumber;
-        restingPosition = new Vector3(0, transform.position.y, 0);
-        bouncingPosition = new Vector3(0, transform.position.y - 0.1f, 0);
+        sprite = GetComponent<Image>();
+        this.transform.SetParent(BCI.CombatUI.transform, false);
+        restingPosition = new Vector3(transform.position.x, transform.position.y, 0);
+        bouncingPosition = new Vector3(transform.position.x, transform.position.y - 0.1f, 0);
         prevTrigger = BCI.bounceTrigger;
         StartCoroutine(Bounce());
         if (dontDespawn == false)
@@ -34,14 +35,14 @@ public class IndividualComponent : MonoBehaviour {
         }
     }
 
+    public void layerSort ()
+    {
+        return;
+    }
+
     public void componentStatic() //called when the static animation begins
     {
         BCI.canSpawn = true;
-    }
-
-    public void layerSort() //sets sorting order when called from animation
-    {
-            sprite.sortingOrder = BCI.componentNumber;
     }
 
     IEnumerator Despawn() //called when BCI reaches the component cap or space is pressed. This will eventually trigger the 'end of attack' animations

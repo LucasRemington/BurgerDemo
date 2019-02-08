@@ -12,8 +12,8 @@ public class AttackLaunch : MonoBehaviour {
 
     void Start()
     {
-        burgerSpawner = GameObject.Find("BurgerSpawner");
-        BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        //burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
+       // BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
     }
 
     void LaunchAttack () {

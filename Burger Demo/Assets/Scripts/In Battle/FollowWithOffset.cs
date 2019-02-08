@@ -9,23 +9,28 @@ public class FollowWithOffset : MonoBehaviour {
     public float yOff;
     public TextMesh tm;
     public bool notText;
+    public bool stop = false;
 
 	void Start () {
         
         StartCoroutine(LockToTarget());
         tm = GetComponent<TextMesh>();
     }
-	
-	IEnumerator LockToTarget () {
+
+    IEnumerator LockToTarget()
+    {
         yield return new WaitForSeconds(0.2f);
-        if (target == null)
+        while (!stop)
         {
-            target = GameObject.FindGameObjectWithTag("BattleEnemy").transform;
+            if (target == null)
+            {
+                target = GameObject.FindGameObjectWithTag("BattleEnemy").transform;
+            }
+            if (tm.text == "" || notText == true)
+            {
+                this.transform.position = new Vector2(target.position.x + xOff, target.position.y + yOff);
+            }
+            yield return new WaitForSeconds(0.2f);
         }
-        if (tm.text == "" || notText == true)
-        {
-            this.transform.position = new Vector2(target.position.x + xOff, target.position.y + yOff);
-        }
-        StartCoroutine(LockToTarget());
-	}
+    }
 }

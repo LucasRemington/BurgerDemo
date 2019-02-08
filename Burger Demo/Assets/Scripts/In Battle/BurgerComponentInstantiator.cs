@@ -10,6 +10,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public GameObject player;
     public EnemyBehavior eb;
     public GameObject enemy;
+    public GameObject MainCamera;
+    public GameObject CombatUI;
 
     public float originalBurgerPosition;
     public float burgerPosition; //add 0.2 per pixel of the object
@@ -70,7 +72,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int crying; //adds to enemy miss chance - stacked with diminishing returns
     public float damageMult; //multiplies damage
     public float critChance; //adds flat amount to percentage crit chance
-    public float armorPen; //penetrates enemy armor by flat amount
+    public float armorPen = 0; //penetrates enemy armor by flat amount
     public bool ketchupDamage; // if active, deals ketchup damage
     public bool mustardDamage; // if active, deals mustard damage
     public int slow; //slows enemy by percentage amount - stacked with diminishing returns
@@ -101,12 +103,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public Text[] lootText;
     public Text replayDemo;
 
-    //called on start
-    void Start () {
-        player = GameObject.Find("Player");
+    private void Awake()
+    {
+        Debug.Log("bci start");
+        fadeBlack.gameObject.SetActive(true);
+        //player = GameObject.Find("Player");
         ph = player.GetComponent<PlayerHealth>();
-        enemy= GameObject.FindGameObjectWithTag("BattleEnemy");
-        eb = enemy.GetComponent<EnemyBehavior>();
+        enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        StartCoroutine(StartStuff());
         canSpawn = true;
         burgerPosition = originalBurgerPosition;
         finalCombo = new int[componentCap];
@@ -118,13 +122,22 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         IconTextUpdate();
         StartCoroutine(enableCheats());
         StartCoroutine(FadeImageToZeroAlpha(1, fadeBlack));
+        StartCoroutine(setComboText(""));
+    }
+
+    //called on start
+    void Start () {
+        
     }
 
     void IconTextUpdate()
     {
         for (int i = 0; i < 9; i++)
         {
-          iconText[i].text = ingredientINV[i+1].ToString();   
+            if (iconText[i] != null)
+            {
+                iconText[i].text = ingredientINV[i + 1].ToString();
+            }
         }
     }
 
@@ -134,7 +147,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         {
             if (ingredientINV[i] == 0 && i != 0)
             {
-                iconAnim[i].SetTrigger("Dim");
+                iconAnim[i].SetBool("Faded", true);
             }
         }
     }
@@ -147,7 +160,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         {
             if (ingredientINV[i] == 0)
             {
-                iconAnim[i-1].SetTrigger("Brighten");
+                iconAnim[i-1].SetBool("Faded", false);
             }
             ingredientINV[i] = 99;
         }
@@ -182,7 +195,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 switch (identity) //checks identity of placed prefab to determine position relative to BurgerPosition, and also pass the correct arguments to the coroutine. There's probably a more efficient way to do this.
                 {
                     case 0: //called only for bottom bun. starts the process
-                        Instantiate(prefab, new Vector3(0, burgerPosition, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         ResetAttack();
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
@@ -202,55 +215,55 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         ph.protag.SetBool("isBunPlaced", true);
                         break;
                     case 1:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         burgPlaceAnim();
                         break;
                     case 2:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
                         burgPlaceAnim();
                         break;
                     case 3:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
                         burgPlaceAnim();
                         break;
                     case 4:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
                         burgPlaceAnim();
                         break;
                     case 5:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
                         burgPlaceAnim();
                         break;
                     case 6:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
                         hidePickles(0.2f, true);
                         burgPlaceAnim();
                         break;
                     case 7:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
                         hidePickles(0.2f, true);
                         burgPlaceAnim();
                         break;
                     case 8:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
                         hidePickles(0.2f, true);
                         burgPlaceAnim();
                         break;
                     case 9:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.4f - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.4f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
                         burgPlaceAnim();
                         break;
                     case 10:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - sinkBP, 0), Quaternion.identity);
+                        Instantiate(prefab, new Vector3(0, burgerPosition - sinkBP, 0), Quaternion.identity, MainCamera.transform);
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         ph.DealDamage(2);
                         burgPlaceAnim();
@@ -298,7 +311,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         yield return new WaitUntil(() => canSpawn == true);
         componentNumber = 0;
         topPlaced = true;
-        Instantiate(topBun, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity);
+        Instantiate(topBun, new Vector3(transform.position.x, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
         executeCombo();
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && eb.movingBackwards == false|| Input.GetKeyDown(KeyCode.LeftControl) == true);
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
@@ -344,7 +357,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     IEnumerator ClearBurger() //resets most variables
     {
-        
         spawnReset = true;
         hidePickles(0, false);
         topPlaced = false;
@@ -380,19 +392,19 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DropMultUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3 Loot Drops, +1 Damage";
+                    StartCoroutine(setComboText("+3 Loot Drops, +1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     DropMultUpdate(2, false);
-                    infoText[componentNumber - 2].text = "+2 Loot Drops, +1 Damage";
+                    StartCoroutine(setComboText("+2 Loot Drops, +1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     DropMultUpdate(1, false);
-                    infoText[componentNumber - 2].text = "+1 Loot Drops, +1 Damage";
+                    StartCoroutine(setComboText("+1 Loot Drops, +1 Damage"));
                 } else {
-                    infoText[componentNumber - 2].text = "+0 Loot Drops, Too Many Tomatoes";
+                    StartCoroutine(setComboText("+0 Loot Drops, Too Many Tomatoes"));
                 }
                 finalDamageCalculator();
                 break;
@@ -402,21 +414,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     HealUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10 Shield, +1 Damage";
+                    StartCoroutine(setComboText("+10 Shield, +1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     HealUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5 Shield, +1 Damage";
+                    StartCoroutine(setComboText("+5 Shield, +1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     HealUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3 Shield, +1 Damage";
+                    StartCoroutine(setComboText("+3 Shield, +1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "+0 Shield, Too Much Lettuce";
+                    StartCoroutine(setComboText("+0 Shield, Too Much Lettuce"));
                 }
                 finalDamageCalculator();
                 break;
@@ -426,10 +438,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] <= 3)
                 {
                     CryingUpdate(1, false);
-                    infoText[componentNumber - 2].text = "+1 Crying, +1 Damage";
+                    StartCoroutine(setComboText("+1 Crying, +1 Damage"));
                 }
                 else {
-                    infoText[componentNumber - 2].text = "+0 Crying, Too Many Onions";
+                    StartCoroutine(setComboText("+0 Crying, Too Many Onions"));
                 }
                 finalDamageCalculator();
                 break;
@@ -439,21 +451,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DamageMultUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10% Damage, + 1 Damage";
+                    StartCoroutine(setComboText("+10% Damage, + 1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     DamageMultUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5% Damage, + 1 Damage";
+                    StartCoroutine(setComboText("+5% Damage, + 1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     DamageMultUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3% Damage, + 1 Damage";
+                    StartCoroutine(setComboText("+3% Damage, + 1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "+0% Damage, Too Much Bacon";
+                    StartCoroutine(setComboText("+0% Damage, Too Much Bacon"));
                 }
                 finalDamageCalculator();
                 break;
@@ -463,21 +475,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     CritUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10% Critical, + 1 Damage";
+                    StartCoroutine(setComboText("+10% Critical, + 1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     CritUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5% Critical, + 1 Damage";
+                    StartCoroutine(setComboText("+5% Critical, + 1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     CritUpdate(3, false);
-                    infoText[componentNumber - 2].text = "+3% Critical, + 1 Damage";
+                    StartCoroutine(setComboText("+3% Critical, + 1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "+0% Critical, Too Much Sauce";
+                    StartCoroutine(setComboText("+0% Critical, Too Much Sauce"));
                 }
                 finalDamageCalculator();
                 break;
@@ -487,20 +499,20 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     ArmorPenUpdate(20, false);
-                    infoText[componentNumber - 2].text = "+20% Penetration, + 1 Damage";
+                    StartCoroutine(setComboText("+20% Penetration, + 1 Damage"));
                 }
                 else if (componentCount[component] == 2)
                 {
                     ArmorPenUpdate(10, false);
-                    infoText[componentNumber - 2].text = "+10% Penetration, + 1 Damage";
+                    StartCoroutine(setComboText("+10% Penetration, + 1 Damage"));
                 }
                 else if (componentCount[component] == 3)
                 {
                     ArmorPenUpdate(5, false);
-                    infoText[componentNumber - 2].text = "+5% Penetration, + 1 Damage";
+                    StartCoroutine(setComboText("+5% Penetration, + 1 Damage"));
                 }
                 else {
-                    infoText[componentNumber - 2].text = "+0% Penetration, Too Many Pickles";
+                    StartCoroutine(setComboText("+0% Penetration, Too Many Pickles"));
                 }
                 finalDamageCalculator();
                 break;
@@ -510,11 +522,11 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DamageTypeUpdate(true, false);
-                    infoText[componentNumber - 2].text = "Ketchup DMG, + 1 Damage";
+                    StartCoroutine(setComboText("Ketchup DMG, + 1 Damage"));
                 }
                 else
                 {
-                    infoText[componentNumber - 2].text = "Ketchup Already Applied";
+                    StartCoroutine(setComboText("Ketchup Already Applied"));
                 }
                 finalDamageCalculator();
                 break;
@@ -524,10 +536,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 if (componentCount[component] == 1)
                 {
                     DamageTypeUpdate(false, false);
-                    infoText[componentNumber - 2].text = "Mustard DMG, + 1 Damage";
+                    StartCoroutine(setComboText("Mustard DMG, + 1 Damage"));
                 }
                 else {
-                    infoText[componentNumber - 2].text = "Mustard Already Applied";
+                    StartCoroutine(setComboText("Mustard Already Applied"));
                 }
                 finalDamageCalculator();
                 break;
@@ -536,11 +548,11 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 damage = damage + 1;
                 if (componentCount[component] <= 3)
                 {
-                    infoText[componentNumber - 2].text = "+1 Slow, +1 Damage";
+                    StartCoroutine(setComboText("+1 Slow, +1 Damage"));
                     SlowUpdate(1, false);
                 }
                 else {
-                    infoText[componentNumber - 2].text = "+0 Slow, Too Much Cheese";
+                    StartCoroutine(setComboText("+0 Slow, Too Much Cheese"));
                 }
                 finalDamageCalculator();
                 break;
@@ -550,22 +562,22 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 {
                     pattyDropped = true;
                     damage = damage + 10;
-                    infoText[componentNumber - 2].text = "Damage Activated";
+                    StartCoroutine(setComboText("Damage Activated"));
                 }
                 else
                 {
                     if (componentCount[component] == 2)
                     {
                         damage = damage + 10;
-                        infoText[componentNumber - 2].text = "+10 Damage";
+                        StartCoroutine(setComboText("+10 Damage"));
                     }
                     else if(componentCount[component] == 3)
                     {
                         damage = damage + 5;
-                        infoText[componentNumber - 2].text = "+5 Damage";
+                        StartCoroutine(setComboText("+5 Damage"));
                     } else if (componentCount[component] == 4)
                     {
-                        infoText[componentNumber - 2].text = "+0 Damage, Too Many Patties";
+                        StartCoroutine(setComboText("+0 Damage, Too Many Patties"));
                     }
                 }
                 finalDamageCalculator();
@@ -576,10 +588,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     //following functions are for combos
     void clearText()
     {
-        for (int i = 0; i < componentCap; i++)
+        /*for (int i = 0; i < componentCap; i++)
         {
             infoText[i].text = "--";
-        }
+        }*/
     }
 
     bool CheckCombo(int[] comboCheck) // checks if final combo is a combo
@@ -924,6 +936,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             componentCount[i] = 0;
         }
     }
+
     public void burgPlaceAnim() {
         
         if (ph.protag.GetBool("OddIngredient"))
@@ -934,5 +947,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             ph.protag.SetBool("OddIngredient", true);
         }
         ph.protag.SetTrigger("IngredientPlace");
+    }
+
+    public IEnumerator StartStuff() {
+        while (enemy == null) {
+            yield return new WaitForEndOfFrame();
+            enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        }
+        yield return new WaitUntil(() => enemy != null);
+        eb = enemy.GetComponent<EnemyBehavior>();
     }
 }

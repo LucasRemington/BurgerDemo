@@ -21,9 +21,10 @@ public class PlayerHealth : MonoBehaviour {
 
     void Start () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
-        burgerSpawner = GameObject.Find("BurgerSpawner");
+        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject; ;
         playerHealth = gameController.GetComponent<BattleTranistions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        healthText = GameObject.Find("healthtext").GetComponent<Text>();
         healthText.text = playerHealth.ToString();
 
         for (int i = 0; i < healthAnim.Length; i++)
@@ -75,7 +76,9 @@ public class PlayerHealth : MonoBehaviour {
         {
             shields -= damage;
         }
-        
+        if (healthText == null) {
+
+        }
         healthText.text = playerHealth.ToString();
         if (playerHealth <= 0)
         {
