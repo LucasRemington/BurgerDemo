@@ -306,15 +306,31 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AttackLaunch.cs" />
-    <Compile Include="Assets\Scripts\BurgerComponentInstantiator.cs" />
-    <Compile Include="Assets\Scripts\EnemyBehavior.cs" />
-    <Compile Include="Assets\Scripts\FollowWithOffset.cs" />
-    <Compile Include="Assets\Scripts\IndividualComponent.cs" />
-    <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\BattleTranistions.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\IconBAnimEvent.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogHolder.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\Dialogue.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogueElement.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\InteractDia.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\NarrativeManager.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\NarrativeScript1.cs" />
+    <Compile Include="Assets\Scripts\In Battle\AttackLaunch.cs" />
+    <Compile Include="Assets\Scripts\In Battle\BurgerComponentInstantiator.cs" />
+    <Compile Include="Assets\Scripts\In Battle\EnemyBehavior.cs" />
+    <Compile Include="Assets\Scripts\In Battle\FollowWithOffset.cs" />
+    <Compile Include="Assets\Scripts\In Battle\IndividualComponent.cs" />
+    <Compile Include="Assets\Scripts\In Battle\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\In Battle\TurnOffWhenDone.cs" />
+    <Compile Include="Assets\Scripts\In Battle\UIActivate.cs" />
+    <Compile Include="Assets\Scripts\Overworld\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Overworld\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Overworld\Interactable.cs" />
+    <Compile Include="Assets\Scripts\Overworld\OverworldMovement.cs" />
+    <Compile Include="Assets\Scripts\Overworld\SceneSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Overworld\ScriptedMovement.cs" />
+    <Compile Include="Assets\Scripts\Overworld\Sign.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\TurnOffWhenDone.cs" />
-    <Compile Include="Assets\Scripts\UIActivate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
