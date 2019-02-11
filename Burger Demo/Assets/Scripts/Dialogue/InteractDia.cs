@@ -9,6 +9,7 @@ public class InteractDia : MonoBehaviour {
     public NarrativeManager nm;
     public DialogHolder dh;
     public GameObject player;
+    public Animator playerAnim;
 
     public int identity;
     public bool canInteract;
@@ -20,6 +21,9 @@ public class InteractDia : MonoBehaviour {
     {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
+        player = GameObject.FindWithTag("Player");
+        player = player.transform.Find("OverworldPlayer").gameObject;
+        playerAnim = player.GetComponent<Animator>();
         canInteract = true;
     }
 
@@ -42,7 +46,9 @@ public class InteractDia : MonoBehaviour {
     {
         canInteract = false;
         yield return new WaitForSeconds(0.1f);
+        playerAnim.SetBool("Thinking", true);
         yield return new WaitUntil(() => nm.owm.canMove == true);
+        playerAnim.SetBool("Thinking", false);
         didInteract = true;
         canInteract = true;
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour {
+public class ResetScene : MonoBehaviour {
 
-    private static SceneManager playerInstance;
+    private static ResetScene playerInstance;
     private GameObject UIPlate;
     public AudioSource background;
 

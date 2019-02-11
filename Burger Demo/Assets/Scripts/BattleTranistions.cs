@@ -19,9 +19,8 @@ public class BattleTranistions : MonoBehaviour {
     public NarrativeManager nm;
 
     // Use this for initialization
-    void Start () {
+    public void PseudoStart () {
         OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
-        DontDestroyOnLoad(this);
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
     }

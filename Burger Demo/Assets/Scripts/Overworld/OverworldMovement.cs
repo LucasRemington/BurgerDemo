@@ -12,32 +12,37 @@ public class OverworldMovement : MonoBehaviour {
     public float floorHeight; // this is the height of the lowest floor so the player can't jump below that
     public bool jumping = false;
     public bool canMove = true;
+    public Animator playerAnim;
+    public SpriteRenderer playerSprite;
 
-    void Awake()
-    {
+    public void PseudoStart () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
+        playerAnim = GetComponent<Animator>();
+        playerSprite = GetComponent<SpriteRenderer>();
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
-	// Update is called once per frame
 	void Update () {
         if (!gameController.GetComponent<BattleTranistions>().battling) { 
             if (Input.GetKey(KeyCode.RightArrow) && !jumping && canMove) {
                 transform.Translate(Vector3.right * moveSpeed / 100);
+                playerAnim.SetBool("Walking", true);
+                playerSprite.flipX = false;
             }
-            if (Input.GetKey(KeyCode.LeftArrow) && !jumping && canMove) {
+            else if (Input.GetKey(KeyCode.LeftArrow) && !jumping && canMove) {
                 transform.Translate(Vector3.left * moveSpeed / 100);
+                playerAnim.SetBool("Walking", true);
+                playerSprite.flipX = true;
             }
-            if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping && canMove) {
+            else if (!jumping)
+            {
+                playerAnim.SetBool("Walking", false);
+            }
+            /*if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping && canMove) {
                 StartCoroutine(Jump());
             }
             if (Input.GetKeyDown(KeyCode.DownArrow) && !jumping && transform.position.y > floorHeight && canMove) {
                 StartCoroutine(Drop());
-            }
+            }*/
             /*if (Input.GetKeyDown(KeyCode.Space) && lastTouched != null && canMove) {
                 lastTouched.GetComponent<Interactable>().Interact();                            //this is in the interactable script now
             }*/

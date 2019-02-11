@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class SceneSwitcher : MonoBehaviour {
 
     public GameObject gameController;
-    public string directionComingFrom;
+    public int RoomComingFrom;
+    public Scene RoomGoingTo;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,8 @@ public class SceneSwitcher : MonoBehaviour {
 		
 	}
 
-    public void doTheThing() {
-
+    public void ToTheNextScene() {
+        SceneManager.LoadSceneAsync(RoomGoingTo.ToString());
+        //gameController.GetComponent<BattleTransitions>().entrypoint = RoomComingTo;                       // Fix this after, its to decide where the player spawns in the next scene
     }
 }

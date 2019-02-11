@@ -7,6 +7,8 @@ TagManager:
   - BurgerUI
   - BattleEnemy
   - Overworld
+  - Dennis
+  - HoloMaster
   layers:
   - Default
   - TransparentFX

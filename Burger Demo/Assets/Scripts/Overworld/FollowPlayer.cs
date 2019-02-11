@@ -11,10 +11,18 @@ public class FollowPlayer : MonoBehaviour
     public int ySetter;
     public Vector3 cameraTarget;
     public Vector3 xTarget;
+    public int zTrack;
 
-    void Start () 
+    public void PseudoStart ()
     {
+        player = GameObject.FindWithTag("Player");
+        player = player.transform.Find("OverworldPlayer").gameObject;
+        owm = player.GetComponent<OverworldMovement>();
         offset.x = transform.position.x - player.transform.position.x;
+    }
+
+    public void Start () 
+    {
         snaptoYPosition();
         StartCoroutine(upTrack());
         StartCoroutine(downTrack());
@@ -22,8 +30,8 @@ public class FollowPlayer : MonoBehaviour
 
     void LateUpdate()
     {
-        xTarget = new Vector3(player.transform.position.x + offset.x, ySetter, -10);
-        cameraTarget = new Vector3(player.transform.position.x, ySetter, -10);
+        xTarget = new Vector3(player.transform.position.x + offset.x, ySetter, zTrack);
+        cameraTarget = new Vector3(player.transform.position.x, ySetter, zTrack);
         transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);
     }
 

@@ -25,7 +25,7 @@ public class DialogHolder : MonoBehaviour {
     public bool choiceMade; //
     public bool autoAdvance; //when true automatically advances dialogue. Set from outside, if at all
 
-    private void Start() //sets certain array lengths equal to scripted or interactable
+    public void PseudoStart() //sets certain array lengths equal to scripted or interactable
     {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();

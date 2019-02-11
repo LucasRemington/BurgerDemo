@@ -8,6 +8,7 @@ public class ScriptedMovement : MonoBehaviour {
     public Vector3 destination;
     public float overTime;
     public bool random = false;
+    public bool stop;
 
     private float currentTime;
 
@@ -28,9 +29,16 @@ public class ScriptedMovement : MonoBehaviour {
         
 	}
 
+    void OnDestroy()
+    {
+        stop = true;
+    }
+
     public IEnumerator MoveTo(GameObject Object, Vector3 movement, float time) {
         finished = false;
-        while (currentTime <= time) {
+        while (currentTime <= time && stop == false) 
+            {
+            Debug.Log(currentTime + time);
             currentTime += Time.deltaTime;
             transform.Translate(new Vector3(Mathf.Lerp(0, movement.x/(60 * time), 1 / time), (Mathf.Lerp(0, movement.y/ (60 * time), 1/time)), 0));
             yield return new WaitForEndOfFrame();

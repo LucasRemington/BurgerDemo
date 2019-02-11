@@ -24,6 +24,10 @@ public class Interactable : MonoBehaviour {
         {
             StartCoroutine(GetComponent<Sign>().ShowDialogue());
         }
+        else if (GetComponent<SceneSwitcher>() != null)
+        {
+            GetComponent<SceneSwitcher>().ToTheNextScene();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

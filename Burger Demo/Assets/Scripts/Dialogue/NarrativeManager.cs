@@ -8,6 +8,7 @@ public class NarrativeManager : MonoBehaviour {
     public OverworldMovement owm;
     public BattleTranistions bt;
     public NarrativeScript1 ns1;
+    public GameObject player;
 
     public int ev; //integer that determines what can happen. Each 'event' to occur should increase it by one.
     public bool reading; //true when text is onscreen
@@ -40,9 +41,16 @@ public class NarrativeManager : MonoBehaviour {
     public bool canAdvance = true; //true when you can advance text
     public bool autoAdvance; //autoadvances dialogue
 
-    void Start () //note that the Narrative Script and each sub-script are intended to be on the same object. Other scripts currently reference MainCamera, so use that.
+    public void PseudoStart ()
     {
         ns1 = GetComponent<NarrativeScript1>();
+        player = GameObject.FindWithTag("Player");
+        player = player.transform.Find("OverworldPlayer").gameObject;
+        owm = player.GetComponent<OverworldMovement>();
+    }
+
+    public void Start () //note that the Narrative Script and each sub-script are intended to be on the same object. Other scripts currently reference MainCamera, so use that.
+    {
         CheckEvent();
         StartCoroutine(combatUIOn());
         ClearText();
@@ -72,11 +80,10 @@ public class NarrativeManager : MonoBehaviour {
         switch (ev)
         {
             case 0:
-                StartCoroutine(eventZero());
+                    StartCoroutine(eventZero());
                 break;
             case 1:
-
-                StartCoroutine(ns1.eventOne());
+                    StartCoroutine(ns1.eventOne());
                 break;
         }
     }

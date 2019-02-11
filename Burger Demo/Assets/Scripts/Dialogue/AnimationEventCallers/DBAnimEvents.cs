@@ -15,7 +15,6 @@ public class DBAnimEvents : MonoBehaviour {
 	
 	void StartText ()
     {
-        Debug.Log("start text called");
         nm.dbStartStop = true;
 	}
 
