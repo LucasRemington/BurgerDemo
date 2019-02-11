@@ -9,6 +9,8 @@ public class NarrativeManager : MonoBehaviour {
     public BattleTranistions bt;
     public NarrativeScript1 ns1;
     public GameObject player;
+    public GameObject BurgerSpawner;
+    public BurgerComponentInstantiator bci;
 
     public int ev; //integer that determines what can happen. Each 'event' to occur should increase it by one.
     public bool reading; //true when text is onscreen
@@ -234,4 +236,18 @@ public class NarrativeManager : MonoBehaviour {
 
     }
 
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    public override bool Equals(object other)
+    {
+        return base.Equals(other);
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }

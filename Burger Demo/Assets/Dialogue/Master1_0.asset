@@ -15,7 +15,7 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 0
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: Welcome, valued Employee! This Training Video is designed to streamline
+    DialogueText: Welcome, 'valued Employee.' This Training Video is designed to streamline
       your thought process, optimizing your burger production method, and improve
       your personal hygiene.
     ChoiceText: []
@@ -169,8 +169,8 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 0
     CharacterPic: {fileID: 21300004, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: 'Fantastic! Your consent has been processed and accepted. Prepare
-      yourself for reeducation. '
+    DialogueText: 'Your consent has been processed and accepted. Prepare yourself
+      for reeducation. '
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:

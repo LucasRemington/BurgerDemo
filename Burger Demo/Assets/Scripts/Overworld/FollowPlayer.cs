@@ -4,6 +4,8 @@ using System.Collections;
 public class FollowPlayer : MonoBehaviour
 {
     public GameObject player;
+    public GameObject combatPlayer;
+    public BattleTranistions bt;
     public OverworldMovement owm;
     private Vector3 offset;
     public int yTrack;
@@ -30,9 +32,15 @@ public class FollowPlayer : MonoBehaviour
 
     void LateUpdate()
     {
-        xTarget = new Vector3(player.transform.position.x + offset.x, ySetter, zTrack);
-        cameraTarget = new Vector3(player.transform.position.x, ySetter, zTrack);
-        transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);
+        if (bt.battling == false)
+        {
+            xTarget = new Vector3(player.transform.position.x + offset.x, ySetter, zTrack);
+            cameraTarget = new Vector3(player.transform.position.x, ySetter, zTrack);
+            transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);
+        } else
+        {
+            transform.position = new Vector3(-2f, 13.83f, 0);
+        }
     }
 
     IEnumerator upTrack () {

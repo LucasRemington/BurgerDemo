@@ -36,6 +36,7 @@ public class BattleTranistions : MonoBehaviour {
         battling = true;
         yield return new WaitForSeconds(0.1f);
         battlePrefab.SetActive(true);
+        battlePrefab.transform.parent = null;
         battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0,0,0,0),this.transform);
         for (int i = 0; i < OverworldObjects.Length; i++) {
             OverworldObjects[i].SetActive(false);
@@ -59,6 +60,7 @@ public class BattleTranistions : MonoBehaviour {
         }
         yield return new WaitForSeconds(1);
         //ph.healthUpdate();
+        battlePrefab.transform.SetParent(MainCamera.transform);
         player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
         ph = player.GetComponent<PlayerHealth>();
         playerHealth = ph.playerHealth;

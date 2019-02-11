@@ -9,6 +9,7 @@ TagManager:
   - Overworld
   - Dennis
   - HoloMaster
+  - BurgerSpawner
   layers:
   - Default
   - TransparentFX

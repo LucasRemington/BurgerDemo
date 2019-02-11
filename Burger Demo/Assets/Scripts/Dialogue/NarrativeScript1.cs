@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NarrativeScript1 : MonoBehaviour {
 
@@ -21,6 +22,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public GameObject holoMaster;
     public SpriteRenderer holomSR;
     public Animator holomAnim;
+    public Image blackScreen;
 
     public Dialogue dennis1; // specific dialogue modified by player choice
     //public string[] choiceFor_dennis1; //string holding the dialogue for choice changes. Kept in for template only
@@ -44,6 +46,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public void Start()
     {
         StartCoroutine(battleEarly());
+        StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
     }
 
     public IEnumerator battleEarly ()

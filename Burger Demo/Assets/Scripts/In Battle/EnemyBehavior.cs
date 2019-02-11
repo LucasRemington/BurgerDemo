@@ -73,6 +73,8 @@ public class EnemyBehavior : MonoBehaviour {
     {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         StartCoroutine(StartSets());
+        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
+        BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
     }
 
     void Start () {
@@ -82,12 +84,12 @@ public class EnemyBehavior : MonoBehaviour {
         anim = GetComponent<Animator>();
         player = GameObject.Find("Player");
         ph = player.GetComponent<PlayerHealth>();
-        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
+        
         //clock = GameObject.Find("UIClock");
         //clockAnim = clock.GetComponent<Animator>();
         //cheeseAnim = cheese.GetComponent<Animator>();
         //tearAnim = tear.GetComponent<Animator>();
-        BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        
         movingForwards = true;
         seconds = Mathf.RoundToInt(enemySpeed-2);
         mainCamera = GameObject.Find("Main Camera");

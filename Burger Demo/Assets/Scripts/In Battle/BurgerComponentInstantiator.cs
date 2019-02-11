@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BurgerComponentInstantiator : MonoBehaviour {
 
+    public bool isTutorial;
+    
     //necessary scripts + gameobjects
     public PlayerHealth ph;
     public GameObject player;
@@ -28,18 +30,18 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int turns; //tracks how many turns have passed
     public int critRoll; //variable for tracking crit
 
-    public GameObject bottomBun; //all prefabs that are instantiated
-    public GameObject tomato;
-    public GameObject lettuce;
-    public GameObject onion;
-    public GameObject bacon;
-    public GameObject sauce;
-    public GameObject pickles;
-    public GameObject ketchup;
-    public GameObject mustard;
-    public GameObject cheese;
-    public GameObject patty;
-    public GameObject topBun;
+    public Image bottomBun; //all prefabs that are instantiated
+    public Image tomato;
+    public Image lettuce;
+    public Image onion;
+    public Image bacon;
+    public Image sauce;
+    public Image pickles;
+    public Image ketchup;
+    public Image mustard;
+    public Image cheese;
+    public Image patty;
+    public Image topBun;
     public int[] componentCount = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     public int[] finalCombo; //array checked against combos when topbun comes down
@@ -78,6 +80,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int slow; //slows enemy by percentage amount - stacked with diminishing returns
     public float damage; //raw damage number
     public float finalDamage; //final damage number after multipliers and resistances are taken into account
+
     public bool pattyDropped; // active when a patty is dropped
     public bool playerDead; // true when dead
 
@@ -168,7 +171,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         StartCoroutine(enableCheats());
     }
 
-    IEnumerator ComponentSpawn(KeyCode key, float pixels, GameObject prefab, int identity)//controls how components spawn 
+    IEnumerator ComponentSpawn(KeyCode key, float pixels, Image prefab, int identity)//controls how components spawn 
     //key: corresponding keyboard key 
     //pixels: number of pixels to occupy 
     //prefab: desired prefab 
@@ -179,7 +182,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         if (topPlaced == false)
         {
             yield return new WaitUntil(() => canSpawn == true);
-
+            
             if (ingredientINV[identity] > 0)
             {
                 if (identity >= 1 && identity <= 9)
@@ -190,86 +193,107 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 componentNumber++;
                 if (identity > 0 && identity < 10)
                 {
-                    iconAnim[identity - 1].SetTrigger("Flash");
+                    //iconAnim[identity - 1].SetTrigger("Flash");
                 }
                 switch (identity) //checks identity of placed prefab to determine position relative to BurgerPosition, and also pass the correct arguments to the coroutine. There's probably a more efficient way to do this.
                 {
                     case 0: //called only for bottom bun. starts the process
-                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
+                        Debug.Log("Component0");
+                        IngredientsInfo();
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition - 6.25f, 0), Quaternion.identity);
                         ResetAttack();
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
                         StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
+                        if (isTutorial == false)
+                        {
+                            StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
+                            StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
+                            StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
 
-                        StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
-                        StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
-                        StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
-
-                        StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
-                        StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
-                        StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
-
+                            StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
+                            StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
+                            StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
+                        }
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         StartCoroutine(TopBunSpawn());
                         ph.protag.SetTrigger("BunPlace");
                         ph.protag.SetBool("isBunPlaced", true);
                         break;
                     case 1:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component1");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         burgPlaceAnim();
                         break;
                     case 2:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component2");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
                         burgPlaceAnim();
                         break;
                     case 3:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component3");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
                         burgPlaceAnim();
                         break;
                     case 4:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component4");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
                         burgPlaceAnim();
                         break;
                     case 5:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component 5");
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
                         burgPlaceAnim();
                         break;
                     case 6:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component 6");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
-                        hidePickles(0.2f, true);
+                        burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
                         break;
                     case 7:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component 7");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
-                        hidePickles(0.2f, true);
+                        burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
                         break;
                     case 8:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component 8");
+                        burgerPosition = burgerPosition + 3.25f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
-                        hidePickles(0.2f, true);
+                        burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
                         break;
                     case 9:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - 0.4f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component 9");
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
                         burgPlaceAnim();
                         break;
                     case 10:
-                        Instantiate(prefab, new Vector3(0, burgerPosition - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+                        Debug.Log("Component 10");
+                        burgerPosition = burgerPosition + 4.55f;
+                        Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         ph.DealDamage(2);
                         burgPlaceAnim();
                         break;
                 }
-                setBurger(pixels);
+                
                 if (identity != 0)
                 {
                     addToCombo(identity);
@@ -283,23 +307,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
     }
 
-    void hidePickles (float x, bool add) //used to 'hide' certain components underneath others
-    {
-        if (add == true)
-        {
-            sinkBP = sinkBP + x;
-        } else
-        {
-            sinkBP = 0f;
-        }
-    }
-
-    void setBurger (float pixels) //this is a bit of legacy code, tracking the former burger position. Could be useful in the future, so I kept it
-    {
-        formerBurgerPosition = burgerPosition;
-        burgerPosition = burgerPosition + (0.2f * pixels);
-    }
-
     IEnumerator TopBunSpawn() //Triggers when the cap is reached or space is pressed a second time.
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true || (canSpawn == true && componentNumber >= componentCap));
@@ -311,8 +318,9 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         yield return new WaitUntil(() => canSpawn == true);
         componentNumber = 0;
         topPlaced = true;
-        Instantiate(topBun, new Vector3(transform.position.x, burgerPosition - 0.2f - sinkBP, 0), Quaternion.identity, MainCamera.transform);
+        Instantiate(topBun, new Vector3(CombatUI.transform.localPosition.x, burgerPosition + 6.25f - sinkBP, 0), Quaternion.identity);
         executeCombo();
+        FinalInfo();
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && eb.movingBackwards == false|| Input.GetKeyDown(KeyCode.LeftControl) == true);
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
         {
@@ -358,7 +366,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     IEnumerator ClearBurger() //resets most variables
     {
         spawnReset = true;
-        hidePickles(0, false);
         topPlaced = false;
         pattyDropped = false;
         heal = 0;
@@ -378,6 +385,38 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0));
         bounceTrigger = 0;
     }
+
+    void IngredientsInfo ()
+    {
+        for (int i = 0; i < infoText.Length; i++)
+        {
+            infoText[i].enabled = true;
+        }
+        dropText.enabled = false;
+        healText.enabled = false;
+        cryingText.enabled = false;
+        critChanceText.enabled = false;
+        armorPenText.enabled = false;
+        damageTypeText.enabled = false;
+        slowText.enabled = false;
+        damageText.enabled = false;
+    }
+
+    void FinalInfo ()
+    {
+        for (int i = 0; i < infoText.Length; i++)
+        {
+            infoText[i].enabled = false;
+        }
+        dropText.enabled = true;
+        healText.enabled = true;
+        cryingText.enabled = true;
+        critChanceText.enabled = true;
+        armorPenText.enabled = true;
+        damageTypeText.enabled = true;
+        slowText.enabled = true;
+        damageText.enabled = true;
+}
 
     void addToCombo(int component) // adds component number to array in order, then activates info text. Also where attack calculations occur
     {
