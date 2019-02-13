@@ -254,10 +254,10 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/lreming1/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/mspilla4/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>C:/Users/lreming1/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/mspilla4/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unity\mscorlib.dll</HintPath>
@@ -306,7 +306,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\BattleTranistions.cs" />
+    <Compile Include="Assets\Scripts\BattleTransitions.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DennisAnimEvent.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\IconBAnimEvent.cs" />
@@ -324,10 +324,12 @@
     <Compile Include="Assets\Scripts\In Battle\IndividualComponent.cs" />
     <Compile Include="Assets\Scripts\In Battle\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\In Battle\TurnOffWhenDone.cs" />
+    <Compile Include="Assets\Scripts\In Battle\TutorialEnemy.cs" />
     <Compile Include="Assets\Scripts\In Battle\UIActivate.cs" />
     <Compile Include="Assets\Scripts\Overworld\Door.cs" />
     <Compile Include="Assets\Scripts\Overworld\Enemy.cs" />
     <Compile Include="Assets\Scripts\Overworld\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Overworld\GenericSounds.cs" />
     <Compile Include="Assets\Scripts\Overworld\Interactable.cs" />
     <Compile Include="Assets\Scripts\Overworld\OverworldMovement.cs" />
     <Compile Include="Assets\Scripts\Overworld\SceneSwitcher.cs" />
@@ -335,7 +337,19 @@
     <Compile Include="Assets\Scripts\Overworld\Sign.cs" />
     <Compile Include="Assets\Scripts\PseudoStart.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Scripts\TechManager.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Tint Brush Smooth\Scripts\TintTextureGenerator.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\GridInformation\Scripts\GridInformation.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Animated Tile\Scripts\AnimatedTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Hexagonal Rule Tile\HexagonalRuleTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Isometric Rule Tile\IsometricRuleTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Pipeline Tile\Scripts\PipelineTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Random Tile\Scripts\RandomTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Rule Override Tile\Scripts\RuleOverrideTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Rule Tile\Scripts\RuleTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Terrain Tile\Scripts\TerrainTile.cs" />
+    <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Weighted Random Tile\WeightedRandomTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />

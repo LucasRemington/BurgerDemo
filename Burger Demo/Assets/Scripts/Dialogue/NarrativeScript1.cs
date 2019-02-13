@@ -22,6 +22,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public GameObject holoMaster;
     public SpriteRenderer holomSR;
     public Animator holomAnim;
+    public Animator startAnim;
     public Image blackScreen;
 
     public Dialogue dennis1; // specific dialogue modified by player choice
@@ -46,7 +47,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public void Start()
     {
         StartCoroutine(battleEarly());
-        StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
+        
     }
 
     public IEnumerator battleEarly ()
@@ -60,7 +61,10 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public IEnumerator eventOne() //first event. Eventually, this will be the 'master function' calling shit in order via coroutines.
     {
-        //yield return new WaitUntil(() => player.activeInHierarchy == true);
+        yield return new WaitUntil(() => Input.anyKey == true);
+        StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
+        yield return new WaitForSeconds(4f);
+        startAnim.SetTrigger("Start");
         Debug.Log("event1");
         yield return new WaitUntil(() => nm.room == 1); //change this to pull from gameManager + flag set from animation event 
         yield return new WaitForEndOfFrame();
@@ -97,9 +101,9 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event 
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(2, true));
-        yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event 
+        yield return new WaitUntil(() => animationFlag == true && nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         animationFlag = false;
-        StartCoroutine(dh.GenericFirstConvo(3, false));
+        StartCoroutine(dh.GenericFirstConvo(9, false));
         nm.ev++;
         nm.CheckEvent();
     }
@@ -112,7 +116,6 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(convo0Events(dia, scriptedConvo));
                 break;
             case 1:
-                StartCoroutine(convo1Events(dia, scriptedConvo));
                 break;
             case 2:
                 StartCoroutine(convo2Events(dia, scriptedConvo));
@@ -148,6 +151,10 @@ public class NarrativeScript1 : MonoBehaviour {
                 yield return new WaitUntil(() => animationFlag == true);
                 animationFlag = false;
                 dennisAnim.SetInteger("Scene1", 5);
+                dh.ongoingEvent = false;
+                break;
+            case 3:
+                dh.ongoingEvent = true;
                 yield return new WaitUntil(() => animationFlag == true);
                 animationFlag = false;
                 dennisAnim.SetInteger("Scene1", 6);
@@ -169,8 +176,6 @@ public class NarrativeScript1 : MonoBehaviour {
                 dennisAnim.SetInteger("Scene1", 8);
                 dh.ongoingEvent = false;
                 break;
-            case 3:
-                break;
             case 4:
                 dh.ongoingEvent = true;
                 dennisAnim.SetInteger("Scene1", 10);
@@ -181,29 +186,16 @@ public class NarrativeScript1 : MonoBehaviour {
             case 6:
                 break;
             case 7:
-                dh.ongoingEvent = true;
-                dennisAnim.SetInteger("Scene1", 12);
-                yield return new WaitUntil(() => animationFlag == true);
-                animationFlag = false;
-                sm = player.GetComponent<ScriptedMovement>();
-                StartCoroutine(sm.MoveTo(player, new Vector3(4f, 0, 0), 0.8f));
-                dennisAnim.SetInteger("Scene1", 13);
-                playerAnim.SetTrigger("OfficeDennis");
-                dh.ongoingEvent = false;
-                dh.autoAdvance = true;
                 break;
-        }
-    }
-
-    IEnumerator convo1Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
-    {
-        switch (scriptedConvo)
-        {
-            case 0:
+            case 8:
                 break;
-            case 1:
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
                 dh.ongoingEvent = true;
-                StartCoroutine(nm.isQuestion(dh.Scripted[dia], dh.scriptedConvo[scriptedConvo]));
+                StartCoroutine(nm.isQuestion(dh.Scripted[dia], scriptedConvo + 1)); //dh.scriptedConvo[scriptedConvo]
                 yield return new WaitUntil(() => nm.dbChoiceSS == true);
                 StartCoroutine(dh.choiceChecker());
                 StartCoroutine(SecondTimer(1f));
@@ -218,7 +210,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 {
                     Debug.Log("choice 2 made");
                     //dennis1.DialogItems[2].DialogueText = choiceFor_dennis1[1];
-                } else if (dh.choiceSelected == 2)
+                }
+                else if (dh.choiceSelected == 2)
                 {
                     Debug.Log("no choice made");
                 }
@@ -226,9 +219,19 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.autoAdvance = true; //both should be flagged - ineffcient, might streamline later
                 nm.autoAdvance = true;
                 break;
-            case 2:
+            case 12:
                 break;
-            case 3:
+            case 13:
+                dh.ongoingEvent = true;
+                dennisAnim.SetInteger("Scene1", 12);
+                yield return new WaitUntil(() => animationFlag == true);
+                animationFlag = false;
+                sm = player.GetComponent<ScriptedMovement>();
+                StartCoroutine(sm.MoveTo(player, new Vector3(4f, 0, 0), 0.4f));
+                dennisAnim.SetInteger("Scene1", 13);
+                playerAnim.SetTrigger("OfficeDennis");
+                dh.ongoingEvent = false;
+                dh.autoAdvance = true;
                 break;
         }
     }

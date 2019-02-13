@@ -14,7 +14,6 @@ public class EnemyBehavior : MonoBehaviour {
     public AudioSource background;
     public AudioSource victory;
     public GameObject gameController;
-    public GameObject CheeseParent;
 
     //public attack stats
     public float drops;
@@ -73,7 +72,7 @@ public class EnemyBehavior : MonoBehaviour {
     {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         StartCoroutine(StartSets());
-        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
+        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(3).gameObject;
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
     }
 
@@ -188,7 +187,7 @@ public class EnemyBehavior : MonoBehaviour {
             for (int i = 0; i<aboveText.Length; i++) {
                 aboveText[i].GetComponent<FollowWithOffset>().stop = true;
             }
-            StartCoroutine(gameController.GetComponent<BattleTranistions>().EndOfBattle());     // i think this the only thing i added to this
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle());     // i think this the only thing i added to this
 
         } else
         {

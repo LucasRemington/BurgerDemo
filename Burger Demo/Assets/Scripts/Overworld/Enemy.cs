@@ -21,29 +21,29 @@ public class Enemy : MonoBehaviour {
 	void Update () {
         if (patrols)
         {
-            if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && transform.position.x > leftBound)
+            if (!gameController.GetComponent<BattleTransitions>().battling && movingLeft && transform.position.x > leftBound)
             {
                 GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x - moveSpeed * 0.1f, transform.position.y));
 
             }
-            else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && transform.position.x < rightBound)
+            else if (!gameController.GetComponent<BattleTransitions>().battling && !movingLeft && transform.position.x < rightBound)
             {
                 GetComponent<Rigidbody2D>().MovePosition(new Vector2(transform.position.x + moveSpeed * 0.1f, transform.position.y));
 
             }
-            else if (!gameController.GetComponent<BattleTranistions>().battling && movingLeft && leftBound >= transform.position.x)
+            else if (!gameController.GetComponent<BattleTransitions>().battling && movingLeft && leftBound >= transform.position.x)
             {
                 movingLeft = false;
             }
-            else if (!gameController.GetComponent<BattleTranistions>().battling && !movingLeft && rightBound <= transform.position.x)
+            else if (!gameController.GetComponent<BattleTransitions>().battling && !movingLeft && rightBound <= transform.position.x)
             {
                 movingLeft = true;
             }
         }
     }
     private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.name == "OverworldPlayer" && !gameController.GetComponent<BattleTranistions>().battling) {
-            StartCoroutine(gameController.GetComponent<BattleTranistions>().StartBattle(this.gameObject));
+        if (other.gameObject.name == "OverworldPlayer" && !gameController.GetComponent<BattleTransitions>().battling) {
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().StartBattle(this.gameObject));
         }
     }
 }

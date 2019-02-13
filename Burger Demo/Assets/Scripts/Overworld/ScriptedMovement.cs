@@ -38,7 +38,6 @@ public class ScriptedMovement : MonoBehaviour {
         finished = false;
         while (currentTime <= time && stop == false) 
             {
-            Debug.Log(currentTime + time);
             currentTime += Time.deltaTime;
             transform.Translate(new Vector3(Mathf.Lerp(0, movement.x/(60 * time), 1 / time), (Mathf.Lerp(0, movement.y/ (60 * time), 1/time)), 0));
             yield return new WaitForEndOfFrame();

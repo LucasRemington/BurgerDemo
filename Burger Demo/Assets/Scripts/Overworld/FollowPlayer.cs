@@ -5,7 +5,7 @@ public class FollowPlayer : MonoBehaviour
 {
     public GameObject player;
     public GameObject combatPlayer;
-    public BattleTranistions bt;
+    public BattleTransitions bt;
     public OverworldMovement owm;
     private Vector3 offset;
     public int yTrack;
@@ -17,6 +17,7 @@ public class FollowPlayer : MonoBehaviour
 
     public void PseudoStart ()
     {
+        Debug.Log("pseduofollow");
         player = GameObject.FindWithTag("Player");
         player = player.transform.Find("OverworldPlayer").gameObject;
         owm = player.GetComponent<OverworldMovement>();

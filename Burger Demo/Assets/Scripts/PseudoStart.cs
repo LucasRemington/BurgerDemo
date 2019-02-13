@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PseudoStart : MonoBehaviour {
 
-    public BattleTranistions bt;
+    public BattleTransitions bt;
     public FollowPlayer fp;
     public OverworldMovement ovm;
     public NarrativeManager nm;
@@ -28,7 +28,7 @@ public class PseudoStart : MonoBehaviour {
         player = playerHolder.transform.Find("OverworldPlayer").gameObject;
         ovm = player.GetComponent<OverworldMovement>();
         GameController = GameObject.FindWithTag("GameController");
-        bt = GameController.GetComponent<BattleTranistions>();
+        bt = GameController.GetComponent<BattleTransitions>();
         nm.PseudoStart();
         ns1.PseudoStart();
         dh.PseudoStart();

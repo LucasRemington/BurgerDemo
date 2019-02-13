@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class NarrativeManager : MonoBehaviour {
 
     public OverworldMovement owm;
-    public BattleTranistions bt;
+    public BattleTransitions bt;
     public NarrativeScript1 ns1;
     public GameObject player;
     public GameObject BurgerSpawner;

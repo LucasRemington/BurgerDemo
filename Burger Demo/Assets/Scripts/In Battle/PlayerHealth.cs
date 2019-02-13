@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour {
     public BurgerComponentInstantiator BCI;
     public int playerHealth;
     public int previousHealth;
-    public int playerHealthMax;
+    public float playerHealthMax;
     public int roundedHealth;
     public int roundedPreviousHealth;
     public Animator[] healthAnim;
@@ -18,27 +18,17 @@ public class PlayerHealth : MonoBehaviour {
     public GameObject healIcon; //icon that pops up for healing
     public GameObject gameController;
     public int shields;
+    public Image healthBar;
+    public Image shieldBar;
 
     void Start () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject; ;
-        playerHealth = gameController.GetComponent<BattleTranistions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller
+        playerHealth = gameController.GetComponent<BattleTransitions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         healthText = GameObject.Find("healthtext").GetComponent<Text>();
         healthText.text = playerHealth.ToString();
-
-        for (int i = 0; i < healthAnim.Length; i++)
-        {
-            healthAnim[i].SetBool("Healing", true);
-            if (i == roundedHealth)
-            {
-                healthAnim[roundedHealth].SetInteger("Health", playerHealth % 10);
-            }
-            else if (i == roundedPreviousHealth)
-            {
-                healthAnim[roundedPreviousHealth].SetInteger("Health", 10);
-            }
-        }
+        healthBar.fillAmount = (float)playerHealth / (float)playerHealthMax;
         healthText.text = playerHealth.ToString();
     }
 	
@@ -59,18 +49,7 @@ public class PlayerHealth : MonoBehaviour {
             playerHealth = playerHealth - newDamage;
             roundedHealth = Mathf.FloorToInt(playerHealth / 10);
             roundedPreviousHealth = Mathf.FloorToInt(previousHealth / 10);
-            for (int i = 0; i < healthAnim.Length; i++)
-            {
-                healthAnim[i].SetBool("Healing", false);
-                if (i == roundedHealth)
-                {
-                    healthAnim[roundedHealth].SetInteger("Health", playerHealth % 10);
-                }
-                else if (i == roundedPreviousHealth)
-                {
-                    healthAnim[roundedPreviousHealth].SetInteger("Health", 0);
-                }
-            }
+            healthBar.fillAmount = (float)playerHealth / (float)playerHealthMax;
         }
         else
         {
@@ -84,6 +63,7 @@ public class PlayerHealth : MonoBehaviour {
         {
             protag.SetBool("CombatLost", true);
         }
+        shieldBar.fillAmount = (float)shields / (float)playerHealthMax;
     }
 
     public void HealDamage(int addShields) //used to heal damage, takes amount of healing as an argument
@@ -101,24 +81,14 @@ public class PlayerHealth : MonoBehaviour {
             }
         }
         previousHealth = playerHealth;
-        playerHealth = playerHealth + addShields;
+        //playerHealth = playerHealth + addShields;
         roundedHealth = Mathf.FloorToInt(playerHealth / 10);
         roundedPreviousHealth = Mathf.FloorToInt(previousHealth / 10);
-        for (int i = 0; i < healthAnim.Length; i++)                                         // if health bar changes, this also needs to change
-        {
-            healthAnim[i].SetBool("Healing", true);
-            if (i == roundedHealth)
-            {
-                healthAnim[roundedHealth].SetInteger("Health", playerHealth % 10);
-            }
-            else if (i == roundedPreviousHealth)
-            {
-                healthAnim[roundedPreviousHealth].SetInteger("Health", 10);
-            }
-        }
+        healthBar.fillAmount = (float)playerHealth / (float)playerHealthMax;
         healthText.text = playerHealth.ToString();
+        shieldBar.fillAmount = (float)shields / (float)playerHealthMax;
     }
     public void healthUpdate() {
-        gameController.GetComponent<BattleTranistions>().playerHealth = playerHealth;
+        gameController.GetComponent<BattleTransitions>().playerHealth = playerHealth;
     }
 }

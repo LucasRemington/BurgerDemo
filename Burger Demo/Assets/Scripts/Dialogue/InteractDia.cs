@@ -10,6 +10,7 @@ public class InteractDia : MonoBehaviour {
     public DialogHolder dh;
     public GameObject player;
     public Animator playerAnim;
+    public GenericSounds gs;
 
     public int identity;
     public bool canInteract;
@@ -45,9 +46,11 @@ public class InteractDia : MonoBehaviour {
     IEnumerator interactTimer ()
     {
         canInteract = false;
+        gs.Step();
         yield return new WaitForSeconds(0.1f);
         playerAnim.SetBool("Thinking", true);
         yield return new WaitUntil(() => nm.owm.canMove == true);
+        gs.Step();
         playerAnim.SetBool("Thinking", false);
         didInteract = true;
         canInteract = true;
