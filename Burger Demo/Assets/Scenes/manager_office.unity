@@ -401,7 +401,7 @@ Prefab:
     - target: {fileID: 114889668277954390, guid: e77ceb02c19095944a7d95205130145c,
         type: 2}
       propertyPath: RoomGoingTo
-      value: training_room
+      value: training_hallway
       objectReference: {fileID: 0}
     - target: {fileID: 114889668277954390, guid: e77ceb02c19095944a7d95205130145c,
         type: 2}

@@ -80,6 +80,11 @@ public class NarrativeScript1 : MonoBehaviour {
         nm.owm.canMove = false;
         sm = player.GetComponent<ScriptedMovement>();
         yield return new WaitForSeconds(0.25f);
+        StartCoroutine(sm.MoveTo(player, new Vector3(225f, 0, 0), 4f));
+        yield return new WaitUntil(() => nm.room == 3);
+        nm.owm.canMove = false;
+        sm = player.GetComponent<ScriptedMovement>();
+        yield return new WaitForSeconds(0.25f);
         playerSR.flipX = false;
         StartCoroutine(sm.MoveTo(player, new Vector3(7.6f, 0, 0), 0.8f));
         yield return new WaitUntil(() => sm.finished == true);
@@ -185,14 +190,23 @@ public class NarrativeScript1 : MonoBehaviour {
             case 5:
                 break;
             case 6:
+                dh.ongoingEvent = true;
+                dennisAnim.SetInteger("Scene1", 11);
+                dh.ongoingEvent = false;
                 break;
             case 7:
                 break;
             case 8:
                 break;
             case 9:
+                dh.ongoingEvent = true;
+                dennisAnim.SetInteger("Scene1", 12);
+                dh.ongoingEvent = false;
                 break;
             case 10:
+                dh.ongoingEvent = true;
+                dennisAnim.SetInteger("Scene1", 13);
+                dh.ongoingEvent = false;
                 break;
             case 11:
                 dh.ongoingEvent = true;
@@ -224,12 +238,12 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 13:
                 dh.ongoingEvent = true;
-                dennisAnim.SetInteger("Scene1", 12);
+                dennisAnim.SetInteger("Scene1", 14);
                 yield return new WaitUntil(() => animationFlag == true);
                 animationFlag = false;
                 sm = player.GetComponent<ScriptedMovement>();
-                StartCoroutine(sm.MoveTo(player, new Vector3(4f, 0, 0), 0.4f));
-                dennisAnim.SetInteger("Scene1", 13);
+                StartCoroutine(sm.MoveTo(player, new Vector3(4f, 0, 0), 0.5f));
+                dennisAnim.SetInteger("Scene1", 15);
                 playerAnim.SetTrigger("OfficeDennis");
                 dh.ongoingEvent = false;
                 dh.autoAdvance = true;
@@ -239,7 +253,7 @@ public class NarrativeScript1 : MonoBehaviour {
 
     IEnumerator convo2Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
-        // this is a weird one, since it's integrated with combat. It's also really long. Will take time, will likely have bugs. Will possibly require a TutorialCombat script extension or something.
+        
         switch (scriptedConvo)
         {
             case 0:
@@ -264,94 +278,6 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = false;
                 break;
             case 5:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 6:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 7:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 8:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 9:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 10:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 11:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 12:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 13:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 14:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 15:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 16:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 17:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 18:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 19:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 20:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 21:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 22:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 23:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 24:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 25:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 26:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 27:
                 dh.ongoingEvent = true;
                 dh.ongoingEvent = false;
                 break;

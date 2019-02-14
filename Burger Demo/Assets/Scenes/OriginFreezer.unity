@@ -466,6 +466,14 @@ Prefab:
       propertyPath: m_SleepingMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4963838836459808, guid: e5e10bf904d5b7c489532380c5270211, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -4.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963838836459808, guid: e5e10bf904d5b7c489532380c5270211, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -1.766
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5e10bf904d5b7c489532380c5270211, type: 2}
   m_IsPrefabAsset: 0
@@ -34812,7 +34820,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 8cc5098769da82e4db5a7b3cc9f3d2f3, type: 3}
+  m_Sprite: {fileID: 21300104, guid: 1b432d4e305e71247ab3d0acc9dfbce3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -37088,6 +37096,11 @@ Prefab:
       propertyPath: gameController
       value: 
       objectReference: {fileID: 377229519}
+    - target: {fileID: 114889668277954390, guid: e77ceb02c19095944a7d95205130145c,
+        type: 2}
+      propertyPath: roomToIdentity
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e77ceb02c19095944a7d95205130145c, type: 2}
   m_IsPrefabAsset: 0
