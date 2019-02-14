@@ -59,7 +59,7 @@ public class BattleTransitions : MonoBehaviour {
         battleIntro.SetActive(false);
     }
 
-    public IEnumerator EndOfBattle()            //this gets called by the enemy's death in enemyBehavior
+    public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
         yield return new WaitForSeconds(1.5f);
         for (int i = 0; i < OverworldObjects.Length; i++) {
@@ -73,7 +73,8 @@ public class BattleTransitions : MonoBehaviour {
         playerHealth = ph.playerHealth;
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Destroy(battle.gameObject);
-        Destroy(currentEnemy.gameObject);
+        if(win)
+            Destroy(currentEnemy.gameObject);
         GameObject thing = GameObject.Find("FullBattlePrefab");
         thing.SetActive(false);
         thing = null;

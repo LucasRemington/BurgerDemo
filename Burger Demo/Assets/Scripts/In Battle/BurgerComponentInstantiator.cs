@@ -132,7 +132,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     //called on start
     void Start () {
-        
+        //gameObject.SetActive(false);
     }
 
     void IconTextUpdate()
@@ -370,6 +370,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 StartCoroutine(eb.setAboveText("+" + dropMult + " Drops!"));
             }
         }
+        gameObject.SetActive(false);
     }
 
     IEnumerator ClearBurger() //resets most variables

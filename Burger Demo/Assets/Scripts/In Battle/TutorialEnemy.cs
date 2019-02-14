@@ -193,7 +193,7 @@ public class TutorialEnemy : MonoBehaviour {
             {
                 aboveText[i].GetComponent<FollowWithOffset>().stop = true;
             }
-            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle());     // i think this the only thing i added to this
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle(true));     // i think this the only thing i added to this
 
         }
         else

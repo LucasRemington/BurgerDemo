@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4481164956359250}
   - component: {fileID: 212325207336268596}
   - component: {fileID: 95344243006232706}
-  - component: {fileID: 114808482770408498}
+  - component: {fileID: 114678588325006542}
   m_Layer: 0
   m_Name: MasterHologram 1
   m_TagString: BattleEnemy
@@ -60,7 +60,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114808482770408498
+--- !u!114 &114678588325006542
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575028108838074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506afd6a63d6d6643b4027e7258696ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f6e53fc273944e45a91ae623eebb1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ph: {fileID: 0}
@@ -79,7 +79,6 @@ MonoBehaviour:
   background: {fileID: 0}
   victory: {fileID: 0}
   gameController: {fileID: 0}
-  CheeseParent: {fileID: 0}
   drops: 0
   baseMissChance: 0
   finalMissChance: 0
@@ -114,6 +113,7 @@ MonoBehaviour:
   secondsText: {fileID: 0}
   timerStarted: 0
   aboveText:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

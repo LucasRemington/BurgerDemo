@@ -187,7 +187,7 @@ public class EnemyBehavior : MonoBehaviour {
             for (int i = 0; i<aboveText.Length; i++) {
                 aboveText[i].GetComponent<FollowWithOffset>().stop = true;
             }
-            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle());     // i think this the only thing i added to this
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle(true));     // i think this the only thing i added to this
 
         } else
         {

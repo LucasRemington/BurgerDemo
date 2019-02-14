@@ -391,7 +391,7 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300004, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: 'Use A, W, and D to add ingredients. '
+    DialogueText: 'Use A, S, and D to add ingredients. '
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:

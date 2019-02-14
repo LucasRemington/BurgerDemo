@@ -98,6 +98,7 @@ public class NarrativeScript1 : MonoBehaviour {
         Debug.Log("combat");
         StartCoroutine(nm.bt.StartBattle(masterHologram));
         yield return new WaitUntil(() => nm.bt.battling == true);
+        StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event 
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(2, true));
