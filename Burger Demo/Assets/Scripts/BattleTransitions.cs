@@ -13,6 +13,7 @@ public class BattleTransitions : MonoBehaviour {
     public GameObject currentEnemy;
     public GameObject enemyStart;
     public GameObject battleIntro;
+    public GameObject db; // dialogue box
 
     public bool battling = false;
 
@@ -24,6 +25,7 @@ public class BattleTransitions : MonoBehaviour {
         OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
+        db = GameObject.Find("DialogBox");
     }
 	
 	// Update is called once per frame
@@ -44,7 +46,7 @@ public class BattleTransitions : MonoBehaviour {
         GetComponent<ActionSelector>().isReady = true;
         battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0,0,0,0),this.transform);
         for (int i = 0; i < OverworldObjects.Length; i++) {
-            OverworldObjects[i].SetActive(false);
+            //OverworldObjects[i].SetActive(false);
         }
         yield return new WaitForSeconds(0.1f);
         
@@ -83,5 +85,7 @@ public class BattleTransitions : MonoBehaviour {
         battling = false;
         nm.combatUI.SetActive(false);
         currentEnemy = null;
+        yield return new WaitForSeconds(0.2f);
+        db.GetComponent<Animator>().ResetTrigger("Popdown");
     }
 }

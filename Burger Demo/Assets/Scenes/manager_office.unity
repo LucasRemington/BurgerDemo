@@ -351,16 +351,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 70977848325583498, guid: e5e10bf904d5b7c489532380c5270211,
-        type: 2}
-      propertyPath: m_Offset.y
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 114185672917121462, guid: e5e10bf904d5b7c489532380c5270211,
-        type: 2}
-      propertyPath: moveSpeed
-      value: 7.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5e10bf904d5b7c489532380c5270211, type: 2}
   m_IsPrefabAsset: 0
@@ -434,7 +424,7 @@ GameObject:
   - component: {fileID: 772081015}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6769,7 +6759,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2090928036}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.001, y: 0.012, z: 0}
+  m_LocalPosition: {x: 0.001, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2144320428}

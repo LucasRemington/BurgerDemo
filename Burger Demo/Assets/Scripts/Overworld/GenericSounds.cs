@@ -26,7 +26,7 @@ public class GenericSounds : MonoBehaviour {
             step = 0;
         }
         sm.audSo.clip = walk[step];
-        Debug.Log(step);
+        //Debug.Log(step);
         sm.audSo.Play();
     }
 }

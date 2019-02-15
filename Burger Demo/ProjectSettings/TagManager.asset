@@ -10,6 +10,8 @@ TagManager:
   - Dennis
   - HoloMaster
   - BurgerSpawner
+  - Ladder
+  - Floor
   layers:
   - Default
   - TransparentFX

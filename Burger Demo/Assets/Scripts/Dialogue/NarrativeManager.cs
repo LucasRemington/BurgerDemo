@@ -114,6 +114,7 @@ public class NarrativeManager : MonoBehaviour {
 
     public IEnumerator dialogueEnd () //called when dialog box is no longer needed
     {
+        Debug.Log("dialogueend");
         textTS.enabled = false;
         if (imageTS.isActiveAndEnabled == true)
         {

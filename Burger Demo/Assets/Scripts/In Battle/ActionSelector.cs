@@ -12,6 +12,7 @@ public class ActionSelector : MonoBehaviour
     public bool isReady;
     public GameObject Player;
     public GameObject choiceText;
+    public bool canRun = false;
 
     // Use this for initialization
     void Start()

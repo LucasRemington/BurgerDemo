@@ -20,6 +20,7 @@ public class DBAnimEvents : MonoBehaviour {
 
     void StopText ()
     {
+        Debug.Log("startstop");
         nm.dbStartStop = true;
     }
 

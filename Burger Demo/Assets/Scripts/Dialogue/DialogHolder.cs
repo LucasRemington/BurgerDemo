@@ -19,6 +19,7 @@ public class DialogHolder : MonoBehaviour {
     public bool[] interactConvoDone; //used to track which conversations have finished
 
     public int sizeOfList; //set equal to the number of items in a dialogue element
+    public int sizeOfListInteractable;
     public bool ongoingEvent; //true when a dialogue event is ongoing
     public int choiceHover; // 1 for left choice 2 for right choice
     public int choiceSelected; //final choice
@@ -87,6 +88,7 @@ public class DialogHolder : MonoBehaviour {
         scriptedConvo[scriptedConversation]++;
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && ongoingEvent == false || autoAdvance == true && nm.canAdvance == true && ongoingEvent == false);
         autoAdvance = false;
+        Debug.Log("scripted convo = " + scriptedConvo[scriptedConversation] + "  &   Size of List = " + sizeOfList);
         if (scriptedConvo[scriptedConversation] >= sizeOfList)
         {
             StartCoroutine(nm.dialogueEnd());
@@ -104,14 +106,15 @@ public class DialogHolder : MonoBehaviour {
         {
             interactConvoStart[interactableIdentity] = true;
             StartCoroutine(nm.dialogueBox(false));
-            sizeOfList = Interactable[interactableIdentity].DialogItems.Count;
+            sizeOfListInteractable = Interactable[interactableIdentity].DialogItems.Count;
         }
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(nm.AnimateText(Interactable[interactableIdentity], interactConvo[interactableIdentity]));
         interactConvo[interactableIdentity]++;
         //here is where we put a switch(?) statement calling other functions when appropriate
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true);
-        if (interactConvo[interactableIdentity] >= sizeOfList)
+        Debug.Log("interact convo = " + interactConvo[interactableIdentity] + "  &   Size of List = " + sizeOfListInteractable);
+        if (interactConvo[interactableIdentity] >= sizeOfListInteractable)
         {
             StartCoroutine(nm.dialogueEnd());
             interactConvoDone[interactableIdentity] = true;

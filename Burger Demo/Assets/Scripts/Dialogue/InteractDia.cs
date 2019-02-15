@@ -30,12 +30,12 @@ public class InteractDia : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision) //detects player
     {
-        if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == true && repeatChange == true && didInteract == true)
+        if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == true && repeatChange == true && didInteract == true && !nm.bt.battling)
         {
             StartCoroutine(dh.GenericInteractable(identity2));
             StartCoroutine(interactTimer());
         }
-        else if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == true)
+        else if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling)
         {
             StartCoroutine(dh.GenericInteractable(identity));
             StartCoroutine(interactTimer());
@@ -47,7 +47,7 @@ public class InteractDia : MonoBehaviour {
     {
         canInteract = false;
         gs.Step();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         playerAnim.SetBool("Thinking", true);
         yield return new WaitUntil(() => nm.owm.canMove == true);
         gs.Step();
