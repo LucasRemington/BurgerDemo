@@ -53,7 +53,6 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("The type of damage the player takes when falling. Linear = Damage * Distance (5, 10, 15, 20, 25, etc);\n Expo = Doubles each block fallen (5, 10, 20, 40, etc);\n Fibonacci: Damage is equal to the past two values added to each other (5, 5, 10, 15, 25, etc);")] public DamageType damageType;
 
 
-
    /* [Header("Fall Damage Calculation: Select Only One")]
     
     [Tooltip("For every block past and including the initial damage start distance, the damage the player takes increases by fallDamPercent. Ex: 5, 10, 15, 20, 25, etc")] public bool linearDamage = true;
@@ -86,12 +85,14 @@ public class OverworldMovement : MonoBehaviour {
         if (!gameController.GetComponent<BattleTransitions>().battling) { 
             if (Input.GetKey(KeyCode.RightArrow) && !onLadder && canMove && grounded) {
                 transform.Translate(Vector3.right * moveSpeed / 100);
+                playerAnim.speed = 1f;
                 playerAnim.SetBool("Walking", true);
                 playerSprite.flipX = false;
                 intTrigger.offset = intTriggerBaseOffset;
             }
             else if (Input.GetKey(KeyCode.LeftArrow) && !onLadder && canMove && grounded) {
                 transform.Translate(Vector3.left * moveSpeed / 100);
+                playerAnim.speed = 1f;
                 playerAnim.SetBool("Walking", true);
                 playerSprite.flipX = true;
                 intTrigger.offset = intTriggerBaseOffset * new Vector2(-1, 1);
@@ -99,19 +100,24 @@ public class OverworldMovement : MonoBehaviour {
             else if (!onLadder)
             {
                 playerAnim.SetBool("Walking", false);
+                playerAnim.SetBool("Climbing", false);
             }
 
             // While on the ladder we just make sure we keep climbing and gravity remains off!
             if (onLadder)
             {
                 GetComponent<Rigidbody2D>().gravityScale = 0;
+                playerAnim.SetBool("Climbing", true);
                 LadderClimb();
             }
 
             // If we leave the uppermost ladder or jump off ourselves, disconnect from the ladder.
             if ((Input.GetKeyDown(KeyCode.Space) && onLadder) || (onLadder && !inLadderHitBox))
+            {
+                playerAnim.speed = 1f;
+                playerAnim.SetBool("Climbing", false);
                 LadderJump();
-
+            }
 
 
             /*
@@ -227,10 +233,17 @@ public class OverworldMovement : MonoBehaviour {
         if (Input.GetKey(KeyCode.UpArrow) && canMove)
         {
             transform.Translate(Vector2.up * climbSpeed / 100);
+            playerAnim.speed = 1f;
+            playerAnim.SetBool("ClimbingUp", true);
         }
         else if (Input.GetKey(KeyCode.DownArrow) && canMove)
         {
             transform.Translate(Vector2.down * climbSpeed / 100);
+            playerAnim.speed = 1f;
+            playerAnim.SetBool("ClimbingUp", false);
+        } else
+        {
+            playerAnim.speed = 0f;
         }
     }
 
