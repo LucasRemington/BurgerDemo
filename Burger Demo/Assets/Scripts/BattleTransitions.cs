@@ -40,7 +40,8 @@ public class BattleTransitions : MonoBehaviour {
         battling = true;
         yield return new WaitForSeconds(0.1f);
         battlePrefab.SetActive(true);
-        battlePrefab.transform.parent = null;
+        //battlePrefab.transform.parent = null;
+        GetComponent<ActionSelector>().isReady = true;
         battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0,0,0,0),this.transform);
         for (int i = 0; i < OverworldObjects.Length; i++) {
             OverworldObjects[i].SetActive(false);
@@ -73,11 +74,12 @@ public class BattleTransitions : MonoBehaviour {
         playerHealth = ph.playerHealth;
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Destroy(battle.gameObject);
-        if(win)
+        if (win)
+        {
             Destroy(currentEnemy.gameObject);
-        GameObject thing = GameObject.Find("FullBattlePrefab");
-        thing.SetActive(false);
-        thing = null;
+        }
+        //GameObject thing = GameObject.Find("FullBattlePrefab");
+        battlePrefab.SetActive(false);
         battling = false;
         nm.combatUI.SetActive(false);
         currentEnemy = null;

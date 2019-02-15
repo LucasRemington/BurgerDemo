@@ -132,7 +132,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     //called on start
     void Start () {
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     void IconTextUpdate()
@@ -157,7 +157,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
     }
 
-    IEnumerator enableCheats () //press p for unlimited ammo
+    public IEnumerator enableCheats () //press p for unlimited ammo
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.P) == true);
         ph.playerHealth = 100;
@@ -173,7 +173,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         StartCoroutine(enableCheats());
     }
 
-    IEnumerator ComponentSpawn(KeyCode key, float pixels, Image prefab, int identity)//controls how components spawn 
+    public IEnumerator ComponentSpawn(KeyCode key, float pixels, Image prefab, int identity)//controls how components spawn 
     //key: corresponding keyboard key 
     //pixels: number of pixels to occupy 
     //prefab: desired prefab 
@@ -758,7 +758,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         if (reset == false)
         {
             heal = heal + x;
-
         }
         else
         {
@@ -1028,7 +1027,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             yield return new WaitForEndOfFrame();
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         }
-        yield return new WaitUntil(() => enemy != null);
+        //yield return new WaitUntil(() => enemy != null);
         eb = enemy.GetComponent<EnemyBehavior>();
         if (eb == null) {
             te = enemy.GetComponent<TutorialEnemy>();

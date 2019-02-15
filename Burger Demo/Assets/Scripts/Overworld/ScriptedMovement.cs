@@ -35,6 +35,11 @@ public class ScriptedMovement : MonoBehaviour {
     }
 
     public IEnumerator MoveTo(GameObject Object, Vector3 movement, float time) {
+        /*bool thing = false;
+        if (Object.GetComponent<OverworldMovement>() != null) {
+            thing = true;
+            Object.GetComponent<OverworldMovement>().canMove = false;
+        }*/
         finished = false;
         while (currentTime <= time && stop == false) 
             {
@@ -48,5 +53,9 @@ public class ScriptedMovement : MonoBehaviour {
         {
             destination = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5));
         }
+        /*if (thing)
+        {
+            Object.GetComponent<OverworldMovement>().canMove = true;
+        }*/
     }
 }
