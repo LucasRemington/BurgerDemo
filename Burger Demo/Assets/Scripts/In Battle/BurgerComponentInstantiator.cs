@@ -12,7 +12,9 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public PlayerHealth ph;
     public GameObject player;
     public EnemyBehavior eb;
+    public NarrativeManager nm;
     public TutorialEnemy te;
+    public GameObject tutEnemy;
     public GameObject enemy;
     public GameObject MainCamera;
     public GameObject CombatUI;
@@ -120,7 +122,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         burgerPosition = originalBurgerPosition;
         finalCombo = new int[componentCap];
         turns = 1;
-        StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0)); //bottom bun must spawn before others
+        if (nm.room != 3)
+        {
+            StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0)); //bottom bun must spawn before others
+        } else
+        {
+            tutEnemy = GameObject.Find("HoloMaster");
+            te = tutEnemy.GetComponent<TutorialEnemy>();
+        }
         ingredientINV[0] = 1;
         ingredientINV[10] = 1;
         //IconDimmer();
@@ -368,6 +377,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             if (dropMult > 0)
             {
                 StartCoroutine(eb.setAboveText("+" + dropMult + " Drops!"));
+            }
+        } else
+        {
+            Debug.Log("tutorial");
+            if (nm.ns1.te != null)
+            {
+                nm.ns1.te.RecieveAttack();
+                Debug.Log("ra");
             }
         }
         gameObject.SetActive(false);

@@ -10,6 +10,8 @@ public class NarrativeScript1 : MonoBehaviour {
     public NarrativeManager nm;
     public DialogHolder dh;
     public ScriptedMovement sm;
+    public GameObject tutEnemy;
+    public TutorialEnemy te;
 
     public GameObject playerHolder;
     public GameObject player;
@@ -24,6 +26,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public Animator holomAnim;
     public Animator startAnim;
     public Image blackScreen;
+    public bool waitForScript;
 
     public Dialogue dennis1; // specific dialogue modified by player choice
     //public string[] choiceFor_dennis1; //string holding the dialogue for choice changes. Kept in for template only
@@ -42,6 +45,11 @@ public class NarrativeScript1 : MonoBehaviour {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
         dh = GetComponent<DialogHolder>();
+        if (nm.room == 3)
+        {
+            tutEnemy = GameObject.Find("HoloMaster");
+            te = tutEnemy.GetComponent<TutorialEnemy>();
+        }
     }
 
     public void Start()
@@ -91,7 +99,7 @@ public class NarrativeScript1 : MonoBehaviour {
         playerAnim.SetTrigger("Training");
         yield return new WaitUntil(() => animationFlag == true);
         animationFlag = false;
-        holoMaster = GameObject.FindWithTag("HoloMaster");
+        holoMaster = GameObject.FindWithTag("BattleEnemy");
         holoMaster = holoMaster.transform.Find("HoloMaster").gameObject;
         holomAnim = holoMaster.GetComponent<Animator>();
         holomAnim.SetTrigger("Awake");
@@ -258,7 +266,7 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             case 0:
                 dh.ongoingEvent = true;
-                yield return new WaitForSeconds(0.1f); //there just to make this compile
+                waitForScript = true;
                 dh.ongoingEvent = false;
                 break;
             case 1:
@@ -275,6 +283,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 4:
                 dh.ongoingEvent = true;
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+                waitForScript = false;
                 dh.ongoingEvent = false;
                 break;
             case 5:
@@ -284,14 +294,45 @@ public class NarrativeScript1 : MonoBehaviour {
         }
     }
 
-    IEnumerator convo3Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
+    public void convoStartNS1(int whichConvo)
+    {
+        switch (whichConvo)
+        {
+            case 3:
+                StartCoroutine(dh.GenericFirstConvo(3, true));
+                break;
+            case 4:
+                StartCoroutine(dh.GenericFirstConvo(4, true));
+                break;
+            case 5:
+                StartCoroutine(dh.GenericFirstConvo(5, true));
+                break;
+            case 6:
+                StartCoroutine(dh.GenericFirstConvo(6, true));
+                break;
+            case 7:
+                StartCoroutine(dh.GenericFirstConvo(7, true));
+                break;
+            case 8:
+                StartCoroutine(dh.GenericFirstConvo(8, true));
+                break;
+            case 9:
+                StartCoroutine(dh.GenericFirstConvo(9, true));
+                break;
+            case 10:
+                StartCoroutine(dh.GenericFirstConvo(10, true));
+                break;
+        }
+    }
+
+    IEnumerator convo4Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
         switch (scriptedConvo) //requires setting a lot of animation bools for Dennis and Player.
         {
             case 0: //the convo starts with Dennis looking up.
                 dh.ongoingEvent = true;
                 yield return new WaitForSeconds(0.1f); //there just to make this compile
-
+                waitForScript = true;
                 dh.ongoingEvent = false;
                 break;
             case 1:

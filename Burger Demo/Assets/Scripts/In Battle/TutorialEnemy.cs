@@ -13,6 +13,7 @@ public class TutorialEnemy : MonoBehaviour {
     public AudioSource background;
     public AudioSource victory;
     public GameObject gameController;
+    public NarrativeScript1 ns1;
 
     //public attack stats
     public float drops;
@@ -66,6 +67,9 @@ public class TutorialEnemy : MonoBehaviour {
     public TextMesh tearText;
     public GameObject tear;
     public Animator tearAnim;
+    public GameObject LightningBolt;
+    public bool animFlag; //checked and unchecked by animation events
+    public int convoToCall;
 
     private void Awake() // this is just to set some things when its being instantiated freely
     {
@@ -73,6 +77,10 @@ public class TutorialEnemy : MonoBehaviour {
         StartCoroutine(StartSets());
         burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(3).gameObject;
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        BCI.isTutorial = true;
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        ns1 = mainCamera.GetComponent<NarrativeScript1>();
+        LightningBolt = transform.Find("LightningBolt").gameObject;
     }
 
     void Start()
@@ -93,11 +101,31 @@ public class TutorialEnemy : MonoBehaviour {
         seconds = Mathf.RoundToInt(enemySpeed - 2);
         mainCamera = GameObject.Find("Main Camera");
         background = mainCamera.GetComponent<AudioSource>();
+        
         //clock = GameObject.Find("ClockUI");
+    }
+
+    public void RecieveAttack ()
+    {
+        Debug.Log("tookdamage");
+        ns1.waitForScript = true;
+        StartCoroutine(recieveAttackTimer());
+    }
+
+    public IEnumerator recieveAttackTimer ()
+    {
+        yield return new WaitForSeconds(1f);
+        LightningBolt.SetActive(true);
+        yield return new WaitUntil(() => animFlag == true);
+        animFlag = false;
+        LightningBolt.SetActive(false);
+        ns1.convoStartNS1(convoToCall+3);
+        convoToCall++;
     }
 
     public void TakeDamage(float finalDamage) //calculates damage taken by enemy
     {
+        Debug.Log("tookdamage");
         enemyArmor = baseArmor;
         Debug.Log(BCI);
         Debug.Log(enemyArmor);

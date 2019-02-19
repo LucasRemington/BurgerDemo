@@ -55,6 +55,19 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Dialogue\Editor\CustomAssetUtility.cs" />
      <Compile Include="Assets\Scripts\Dialogue\Editor\DialogueAsset.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Coordinate Brush\Scripts\Editor\CoordinateBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\GameObject Brush\Scripts\Editor\GameObjectBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Group Brush\Scripts\Editor\GroupBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Line Brush\Scripts\Editor\LineBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Prefab Brush\Scripts\Editor\PrefabBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Random Brush\Scripts\Editor\RandomBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Tint Brush Smooth\Scripts\Editor\TintBrushSmooth.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Brushes\Tint Brush\Scripts\Editor\TintBrush.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Hexagonal Rule Tile\Editor\HexagonalRuleTileEditor.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Isometric Rule Tile\Editor\IsometricRuleTileEditor.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Rule Override Tile\Scripts\Editor\RuleOverrideTileEditor.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Rule Tile\Scripts\Editor\CustomRuleTileMenu.cs" />
+     <Compile Include="Assets\TileSets\2d-extras-master\Assets\Tilemap\Tiles\Rule Tile\Scripts\Editor\RuleTileEditor.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/Plush Von Plush/Documents/GitHub/BurgerDemo/Burger Demo/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>

@@ -316,7 +316,7 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: Press spacebar to begin, and spacebar when finished.
+    DialogueText: Press spacebar to select, spacebar to begin, and spacebar when finished.
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:

@@ -330,5 +330,3 @@ C:\Users\Plush Von Plush\Documents\GitHub\BurgerDemo\Burger Demo\Temp\bin\Debug\
 C:\Users\Plush Von Plush\Documents\GitHub\BurgerDemo\Burger Demo\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 C:\Users\Plush Von Plush\Documents\GitHub\BurgerDemo\Burger Demo\obj\Debug\Assembly-CSharp.dll
 C:\Users\Plush Von Plush\Documents\GitHub\BurgerDemo\Burger Demo\obj\Debug\Assembly-CSharp.pdb
-C:\Users\Plush Von Plush\Documents\GitHub\BurgerDemo\Burger Demo\Temp\bin\Debug\UnityEditor.UI.dll
-C:\Users\Plush Von Plush\Documents\GitHub\BurgerDemo\Burger Demo\Temp\bin\Debug\UnityEditor.UI.xml

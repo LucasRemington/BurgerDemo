@@ -5,6 +5,7 @@ using UnityEngine;
 public class ActionSelector : MonoBehaviour
 {
 
+    public NarrativeScript1 ns1;
     public GameObject BCI;
     public int option;
     public Vector3[] optionMovements;
@@ -25,7 +26,7 @@ public class ActionSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && isReady && option < 4)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && isReady && option < 4 && ns1.waitForScript == false)
         {
             option++;
             switch (option)
@@ -41,7 +42,7 @@ public class ActionSelector : MonoBehaviour
                     break;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && isReady && option > 1)
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && isReady && option > 1 && ns1.waitForScript == false)
         {
             option--;
             switch (option)
@@ -65,35 +66,43 @@ public class ActionSelector : MonoBehaviour
 
     public IEnumerator Confirm(int choice)
     {
+        Debug.Log("confirm");
         yield return new WaitForSeconds(0);
-        switch (choice)
-        {
-            case 1: // Fight
-                isReady = false;
-                BCI.SetActive(true);
-                Indicator.SetActive(false);
-                choiceText.SetActive(false);
-                StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().ComponentSpawn(KeyCode.Space, 3, BCI.GetComponent<BurgerComponentInstantiator>().bottomBun, 0));
-                StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().StartStuff());
-                StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().enableCheats());
-                yield return new WaitUntil(() => BCI.activeInHierarchy == false);
-                choiceText.SetActive(true);
-                Indicator.SetActive(true);
-                isReady = true;
-                break;
-            case 2: // Run
-                isReady = false;
-                Player.GetComponent<Animator>().SetTrigger("Run");
-                yield return new WaitForSeconds(1);
-                StartCoroutine(GetComponent<BattleTransitions>().EndOfBattle(false));
-                //isReady = true;
-                break;
-            case 3: // Items
+        if (ns1.waitForScript == false)
+            {
+                switch (choice)
+                {
+                    case 1: // Fight
+                    Debug.Log("fight");
+                    isReady = false;
+                        BCI.SetActive(true);
+                        Indicator.SetActive(false);
+                        choiceText.SetActive(false);
+                        StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().ComponentSpawn(KeyCode.Space, 3, BCI.GetComponent<BurgerComponentInstantiator>().bottomBun, 0));
+                        StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().StartStuff());
+                        StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().enableCheats());
+                        yield return new WaitUntil(() => BCI.activeInHierarchy == false);
+                        choiceText.SetActive(true);
+                        Indicator.SetActive(true);
+                        isReady = true;
+                        break;
+                    case 2: // Run
+                        isReady = false;
+                        Player.GetComponent<Animator>().SetTrigger("Run");
+                        yield return new WaitForSeconds(1);
+                        StartCoroutine(GetComponent<BattleTransitions>().EndOfBattle(false));
+                        //isReady = true;
+                        break;
+                    case 3: // Items
 
-                break;
-            case 4: // Combos
+                        break;
+                    case 4: // Combos
 
-                break;
+                        break;
+                }
+            } else
+            {
+                Debug.Log("wait for script");
+            }
         }
     }
-}
