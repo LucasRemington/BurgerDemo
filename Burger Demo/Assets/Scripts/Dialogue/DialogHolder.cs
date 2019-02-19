@@ -7,6 +7,8 @@ public class DialogHolder : MonoBehaviour {
     public GameObject MainCamera;
     public NarrativeManager nm;
     public NarrativeScript1 ns1; //remember to update this every time a new narrative script is created.
+    public GameObject voices;
+    public AudioSource gcAS;
 
     public Dialogue[] Scripted; //each 'dialogue' is a different conversation, each element is a different dialog box. 1 indicates that this takes place during the first event only.
     public int[] scriptedConvo; //used to keep track of the point in conversation one would be at.
@@ -30,6 +32,7 @@ public class DialogHolder : MonoBehaviour {
     {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
+        gcAS = voices.GetComponent<AudioSource>();
         setScripts();
         scriptedConvo = new int[Scripted.Length];
         scriptedConvoStart = new bool[Scripted.Length];
@@ -72,7 +75,7 @@ public class DialogHolder : MonoBehaviour {
 
     public IEnumerator GenericFirstConvo(int scriptedConversation, bool inCombat) //whenever a conversation is going to start, pass it to this, indicating the number from the dialog array the conversation is placed into, as well as whether or not it takes place during combat.
     {
-        Debug.Log("converse");
+        
         if (scriptedConvoStart[scriptedConversation] == false)
         {
             scriptedConvoStart[scriptedConversation] = true;
@@ -83,6 +86,8 @@ public class DialogHolder : MonoBehaviour {
             sizeOfList = Scripted[scriptedConversation].DialogItems.Count;
         }
         nm.setTalksprite(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]);
+        gcAS.clip = Scripted[scriptedConversation].DialogItems[scriptedConvo[scriptedConversation]].PlayBackSoundFile;
+        gcAS.Play();
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(nm.AnimateText(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]));
         specifyScript(scriptedConversation); //here is where we put a switch(?) statement calling other functions when appropriate

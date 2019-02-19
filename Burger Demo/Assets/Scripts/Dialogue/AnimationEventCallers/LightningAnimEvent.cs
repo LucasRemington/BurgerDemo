@@ -9,7 +9,7 @@ public class LightningAnimEvent : MonoBehaviour {
 
     void Start ()
     {
-        tutEnemy = GameObject.Find("HoloMaster");
+        tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         te = tutEnemy.GetComponent<TutorialEnemy>();
     }
 

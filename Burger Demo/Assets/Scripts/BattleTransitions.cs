@@ -22,6 +22,9 @@ public class BattleTransitions : MonoBehaviour {
 
     // Use this for initialization
     public void PseudoStart () {
+        Debug.Log("ps bt");
+        battlePrefab = GameObject.FindWithTag("BattlePrefab");
+        battlePrefab = battlePrefab.transform.Find("FullBattlePrefab").gameObject;
         OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();

@@ -73,8 +73,8 @@ public class ActionSelector : MonoBehaviour
                 switch (choice)
                 {
                     case 1: // Fight
-                    Debug.Log("fight");
-                    isReady = false;
+                        Debug.Log("fight");
+                        isReady = false;
                         BCI.SetActive(true);
                         Indicator.SetActive(false);
                         choiceText.SetActive(false);
@@ -87,10 +87,20 @@ public class ActionSelector : MonoBehaviour
                         isReady = true;
                         break;
                     case 2: // Run
-                        isReady = false;
-                        Player.GetComponent<Animator>().SetTrigger("Run");
-                        yield return new WaitForSeconds(1);
-                        StartCoroutine(GetComponent<BattleTransitions>().EndOfBattle(false));
+                        if (canRun)
+                        {
+                            isReady = false;
+                            Player.GetComponent<Animator>().SetTrigger("Run");
+                            yield return new WaitForSeconds(1);
+                            StartCoroutine(GetComponent<BattleTransitions>().EndOfBattle(false));
+                        } else {
+                            isReady = false;
+                            BCI.GetComponent<BurgerComponentInstantiator>().comboText.text = "Can't run from this battle";
+                            yield return new WaitForSeconds(1);
+                            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z));
+                            BCI.GetComponent<BurgerComponentInstantiator>().comboText.text = "";
+                            isReady = true; 
+                        }
                         //isReady = true;
                         break;
                     case 3: // Items
@@ -100,8 +110,7 @@ public class ActionSelector : MonoBehaviour
 
                         break;
                 }
-            } else
-            {
+            } else {
                 Debug.Log("wait for script");
             }
         }

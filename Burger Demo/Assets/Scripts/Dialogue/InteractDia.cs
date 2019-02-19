@@ -50,9 +50,17 @@ public class InteractDia : MonoBehaviour {
         yield return new WaitForSeconds(0.2f);
         playerAnim.SetBool("Thinking", true);
         yield return new WaitUntil(() => nm.owm.canMove == true);
+        StopCoroutine(CanInteractAgainTimer());
+        StartCoroutine(CanInteractAgainTimer());
         gs.Step();
         playerAnim.SetBool("Thinking", false);
         didInteract = true;
+        
+    }
+
+    IEnumerator CanInteractAgainTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
         canInteract = true;
     }
 }

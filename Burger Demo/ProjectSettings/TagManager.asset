@@ -12,6 +12,9 @@ TagManager:
   - BurgerSpawner
   - Ladder
   - Floor
+  - LadderCap
+  - IntTrigger
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -22,9 +25,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
+  - Ladder
+  - InteractionHitbox
+  - Hazard
   - 
   - 
   - 

@@ -99,7 +99,7 @@ public class NarrativeScript1 : MonoBehaviour {
         playerAnim.SetTrigger("Training");
         yield return new WaitUntil(() => animationFlag == true);
         animationFlag = false;
-        holoMaster = GameObject.FindWithTag("BattleEnemy");
+        holoMaster = GameObject.Find("TheMasterHolder");
         holoMaster = holoMaster.transform.Find("HoloMaster").gameObject;
         holomAnim = holoMaster.GetComponent<Animator>();
         holomAnim.SetTrigger("Awake");
@@ -112,7 +112,7 @@ public class NarrativeScript1 : MonoBehaviour {
         StartCoroutine(nm.bt.StartBattle(masterHologram));
         yield return new WaitUntil(() => nm.bt.battling == true);
         StartCoroutine(dh.GenericFirstConvo(2, true));
-        yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event 
+        yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
         animationFlag = false;
         //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => animationFlag == true && nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
@@ -136,6 +136,12 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 3:
                 StartCoroutine(convo2Events(dia, scriptedConvo));
+                break;
+            case 4:
+                StartCoroutine(convo3Events(dia, scriptedConvo));
+                break;
+            case 5 :
+                StartCoroutine(convo4Events(dia, scriptedConvo));
                 break;
         }
     }
@@ -325,26 +331,64 @@ public class NarrativeScript1 : MonoBehaviour {
         }
     }
 
+    IEnumerator convo3Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
+    {
+
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                waitForScript = true;
+                dh.ongoingEvent = false;
+                break;
+            case 1:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 2:
+                dh.ongoingEvent = true;
+                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+                te = tutEnemy.GetComponent<TutorialEnemy>();
+                StartCoroutine(te.EnemyTimer());
+                te.convoToCall++;
+                dh.ongoingEvent = false;
+                break;
+            case 3:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 4:
+                dh.ongoingEvent = true;
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+                waitForScript = false;
+                dh.ongoingEvent = false;
+                break;
+            case 5:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
     IEnumerator convo4Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
         switch (scriptedConvo) //requires setting a lot of animation bools for Dennis and Player.
         {
             case 0: //the convo starts with Dennis looking up.
                 dh.ongoingEvent = true;
-                yield return new WaitForSeconds(0.1f); //there just to make this compile
+                yield return new WaitForSeconds(0); //there just to make this compile
                 waitForScript = true;
                 dh.ongoingEvent = false;
                 break;
             case 1:
                 dh.ongoingEvent = true;
-
-
+                
                 dh.ongoingEvent = false;
+
+                
                 break;
             case 2:
                 dh.ongoingEvent = true;
-
-
+                waitForScript = false;
                 dh.ongoingEvent = false;
                 break;
         }

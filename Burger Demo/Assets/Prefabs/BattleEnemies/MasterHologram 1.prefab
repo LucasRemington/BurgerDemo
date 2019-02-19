@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1575028108838074
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1171531225107196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.644, y: 0.148, z: 0}
+  m_LocalPosition: {x: -2.09, y: 0.148, z: -0.6}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 4481164956359250}
@@ -154,8 +154,8 @@ MonoBehaviour:
   resistsKetchup: 0
   resistsMustard: 0
   resistsBun: 0
-  baseSpeed: 0
-  enemySpeed: 0
+  baseSpeed: 10
+  enemySpeed: 12
   slowStacks: 0
   baseDamage: 0
   enemyDamage: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   start: {fileID: 0}
   end: {fileID: 0}
   anim: {fileID: 0}
-  seconds: 0
+  seconds: 10
   secondsText: {fileID: 0}
   timerStarted: 0
   aboveText:
@@ -236,7 +236,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300024, guid: 8c6b0388ddf7f244da09aa0df3f7f220, type: 3}
+  m_Sprite: {fileID: 21300038, guid: 8c6b0388ddf7f244da09aa0df3f7f220, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

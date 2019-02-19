@@ -20,7 +20,7 @@ public class Interactable : MonoBehaviour {
 
     public void Interact() {
         // here i'll put a bunch of if statements that check if certain interactable scripts are on the same object. stuff like signs, doors, buttons and such
-        if (GetComponent<Sign>() != null && !GetComponent<Sign>().reading)
+        if (GetComponent<Sign>() != null && !GetComponent<Sign>().reading && !player.GetComponent<OverworldMovement>().onLadder)
         {
             StartCoroutine(GetComponent<Sign>().ShowDialogue());
         }
@@ -32,7 +32,7 @@ public class Interactable : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "OverworldPlayer")
+        if (other.name == "IntTrigger")
         {
             playerTouch = true;
             player = other.gameObject;
@@ -40,6 +40,6 @@ public class Interactable : MonoBehaviour {
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.name == "OverworldPlayer") playerTouch = false;
+        if (other.name == "IntTrigger") playerTouch = false;
     }
 }

@@ -38,7 +38,7 @@ public class TutorialEnemy : MonoBehaviour {
     public bool beingAttacked; //set by player when attacking
     public bool hasBeenDamaged; //true when already damaged this turn
     public bool movingForwards;
-    public bool movingBackwards;
+    public bool movingBackwards = false;
     public bool cantMove;
     public bool attackCalled;
 
@@ -102,7 +102,6 @@ public class TutorialEnemy : MonoBehaviour {
         mainCamera = GameObject.Find("Main Camera");
         background = mainCamera.GetComponent<AudioSource>();
         BCI.GetTutorial();
-        
         //clock = GameObject.Find("ClockUI");
     }
 
@@ -115,13 +114,14 @@ public class TutorialEnemy : MonoBehaviour {
 
     public IEnumerator recieveAttackTimer ()
     {
-        yield return new WaitForSeconds(1f);
-        LightningBolt.SetActive(true);
-        yield return new WaitUntil(() => animFlag == true);
+        yield return new WaitForSeconds(0.5f);
+        LightningBolt.GetComponent<Animator>().SetTrigger("strike");
+        /*yield return new WaitUntil(() => animFlag == true);
         animFlag = false;
-        LightningBolt.SetActive(false);
+        LightningBolt.SetActive(false);*/
         ns1.convoStartNS1(convoToCall+3);
         convoToCall++;
+        seconds = 10;
     }
 
     public void TakeDamage(float finalDamage) //calculates damage taken by enemy
@@ -228,7 +228,7 @@ public class TutorialEnemy : MonoBehaviour {
         else
         {
             cantMove = false;
-            //StartCoroutine(MoveForwards());
+            StartCoroutine(MoveForwards());
         }
     }
 
@@ -239,21 +239,21 @@ public class TutorialEnemy : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.01f);
             ticks++;
-            transform.position = Vector3.Lerp(startPosition, endPosition, (ticks / (50f * enemySpeed)));
+            //transform.position = Vector3.Lerp(startPosition, endPosition, (ticks / (50f * enemySpeed)));
             if (seconds <= 0)
             {
                 Attack();
             }
             else
             {
-                //StartCoroutine(MoveForwards());
+                StartCoroutine(MoveForwards());
             }
         }
         else if (movingForwards == true && hasBeenDamaged == true && cantMove == false)
         {
             yield return new WaitForSeconds(0.01f);
             ticks++;
-            transform.position = Vector3.Lerp(damagedPosition, endPosition, (ticks / 50f));
+            //transform.position = Vector3.Lerp(damagedPosition, endPosition, (ticks / 50f));
             if (transform.position == endPosition)
             {
                 Attack();
@@ -268,7 +268,7 @@ public class TutorialEnemy : MonoBehaviour {
             yield return new WaitForSeconds(0.01f);
             ticks++;
             tear = HealthText.transform.GetChild(3).gameObject;
-            transform.position = Vector3.Lerp(endPosition, startPosition, (ticks / 50f));
+            //transform.position = Vector3.Lerp(endPosition, startPosition, (ticks / 50f));
             if (transform.position == startPosition) // turn reset
             {
                 anim.SetTrigger("Reset");
@@ -400,23 +400,23 @@ public class TutorialEnemy : MonoBehaviour {
             clock.SetActive(true);
         }*/
         yield return new WaitForSeconds(1f);
-        if (hasBeenDamaged == false || movingBackwards == false)
+        if (secondsText == null)
         {
-            seconds--;
-            if (secondsText == null)
-            {
-                yield return new WaitUntil(() => secondsText != null);
-            }
-            secondsText.text = seconds.ToString();
-            if (seconds > 0)
-            {
-                StartCoroutine(EnemyTimer());
-            }
+            yield return new WaitUntil(() => secondsText != null);
+        }
+        secondsText.text = seconds.ToString();
+        if (seconds > 0)
+        {
+            StartCoroutine(EnemyTimer());
         }
         else
         {
+            ns1.convoStartNS1(5);
             secondsText.text = "";
+            //seconds = 11;
+            StartCoroutine(BCI.ClearBurger());
         }
+        seconds--;
     }
 
     public IEnumerator StartSets()

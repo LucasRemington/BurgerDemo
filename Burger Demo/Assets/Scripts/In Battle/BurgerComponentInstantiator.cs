@@ -7,6 +7,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     public bool isTutorial = false;
     public bool broken = false;
+    public bool hasMeat = false;
     
     //necessary scripts + gameobjects
     public PlayerHealth ph;
@@ -116,7 +117,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         fadeBlack.gameObject.SetActive(true);
         //player = GameObject.Find("Player");
         ph = player.GetComponent<PlayerHealth>();
-        enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        if (enemy == null)
+            enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         StartCoroutine(StartStuff());
         canSpawn = true;
         burgerPosition = originalBurgerPosition;
@@ -335,10 +337,13 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         Instantiate(topBun, new Vector3(CombatUI.transform.localPosition.x, burgerPosition + 6.25f - sinkBP, 0), Quaternion.identity);
         executeCombo();
         FinalInfo();
-        if(!isTutorial)
+        if (!isTutorial)
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && eb.movingBackwards == false || Input.GetKeyDown(KeyCode.LeftControl) == true);
         else
+        {
+            te = enemy.GetComponent<TutorialEnemy>();
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && te.movingBackwards == false || Input.GetKeyDown(KeyCode.LeftControl) == true);
+        }
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
         {
             StartCoroutine(ClearBurger());
@@ -356,7 +361,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     public void LaunchBurger () //unsure if any of this will calculate correctly. Treat with caution. called from protag attack animation
     {
-        if (eb != null)
+        if (!isTutorial)
         {
             if (crying > 0)
             {
@@ -383,16 +388,20 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         } else
         {
             Debug.Log("tutorial");
-           // if (nm.ns1.te != null)
+           // if (te != null)
             //{
-                nm.ns1.te.RecieveAttack();
+                te.RecieveAttack();
                 Debug.Log("ra");
            // }
         }
+        if (finalDamage > 0)
+            hasMeat = true;
+        else
+            hasMeat = false;
         gameObject.SetActive(false);
     }
 
-    IEnumerator ClearBurger() //resets most variables
+    public IEnumerator ClearBurger() //resets most variables
     {
         spawnReset = true;
         topPlaced = false;
@@ -1047,7 +1056,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         }
         //yield return new WaitUntil(() => enemy != null);
-        eb = enemy.GetComponent<EnemyBehavior>();
+        if(eb == null)
+            eb = enemy.GetComponent<EnemyBehavior>();
         if (eb == null) {
             te = enemy.GetComponent<TutorialEnemy>();
         }

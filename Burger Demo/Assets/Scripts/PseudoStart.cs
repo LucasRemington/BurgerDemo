@@ -33,10 +33,10 @@ public class PseudoStart : MonoBehaviour {
         ns1.PseudoStart();
         dh.PseudoStart();
         fp.PseudoStart();
-        ovm.PseudoStart();
         bt.PseudoStart();
         MainCamera.transform.position = new Vector3(-2f, -1f, -5);
         nm.room = Identity; //temp solution
+        ovm.PseudoStart();
     }
 	
 }

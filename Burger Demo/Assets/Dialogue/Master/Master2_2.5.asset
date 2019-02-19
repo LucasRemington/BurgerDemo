@@ -15,9 +15,9 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: Better. Still not enough.
+    DialogueText: Inefficient. Again.
     ChoiceText: []
-    CharacterName: Inefficient. Again.
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
