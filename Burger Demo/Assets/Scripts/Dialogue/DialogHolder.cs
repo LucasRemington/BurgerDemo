@@ -72,6 +72,7 @@ public class DialogHolder : MonoBehaviour {
 
     public IEnumerator GenericFirstConvo(int scriptedConversation, bool inCombat) //whenever a conversation is going to start, pass it to this, indicating the number from the dialog array the conversation is placed into, as well as whether or not it takes place during combat.
     {
+        Debug.Log("converse");
         if (scriptedConvoStart[scriptedConversation] == false)
         {
             scriptedConvoStart[scriptedConversation] = true;

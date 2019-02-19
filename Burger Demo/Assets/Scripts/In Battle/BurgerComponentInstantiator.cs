@@ -124,11 +124,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         turns = 1;
         if (nm.room != 3)
         {
-            StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0)); //bottom bun must spawn before others
-        } else
-        {
-            tutEnemy = GameObject.Find("HoloMaster");
-            te = tutEnemy.GetComponent<TutorialEnemy>();
+            //StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0)); //bottom bun must spawn before others
         }
         ingredientINV[0] = 1;
         ingredientINV[10] = 1;
@@ -142,6 +138,12 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     //called on start
     void Start () {
         gameObject.SetActive(false);
+    }
+
+    public void GetTutorial ()
+    {
+        tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        te = tutEnemy.GetComponent<TutorialEnemy>();
     }
 
     void IconTextUpdate()
@@ -381,11 +383,11 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         } else
         {
             Debug.Log("tutorial");
-            if (nm.ns1.te != null)
-            {
+           // if (nm.ns1.te != null)
+            //{
                 nm.ns1.te.RecieveAttack();
                 Debug.Log("ra");
-            }
+           // }
         }
         gameObject.SetActive(false);
     }

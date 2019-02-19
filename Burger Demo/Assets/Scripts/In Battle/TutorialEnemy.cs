@@ -101,6 +101,7 @@ public class TutorialEnemy : MonoBehaviour {
         seconds = Mathf.RoundToInt(enemySpeed - 2);
         mainCamera = GameObject.Find("Main Camera");
         background = mainCamera.GetComponent<AudioSource>();
+        BCI.GetTutorial();
         
         //clock = GameObject.Find("ClockUI");
     }

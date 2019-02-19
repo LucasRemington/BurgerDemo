@@ -114,7 +114,7 @@ public class NarrativeScript1 : MonoBehaviour {
         StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event 
         animationFlag = false;
-        StartCoroutine(dh.GenericFirstConvo(2, true));
+        //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => animationFlag == true && nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(9, false));
