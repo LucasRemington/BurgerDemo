@@ -9,11 +9,11 @@ public class LightningAnimEvent : MonoBehaviour {
 
     void Start ()
     {
-        tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+        tutEnemy = transform.parent.gameObject;
         te = tutEnemy.GetComponent<TutorialEnemy>();
     }
 
 	void StartTalking () {
-		
+        te.ph.DealDamage(5);
 	}
 }

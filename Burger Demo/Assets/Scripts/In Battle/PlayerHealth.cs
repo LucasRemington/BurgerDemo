@@ -30,6 +30,12 @@ public class PlayerHealth : MonoBehaviour {
         healthText.text = playerHealth.ToString();
         healthBar.fillAmount = (float)playerHealth / (float)playerHealthMax;
         healthText.text = playerHealth.ToString();
+        StartCoroutine(DelayedHealthBarSpawn());
+    }
+
+    public IEnumerator DelayedHealthBarSpawn() {
+        yield return new WaitForSeconds(1);
+        healthBar.transform.parent.gameObject.SetActive(true);
     }
 	
 	public void DealDamage(int damage) //used to deal damage, takes amount of damage as an argument

@@ -61,3 +61,5 @@ MonoBehaviour:
   playerHolder: {fileID: 0}
   player: {fileID: 0}
   MainCamera: {fileID: 0}
+  BCI: {fileID: 0}
+  Identity: 0

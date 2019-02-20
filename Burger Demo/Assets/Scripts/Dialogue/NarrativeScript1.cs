@@ -371,24 +371,37 @@ public class NarrativeScript1 : MonoBehaviour {
     }
     IEnumerator convo4Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
-        switch (scriptedConvo) //requires setting a lot of animation bools for Dennis and Player.
+        switch (scriptedConvo)
         {
-            case 0: //the convo starts with Dennis looking up.
+            case 0:
                 dh.ongoingEvent = true;
-                yield return new WaitForSeconds(0); //there just to make this compile
                 waitForScript = true;
                 dh.ongoingEvent = false;
                 break;
             case 1:
                 dh.ongoingEvent = true;
-                
                 dh.ongoingEvent = false;
-
-                
                 break;
             case 2:
                 dh.ongoingEvent = true;
+                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+                te = tutEnemy.GetComponent<TutorialEnemy>();
+                StartCoroutine(te.EnemyTimer());
+                te.convoToCall++;
+                dh.ongoingEvent = false;
+                break;
+            case 3:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 4:
+                dh.ongoingEvent = true;
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 waitForScript = false;
+                dh.ongoingEvent = false;
+                break;
+            case 5:
+                dh.ongoingEvent = true;
                 dh.ongoingEvent = false;
                 break;
         }

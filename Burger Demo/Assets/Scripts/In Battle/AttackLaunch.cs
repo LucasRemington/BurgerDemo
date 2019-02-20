@@ -12,8 +12,7 @@ public class AttackLaunch : MonoBehaviour {
 
     void Start()
     {
-        //burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
-       // BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        StartCoroutine(PseudoStart());
     }
 
     void LaunchAttack () {
@@ -29,4 +28,11 @@ public class AttackLaunch : MonoBehaviour {
         }
     }
 
+    public IEnumerator PseudoStart() {
+        while (BCI == null)
+        {
+            yield return new WaitForEndOfFrame();
+            BCI = this.gameObject.GetComponentInParent<PlayerHealth>().BCI;
+        }
+    }
 }

@@ -115,8 +115,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     {
         Debug.Log("bci start");
         fadeBlack.gameObject.SetActive(true);
-        //player = GameObject.Find("Player");
-        ph = player.GetComponent<PlayerHealth>();
         if (enemy == null)
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         StartCoroutine(StartStuff());
@@ -341,6 +339,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && eb.movingBackwards == false || Input.GetKeyDown(KeyCode.LeftControl) == true);
         else
         {
+            enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
             te = enemy.GetComponent<TutorialEnemy>();
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && te.movingBackwards == false || Input.GetKeyDown(KeyCode.LeftControl) == true);
         }
@@ -1051,6 +1050,16 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     }
 
     public IEnumerator StartStuff() {
+        while (player == null)
+        {
+            yield return new WaitForEndOfFrame();
+            if (GameObject.FindGameObjectWithTag("BattlePlayer"))
+            {
+                player = GameObject.FindGameObjectWithTag("BattlePlayer");
+                ph = player.GetComponent<PlayerHealth>();
+                ph.BCI = this;
+            }
+        }
         while (enemy == null) {
             yield return new WaitForEndOfFrame();
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");

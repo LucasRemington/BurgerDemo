@@ -135,7 +135,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1857873569659858}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.17, y: -1.766, z: 4.9121094}
+  m_LocalPosition: {x: -4.17, y: -1.7885675, z: 4.912109}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 224870975677201308}
@@ -256,8 +256,11 @@ MonoBehaviour:
   moveSpeed: 7.5
   climbSpeed: 3
   canMove: 1
-  playerAnim: {fileID: 0}
-  playerSprite: {fileID: 0}
+  slipping: 0
+  slipLeft: 0
+  slipRight: 0
+  playerAnim: {fileID: 95694665540554632}
+  playerSprite: {fileID: 212092452212459648}
   onLadder: 0
   topDownGrabbing: 0
   grounded: 1
@@ -294,8 +297,8 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   dh: {fileID: 0}
-  player: {fileID: 0}
-  playerAnim: {fileID: 0}
+  player: {fileID: 1857873569659858}
+  playerAnim: {fileID: 95694665540554632}
   did: 0
   kill: []
 --- !u!114 &114674730075418640
@@ -419,7 +422,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 14
-  m_Sprite: {fileID: 21300036, guid: a309ee5928fde57418ec8eb2e3d435d5, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 8d7f30d082fdc454d97464ff3d74fc49, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

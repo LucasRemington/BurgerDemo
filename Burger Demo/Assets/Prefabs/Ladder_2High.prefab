@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4891019135023126}
   - component: {fileID: 61213520988025536}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LadderCap
   m_TagString: LadderCap
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4970697465816676}
   - component: {fileID: 61028422656064794}
   - component: {fileID: 68043230303750258}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ladder_2High
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -63,8 +63,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1558970621700602}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.893, y: -1.286, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.89, y: -1.286, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4891019135023126}
@@ -83,7 +83,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.05}
+  m_Offset: {x: 0, y: 0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

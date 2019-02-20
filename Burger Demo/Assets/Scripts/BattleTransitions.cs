@@ -29,6 +29,7 @@ public class BattleTransitions : MonoBehaviour {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
         db = GameObject.Find("DialogBox");
+        enemyStart = battlePrefab.transform.Find("EnemyStart").gameObject;
     }
 	
 	// Update is called once per frame

@@ -75,7 +75,7 @@ public class TutorialEnemy : MonoBehaviour {
     {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         StartCoroutine(StartSets());
-        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(3).gameObject;
+        burgerSpawner = GameObject.Find("CombatUI").transform.Find("BurgerSpawner").gameObject;
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         BCI.isTutorial = true;
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -85,8 +85,8 @@ public class TutorialEnemy : MonoBehaviour {
 
     void Start()
     {
-        startPosition = new Vector3(start.position.x, start.position.y, start.position.z);
-        endPosition = new Vector3(end.position.x, end.position.y, end.position.z);
+        //startPosition = new Vector3(start.position.x, start.position.y, start.position.z);
+        //endPosition = new Vector3(end.position.x, end.position.y, end.position.z);
         //gameObject.transform.position.Set(start.position.x, start.position.y, start.position.z);
         anim = GetComponent<Animator>();
         player = GameObject.Find("Player");
@@ -102,6 +102,7 @@ public class TutorialEnemy : MonoBehaviour {
         mainCamera = GameObject.Find("Main Camera");
         background = mainCamera.GetComponent<AudioSource>();
         BCI.GetTutorial();
+        StartCoroutine(ph.DelayedHealthBarSpawn());
         //clock = GameObject.Find("ClockUI");
     }
 
@@ -228,7 +229,7 @@ public class TutorialEnemy : MonoBehaviour {
         else
         {
             cantMove = false;
-            StartCoroutine(MoveForwards());
+            //StartCoroutine(MoveForwards());
         }
     }
 
@@ -421,10 +422,10 @@ public class TutorialEnemy : MonoBehaviour {
 
     public IEnumerator StartSets()
     {
-        while (/*clock == null || clockAnim == null ||*/ start == null || end == null || secondsText == null || HealthText == null || healthBar == null || cheese == null || cheeseText == null || tearText == null || tear == null || GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target == null || GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target == null)
+        while (/*clock == null || clockAnim == null || start == null || end == null ||*/ secondsText == null || HealthText == null || healthBar == null || cheese == null || cheeseText == null || tearText == null || tear == null || GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target == null || GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target == null)
         {
-            start = GameObject.Find("EnemyStart").transform;
-            end = GameObject.Find("EnemyEnd").transform;
+            /*start = GameObject.Find("EnemyStart").transform;
+            end = GameObject.Find("EnemyEnd").transform;*/
             aboveText[0] = GameObject.Find("FullBattlePrefab").transform.GetChild(3).GetComponent<TextMesh>();
             aboveText[1] = GameObject.Find("FullBattlePrefab").transform.GetChild(4).GetComponent<TextMesh>();
             aboveText[2] = GameObject.Find("FullBattlePrefab").transform.GetChild(5).GetComponent<TextMesh>();

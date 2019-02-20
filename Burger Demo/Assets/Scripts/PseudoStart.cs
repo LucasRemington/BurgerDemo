@@ -14,6 +14,7 @@ public class PseudoStart : MonoBehaviour {
     public GameObject playerHolder;
     public GameObject player;
     public GameObject MainCamera;
+    public BurgerComponentInstantiator BCI;
 
     public int Identity;
 
@@ -29,6 +30,7 @@ public class PseudoStart : MonoBehaviour {
         ovm = player.GetComponent<OverworldMovement>();
         GameController = GameObject.FindWithTag("GameController");
         bt = GameController.GetComponent<BattleTransitions>();
+        BCI = MainCamera.transform.Find("Canvas").Find("CombatUI").Find("BurgerSpawner").GetComponent<BurgerComponentInstantiator>();
         nm.PseudoStart();
         ns1.PseudoStart();
         dh.PseudoStart();
@@ -37,6 +39,7 @@ public class PseudoStart : MonoBehaviour {
         MainCamera.transform.position = new Vector3(-2f, -1f, -5);
         nm.room = Identity; //temp solution
         ovm.PseudoStart();
+        StartCoroutine(BCI.StartStuff());
     }
 	
 }

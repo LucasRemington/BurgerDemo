@@ -275,10 +275,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
+  invuln: 0
+  invulnTime: 0
   lastTouched: {fileID: 0}
   moveSpeed: 8
   climbSpeed: 3
   canMove: 1
+  slipping: 0
+  slipLeft: 0
+  slipRight: 0
   playerAnim: {fileID: 0}
   playerSprite: {fileID: 0}
   onLadder: 0
