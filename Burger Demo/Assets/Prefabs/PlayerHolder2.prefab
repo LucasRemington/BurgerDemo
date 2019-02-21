@@ -280,7 +280,7 @@ MonoBehaviour:
   lastTouched: {fileID: 0}
   moveSpeed: 8
   climbSpeed: 3
-  canMove: 1
+  canMove: 0
   slipping: 0
   slipLeft: 0
   slipRight: 0
