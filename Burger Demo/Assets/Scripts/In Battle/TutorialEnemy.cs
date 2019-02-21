@@ -122,7 +122,7 @@ public class TutorialEnemy : MonoBehaviour {
         LightningBolt.SetActive(false);*/
         ns1.convoStartNS1(convoToCall+3);
         convoToCall++;
-        seconds = 10;
+        seconds = -2;
     }
 
     public void TakeDamage(float finalDamage) //calculates damage taken by enemy
@@ -410,12 +410,16 @@ public class TutorialEnemy : MonoBehaviour {
         {
             StartCoroutine(EnemyTimer());
         }
-        else
+        else if (seconds == 0)
         {
             ns1.convoStartNS1(5);
+            LightningBolt.GetComponent<Animator>().SetTrigger("strike");
             secondsText.text = "";
-            //seconds = 11;
-            StartCoroutine(BCI.ClearBurger());
+            seconds = 10;
+            StartCoroutine(EnemyTimer());
+        }
+        else {
+            secondsText.text = "";
         }
         seconds--;
     }

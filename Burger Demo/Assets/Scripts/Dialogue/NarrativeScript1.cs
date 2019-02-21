@@ -12,6 +12,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public ScriptedMovement sm;
     public GameObject tutEnemy;
     public TutorialEnemy te;
+    public GameObject TV;
 
     public GameObject playerHolder;
     public GameObject player;
@@ -55,7 +56,6 @@ public class NarrativeScript1 : MonoBehaviour {
     public void Start()
     {
         StartCoroutine(battleEarly());
-        
     }
 
     public IEnumerator battleEarly ()
@@ -69,13 +69,14 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public IEnumerator eventOne() //first event. Eventually, this will be the 'master function' calling shit in order via coroutines.
     {
+        blackScreen.gameObject.SetActive(true);
         yield return new WaitUntil(() => Input.anyKey == true);
         StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
         yield return new WaitForSeconds(4f);
         startAnim.SetTrigger("Start");
         Debug.Log("event1");
         yield return new WaitUntil(() => nm.room == 1); //change this to pull from gameManager + flag set from animation event 
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.5f);
         dennis = GameObject.FindWithTag("Dennis");
         dennis = dennis.transform.Find("dennis").gameObject;
         sm = dennis.GetComponent<ScriptedMovement>();
@@ -141,6 +142,9 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(convo3Events(dia, scriptedConvo));
                 break;
             case 5 :
+                StartCoroutine(convo3Events(dia, scriptedConvo));
+                break;
+            case 6:
                 StartCoroutine(convo4Events(dia, scriptedConvo));
                 break;
         }
@@ -273,6 +277,7 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0:
                 dh.ongoingEvent = true;
                 waitForScript = true;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
                 dh.ongoingEvent = false;
                 break;
             case 1:
@@ -291,6 +296,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 waitForScript = false;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
                 dh.ongoingEvent = false;
                 break;
             case 5:
@@ -339,6 +345,7 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0:
                 dh.ongoingEvent = true;
                 waitForScript = true;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
                 dh.ongoingEvent = false;
                 break;
             case 1:
@@ -347,10 +354,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 2:
                 dh.ongoingEvent = true;
-                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
-                te = tutEnemy.GetComponent<TutorialEnemy>();
-                StartCoroutine(te.EnemyTimer());
-                te.convoToCall++;
+                
                 dh.ongoingEvent = false;
                 break;
             case 3:
@@ -361,6 +365,12 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 waitForScript = false;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+                te = tutEnemy.GetComponent<TutorialEnemy>();
+                StartCoroutine(te.EnemyTimer());
+                te.convoToCall++;
+                te.seconds = 10;
                 dh.ongoingEvent = false;
                 break;
             case 5:
@@ -376,6 +386,7 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0:
                 dh.ongoingEvent = true;
                 waitForScript = true;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
                 dh.ongoingEvent = false;
                 break;
             case 1:
@@ -384,10 +395,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 2:
                 dh.ongoingEvent = true;
-                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
-                te = tutEnemy.GetComponent<TutorialEnemy>();
-                StartCoroutine(te.EnemyTimer());
-                te.convoToCall++;
+                TV = GameObject.FindGameObjectWithTag("TV");
+                TV.GetComponent<Animator>().SetTrigger("Go");
                 dh.ongoingEvent = false;
                 break;
             case 3:
@@ -398,6 +407,11 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 waitForScript = false;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+                te = tutEnemy.GetComponent<TutorialEnemy>();
+                StartCoroutine(te.EnemyTimer());
+                te.seconds = 10;
                 dh.ongoingEvent = false;
                 break;
             case 5:

@@ -26,6 +26,13 @@ public class ActionSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isReady && (!choiceText.activeInHierarchy || !Indicator.activeInHierarchy)){
+            choiceText.SetActive(true);
+            Indicator.SetActive(true);
+        } else if (!isReady && (choiceText.activeInHierarchy || Indicator.activeInHierarchy)){
+            choiceText.SetActive(false);
+            Indicator.SetActive(false);
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow) && isReady && option < 4 && ns1.waitForScript == false)
         {
             option++;
@@ -76,13 +83,13 @@ public class ActionSelector : MonoBehaviour
                         Debug.Log("fight");
                         isReady = false;
                         BCI.SetActive(true);
-                        Indicator.SetActive(false);
-                        choiceText.SetActive(false);
+                        //Indicator.SetActive(false);
+                        //choiceText.SetActive(false);
                         StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().ComponentSpawn(KeyCode.Space, 3, BCI.GetComponent<BurgerComponentInstantiator>().bottomBun, 0));
                         StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().StartStuff());
                         StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().enableCheats());
                         yield return new WaitUntil(() => BCI.activeInHierarchy == false);
-                        choiceText.SetActive(true);
+                        //choiceText.SetActive(true);
                         Indicator.SetActive(true);
                         isReady = true;
                         break;

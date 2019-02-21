@@ -52,7 +52,7 @@ public class OverworldMovement : MonoBehaviour {
     [Header("Falling and Fall Damage")]
     [Tooltip("Whether the player is currently touching the ground or not. Turns false after a very brief moment of not touching the ground.")] public bool grounded;
     [Tooltip("Health of the player. Connects to the gameController's BattleTransition script.")] private int health;
-    [Tooltip("How long the player should pause on the ground after falling before getting up and being able to move again.")] public float getUpTime;
+    //[Tooltip("How long the player should pause on the ground after falling before getting up and being able to move again.")] public float getUpTime;
     [Tooltip("Starting position when the player starts to fall.")] private Vector2 startPos;
     [Tooltip("End position when the player finishes falling.")] private Vector2 endPos;
     [Tooltip("The Text component of the player's world-space child canvas. Displays fall and overworld damage.")] private Text damText;
@@ -64,6 +64,7 @@ public class OverworldMovement : MonoBehaviour {
     public enum DamageType { LinearDamage, ExponentialDamage, FibonacciDamage };
     [Tooltip("The type of damage the player takes when falling. Linear = Damage * Distance (5, 10, 15, 20, 25, etc);\n Expo = Doubles each block fallen (5, 10, 20, 40, etc);\n Fibonacci: Damage is equal to the past two values added to each other (5, 5, 10, 15, 25, etc);")] public DamageType damageType;
 
+    private bool landingAnim;
 
     // The below is obselete and can be removed.
    /* [Header("Fall Damage Calculation: Select Only One")]
@@ -110,12 +111,18 @@ public class OverworldMovement : MonoBehaviour {
                 playerSprite.flipX = true;
                 intTrigger.offset = intTriggerBaseOffset * new Vector2(-1, 1);
             }
+            else if (!onLadder && !grounded)
+            {
+                playerAnim.SetBool("Walking", false);
+                playerAnim.SetBool("Climbing", false);
+                
+            }
             else if (!onLadder)
             {
                 playerAnim.SetBool("Walking", false);
                 playerAnim.SetBool("Climbing", false);
+                playerAnim.SetBool("Falling", false);
             }
-
 
 
 
@@ -124,6 +131,7 @@ public class OverworldMovement : MonoBehaviour {
             {
                 GetComponent<Rigidbody2D>().gravityScale = 0;
                 playerAnim.SetBool("Climbing", true);
+                playerAnim.SetBool("Falling", false);
                 LadderClimb();
 
                 transform.position = Vector2.Lerp(transform.position, new Vector2(tempXPos, transform.position.y), 0.3f);
@@ -323,6 +331,7 @@ public class OverworldMovement : MonoBehaviour {
         {
             GetComponent<Rigidbody2D>().gravityScale = 1;
             grounded = true;
+            //playerAnim.SetBool("Falling", false);
             StopCoroutine(GroundTimer());
         }
     }
@@ -332,7 +341,9 @@ public class OverworldMovement : MonoBehaviour {
     {
         if (other.gameObject.tag == "Floor" || other.gameObject.tag == "Ladder")
         {
+            StopCoroutine(GroundTimer());
             StartCoroutine(GroundTimer());
+            //Debug.Log("Fell!");
         }
 
         // Secondary function! If we leave the floor, we can now grab the top of a ladder by pressing down.
@@ -385,6 +396,15 @@ public class OverworldMovement : MonoBehaviour {
         yield return new WaitForSeconds(0.05f);
         grounded = false;
         startPos = transform.position;
+        yield return new WaitForSeconds(0.05f);
+        if (!grounded)
+        {
+            if (playerAnim.GetBool("Climbing") == false)
+            {
+                playerAnim.SetBool("Falling", true);
+            }
+        }
+        
     }
 
 
@@ -446,7 +466,7 @@ public class OverworldMovement : MonoBehaviour {
 
             //Debug.Log("Fall damage = " + damage + "%");
         }
-
+        playerAnim.SetInteger("Damage", Mathf.RoundToInt(damage));
         int trueDamage = (int)((damage / gameController.GetComponent<BattleTransitions>().ph.playerHealthMax) * 100);
         StartCoroutine(FloatingDamage(trueDamage));
         StopCoroutine(GetUpWait());
@@ -500,8 +520,15 @@ public class OverworldMovement : MonoBehaviour {
     private IEnumerator GetUpWait()
     {
         canMove = false;
-        yield return new WaitForSeconds(getUpTime);
+        yield return new WaitUntil(() => landingAnim == true);
+        landingAnim = false;
         canMove = true;
+    }
+
+    // set from animation event
+    public void landingFlag ()
+    {
+        landingAnim = true;
     }
 
     private void OverworldDeath()

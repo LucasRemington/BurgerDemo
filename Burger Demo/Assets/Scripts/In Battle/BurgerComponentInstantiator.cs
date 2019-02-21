@@ -421,6 +421,9 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         spawnReset = false;
         StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0));
         bounceTrigger = 0;
+        if (isTutorial) {
+            te.seconds = -2;
+        }
     }
 
     void IngredientsInfo ()

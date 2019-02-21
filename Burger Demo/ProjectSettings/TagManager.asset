@@ -17,6 +17,9 @@ TagManager:
   - Hazard
   - BattlePrefab
   - BattlePlayer
+  - Transition Tracker
+  - TV
+  - Transition Manager
   layers:
   - Default
   - TransparentFX

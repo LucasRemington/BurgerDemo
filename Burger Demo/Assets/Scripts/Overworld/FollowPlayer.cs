@@ -40,7 +40,7 @@ public class FollowPlayer : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);
         } else
         {
-            transform.position = new Vector3(-2f, 13.83f, 0);
+            transform.position = new Vector3(-2f, 13.83f, -1);
         }
     }
 
