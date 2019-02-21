@@ -12,6 +12,7 @@ public class FollowPlayer : MonoBehaviour
     public int[] yPositions;
     public int ySetter;
     public Vector3 cameraTarget;
+    public Vector3 battleCamera;
     public Vector3 xTarget;
     public int zTrack;
 
@@ -40,7 +41,7 @@ public class FollowPlayer : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);
         } else
         {
-            transform.position = new Vector3(-2f, 13.83f, -1);
+            transform.position = battleCamera;
         }
     }
 
