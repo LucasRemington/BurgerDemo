@@ -20,10 +20,19 @@ public class OverworldMovement : MonoBehaviour {
     [Header("Basic Movement")]
     [Tooltip("Player move speed.")] public float moveSpeed = 10.0f;
     [Tooltip("Player ladder-climb speed.")] public float climbSpeed = 3.0f;
+    [Tooltip("How much to divide move speed by when crouching.")] public float crouchSpeedDivider;
     [Tooltip("Can the player currently move? Used for the sake of cutscenes and if the player falls from a high place.")] public bool canMove = true;
     [Tooltip("Whether or not the player is slipping and can't control their movement.")] [HideInInspector] public bool slipping;
     [HideInInspector] public bool slipLeft;
     [HideInInspector] public bool slipRight;
+    [Tooltip("Is the player crouching? Do I need to explain this?")] public bool crouching;
+    private float tempMoveSpeed;
+
+    private CapsuleCollider2D playColl;
+    private Vector2 baseCollSize;
+    private Vector2 baseCollOffset;
+    [Tooltip("The X and Y dimensions for the capsule collider's size when crouching.")] public Vector2 crouchCollSize;
+    [Tooltip("The X and Y dimensions for the capsule collider's offset when crouching.")] public Vector2 crouchCollOffset;
 
     // [Header("Jumping")]
     //public float jumpHeight = 0.3f;
@@ -45,6 +54,7 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("When the player grabs onto a ladder from the top, this takes the player's y position at the start so that it can be lerped.")] private float tempYPos;
     [Tooltip("When the player grabs onto a ladder from the top, this bool prevents the player from moving and slides them into position smoothly with a lerp.")] public bool topDownGrabbing;
     [Tooltip("Whether or not the player is allowed to grab the ladder below them.")] private bool canGrabDown;
+    [Tooltip("If the player is currently inside the hitbox for the topmost part of a ladder.")] public bool touchingLadderCap;
 
     private float tempTimerMax = 0.25f;
 
@@ -66,13 +76,6 @@ public class OverworldMovement : MonoBehaviour {
 
     private bool landingAnim;
 
-    // The below is obselete and can be removed.
-   /* [Header("Fall Damage Calculation: Select Only One")]
-    
-    [Tooltip("For every block past and including the initial damage start distance, the damage the player takes increases by fallDamPercent. Ex: 5, 10, 15, 20, 25, etc")] public bool linearDamage = true;
-    [Tooltip("For every block past and including the initial damage start distance, the damage the player takes doubles. Ex, 5, 10, 20, 40, 80, Death.")] public bool expoDamage;
-    [Tooltip("For every block past and including the initial damage start distance, the damage the player takes is....uh....see the example. Ex: 5, 5, 10, 15, 25, 40, 65, Death.")] public bool fibboDamage;*/
-
     public void PseudoStart () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         playerAnim = GetComponent<Animator>();
@@ -84,6 +87,10 @@ public class OverworldMovement : MonoBehaviour {
         health = gameController.GetComponent<BattleTransitions>().playerHealth;
         damText = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
 
+        tempMoveSpeed = moveSpeed;
+        playColl = GetComponent<CapsuleCollider2D>();
+        baseCollOffset = playColl.offset;
+        baseCollSize = playColl.size;
     }
 	
 	void Update () {
@@ -124,6 +131,36 @@ public class OverworldMovement : MonoBehaviour {
                 playerAnim.SetBool("Falling", false);
             }
 
+            // Crouch? Crouch. But we need to be able to move. And not be on a ladder. And need to be grounded. Plus a couple other things but those are mostly standard. We'll determine the crouching status first, and then if we are crouching, apply proper affects.
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                if (canMove && !onLadder && grounded && !topDownGrabbing)
+                {
+                    crouching = true;
+                }
+            }
+            if (!Input.GetKey(KeyCode.DownArrow) || onLadder || !canMove || !grounded || topDownGrabbing)
+            {
+                crouching = false;
+            }
+
+
+            // Here's what actually happens when we crouch! We cut our movespeed a bit, and adjust the player collider. Lucas, you can set some animation triggers here as need be.
+            if (crouching)
+            {
+                moveSpeed = tempMoveSpeed / crouchSpeedDivider;
+                playColl.size = crouchCollSize;
+                playColl.offset = crouchCollOffset;
+                //anim here
+            }
+
+            if (!crouching)
+            {
+                moveSpeed = tempMoveSpeed;
+                playColl.size = baseCollSize;
+                playColl.offset = baseCollOffset;
+                //anim here
+            }
 
 
             // While on the ladder we just make sure we keep climbing and gravity remains off! We also lerp to the center of the ladder to make it a smoother transition.
@@ -200,6 +237,11 @@ public class OverworldMovement : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "LadderCap")
+            touchingLadderCap = true;
+    }
 
     // Ladder stuff! If we're overlapping a ladder and hit up or down, we grab it! Translate onto its center, disable gravity, and begin climbing! We also disable the "floor" of the ladder, too.
     // We keep a list of all the ladders that the player has been on, so that if multiple are stacked, the edge colliders for each of them are reenabled after leaving them.
@@ -252,7 +294,7 @@ public class OverworldMovement : MonoBehaviour {
 
 
         // To explain a few of these checks: The other object needs to be tagged ladder, but can't be its edge collider! We also need to be able to move. If we are already on a ladder, this allows us to add ladders in a chain to our aforementioned list. Otherwise we need to be holding either up or down.
-        if (((other.gameObject.tag == "Ladder" && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))) || (other.gameObject.tag == "Ladder" && onLadder == true)) && canMove && other.GetType() != typeof(EdgeCollider2D))
+        if (((other.gameObject.tag == "Ladder" && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))) || (other.gameObject.tag == "Ladder" && onLadder == true)) && canMove && other.GetType() != typeof(EdgeCollider2D) && !touchingLadderCap)
         {
             onLadder = true;
 
@@ -294,7 +336,12 @@ public class OverworldMovement : MonoBehaviour {
     {
         if (other.gameObject.tag == "Ladder" && ladder.Count > 0 && ladder[x] == other.gameObject)
             inLadderHitBox = false;
+
+        if (other.gameObject.tag == "LadderCap")
+            touchingLadderCap= false;
     }
+
+    
 
     // Check floor collision! We'll set the grounded check here, but for now it gets us off the ladder if we're touching the ground.
     private void OnCollisionEnter2D(Collision2D other)
@@ -316,6 +363,9 @@ public class OverworldMovement : MonoBehaviour {
         {
             canGrabDown = false;
         }
+
+        if (other.gameObject.tag == "Floor" || other.gameObject.tag == "Ladder")
+            StopCoroutine(GroundTimer());
     }
 
     // If we're holding onto the ladder and we touch the floor while also holding the down key, then we remove ourselves.
@@ -327,13 +377,15 @@ public class OverworldMovement : MonoBehaviour {
         }
 
         // Set grounded to true if we are colliding with the floor. Set gravity to normal.
-        if ((other.gameObject.tag == "Floor" || other.gameObject.tag == "Ladder" )&& !onLadder)
+        if ((other.gameObject.tag == "Floor" || other.gameObject.tag == "Ladder" ) && !onLadder)
         {
             GetComponent<Rigidbody2D>().gravityScale = 1;
             grounded = true;
             //playerAnim.SetBool("Falling", false);
             StopCoroutine(GroundTimer());
         }
+
+        
     }
 
     // If we leave the floor, start a coroutine that passes a miniscule amount of time before we're considered grounded.
@@ -521,6 +573,7 @@ public class OverworldMovement : MonoBehaviour {
     {
         canMove = false;
         yield return new WaitUntil(() => landingAnim == true);
+        yield return new WaitForSeconds(0.3f);
         landingAnim = false;
         canMove = true;
     }

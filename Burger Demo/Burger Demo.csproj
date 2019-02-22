@@ -254,10 +254,10 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/lreming1/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/mspilla4/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>C:/Users/lreming1/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/mspilla4/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unity\mscorlib.dll</HintPath>
@@ -306,6 +306,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BackgroundMusic.cs" />
     <Compile Include="Assets\Scripts\BattleTransitions.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DennisAnimEvent.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="Assets\Scripts\Overworld\Hazard.cs" />
     <Compile Include="Assets\Scripts\Overworld\Interactable.cs" />
     <Compile Include="Assets\Scripts\Overworld\OverworldMovement.cs" />
+    <Compile Include="Assets\Scripts\Overworld\PlayerSounds.cs" />
     <Compile Include="Assets\Scripts\Overworld\Room Transitions\SceneField.cs" />
     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionExit.cs" />
     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionManager.cs" />

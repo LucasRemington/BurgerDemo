@@ -14,6 +14,8 @@ public class TutorialEnemy : MonoBehaviour {
     public AudioSource victory;
     public GameObject gameController;
     public NarrativeScript1 ns1;
+    public int[] lastCombo = { 0, 0, 0, 0};
+    public int[] classicCombo = { 10, 1, 2, 3 };
 
     //public attack stats
     public float drops;
@@ -96,7 +98,7 @@ public class TutorialEnemy : MonoBehaviour {
         //clockAnim = clock.GetComponent<Animator>();
         //cheeseAnim = cheese.GetComponent<Animator>();
         //tearAnim = tear.GetComponent<Animator>();
-
+        
         movingForwards = true;
         seconds = Mathf.RoundToInt(enemySpeed - 2);
         mainCamera = GameObject.Find("Main Camera");
@@ -110,19 +112,45 @@ public class TutorialEnemy : MonoBehaviour {
     {
         Debug.Log("tookdamage");
         ns1.waitForScript = true;
+        //lastCombo = BCI.LastCombo;
         StartCoroutine(recieveAttackTimer());
     }
 
     public IEnumerator recieveAttackTimer ()
     {
+        bool same = false;
         yield return new WaitForSeconds(0.5f);
         LightningBolt.GetComponent<Animator>().SetTrigger("strike");
         /*yield return new WaitUntil(() => animFlag == true);
         animFlag = false;
         LightningBolt.SetActive(false);*/
-        ns1.convoStartNS1(convoToCall+3);
-        convoToCall++;
-        seconds = -2;
+        yield return new WaitForSeconds(1.5f);
+        if (lastCombo.Length == classicCombo.Length)
+        {
+            same = true;
+            Debug.Log("same length = " + same);
+            for (int i = 0; i < lastCombo.Length; i++)
+            {
+                if (lastCombo[i] != classicCombo[i])
+                    same = false;
+            }
+        }
+        if (convoToCall <= 3)
+        {
+            ns1.convoStartNS1(convoToCall + 3);
+            convoToCall++;
+            seconds = -2;
+        } else if (same) {
+            Debug.Log("correct combo");
+            convoToCall++;
+            ns1.convoStartNS1(convoToCall + 3);
+            seconds = -2;
+        }
+        else
+        {
+            Debug.Log("incorrect combo");
+            ns1.convoStartNS1(7);
+        }
     }
 
     public void TakeDamage(float finalDamage) //calculates damage taken by enemy
@@ -458,5 +486,7 @@ public class TutorialEnemy : MonoBehaviour {
             }
             yield return new WaitForEndOfFrame();
         }
+        yield return new WaitForSeconds(1.5f);
+        gameObject.GetComponent<Animator>().SetTrigger("Awake");
     }
 }

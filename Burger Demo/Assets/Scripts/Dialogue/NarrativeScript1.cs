@@ -69,35 +69,62 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public IEnumerator eventOne() //first event. Eventually, this will be the 'master function' calling shit in order via coroutines.
     {
+        // Black screen on startup. Pressing anything fades it out and spawns in the player.
         blackScreen.gameObject.SetActive(true);
         yield return new WaitUntil(() => Input.anyKey == true);
+
         StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
         yield return new WaitForSeconds(4f);
+
         startAnim.SetTrigger("Start");
+
+        // Wait until we walk into Dennis' office for the first time. 0.75f waits until we load in before grabbing Dennis and his components.
         Debug.Log("event1");
         yield return new WaitUntil(() => nm.room == 1); //change this to pull from gameManager + flag set from animation event 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.75f);
         dennis = GameObject.FindWithTag("Dennis");
         dennis = dennis.transform.Find("dennis").gameObject;
         sm = dennis.GetComponent<ScriptedMovement>();
         dennisAnim = dennis.GetComponent<Animator>();
         dennisSR = dennis.GetComponent<SpriteRenderer>();
+
+        // We wait for an animation flag to be set...I think this is shaking your hand? And we get into the first conversation with Dennis!
         yield return new WaitUntil(() => animationFlag == true);
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(0, false));
+        nm.owm.canMove = false;
+
+        // Once that convo is done and the player can move, we REALLY DON'T WANT THE PLAYER TO MOVE. PLEASE. STOP MOVING.
+        yield return new WaitUntil(() => nm.owm.canMove == true);
+        nm.owm.canMove = false;
+
+        // After the conversation is done and we've loaded into the hallway, sliiiiiide the player toward the training room!
         yield return new WaitUntil(() => dh.scriptedConvoDone[0] == true && nm.room == 2);
+
+        yield return new WaitUntil(() => nm.owm.canMove == true);
         nm.owm.canMove = false;
+
         sm = player.GetComponent<ScriptedMovement>();
-        yield return new WaitForSeconds(0.25f);
-        StartCoroutine(sm.MoveTo(player, new Vector3(225f, 0, 0), 4f));
+        //yield return new WaitForSeconds(0.75f);
+        StartCoroutine(sm.MoveTo(player, new Vector3(125f, 0, 0), 3f));
+
+        // Training room now, bitches.
         yield return new WaitUntil(() => nm.room == 3);
-        nm.owm.canMove = false;
+        //StopCoroutine(sm.MoveTo(player, new Vector3(225f, 0, 0), 2f));
+        //StartCoroutine(sm.MoveTo(player, new Vector3(0f, 0, 0), 0.25f));
+
+
         sm = player.GetComponent<ScriptedMovement>();
-        yield return new WaitForSeconds(0.25f);
+        
+        nm.owm.canMove = false;
+        
+
+        // Chair flips around, and we approach the Master.
+        yield return new WaitForSeconds(0.75f);
         playerSR.flipX = false;
         StartCoroutine(sm.MoveTo(player, new Vector3(7.6f, 0, 0), 0.8f));
         yield return new WaitUntil(() => sm.finished == true);
-        playerAnim.SetTrigger("Training");
+        playerAnim.SetTrigger("OfficeDennis");
         yield return new WaitUntil(() => animationFlag == true);
         animationFlag = false;
         holoMaster = GameObject.Find("TheMasterHolder");
@@ -142,10 +169,19 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(convo3Events(dia, scriptedConvo));
                 break;
             case 5 :
-                StartCoroutine(convo3Events(dia, scriptedConvo));
+                StartCoroutine(SingleLineConvos(dia, scriptedConvo));
                 break;
             case 6:
                 StartCoroutine(convo4Events(dia, scriptedConvo));
+                break;
+            case 7:
+                StartCoroutine(SingleLineConvos(dia, scriptedConvo));
+                break;
+            case 8:
+                StartCoroutine(SingleLineConvos(dia, scriptedConvo));
+                break;
+            case 9:
+                StartCoroutine(convo9Events(dia, scriptedConvo));
                 break;
         }
     }
@@ -260,11 +296,12 @@ public class NarrativeScript1 : MonoBehaviour {
                 yield return new WaitUntil(() => animationFlag == true);
                 animationFlag = false;
                 sm = player.GetComponent<ScriptedMovement>();
-                StartCoroutine(sm.MoveTo(player, new Vector3(4f, 0, 0), 0.5f));
+                StartCoroutine(sm.MoveTo(player, new Vector3(3.5f, 0, 0), 0.3f));                
                 dennisAnim.SetInteger("Scene1", 15);
                 playerAnim.SetTrigger("OfficeDennis");
                 dh.ongoingEvent = false;
                 dh.autoAdvance = true;
+                nm.owm.canMove = false;
                 break;
         }
     }
@@ -339,7 +376,6 @@ public class NarrativeScript1 : MonoBehaviour {
 
     IEnumerator convo3Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
-
         switch (scriptedConvo)
         {
             case 0:
@@ -416,6 +452,85 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 5:
                 dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
+
+    IEnumerator SingleLineConvos(int dia, int scriptedConvo) {
+        yield return new WaitForSeconds(0);
+        switch (dia)
+        {
+            case 5:
+                break;
+            case 7:
+                waitForScript = true;
+                dh.ongoingEvent = true;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
+                yield return new WaitForSeconds(1);
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+                te = tutEnemy.GetComponent<TutorialEnemy>();
+                StartCoroutine(te.EnemyTimer());
+                te.seconds = 10;
+                waitForScript = false;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                dh.ongoingEvent = false;
+                break;
+            case 8:
+                waitForScript = true;
+                dh.ongoingEvent = true;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
+                yield return new WaitForSeconds(1);
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                //te.convoToCall++;
+                tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
+                te = tutEnemy.GetComponent<TutorialEnemy>();
+                StartCoroutine(te.EnemyTimer());
+                te.seconds = 10;
+                waitForScript = false;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
+
+    IEnumerator convo9Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
+    {
+        yield return new WaitForSeconds(0);
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                waitForScript = true;
+                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
+                dh.ongoingEvent = false;
+                break;
+            case 1:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 2:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 3:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 4:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 5:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 6:
+                dh.ongoingEvent = true;
+                Debug.Log("battle should close now");
+                StartCoroutine(nm.bt.EndOfBattle(false));
+                waitForScript = false;
                 dh.ongoingEvent = false;
                 break;
         }

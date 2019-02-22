@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogItems:
   - Character: 3
-    CharacterPosition: 0
+    CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
     DialogueText: When the customer has been satisfied, they will depart. You will
       receive meat and ingredients as your reward.
@@ -89,7 +89,7 @@ MonoBehaviour:
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
   - Character: 3
-    CharacterPosition: 0
+    CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
     DialogueText: 'Furthermore, you will experience continued employment, and as such,
       continued existence. '
@@ -165,7 +165,7 @@ MonoBehaviour:
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
   - Character: 3
-    CharacterPosition: 0
+    CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
     DialogueText: 'Failure is termination. Termination is nothingness, for one such
       as you: for whom resurrection is impossible.'
@@ -241,11 +241,10 @@ MonoBehaviour:
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
   - Character: 3
-    CharacterPosition: 0
+    CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
     DialogueText: Never forget that pain, even pain that seems impossible to bear,
-      will never compare to an eternity of void-- the horror of nothing but darkness
-      behind the eyes, stretching out into endless oblivion, forever.
+      will never compare to an eternity of void--
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:
@@ -318,7 +317,83 @@ MonoBehaviour:
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
   - Character: 3
-    CharacterPosition: 0
+    CharacterPosition: 1
+    CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
+    DialogueText: The horror of nothing but darkness behind the eyes, stretching out
+      into endless oblivion, forever.
+    ChoiceText: []
+    CharacterName: ???
+    DialogueTextStyle:
+      m_Name: 
+      m_Normal:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Hover:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Active:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Focused:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnNormal:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnHover:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnActive:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnFocused:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Border:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Margin:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Overflow:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Font: {fileID: 0}
+      m_FontSize: 0
+      m_FontStyle: 0
+      m_Alignment: 0
+      m_WordWrap: 0
+      m_RichText: 0
+      m_TextClipping: 0
+      m_ImagePosition: 0
+      m_ContentOffset: {x: 0, y: 0}
+      m_FixedWidth: 0
+      m_FixedHeight: 0
+      m_StretchWidth: 0
+      m_StretchHeight: 0
+    TextPlayBackSpeed: 0
+    PlayBackSoundFile: {fileID: 0}
+  - Character: 3
+    CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
     DialogueText: 'Additionally, never forget to clean your workstation between orders.
       Hygiene is paramount. '
@@ -394,7 +469,7 @@ MonoBehaviour:
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
   - Character: 3
-    CharacterPosition: 0
+    CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
     DialogueText: Education concluded.
     ChoiceText: []

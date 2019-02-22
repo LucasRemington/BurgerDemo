@@ -12,7 +12,7 @@ public class ActionSelector : MonoBehaviour
     public GameObject Indicator;
     public bool isReady;
     public GameObject Player;
-    public GameObject choiceText;
+    public GameObject[] choiceText;
     public bool canRun = false;
 
     // Use this for initialization
@@ -26,12 +26,18 @@ public class ActionSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isReady && (!choiceText.activeInHierarchy || !Indicator.activeInHierarchy)){
-            choiceText.SetActive(true);
-            Indicator.SetActive(true);
-        } else if (!isReady && (choiceText.activeInHierarchy || Indicator.activeInHierarchy)){
-            choiceText.SetActive(false);
-            Indicator.SetActive(false);
+        for (int i = 0; i < choiceText.Length; i++)
+        {
+            if (isReady && (!choiceText[i].activeInHierarchy || !Indicator.activeInHierarchy))
+            {
+                choiceText[i].SetActive(true);
+                Indicator.SetActive(true);
+            }
+            else if (!isReady && (choiceText[i].activeInHierarchy || Indicator.activeInHierarchy))
+            {
+                choiceText[i].SetActive(false);
+                Indicator.SetActive(false);
+            }
         }
         if (Input.GetKeyDown(KeyCode.DownArrow) && isReady && option < 4 && ns1.waitForScript == false)
         {

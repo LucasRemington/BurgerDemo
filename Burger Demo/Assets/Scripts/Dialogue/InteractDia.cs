@@ -20,9 +20,9 @@ public class InteractDia : MonoBehaviour {
 
     private void Start()
     {
-        MainCamera = GameObject.FindWithTag("MainCamera");
+        MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         player = player.transform.Find("OverworldPlayer").gameObject;
         playerAnim = player.GetComponent<Animator>();
         canInteract = true;
@@ -48,7 +48,7 @@ public class InteractDia : MonoBehaviour {
     {
         canInteract = false;
         gs.Step();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         playerAnim.SetBool("Thinking", true);
         yield return new WaitUntil(() => nm.owm.canMove == true);
         gs.Step();

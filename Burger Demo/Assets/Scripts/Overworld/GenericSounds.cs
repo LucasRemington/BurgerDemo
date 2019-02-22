@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class GenericSounds : MonoBehaviour {
 
-    public GameObject gameController;
+    public GameObject GameController;
     public AudioClip[] walk;
     public int step;
     public SoundManager sm;
 
     void Start()
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController");
-        sm = gameController.GetComponent<SoundManager>();
+        GameController = GameObject.FindGameObjectWithTag("GameController");
+        sm = GameController.GetComponent<SoundManager>();
     }
 
     public void Step()
@@ -29,4 +29,5 @@ public class GenericSounds : MonoBehaviour {
         //Debug.Log(step);
         sm.audSo.Play();
     }
+
 }

@@ -43,6 +43,9 @@ public class NarrativeManager : MonoBehaviour {
     public bool canAdvance = true; //true when you can advance text
     public bool autoAdvance; //autoadvances dialogue
 
+    private bool spaceHeld;
+    private float textTime = 0.01f;
+
     public void PseudoStart ()
     {
         ns1 = GetComponent<NarrativeScript1>();
@@ -57,6 +60,7 @@ public class NarrativeManager : MonoBehaviour {
         StartCoroutine(combatUIOn());
         ClearText();
     }
+
 
     IEnumerator eventZero() //'event zero' occurs right at the beginning of the game. Might also be phased out.
     {
@@ -155,7 +159,7 @@ public class NarrativeManager : MonoBehaviour {
             imageTSCombat.sprite = sprite;
         }
     }
-     
+
     public IEnumerator AnimateText(Dialogue dia, int convoNumber) //makes text scroll retro-style instead of coming in all at once.
     {
 
@@ -167,28 +171,59 @@ public class NarrativeManager : MonoBehaviour {
         }
         int i = 0;
         canAdvance = false;
-        if (bt.battling == false)
+        bool isComplete = false;
+
+
+
+
+        if (bt.battling == false && !isComplete)
         {
             textTS.text = "";
             while (i < strComplete.Length)
             {
                 textTS.text += strComplete[i++];
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    textTS.text = strComplete;
+                    i = strComplete.Length;
+                }
                 yield return new WaitForSeconds(0.01f);
+
             }
         }
-        else
+        else if (bt.battling && !isComplete)
         {
+            //Debug.Log(strComplete);
             textTSCombat.text = "";
             while (i < strComplete.Length)
             {
                 textTSCombat.text += strComplete[i++];
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    textTSCombat.text = strComplete;
+                    i = strComplete.Length;
+                }
                 yield return new WaitForSeconds(0.01f);
             }
-        } 
+        }
+
+
+        /*while (spaceHeld && !Input.GetKey(KeyCode.Space))
+        {
+            spaceHeld = false;
+            yield return null;
+        }*/
+
+
         if (i == strComplete.Length)
         {
             canAdvance = true;
+            textTime = 0.01f;
+            spaceHeld = false;
         }
+        
     }
 
     public IEnumerator choiceAnimator(Dialogue dia, int convoNumber, int text) //called from AnimateText to animate text of choices

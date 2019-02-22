@@ -5,7 +5,7 @@ using UnityEngine;
 public class TransitionTracker : MonoBehaviour
 {
     [Tooltip("A list of every exit location in this scene. Must be manually set. Set 'size' to however many exits there are in this room.")] public List<Transform> exitList;
-    [Tooltip("The player object in each scene. Grabbed via script, you don't need to touch this!")] public GameObject player;
+    [Tooltip("The player object in each scene. Grabbed via script, you don't need to touch this! Except in the freezer. Please do that. The starting freezer. Y'know.")] public GameObject player;
 
 	void Start ()
     {

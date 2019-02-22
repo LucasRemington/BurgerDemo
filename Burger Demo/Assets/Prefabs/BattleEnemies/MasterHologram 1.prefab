@@ -263,7 +263,7 @@ Animator:
   m_GameObject: {fileID: 1575028108838074}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8d40e3446c37cee41a3a1989a96dd69b, type: 2}
+  m_Controller: {fileID: 9100000, guid: d7c89cdf1ef81a6488fb002d206b7a6c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -362,6 +362,8 @@ MonoBehaviour:
   victory: {fileID: 0}
   gameController: {fileID: 0}
   ns1: {fileID: 0}
+  lastCombo: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  classicCombo: 0a000000010000000200000003000000
   drops: 0
   baseMissChance: 0
   finalMissChance: 0

@@ -20,6 +20,7 @@ TagManager:
   - Transition Tracker
   - TV
   - Transition Manager
+  - PlayerNoises
   layers:
   - Default
   - TransparentFX

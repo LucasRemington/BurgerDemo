@@ -53,6 +53,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int fcArray; //array location set by components
     public Text comboText; // text that displays combo name
     bool noCombo; //true when no combo matches final array;
+    public int[] LastCombo = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     public Text[] infoText; //gives info about ingredients
     public Animator[] iconAnim; //icons flash when buttons are pressed
@@ -192,7 +193,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.01f);
         yield return new WaitUntil(() => Input.GetKeyDown(key) == true || topPlaced == true);
-        if (topPlaced == false)
+        if (topPlaced == false && componentNumber < componentCap)
         {
             yield return new WaitUntil(() => canSpawn == true);
             
@@ -240,6 +241,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         burgPlaceAnim();
+                        iconAnim[identity-1].SetTrigger("Bounce");
                         break;
                     case 2:
                         Debug.Log("Component2");
@@ -247,6 +249,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 3:
                         Debug.Log("Component3");
@@ -254,6 +257,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 4:
                         Debug.Log("Component4");
@@ -261,12 +265,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 5:
                         Debug.Log("Component 5");
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 6:
                         Debug.Log("Component 6");
@@ -275,6 +281,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
                         burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 7:
                         Debug.Log("Component 7");
@@ -283,6 +290,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
                         burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 8:
                         Debug.Log("Component 8");
@@ -291,12 +299,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
                         burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 9:
                         Debug.Log("Component 9");
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
                         burgPlaceAnim();
+                        iconAnim[identity - 1].SetTrigger("Bounce");
                         break;
                     case 10:
                         Debug.Log("Component 10");
@@ -397,11 +407,13 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             hasMeat = true;
         else
             hasMeat = false;
+        te.lastCombo = finalCombo;
         gameObject.SetActive(false);
     }
 
     public IEnumerator ClearBurger() //resets most variables
     {
+        //yield return new WaitForSeconds(0.2f);
         spawnReset = true;
         topPlaced = false;
         pattyDropped = false;
@@ -1031,13 +1043,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         found = false;
 
         // insert more subcombo checks here
-        for (int i = 0; i < componentCap; i++) //returns finalcombo array to all 0
-        {
-            finalCombo[i] = 0;
-        }
-        for (int i = 0; i < componentCount.Length; i++) {
-            componentCount[i] = 0;
-        }
+        
     }
 
     public void burgPlaceAnim() {
@@ -1075,6 +1081,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
         if (te != null) {
             isTutorial = true;
+        }
+        for (int i = 0; i < componentCap; i++) //returns finalcombo array to all 0
+        {
+            finalCombo[i] = 0;
+        }
+        for (int i = 0; i < componentCount.Length; i++)
+        {
+            componentCount[i] = 0;
         }
     }
 }

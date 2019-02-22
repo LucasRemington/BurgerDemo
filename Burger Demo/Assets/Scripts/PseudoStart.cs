@@ -20,12 +20,12 @@ public class PseudoStart : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        MainCamera = GameObject.FindWithTag("MainCamera");
+        MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
         ns1 = MainCamera.GetComponent<NarrativeScript1>();
         dh = MainCamera.GetComponent<DialogHolder>();
         fp = MainCamera.GetComponent<FollowPlayer>();
-        playerHolder = GameObject.FindWithTag("Player");
+        playerHolder = GameObject.FindGameObjectWithTag("Player");
         player = playerHolder.transform.Find("OverworldPlayer").gameObject;
         ovm = player.GetComponent<OverworldMovement>();
         GameController = GameObject.FindWithTag("GameController");

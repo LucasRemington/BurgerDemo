@@ -58,4 +58,9 @@ MonoBehaviour:
   ph: {fileID: 0}
   OverworldObjects: []
   currentEnemy: {fileID: 0}
+  enemyStart: {fileID: 0}
+  battleIntro: {fileID: 0}
+  db: {fileID: 0}
   battling: 0
+  MainCamera: {fileID: 0}
+  nm: {fileID: 0}

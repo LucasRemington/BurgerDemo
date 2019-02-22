@@ -104,7 +104,7 @@ public class TransitionManager : MonoBehaviour
         while (i.color.a < 1.0f)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
-            Debug.Log("Fading...");
+            Debug.Log("Fading in: " + SceneManager.GetActiveScene().name);
             yield return null;
         }
         if (i.color.a >= 1.0f && coCalled == false)
@@ -123,5 +123,6 @@ public class TransitionManager : MonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
+        
     }
 }
