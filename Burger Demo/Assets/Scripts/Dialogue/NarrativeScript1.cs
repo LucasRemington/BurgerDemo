@@ -120,10 +120,10 @@ public class NarrativeScript1 : MonoBehaviour {
         
 
         // Chair flips around, and we approach the Master.
-        yield return new WaitForSeconds(0.75f);
-        playerSR.flipX = false;
+        yield return new WaitForSeconds(0.75f);        
         StartCoroutine(sm.MoveTo(player, new Vector3(7.6f, 0, 0), 0.8f));
         yield return new WaitUntil(() => sm.finished == true);
+        playerSR.flipX = false;
         playerAnim.SetTrigger("OfficeDennis");
         yield return new WaitUntil(() => animationFlag == true);
         animationFlag = false;
@@ -143,7 +143,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
         animationFlag = false;
         //StartCoroutine(dh.GenericFirstConvo(2, true));
-        yield return new WaitUntil(() => animationFlag == true && nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
+        yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(9, false));
         nm.ev++;
@@ -368,9 +368,9 @@ public class NarrativeScript1 : MonoBehaviour {
             case 9:
                 StartCoroutine(dh.GenericFirstConvo(9, true));
                 break;
-            case 10:
+            /*case 10:
                 StartCoroutine(dh.GenericFirstConvo(10, true));
-                break;
+                break;*/
         }
     }
 

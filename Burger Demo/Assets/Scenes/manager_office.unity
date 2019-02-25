@@ -2532,7 +2532,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4907049510018702, guid: ef5876c2872625045bbcc85bfa43f675, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 11.728732
+      value: 10.75
       objectReference: {fileID: 0}
     - target: {fileID: 4907049510018702, guid: ef5876c2872625045bbcc85bfa43f675, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2604,6 +2604,11 @@ Prefab:
         type: 2}
       propertyPath: narrativeIndex
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61151664058455910, guid: ef5876c2872625045bbcc85bfa43f675,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 4.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5876c2872625045bbcc85bfa43f675, type: 2}
@@ -7225,7 +7230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1761072ce1aae84b961d488a179c577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 0}
+  GameController: {fileID: 0}
   walk:
   - {fileID: 8300000, guid: be795b3c667cf164496ea2e58dac85f3, type: 3}
   - {fileID: 8300000, guid: 4d8080f566175ff498470d5fa457f64b, type: 3}

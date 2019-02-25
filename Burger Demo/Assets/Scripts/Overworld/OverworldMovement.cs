@@ -151,7 +151,7 @@ public class OverworldMovement : MonoBehaviour {
                 moveSpeed = tempMoveSpeed / crouchSpeedDivider;
                 playColl.size = crouchCollSize;
                 playColl.offset = crouchCollOffset;
-                //anim here
+                GetComponent<Animator>().SetBool("Crouching",true);//anim here
             }
 
             if (!crouching)
@@ -159,7 +159,7 @@ public class OverworldMovement : MonoBehaviour {
                 moveSpeed = tempMoveSpeed;
                 playColl.size = baseCollSize;
                 playColl.offset = baseCollOffset;
-                //anim here
+                GetComponent<Animator>().SetBool("Crouching", false);//anim here
             }
 
 
