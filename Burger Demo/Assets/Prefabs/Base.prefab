@@ -2082,7 +2082,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.721
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3378,7 +3378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owm: {fileID: 0}
   bt: {fileID: 114809053561614706}
-  ns1: {fileID: 0}
+  ns1: {fileID: 114409692543097698}
   player: {fileID: 0}
   BurgerSpawner: {fileID: 1245795586985240}
   bci: {fileID: 114491548994834132}
@@ -3645,6 +3645,12 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   IB: {fileID: 0}
+  audio: {fileID: 0}
+  shortBubble: {fileID: 0}
+  longBubble: {fileID: 0}
+  sploosh: {fileID: 0}
+  openDoor: {fileID: 0}
+  Cough: {fileID: 0}
 --- !u!114 &114223021662407246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5195,6 +5201,12 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   IB: {fileID: 1606279549127880}
+  audio: {fileID: 0}
+  shortBubble: {fileID: 0}
+  longBubble: {fileID: 0}
+  sploosh: {fileID: 0}
+  openDoor: {fileID: 0}
+  Cough: {fileID: 0}
 --- !u!114 &114634642100512682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6297,6 +6309,8 @@ MonoBehaviour:
   dh: {fileID: 0}
   player: {fileID: 1307309391771030}
   playerAnim: {fileID: 95099079875426308}
+  handshakeSound: {fileID: 0}
+  buttonPressSound: {fileID: 0}
   did: 0
   kill: []
 --- !u!212 &212628301585509064

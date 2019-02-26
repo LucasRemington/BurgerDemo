@@ -100,10 +100,8 @@ public class NarrativeScript1 : MonoBehaviour {
 
         // After the conversation is done and we've loaded into the hallway, sliiiiiide the player toward the training room!
         yield return new WaitUntil(() => dh.scriptedConvoDone[0] == true && nm.room == 2);
-
         yield return new WaitUntil(() => nm.owm.canMove == true);
         nm.owm.canMove = false;
-
         sm = player.GetComponent<ScriptedMovement>();
         //yield return new WaitForSeconds(0.75f);
         StartCoroutine(sm.MoveTo(player, new Vector3(125f, 0, 0), 3f));
@@ -144,6 +142,7 @@ public class NarrativeScript1 : MonoBehaviour {
         animationFlag = false;
         //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
+        Debug.Log("battle is over");
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(9, false));
         nm.ev++;

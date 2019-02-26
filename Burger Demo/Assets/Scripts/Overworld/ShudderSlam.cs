@@ -6,6 +6,8 @@ public class ShudderSlam : MonoBehaviour {
 
     public Animator anim;
     public GameObject player;
+    public AudioClip clip;
+
 
     void Start () {
         anim = GetComponent<Animator>();
@@ -19,5 +21,12 @@ public class ShudderSlam : MonoBehaviour {
         {
             anim.SetTrigger("Slam");
         }
+    }
+
+    void Sound()
+    {
+        GetComponent<AudioSource>().clip = clip;
+        GetComponent<AudioSource>().Play();
+
     }
 }

@@ -355,7 +355,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
         {
-            StartCoroutine(ClearBurger());
+            StartCoroutine(ClearBurger(true));
         } else if (Input.GetKeyDown(KeyCode.Space) == true)
         {
             ph.protag.SetTrigger("BurgerThrow");
@@ -364,7 +364,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             {
                 ph.HealDamage(Mathf.RoundToInt(heal));
             }
-            StartCoroutine(ClearBurger());
+            StartCoroutine(ClearBurger(false));
         }
     }
 
@@ -411,7 +411,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-    public IEnumerator ClearBurger() //resets most variables
+    public IEnumerator ClearBurger(bool thrown) //resets most variables
     {
         //yield return new WaitForSeconds(0.2f);
         spawnReset = true;
@@ -431,11 +431,12 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
         clearText();
         spawnReset = false;
-        StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0));
         bounceTrigger = 0;
         if (isTutorial) {
             te.seconds = -2;
         }
+        yield return new WaitForSeconds(2);
+        StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0));
     }
 
     void IngredientsInfo ()
@@ -939,7 +940,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public void UponDeath () //triggers through animation on death
     {
         playerDead = true;
-        ClearBurger();
+        ClearBurger(false);
         ResetAttack();
         StartCoroutine(FadeImageToFullAlpha(2, fadeBlack));
     }

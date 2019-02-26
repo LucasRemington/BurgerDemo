@@ -8,15 +8,45 @@ public class Hazard : MonoBehaviour
 {
     public enum HazardType { Pitfall, Slip, Knockback };
     //public enum DamageType { percent, flat };
-
-    [Tooltip("The base type of hazard this specific hazard falls under!")] public HazardType hazardType;
     //[Tooltip("The type of damage the player takes; is it flat damage, or a percent of their health?")] public DamageType damageType;
-    [Tooltip("The amount of damage that this hazard does. Set at or above 100% to be lethal.")] public int damage;
-    [Tooltip("How much force is applied to knock the player away from the hazard if it's a knockback hazard?")] public float knockbackForce;
+
+    [Header("Type")]
+    [Tooltip("The base type of hazard this specific hazard falls under!")] public HazardType hazardType;
+
+    [Header("Universal")]
+    [Tooltip("Is this a one-time hazard or no?")] public bool destroyOnUse;
+    [Tooltip("Does this hazard have a period where it turns off on a timer?")] public bool timed;
+
+    [Header("Timers")]
     [Tooltip("How long does it take for the player to be able to move again? Make sure this is less than the player's own invulnerability timer!")] public float knockbackTime;
     [Tooltip("For how long does the player slip for?")] public float slipTime;
-    [Tooltip("Is this a one-time hazard or no?")] public bool destroyOnUse;
+    [Tooltip("If this is a timed hazard, how long is its active phase?")] public float activeTime;
+    [Tooltip("If this is a timed hazard, how long is its inactive phase?")] public float inactiveTime;
 
+    [Header("Forces")]
+    [Tooltip("The amount of damage that this hazard does. Set at or above 100% to be lethal.")] public int damage;
+    [Tooltip("How much force is applied to knock the player away from the hazard if it's a knockback hazard?")] public float knockbackForce;
+
+    private void Start()
+    {
+        StartCoroutine(Timer());
+    }
+
+    private IEnumerator Timer()
+    {
+        while (timed)
+        {
+            yield return new WaitForSeconds(activeTime);
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+
+            yield return new WaitForSeconds(inactiveTime);
+            GetComponent<SpriteRenderer>().enabled = true;
+            GetComponent<Collider2D>().enabled = true;
+        }
+
+        yield return null;
+    }
 
     private void OnTriggerStay2D(Collider2D other)
     {

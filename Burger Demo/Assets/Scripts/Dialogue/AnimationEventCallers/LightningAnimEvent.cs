@@ -16,4 +16,10 @@ public class LightningAnimEvent : MonoBehaviour {
 	void StartTalking () {
         te.ph.DealDamage(5);
 	}
+
+    void ZapSound()
+    {
+        GetComponent<AudioSource>().Play();
+
+    }
 }

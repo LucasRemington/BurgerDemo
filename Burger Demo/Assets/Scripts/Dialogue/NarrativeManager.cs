@@ -57,11 +57,11 @@ public class NarrativeManager : MonoBehaviour {
     public void Start () //note that the Narrative Script and each sub-script are intended to be on the same object. Other scripts currently reference MainCamera, so use that.
     {
         CheckEvent();
+        ns1.blackScreen.gameObject.SetActive(true);
         StartCoroutine(combatUIOn());
         ClearText();
     }
-
-
+    
     IEnumerator eventZero() //'event zero' occurs right at the beginning of the game. Might also be phased out.
     {
         //yield return new WaitUntil(() => room == 1);

@@ -489,4 +489,10 @@ public class TutorialEnemy : MonoBehaviour {
         yield return new WaitForSeconds(1.5f);
         gameObject.GetComponent<Animator>().SetTrigger("Awake");
     }
+
+    void AppearSound()
+    {
+        GetComponent<AudioSource>().Play();
+    }
 }
+

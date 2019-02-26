@@ -10,12 +10,17 @@ public class DennisAnimEvent : MonoBehaviour {
     public GameObject player;
     public Animator playerAnim;
 
+    private AudioSource audio;
+    public AudioClip handshakeSound;
+    public AudioClip buttonPressSound;
+
     public bool did;
     public GameObject[] kill;
     private int i;
     private bool Started;
 
     void Start () {
+        audio = GetComponent<AudioSource>();
         StartCoroutine(lateStart());
     }
 
@@ -56,4 +61,20 @@ public class DennisAnimEvent : MonoBehaviour {
         i++;
     }
 
+    void Handshake()
+    {
+        audio.clip = handshakeSound;
+        audio.Play();
+    }
+
+    void ButtonPress()
+    {
+        audio.clip = buttonPressSound;
+        audio.Play();
+    }
+
+    void AppearSound() // for the master
+    {
+        GetComponent<AudioSource>().Play();
+    }
 }
