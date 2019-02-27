@@ -21,6 +21,7 @@ TagManager:
   - TV
   - Transition Manager
   - PlayerNoises
+  - ShudderWall
   layers:
   - Default
   - TransparentFX

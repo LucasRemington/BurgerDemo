@@ -343,7 +343,6 @@
     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionExit.cs" />
     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionManager.cs" />
     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionTracker.cs" />
-    <Compile Include="Assets\Scripts\Overworld\SceneSwitcher.cs" />
     <Compile Include="Assets\Scripts\Overworld\ScriptedMovement.cs" />
     <Compile Include="Assets\Scripts\Overworld\ShudderSlam.cs" />
     <Compile Include="Assets\Scripts\Overworld\Sign.cs" />

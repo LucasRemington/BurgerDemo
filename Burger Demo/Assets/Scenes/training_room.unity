@@ -4796,7 +4796,7 @@ Prefab:
     - target: {fileID: 114664357968783796, guid: ef5876c2872625045bbcc85bfa43f675,
         type: 2}
       propertyPath: exitIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114664357968783796, guid: ef5876c2872625045bbcc85bfa43f675,
         type: 2}

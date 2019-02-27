@@ -9,8 +9,8 @@ public class FollowPlayer : MonoBehaviour
     public OverworldMovement owm;
     private Vector3 offset;
     public int yTrack;
-    public int[] yPositions;
-    public int ySetter;
+    public float[] yPositions;
+    public float ySetter;
     public Vector3 cameraTarget;
     public Vector3 battleCamera;
     public Vector3 xTarget;
@@ -36,6 +36,12 @@ public class FollowPlayer : MonoBehaviour
     {
         if (bt.battling == false)
         {
+            if (player.GetComponent<OverworldMovement>().crouching)
+                ySetter = player.transform.position.y - 1.6f;
+            else if (!player.GetComponent<OverworldMovement>().grounded)
+                ySetter = player.transform.position.y;
+            else
+                ySetter = player.transform.position.y+1.58f;
             xTarget = new Vector3(player.transform.position.x + offset.x, ySetter, zTrack);
             cameraTarget = new Vector3(player.transform.position.x, ySetter, zTrack);
             transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);

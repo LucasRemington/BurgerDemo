@@ -28,6 +28,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public Animator startAnim;
     public Image blackScreen;
     public bool waitForScript;
+    public GameObject[] walls;
 
     public Dialogue dennis1; // specific dialogue modified by player choice
     //public string[] choiceFor_dennis1; //string holding the dialogue for choice changes. Kept in for template only
@@ -144,9 +145,38 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         Debug.Log("battle is over");
         animationFlag = false;
-        StartCoroutine(dh.GenericFirstConvo(9, false));
+        yield return new WaitUntil(() => nm.room == 2);
+
+        //StartCoroutine(dh.GenericFirstConvo(9, false));
+        
         nm.ev++;
         nm.CheckEvent();
+    }
+
+    public IEnumerator eventTwo() {
+        if (nm.room == 2)
+        {
+            walls = GameObject.FindGameObjectsWithTag("ShudderWall");
+            foreach (GameObject wall in walls)
+            {
+                wall.GetComponent<AudioSource>().mute = true;
+                wall.GetComponent<Animator>().SetTrigger("Slam");
+                wall.GetComponent<BoxCollider2D>().isTrigger = false;           // makes sure all the walls are closed and does so quietly
+            }
+            yield return new WaitForSeconds(3);
+            foreach (GameObject wall in walls)
+            {
+                wall.GetComponent<AudioSource>().mute = false;
+            }
+        }
+        yield return new WaitUntil(()=> nm.room == 1);
+        player.GetComponent<SpriteRenderer>().flipX = true;
+        Debug.Log("In Dennis' room");
+        dennis = GameObject.FindGameObjectWithTag("Dennis");
+        dennis = dennis.transform.Find("dennis").gameObject;
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(7.6f, 0, 0), 0.1f));
+
+
     }
 
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
@@ -181,6 +211,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 9:
                 StartCoroutine(convo9Events(dia, scriptedConvo));
+                break;
+            case 10:
                 break;
         }
     }
@@ -367,9 +399,12 @@ public class NarrativeScript1 : MonoBehaviour {
             case 9:
                 StartCoroutine(dh.GenericFirstConvo(9, true));
                 break;
-            /*case 10:
-                StartCoroutine(dh.GenericFirstConvo(10, true));
-                break;*/
+            case 10:
+                StartCoroutine(dh.GenericFirstConvo(10, false));
+                break;
+            case 11:
+                StartCoroutine(dh.GenericFirstConvo(11, false));
+                break;
         }
     }
 
@@ -534,7 +569,57 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
         }
     }
+    IEnumerator DennisConvo2(int dia, int scriptedConvo)
+    {
+        yield return new WaitForSeconds(0);
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 1:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 2:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 3:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 4:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 5:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 6:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
 
+    IEnumerator DennisConvo3(int dia, int scriptedConvo)
+    {
+        yield return new WaitForSeconds(0);
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 1:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
     IEnumerator SecondTimer (float time)
     {
         timerFlag = false;

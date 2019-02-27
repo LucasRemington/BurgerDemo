@@ -91,6 +91,8 @@ public class OverworldMovement : MonoBehaviour {
         playColl = GetComponent<CapsuleCollider2D>();
         baseCollOffset = playColl.offset;
         baseCollSize = playColl.size;
+
+        ladder.Clear();
     }
 	
 	void Update () {

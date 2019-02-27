@@ -26,7 +26,6 @@ public class ShudderSlam : MonoBehaviour {
     void Sound()
     {
         GetComponent<AudioSource>().clip = clip;
-        GetComponent<AudioSource>().Play();
-
+        GetComponent<AudioSource>().Play();        
     }
 }
