@@ -601,7 +601,7 @@ Prefab:
         type: 2}
     - target: {fileID: 1307309391771030, guid: b852a1219ddfedd46b2f1f20b74272d6, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1703654980154850, guid: b852a1219ddfedd46b2f1f20b74272d6, type: 2}
       propertyPath: m_IsActive
@@ -30899,6 +30899,7 @@ GameObject:
   - component: {fileID: 884009751}
   - component: {fileID: 884009750}
   - component: {fileID: 884009753}
+  - component: {fileID: 884009754}
   m_Layer: 0
   m_Name: Dark World Burger Intro Animation Cutscene_0
   m_TagString: Untagged
@@ -30997,6 +30998,107 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   IB: {fileID: 862095550}
+  audio: {fileID: 884009754}
+  shortBubble: {fileID: 8300000, guid: b95f8bf380121534ebf4125e56529738, type: 3}
+  longBubble: {fileID: 8300000, guid: 4ad565b582f750a4a89720af81fc40c1, type: 3}
+  sploosh: {fileID: 8300000, guid: b2f8b56a2046cd143bd2be9fa3ec6e8e, type: 3}
+  openDoor: {fileID: 8300000, guid: a254b70925f0d9644ad8684de60e1eb7, type: 3}
+  Cough: {fileID: 8300000, guid: 4185381165b9ab8489a23583412204a0, type: 3}
+--- !u!82 &884009754
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 884009749}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &891880421
 Prefab:
   m_ObjectHideFlags: 0
