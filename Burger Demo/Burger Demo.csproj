@@ -348,6 +348,7 @@
     <Compile Include="Assets\Scripts\Overworld\ShudderSlam.cs" />
     <Compile Include="Assets\Scripts\Overworld\Sign.cs" />
     <Compile Include="Assets\Scripts\PseudoStart.cs" />
+    <Compile Include="Assets\Scripts\SaveLoad.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
     <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Scripts\TechManager.cs" />

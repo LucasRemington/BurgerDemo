@@ -48,7 +48,7 @@ public class Door : MonoBehaviour {
         }
         else if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == false)
         {
-            StartCoroutine(dh.GenericInteractable(dialogueIdentity));
+            //StartCoroutine(dh.GenericInteractable(dialogueIdentity));
         }
     }
 

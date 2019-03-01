@@ -22,7 +22,7 @@ public class DialogHolder : MonoBehaviour {
 
     public int sizeOfList; //set equal to the number of items in a dialogue element
     public int sizeOfListInteractable;
-    public bool ongoingEvent; //true when a dialogue event is ongoing
+    public bool ongoingEvent; //true when a dialogue event is ongoingconvoChecker
     public int choiceHover; // 1 for left choice 2 for right choice
     public int choiceSelected; //final choice
     public bool choiceMade; //
@@ -106,7 +106,7 @@ public class DialogHolder : MonoBehaviour {
         }
     }
 
-    public IEnumerator GenericInteractable(int interactableIdentity) //same as conversation except for interactable objects. These probably could be one function, but it was a little more readable to split them.
+    /*public IEnumerator GenericInteractable(int interactableIdentity) //same as conversation except for interactable objects. These probably could be one function, but it was a little more readable to split them.
     {
         if (interactConvoStart[interactableIdentity] == false)
         {
@@ -131,36 +131,64 @@ public class DialogHolder : MonoBehaviour {
         {
             StartCoroutine(GenericInteractable(interactableIdentity));
         }
-    }
+    }*/
 
-    public IEnumerator choiceChecker()
+    public IEnumerator GenericInteractableNew(Dialogue dia) //Trying a new spin on the generic interactable script, this time not requiring you to link indexes. In this case, 0 in the array should be left empty of any sort of dialogue and will be a default index, but won't read from there. Instead, only dialogues that want to be checked for "has been used" need be added, and are found dynamically.
     {
-        yield return new WaitUntil(() => (nm.choiceText[0].enabled == true));
-        nm.choiceText[0].color = Color.red;
-        choiceHover = 1;
-        StartCoroutine(arrowColors());
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || autoAdvance == true);
-        choiceSelected = choiceHover;
-        choiceMade = true;
-        yield return new WaitForSeconds(0.05f);
-        choiceSelected = 0;
-        choiceMade = false;
-    }
-
-    public IEnumerator arrowColors ()
-    {
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.RightArrow) || choiceMade == true);
-        nm.choiceText[0].color = Color.white;
-        nm.choiceText[1].color = Color.red;
-        choiceHover = 2;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.LeftArrow) || choiceMade == true);
-        nm.choiceText[1].color = Color.white;
-        nm.choiceText[0].color = Color.red;
-        choiceHover = 1;
-        if (choiceMade == false)
+        int interactableIdentity = 0;
+        foreach (Dialogue dialogue in Interactable)
         {
-            StartCoroutine(arrowColors());
+            if (dialogue == dia)
+                interactableIdentity = System.Array.IndexOf(Interactable, dialogue);
+            else
+                interactableIdentity = 0;
+        }
+
+        if (interactConvoStart[interactableIdentity] == false)
+        {
+            interactConvoStart[interactableIdentity] = true;
+            StartCoroutine(nm.dialogueBox(false));
+            sizeOfListInteractable = dia.DialogItems.Count;
+        }
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(nm.AnimateText(dia, interactConvo[interactableIdentity]));
+        interactConvo[interactableIdentity]++;
+        //here is where we put a switch(?) statement calling other functions when appropriate
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && !nm.choiceFilling);
+        //Debug.Log("interact convo = " + interactConvo[interactableIdentity] + "  &   Size of List = " + sizeOfListInteractable);
+        if (interactConvo[interactableIdentity] >= sizeOfListInteractable)
+        {
+            StartCoroutine(nm.dialogueEnd());
+            interactConvoDone[interactableIdentity] = true;
+            interactConvo[interactableIdentity] = 0;
+            interactConvoStart[interactableIdentity] = false;
+        }
+        else
+        {
+            StartCoroutine(GenericInteractableNew(dia));
         }
     }
+
+    public void CancelDialogue(bool endNow)
+    {
+        StopAllCoroutines();
+
+        for (int i = 0; i < interactConvo.Length; i++)
+        {
+            interactConvo[i] = 0;
+            interactConvoStart[i] = false;
+        }
+
+        for (int i = 0; i < scriptedConvo.Length; i++)
+        {
+            scriptedConvo[i] = 0;
+            scriptedConvoStart[i] = false;
+        }
+
+        if (endNow)
+            nm.StartCoroutine(nm.dialogueEnd());
+
+    }
+    
 
 }

@@ -95,6 +95,7 @@ public class NarrativeScript1 : MonoBehaviour {
 
         // We wait for an animation flag to be set...I think this is shaking your hand? And we get into the first conversation with Dennis!
         yield return new WaitUntil(() => animationFlag == true);
+        playerAnim.SetTrigger("ResetIdle");
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(0, false));
         nm.owm.canMove = false;
@@ -120,7 +121,7 @@ public class NarrativeScript1 : MonoBehaviour {
         sm = player.GetComponent<ScriptedMovement>();
         
         nm.owm.canMove = false;
-        
+        Debug.Log("room 3 ");
 
         // Chair flips around, and we approach the Master.
         yield return new WaitForSeconds(1.5f);        
@@ -146,8 +147,8 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
         animationFlag = false;
         //StartCoroutine(dh.GenericFirstConvo(2, true));
-        //yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
-        //Debug.Log("battle is over");
+        yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
+        Debug.Log("battle is over");
         animationFlag = false;
         yield return new WaitUntil(() => nm.room == 2);
 
@@ -308,7 +309,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 StartCoroutine(nm.isQuestion(dh.Scripted[dia], scriptedConvo + 1)); //dh.scriptedConvo[scriptedConvo]
                 yield return new WaitUntil(() => nm.dbChoiceSS == true);
-                StartCoroutine(dh.choiceChecker());
+                StartCoroutine(nm.choiceChecker());
                 StartCoroutine(SecondTimer(1f));
                 yield return new WaitUntil(() => timerFlag == true); //normally is dh.choiceMade == true
                 Debug.Log("timer true");

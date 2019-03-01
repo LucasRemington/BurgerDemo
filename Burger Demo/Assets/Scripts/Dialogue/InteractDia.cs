@@ -5,18 +5,24 @@ using UnityEngine;
 public class InteractDia : MonoBehaviour {
 
     //critical game objects
-    public GameObject MainCamera;
-    public NarrativeManager nm;
-    public DialogHolder dh;
-    public GameObject player;
-    public Animator playerAnim;
-    public GenericSounds gs;
+    private GameObject MainCamera;
+    private NarrativeManager nm;
+    private DialogHolder dh;
+    private GameObject player;
+    private Animator playerAnim;
+    private GenericSounds gs;
+    private bool canInteract = true;
 
-    public int identity;
-    public bool canInteract;
-    public int identity2;
-    public bool repeatChange;
-    public bool didInteract;
+    /*[Tooltip("The index of the first dialogue in the dialogue holder's interactable list.")] public int identity;
+    
+    [Tooltip("The index of the second dialogue in the dialogue holder's interactable list. Only occurs after the player has interacted with this object before, and repeatChange is ticked.")] public int identity2;
+    [Tooltip("Does interacting with this a second time change the dialogue?")] public bool repeatChange;
+    private bool didInteract;*/
+
+    [Tooltip("Each dialogue that this object should bring up. Each interaction increments the index by one, but won't exceed length. So effectively, only add as many dialogues as you want the player to see, and the last will be repeated. Keep size to 1 for a single interaction that never changes.")] public List<Dialogue> dialogueList;
+    //private int listLength;
+    private int i = 0;
+
 
     private void Start()
     {
@@ -25,13 +31,13 @@ public class InteractDia : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         player = player.transform.Find("OverworldPlayer").gameObject;
         playerAnim = player.GetComponent<Animator>();
-        canInteract = true;
         dh = MainCamera.GetComponent<DialogHolder>();
+        gs = player.GetComponent<GenericSounds>();
     }
 
-    private void OnTriggerStay2D(Collider2D collision) //detects player
+    private void OnTriggerStay2D(Collider2D collision) // Detects when the player is present and can interact.
     {
-        if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == true && repeatChange == true && didInteract == true && !nm.bt.battling)
+        /*if (collision.gameObject == player && Input.GetKeyDown(KeyCode.Space) && canInteract == true && repeatChange == true && didInteract == true && !nm.bt.battling)
         {
             StartCoroutine(dh.GenericInteractable(identity2));
             StartCoroutine(interactTimer());
@@ -40,8 +46,17 @@ public class InteractDia : MonoBehaviour {
         {
             StartCoroutine(dh.GenericInteractable(identity));
             StartCoroutine(interactTimer());
-            
-        } 
+        } */
+
+        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling)
+        {
+            StartCoroutine(dh.GenericInteractableNew( dialogueList[i] ));
+            StartCoroutine(interactTimer());
+            if (gameObject.tag == "MeatLocker")
+            {
+                StartCoroutine(MainCamera.GetComponent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
+            }
+        }
     }
 
     IEnumerator interactTimer ()
@@ -53,7 +68,11 @@ public class InteractDia : MonoBehaviour {
         yield return new WaitUntil(() => nm.owm.canMove == true);
         gs.Step();
         playerAnim.SetBool("Thinking", false);
-        didInteract = true;
         canInteract = true;
+
+        if (i < dialogueList.Count - 1)
+        {
+            i++;
+        }
     }
 }
