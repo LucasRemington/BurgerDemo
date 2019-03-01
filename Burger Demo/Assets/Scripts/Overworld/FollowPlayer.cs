@@ -27,9 +27,9 @@ public class FollowPlayer : MonoBehaviour
 
     public void Start () 
     {
-        snaptoYPosition();
+        /*snaptoYPosition();
         StartCoroutine(upTrack());
-        StartCoroutine(downTrack());
+        StartCoroutine(downTrack());*/
     }
 
     void LateUpdate()
@@ -37,11 +37,11 @@ public class FollowPlayer : MonoBehaviour
         if (bt.battling == false)
         {
             if (player.GetComponent<OverworldMovement>().crouching)
-                ySetter = player.transform.position.y - 1.6f;
+                StartCoroutine(Crouching());
             else if (!player.GetComponent<OverworldMovement>().grounded)
                 ySetter = player.transform.position.y;
             else
-                ySetter = player.transform.position.y+1.58f;
+                ySetter = player.transform.position.y + 1.58f;
             xTarget = new Vector3(player.transform.position.x + offset.x, ySetter, zTrack);
             cameraTarget = new Vector3(player.transform.position.x, ySetter, zTrack);
             transform.position = Vector3.Lerp(transform.position, cameraTarget, Time.deltaTime * 3);
@@ -51,7 +51,14 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
-    IEnumerator upTrack () {
+    IEnumerator Crouching()
+    {        
+        yield return new WaitForSeconds(1);
+        if(player.GetComponent<OverworldMovement>().crouching)
+            ySetter = player.transform.position.y - 1.6f;
+    }
+
+    /*IEnumerator upTrack () {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.UpArrow) && owm.canMove == true);
         if (yTrack < yPositions.Length - 1)
         {
@@ -94,5 +101,5 @@ public class FollowPlayer : MonoBehaviour
                 ySetter = yPositions[3];
                 break;
         }
-    }
+    }*/
 }

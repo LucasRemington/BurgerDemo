@@ -29,6 +29,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public Image blackScreen;
     public bool waitForScript;
     public GameObject[] walls;
+    public TransitionManager transitMan;
 
     public Dialogue dennis1; // specific dialogue modified by player choice
     //public string[] choiceFor_dennis1; //string holding the dialogue for choice changes. Kept in for template only
@@ -47,6 +48,9 @@ public class NarrativeScript1 : MonoBehaviour {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
         dh = GetComponent<DialogHolder>();
+        if (transitMan == null) {
+            transitMan = GameObject.FindGameObjectWithTag("Transition Manager").GetComponent<TransitionManager>();
+        }
         if (nm.room == 3)
         {
             tutEnemy = GameObject.Find("HoloMaster");
@@ -119,7 +123,7 @@ public class NarrativeScript1 : MonoBehaviour {
         
 
         // Chair flips around, and we approach the Master.
-        yield return new WaitForSeconds(0.75f);        
+        yield return new WaitForSeconds(1.5f);        
         StartCoroutine(sm.MoveTo(player, new Vector3(7.6f, 0, 0), 0.8f));
         yield return new WaitUntil(() => sm.finished == true);
         playerSR.flipX = false;
@@ -142,14 +146,15 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
         animationFlag = false;
         //StartCoroutine(dh.GenericFirstConvo(2, true));
-        yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
-        Debug.Log("battle is over");
+        //yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
+        //Debug.Log("battle is over");
         animationFlag = false;
         yield return new WaitUntil(() => nm.room == 2);
 
         //StartCoroutine(dh.GenericFirstConvo(9, false));
         
         nm.ev++;
+        Debug.Log("event 2");
         nm.CheckEvent();
     }
 
@@ -170,14 +175,20 @@ public class NarrativeScript1 : MonoBehaviour {
             }
         }
         yield return new WaitUntil(()=> nm.room == 1);
+        transitMan.readyForFade = false;
+        yield return new WaitForSeconds(1);
         player.GetComponent<SpriteRenderer>().flipX = true;
         Debug.Log("In Dennis' room");
         dennis = GameObject.FindGameObjectWithTag("Dennis");
         dennis = dennis.transform.Find("dennis").gameObject;
-        StartCoroutine(sm.MoveTo(dennis, new Vector3(7.6f, 0, 0), 0.1f));
-
-
+        dennis.GetComponent<Animator>().SetBool("SitImmediate", true);
+        dennis.GetComponent<SpriteRenderer>().flipX = true;
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(2.88f, 0, 0), 0.01f));
+        yield return new WaitForSeconds(0.02f);
+        transitMan.readyForFade = true;
     }
+
+
 
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
     {

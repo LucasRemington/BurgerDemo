@@ -311,6 +311,7 @@
     <Compile Include="Assets\Scripts\CreditsManager.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DennisAnimEvent.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DWBOpeningANimCaller.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\IconBAnimEvent.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\LightningAnimEvent.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogHolder.cs" />

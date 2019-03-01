@@ -35,6 +35,7 @@ Exit: Place at every place the player can enter or leave a room from. If it's on
 public class TransitionManager : MonoBehaviour
 {
     [HideInInspector] [Tooltip("Used in the screen transition from fading to black and back in. Will do this later.")] public bool isFading;
+    [HideInInspector] public bool readyForFade = true;
     [Tooltip("The TransitionTracker in the current scene. Updates every time the scene changes, you shouldn't need to set this.")] public TransitionTracker currentTracker;
     [Tooltip("The player! Found via script, don't even worry.")]  public GameObject player;
     [Tooltip("The black UI image in canvas that's used to fade out and back in.")] public Image fadeOutScreen;
@@ -120,6 +121,8 @@ public class TransitionManager : MonoBehaviour
 
     public IEnumerator FadeImageToZeroAlpha(float t, Image i)
     {
+        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => readyForFade == true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
         while (i.color.a > 0.0f)
         {
