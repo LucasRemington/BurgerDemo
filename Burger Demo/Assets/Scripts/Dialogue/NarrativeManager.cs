@@ -68,11 +68,13 @@ public class NarrativeManager : MonoBehaviour {
         CheckEvent();
         StartCoroutine(combatUIOn());
         ClearText();
+       
     }
 
 
     IEnumerator eventZero() //'event zero' occurs right at the beginning of the game. Might also be phased out.
     {
+        ns1.blackScreen.gameObject.SetActive(true);
         //yield return new WaitUntil(() => room == 1);
         yield return new WaitForSeconds(0.5f);
         ev++;
@@ -100,6 +102,9 @@ public class NarrativeManager : MonoBehaviour {
                 break;
             case 1:
                     StartCoroutine(ns1.eventOne());
+                break;
+            case 2:
+                StartCoroutine(ns1.eventTwo());
                 break;
         }
     }

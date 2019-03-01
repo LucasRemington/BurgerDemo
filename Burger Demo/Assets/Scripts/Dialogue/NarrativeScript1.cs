@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+
+[Serializable]
 
 public class NarrativeScript1 : MonoBehaviour {
 
@@ -28,6 +31,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public Animator startAnim;
     public Image blackScreen;
     public bool waitForScript;
+    public bool convoDone;
     public GameObject[] walls;
     public TransitionManager transitMan;
 
@@ -144,8 +148,8 @@ public class NarrativeScript1 : MonoBehaviour {
         StartCoroutine(nm.bt.StartBattle(masterHologram));
         yield return new WaitUntil(() => nm.bt.battling == true);
         StartCoroutine(dh.GenericFirstConvo(2, true));
-        yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
-        animationFlag = false;
+        /*yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
+        animationFlag = false;*/
         //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         Debug.Log("battle is over");
@@ -155,11 +159,12 @@ public class NarrativeScript1 : MonoBehaviour {
         //StartCoroutine(dh.GenericFirstConvo(9, false));
         
         nm.ev++;
-        Debug.Log("event 2");
+        
         nm.CheckEvent();
     }
 
     public IEnumerator eventTwo() {
+        Debug.Log("event 2");
         if (nm.room == 2)
         {
             walls = GameObject.FindGameObjectsWithTag("ShudderWall");
@@ -176,17 +181,37 @@ public class NarrativeScript1 : MonoBehaviour {
             }
         }
         yield return new WaitUntil(()=> nm.room == 1);
+        Debug.Log("In Dennis' room");
         transitMan.readyForFade = false;
         yield return new WaitForSeconds(1);
-        player.GetComponent<SpriteRenderer>().flipX = true;
-        Debug.Log("In Dennis' room");
+        player.GetComponent<SpriteRenderer>().flipX = true;        
         dennis = GameObject.FindGameObjectWithTag("Dennis");
         dennis = dennis.transform.Find("dennis").gameObject;
-        dennis.GetComponent<Animator>().SetBool("SitImmediate", true);
-        dennis.GetComponent<SpriteRenderer>().flipX = true;
+        dennisAnim = dennis.GetComponent<Animator>();
+        dennisAnim.SetBool("SitImmediate", true);
+        dennis.GetComponent<SpriteRenderer>().flipX = true;        
         StartCoroutine(sm.MoveTo(dennis, new Vector3(2.88f, 0, 0), 0.01f));
         yield return new WaitForSeconds(0.02f);
-        transitMan.readyForFade = true;
+        nm.owm.canMove = false;
+        dennisAnim.SetBool("SitImmediate", false);
+        Debug.Log("Can't move");
+        transitMan.readyForFade = true;       
+        yield return new WaitUntil(() => nm.owm.canMove == true);
+        Debug.Log("Can Move but shouldn't");
+        nm.owm.canMove = false;
+        Debug.Log("Can't move again");
+        convoStartNS1(10);
+        convoDone = false;
+        yield return new WaitUntil(() => convoDone);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        yield return new WaitForSeconds(2);
+        dennisAnim.SetInteger("Scene1", 0);
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(-4.71f, 0, 0), 1f));
+        dennis.GetComponent<SpriteRenderer>().flipX = false;
+        dennisAnim.SetInteger("Scene2", 6);
+        yield return new WaitUntil(() => sm.finished);
+        dennisAnim.SetTrigger("ResetSitting");
+        yield return new WaitUntil(() => nm.room == 4);
     }
 
 
@@ -225,6 +250,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(convo9Events(dia, scriptedConvo));
                 break;
             case 10:
+                Debug.Log("Call thing");
+                StartCoroutine(DennisConvo2(dia, scriptedConvo));
                 break;
         }
     }
@@ -588,10 +615,17 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             case 0:
                 dh.ongoingEvent = true;
+                animationFlag = false;
+                playerAnim.SetTrigger("OfficeDennis");
+                yield return new WaitUntil(() => animationFlag == true);
+                animationFlag = false;
+                dennisAnim.SetInteger("Scene1", 5);
                 dh.ongoingEvent = false;
                 break;
             case 1:
                 dh.ongoingEvent = true;
+                playerAnim.SetTrigger("ResetIdle");
+                dennisAnim.SetInteger("Scene2", 1);
                 dh.ongoingEvent = false;
                 break;
             case 2:
@@ -600,38 +634,42 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 3:
                 dh.ongoingEvent = true;
+                dennisAnim.SetInteger("Scene2", 2);
                 dh.ongoingEvent = false;
                 break;
             case 4:
                 dh.ongoingEvent = true;
+                dennisAnim.SetInteger("Scene2", 3);
                 dh.ongoingEvent = false;
                 break;
             case 5:
                 dh.ongoingEvent = true;
+                dennisAnim.SetBool("Loop", true);
+                dennisAnim.SetInteger("Scene2", 1);
                 dh.ongoingEvent = false;
                 break;
             case 6:
                 dh.ongoingEvent = true;
+                dennisAnim.SetBool("Loop", false);
                 dh.ongoingEvent = false;
+                break;
+            case 7:
+                dh.ongoingEvent = true;
+                dennis.GetComponent<SpriteRenderer>().flipX = false;
+                dennisAnim.SetInteger("Scene2", 4);
+                dh.ongoingEvent = false;
+                break;
+            case 8:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                convoDone = true;
+                dennisAnim.SetInteger("Scene2", 5);
+                yield return new WaitForSeconds(0.11f);
+                dennis.GetComponent<SpriteRenderer>().flipX = true;
                 break;
         }
     }
 
-    IEnumerator DennisConvo3(int dia, int scriptedConvo)
-    {
-        yield return new WaitForSeconds(0);
-        switch (scriptedConvo)
-        {
-            case 0:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 1:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-        }
-    }
     IEnumerator SecondTimer (float time)
     {
         timerFlag = false;

@@ -587,7 +587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1309156662356528
 GameObject:
   m_ObjectHideFlags: 1
@@ -1275,6 +1275,7 @@ GameObject:
   - component: {fileID: 114409692543097698}
   - component: {fileID: 114679901614183040}
   - component: {fileID: 114238135278421838}
+  - component: {fileID: 114087310049021650}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1933,6 +1934,7 @@ GameObject:
   - component: {fileID: 82355227066589472}
   - component: {fileID: 114943259532978166}
   - component: {fileID: 114278523435827474}
+  - component: {fileID: 114729458927405600}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1947,7 +1949,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1269713704993422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -17.378067, y: 7.1895313, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4141025590790068}
@@ -2943,6 +2945,8 @@ MonoBehaviour:
   playerAnim: {fileID: 95099079875426308}
   playerSprite: {fileID: 212628301585509064}
   onLadder: 0
+  ladder: []
+  x: 0
   topDownGrabbing: 0
   touchingLadderCap: 0
   grounded: 1
@@ -3211,6 +3215,24 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '-'
+--- !u!114 &114087310049021650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1660391523604834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scripts: []
+  mainCam: {fileID: 0}
+  playerHolder: {fileID: 0}
+  blackScreen: {fileID: 0}
+  refuseDialogue: {fileID: 11400000, guid: 55fda0e4e0e746b4789c5db3009ffc24, type: 2}
+  dI: 0
+  cI: 0
 --- !u!114 &114088354599494450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3507,10 +3529,10 @@ MonoBehaviour:
   player: {fileID: 0}
   BurgerSpawner: {fileID: 1245795586985240}
   bci: {fileID: 114491548994834132}
-  ev: 0
+  ev: 2
   reading: 0
   area: 0
-  room: 0
+  room: 2
   textTS: {fileID: 114023504475765138}
   nameTS: {fileID: 114118199078557446}
   textBox: {fileID: 1858032571091354}
@@ -3533,6 +3555,10 @@ MonoBehaviour:
   dbChoiceSS: 0
   canAdvance: 1
   autoAdvance: 0
+  choiceHover: 0
+  choiceSelected: 0
+  choiceMade: 0
+  choiceFilling: 0
 --- !u!114 &114162853943223200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5672,6 +5698,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 70c8e7fd9739b6647857db3e6a0d0f86, type: 2}
   - {fileID: 11400000, guid: 411d6711d878cfd47a2dee1e8d9fb6b9, type: 2}
   - {fileID: 11400000, guid: f48184d380d037240899ae3eee7e71c4, type: 2}
+  - {fileID: 11400000, guid: a9d2c4314c48bdd4095f5278b480c0ab, type: 2}
+  - {fileID: 11400000, guid: 56ad9a172742e8748935f903200a8b30, type: 2}
   interactConvo: 
   interactConvoStart: 
   interactConvoDone: 
@@ -5802,6 +5830,24 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114729458927405600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1992182003432990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scripts: []
+  mainCam: {fileID: 0}
+  playerHolder: {fileID: 0}
+  blackScreen: {fileID: 0}
+  refuseDialogue: {fileID: 0}
+  dI: 0
+  cI: 0
 --- !u!114 &114730234713429594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7625,7 +7671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.521, y: 0.507}
+  m_AnchoredPosition: {x: 0.52, y: 0.5}
   m_SizeDelta: {x: 7.52, y: 3.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224109601667083818
@@ -7919,7 +7965,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -114, y: -140}
+  m_AnchoredPosition: {x: -114, y: -60}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224262148575310292
@@ -8171,7 +8217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 114, y: -140}
+  m_AnchoredPosition: {x: 114, y: -60}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224363786070925918

@@ -1,32 +1,70 @@
 fileFormatVersion: 2
-guid: 4b3b08635eea8454782e2771fd763fa0
+guid: e6fc7fc7fd267d843b4bc99c60bc6a12
 TextureImporter:
   fileIDToRecycleName:
-    21300000: DWB_Dennis_Sheet3_0
-    21300002: DWB_Dennis_Sheet3_1
-    21300004: DWB_Dennis_Sheet3_2
-    21300006: DWB_Dennis_Sheet3_3
-    21300008: DWB_Dennis_Sheet3_4
-    21300010: DWB_Dennis_Sheet3_5
-    21300012: DWB_Dennis_Sheet3_6
-    21300014: DWB_Dennis_Sheet3_7
-    21300016: DWB_Dennis_Sheet3_8
-    21300018: DWB_Dennis_Sheet3_9
-    21300020: DWB_Dennis_Sheet3_10
-    21300022: DWB_Dennis_Sheet3_11
-    21300024: DWB_Dennis_Sheet3_12
-    21300026: DWB_Dennis_Sheet3_13
-    21300028: DWB_Dennis_Sheet3_14
-    21300030: DWB_Dennis_Sheet3_15
-    21300032: DWB_Dennis_Sheet3_16
-    21300034: DWB_Dennis_Sheet3_17
-    21300036: DWB_Dennis_Sheet3_18
-    21300038: DWB_Dennis_Sheet3_19
-    21300040: DWB_Dennis_Sheet3_20
-    21300042: DWB_Dennis_Sheet3_21
-    21300044: DWB_Dennis_Sheet3_22
-    21300046: DWB_Dennis_Sheet3_23
-    21300048: DWB_Dennis_Sheet3_24
+    21300000: DWB_Dennis_Sheet4_0
+    21300002: DWB_Dennis_Sheet4_1
+    21300004: DWB_Dennis_Sheet4_2
+    21300006: DWB_Dennis_Sheet4_3
+    21300008: DWB_Dennis_Sheet4_4
+    21300010: DWB_Dennis_Sheet4_5
+    21300012: DWB_Dennis_Sheet4_6
+    21300014: DWB_Dennis_Sheet4_7
+    21300016: DWB_Dennis_Sheet4_8
+    21300018: DWB_Dennis_Sheet4_9
+    21300020: DWB_Dennis_Sheet4_10
+    21300022: DWB_Dennis_Sheet4_11
+    21300024: DWB_Dennis_Sheet4_12
+    21300026: DWB_Dennis_Sheet4_13
+    21300028: DWB_Dennis_Sheet4_14
+    21300030: DWB_Dennis_Sheet4_15
+    21300032: DWB_Dennis_Sheet4_16
+    21300034: DWB_Dennis_Sheet4_17
+    21300036: DWB_Dennis_Sheet4_18
+    21300038: DWB_Dennis_Sheet4_19
+    21300040: DWB_Dennis_Sheet4_20
+    21300042: DWB_Dennis_Sheet4_21
+    21300044: DWB_Dennis_Sheet4_22
+    21300046: DWB_Dennis_Sheet4_23
+    21300048: DWB_Dennis_Sheet4_24
+    21300050: DWB_Dennis_Sheet4_25
+    21300052: DWB_Dennis_Sheet4_26
+    21300054: DWB_Dennis_Sheet4_27
+    21300056: DWB_Dennis_Sheet4_28
+    21300058: DWB_Dennis_Sheet4_29
+    21300060: DWB_Dennis_Sheet4_30
+    21300062: DWB_Dennis_Sheet4_31
+    21300064: DWB_Dennis_Sheet4_32
+    21300066: DWB_Dennis_Sheet4_33
+    21300068: DWB_Dennis_Sheet4_34
+    21300070: DWB_Dennis_Sheet4_35
+    21300072: DWB_Dennis_Sheet4_36
+    21300074: DWB_Dennis_Sheet4_37
+    21300076: DWB_Dennis_Sheet4_38
+    21300078: DWB_Dennis_Sheet4_39
+    21300080: DWB_Dennis_Sheet4_40
+    21300082: DWB_Dennis_Sheet4_41
+    21300084: DWB_Dennis_Sheet4_42
+    21300086: DWB_Dennis_Sheet4_43
+    21300088: DWB_Dennis_Sheet4_44
+    21300090: DWB_Dennis_Sheet4_45
+    21300092: DWB_Dennis_Sheet4_46
+    21300094: DWB_Dennis_Sheet4_47
+    21300096: DWB_Dennis_Sheet4_48
+    21300098: DWB_Dennis_Sheet4_49
+    21300100: DWB_Dennis_Sheet4_50
+    21300102: DWB_Dennis_Sheet4_51
+    21300104: DWB_Dennis_Sheet4_52
+    21300106: DWB_Dennis_Sheet4_53
+    21300108: DWB_Dennis_Sheet4_54
+    21300110: DWB_Dennis_Sheet4_55
+    21300112: DWB_Dennis_Sheet4_56
+    21300114: DWB_Dennis_Sheet4_57
+    21300116: DWB_Dennis_Sheet4_58
+    21300118: DWB_Dennis_Sheet4_59
+    21300120: DWB_Dennis_Sheet4_60
+    21300122: DWB_Dennis_Sheet4_61
+    21300124: DWB_Dennis_Sheet4_62
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -85,7 +123,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -96,7 +134,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -109,7 +147,487 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_0
+      name: DWB_Dennis_Sheet4_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d80982859da23ca45aff3f8c22907316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c9b6b878daa25c4c8167963eafc98ad
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee4bed723093bbf489bef439c6200217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8113e08858d976449a00eacd5bdc0bf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42499d36ec7a2ba42af57b5bfd74561e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1de86eee2a8c1db4c8533feb1c7a9f5b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dac44161d3712f4f864534014758d07
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e49aa1ce16d77424ea44f2289c0f1a4b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbaa9510d8e1a1945b2452fd87f5573f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae1189799a3bf63429d6beb41b842200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d99ba8621929194f869102a3510c832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41652a578bf0316469a32381f57626bc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_12
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16cef94b7ee107d469063c7d5d059d0a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_13
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbe574cbda1c81b4292cda17345d4ef8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_14
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ab9cc36548180e439b8f674b31cf584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_15
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e5392c1fd8f43944933eb798da84534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9628621bfcbcf7d45a468cc568955c26
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_17
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31b79e829004d544fbfb16d9cc33e0ff
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43d86b6e0ec22504e9d351f66588e588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_19
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ec7ddf934c3b3c4db97721ee0bd6b8a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_20
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcfbe1f7d507d48408f28c5bcd276dd7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_21
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f02af78191edf44fb75434233fdd6c7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_22
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbd4b8ed51d15384885110d864e32cf3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_23
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 016c9a60a318ce14bb36dc88e5c75aaa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_24
       rect:
         serializedVersion: 2
         x: 0
@@ -123,13 +641,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49b165649c0f4824f8a0b1c8ebc10d28
+      spriteID: 4616ea28c95411a4e862ec5c5c3dbf67
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_1
+      name: DWB_Dennis_Sheet4_25
       rect:
         serializedVersion: 2
         x: 32
@@ -143,13 +661,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0b5886383795dc4090b165e5540a2b3
+      spriteID: bfdfdc278cdf28b48a3f26bcc266b749
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_2
+      name: DWB_Dennis_Sheet4_26
       rect:
         serializedVersion: 2
         x: 64
@@ -163,13 +681,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee071fd92c1628545a0b036f0417bcff
+      spriteID: 01fab142727876342bcde501f409dc00
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_3
+      name: DWB_Dennis_Sheet4_27
       rect:
         serializedVersion: 2
         x: 96
@@ -183,13 +701,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b8e55e86c6558748901fb2a9e174d82
+      spriteID: 54ef436727850054a9509690821e2beb
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_4
+      name: DWB_Dennis_Sheet4_28
       rect:
         serializedVersion: 2
         x: 128
@@ -203,13 +721,73 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e6f3b4f490aee94f881442a1b39bfb8
+      spriteID: 3029bbffb5038394db3cffcd62b3c2ad
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_5
+      name: DWB_Dennis_Sheet4_29
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4868c2203492a2147b32aac01cb84ce1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_30
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0d95194436b84448872afec9fdb1767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_31
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0be5243cc662b64aa33674320784c4f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_32
       rect:
         serializedVersion: 2
         x: 0
@@ -223,13 +801,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23e21c0179a42324a959715032c82ea3
+      spriteID: 8cacd68c503651e4da94b97aaa2cb9e3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_6
+      name: DWB_Dennis_Sheet4_33
       rect:
         serializedVersion: 2
         x: 32
@@ -243,13 +821,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4457914ba80fb543a978c5dac33b6ba
+      spriteID: c39eb514361210c43b7ce23064afb280
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_7
+      name: DWB_Dennis_Sheet4_34
       rect:
         serializedVersion: 2
         x: 64
@@ -263,13 +841,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15e3a368cc88624488499795a744bec8
+      spriteID: 154155fae9b44bb47b00bfd8cd27d7d2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_8
+      name: DWB_Dennis_Sheet4_35
       rect:
         serializedVersion: 2
         x: 96
@@ -283,13 +861,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c676df013558b9c41b1768aee223112a
+      spriteID: ce32a6bb7638543499d682530c608590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_9
+      name: DWB_Dennis_Sheet4_36
       rect:
         serializedVersion: 2
         x: 128
@@ -303,13 +881,73 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d9b779bb41acae44af83a655dc68904
+      spriteID: 30c448c287973f747b92307d41b8604f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_10
+      name: DWB_Dennis_Sheet4_37
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc878fd24d478594a90ae0ad0540e719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_38
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d377b0299ad36fc4091212ee5baf6a76
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_39
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3891d1e027d44664bb5ba7c2ae413c0d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_40
       rect:
         serializedVersion: 2
         x: 0
@@ -323,13 +961,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 060302658b5c57644912848c842e8906
+      spriteID: 4da65c122e36dd643bd99dbff2b69078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_11
+      name: DWB_Dennis_Sheet4_41
       rect:
         serializedVersion: 2
         x: 32
@@ -343,13 +981,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e70ed24eeac0c647bc1ee6eb023a996
+      spriteID: aff4ff3c0959849458fb07e336e84486
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_12
+      name: DWB_Dennis_Sheet4_42
       rect:
         serializedVersion: 2
         x: 64
@@ -363,13 +1001,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2544e0ba434ffd54ca8e9b94d33848fa
+      spriteID: 253ac7429dca49c4eb775d5a2ee947a7
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_13
+      name: DWB_Dennis_Sheet4_43
       rect:
         serializedVersion: 2
         x: 96
@@ -383,13 +1021,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0be522faf73e02d4d995a3fcd8c4c46b
+      spriteID: b11e6b1f801f3024b9adc8a3015281d2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_14
+      name: DWB_Dennis_Sheet4_44
       rect:
         serializedVersion: 2
         x: 128
@@ -403,13 +1041,73 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f022df4d07ee964a8b9acdf37e59439
+      spriteID: 76fe2d8249b1a334d86a22acc9b9cdcb
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_15
+      name: DWB_Dennis_Sheet4_45
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f36934424c1bf2b47bae6ce6c4a6b1f8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_46
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fbfea07e47ee564ea3bdee9fc2df6f9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_47
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbb97fed0223d9841b497ac670dd6c3f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_48
       rect:
         serializedVersion: 2
         x: 0
@@ -423,13 +1121,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16bd6c83dd08e6c44b441adede1bbe3d
+      spriteID: 685ea6d7097e878478711bd7ce02dc16
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_16
+      name: DWB_Dennis_Sheet4_49
       rect:
         serializedVersion: 2
         x: 32
@@ -443,13 +1141,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a7236d2a8efad34449080b50b8a87f97
+      spriteID: 4306044d59841b94b8c6674d108394c8
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_17
+      name: DWB_Dennis_Sheet4_50
       rect:
         serializedVersion: 2
         x: 64
@@ -463,13 +1161,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c52107ef8ebc27e459ff9901323c24cc
+      spriteID: d5b683eb1dec1104ea4b65345234c777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_18
+      name: DWB_Dennis_Sheet4_51
       rect:
         serializedVersion: 2
         x: 96
@@ -483,13 +1181,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47b912e609b52bf478b96ccc230f5f5a
+      spriteID: d3e5a6d014ccf154988176559cf2a0ab
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_19
+      name: DWB_Dennis_Sheet4_52
       rect:
         serializedVersion: 2
         x: 128
@@ -503,13 +1201,73 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72e5ae23b6ab0f743b715c276354c4d3
+      spriteID: 492e96126ed4c984b92cf93594cc48e5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_20
+      name: DWB_Dennis_Sheet4_53
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f41abe30f715b04895cf2d0bb00ba3f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_54
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20236121462d05845a344065b3441c07
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_55
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8c8f31e208f25b4d93499d068669949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_56
       rect:
         serializedVersion: 2
         x: 0
@@ -523,13 +1281,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3961218fb6068e43a2a2fd7ad23bae3
+      spriteID: 4a4e54b7f488aa8458271fc4aa6d667d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_21
+      name: DWB_Dennis_Sheet4_57
       rect:
         serializedVersion: 2
         x: 32
@@ -543,13 +1301,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9598d0ea77b8a6845ba06f42b409dc7c
+      spriteID: 2a2776c7415af7e44b9b6396acea9b91
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_22
+      name: DWB_Dennis_Sheet4_58
       rect:
         serializedVersion: 2
         x: 64
@@ -563,13 +1321,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1273f12d5baa6946b44ef076e05d05a
+      spriteID: 8d5bdbc8ad32a764c991e8ccd841366e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_23
+      name: DWB_Dennis_Sheet4_59
       rect:
         serializedVersion: 2
         x: 96
@@ -583,13 +1341,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73af458b1e62d344c9ef73d9c904b3a2
+      spriteID: 02074d5ad2b72664fa5d8399934156a4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DWB_Dennis_Sheet3_24
+      name: DWB_Dennis_Sheet4_60
       rect:
         serializedVersion: 2
         x: 128
@@ -603,7 +1361,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7acbc9a334663e4e971c8ea6d6d20cf
+      spriteID: 769df4a77c13f3445add6bda1733b446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_61
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a51bbd50615530b46b3afa834236b7b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DWB_Dennis_Sheet4_62
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5b7fb05e44e197458033e63b58aa820
       vertices: []
       indices: 
       edges: []
@@ -611,7 +1409,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 48c2160802a0e1c46b66a8e06ad5cb96
+    spriteID: ea5562e52604d9e4d8bd13b634c18207
     vertices: []
     indices: 
     edges: []

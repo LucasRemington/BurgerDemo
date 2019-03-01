@@ -65,6 +65,10 @@ public class DialogHolder : MonoBehaviour {
                 break;
 
             case 2:
+                if (ns1 != null)
+                {
+                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
+                }
                 break;
 
             case 3:

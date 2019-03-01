@@ -90,7 +90,7 @@ MonoBehaviour:
     PlayBackSoundFile: {fileID: 8300000, guid: 0134e29670bf2584dabe72baa925ec39, type: 3}
   - Character: 2
     CharacterPosition: 0
-    CharacterPic: {fileID: 21300000, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
+    CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
     DialogueText: By the way, corporate asked me to survey employees after they undergo
       training-- what kind of service do we offer here at Dark World Burger?
     ChoiceText: []
@@ -166,7 +166,7 @@ MonoBehaviour:
     PlayBackSoundFile: {fileID: 0}
   - Character: 2
     CharacterPosition: 0
-    CharacterPic: {fileID: 21300008, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
+    CharacterPic: {fileID: 21300004, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
     DialogueText: '...........'
     ChoiceText: []
     CharacterName: Dennis
@@ -241,7 +241,7 @@ MonoBehaviour:
     PlayBackSoundFile: {fileID: 0}
   - Character: 2
     CharacterPosition: 0
-    CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
+    CharacterPic: {fileID: 21300008, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
     DialogueText: '...Service with a smile! Absolutely correct! '
     ChoiceText: []
     CharacterName: Dennis
@@ -317,9 +317,9 @@ MonoBehaviour:
   - Character: 2
     CharacterPosition: 0
     CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
-    DialogueText: "Anyways, remember that while I\u2019m nominally responsible for
-      keeping the whole firm here on-target, but my real job is more focused around
-      empowering employees, shifting paradigms, and managing expenses. "
+    DialogueText: "Finally, while I\u2019m nominally responsible for keeping the whole
+      firm here on-target, my real job is more focused around empowering employees,
+      shifting paradigms, and managing expenses. "
     ChoiceText: []
     CharacterName: Dennis
     DialogueTextStyle:
@@ -393,7 +393,7 @@ MonoBehaviour:
     PlayBackSoundFile: {fileID: 0}
   - Character: 2
     CharacterPosition: 0
-    CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
+    CharacterPic: {fileID: 21300000, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
     DialogueText: "Upshot is, feel free to talk to me if you encounter any blockers.
       I have an open-door policy, so just walk right in and we\u2019ll sort everything
       out. "
@@ -472,6 +472,156 @@ MonoBehaviour:
     CharacterPosition: 0
     CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
     DialogueText: '.....................'
+    ChoiceText: []
+    CharacterName: Dennis
+    DialogueTextStyle:
+      m_Name: 
+      m_Normal:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Hover:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Active:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Focused:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnNormal:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnHover:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnActive:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnFocused:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Border:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Margin:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Overflow:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Font: {fileID: 0}
+      m_FontSize: 0
+      m_FontStyle: 0
+      m_Alignment: 0
+      m_WordWrap: 0
+      m_RichText: 0
+      m_TextClipping: 0
+      m_ImagePosition: 0
+      m_ContentOffset: {x: 0, y: 0}
+      m_FixedWidth: 0
+      m_FixedHeight: 0
+      m_StretchWidth: 0
+      m_StretchHeight: 0
+    TextPlayBackSpeed: 0
+    PlayBackSoundFile: {fileID: 0}
+  - Character: 2
+    CharacterPosition: 0
+    CharacterPic: {fileID: 21300000, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
+    DialogueText: "And speaking of the open door, it\u2019s actually right here!"
+    ChoiceText: []
+    CharacterName: Dennis
+    DialogueTextStyle:
+      m_Name: 
+      m_Normal:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Hover:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Active:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Focused:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnNormal:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnHover:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnActive:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_OnFocused:
+        m_Background: {fileID: 0}
+        m_ScaledBackgrounds: []
+        m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Border:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Margin:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Overflow:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+      m_Font: {fileID: 0}
+      m_FontSize: 0
+      m_FontStyle: 0
+      m_Alignment: 0
+      m_WordWrap: 0
+      m_RichText: 0
+      m_TextClipping: 0
+      m_ImagePosition: 0
+      m_ContentOffset: {x: 0, y: 0}
+      m_FixedWidth: 0
+      m_FixedHeight: 0
+      m_StretchWidth: 0
+      m_StretchHeight: 0
+    TextPlayBackSpeed: 0
+    PlayBackSoundFile: {fileID: 0}
+  - Character: 2
+    CharacterPosition: 0
+    CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
+    DialogueText: Feel free to walk through it at any time.
     ChoiceText: []
     CharacterName: Dennis
     DialogueTextStyle:

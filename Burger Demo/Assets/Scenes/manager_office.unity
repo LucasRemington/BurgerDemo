@@ -409,8 +409,7 @@ Prefab:
         type: 2}
       propertyPath: sceneToLoad.m_SceneAsset
       value: 
-      objectReference: {fileID: 102900000, guid: d4f9299a4a352e64999f8933b35f2507,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 114664357968783796, guid: ef5876c2872625045bbcc85bfa43f675,
         type: 2}
       propertyPath: sceneToLoad.m_SceneName

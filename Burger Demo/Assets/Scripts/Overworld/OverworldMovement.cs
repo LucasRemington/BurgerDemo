@@ -48,8 +48,8 @@ public class OverworldMovement : MonoBehaviour {
     [Header("Ladders and Climbing")]
     [Tooltip("Whether the player is currently locked into climbing a ladder or not.")] public bool onLadder;
     [Tooltip("Keeps track of if the player is within the bounds of a ladder's triggerbox.")] private bool inLadderHitBox;
-    [Tooltip("This list is used to enable and disable colliders of any ladders you touch.")] private List<GameObject> ladder = new List<GameObject>(1);
-    [Tooltip("A small tracker int that keeps track of the index of the ladder the player is currently holding in the aforementioned list.")] private int x = 0;
+    [Tooltip("This list is used to enable and disable colliders of any ladders you touch.")] public List<GameObject> ladder = new List<GameObject>(1);
+    [Tooltip("A small tracker int that keeps track of the index of the ladder the player is currently holding in the aforementioned list.")] public int x = 0;
     [Tooltip("When the player grabs onto a ladder, this takes the ladder's position at the start so that it can be lerped to.")] private float tempXPos;
     [Tooltip("When the player grabs onto a ladder from the top, this takes the player's y position at the start so that it can be lerped.")] private float tempYPos;
     [Tooltip("When the player grabs onto a ladder from the top, this bool prevents the player from moving and slides them into position smoothly with a lerp.")] public bool topDownGrabbing;
@@ -136,7 +136,7 @@ public class OverworldMovement : MonoBehaviour {
             // Crouch? Crouch. But we need to be able to move. And not be on a ladder. And need to be grounded. Plus a couple other things but those are mostly standard. We'll determine the crouching status first, and then if we are crouching, apply proper affects.
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                if (canMove && !onLadder && grounded && !topDownGrabbing)
+                if (canMove && !onLadder && grounded && !topDownGrabbing && !inLadderHitBox)
                 {
                     crouching = true;
                 }
@@ -435,7 +435,7 @@ public class OverworldMovement : MonoBehaviour {
         for (int i = 0; i < ladder.Count; i++)
         {
             ladder[i].GetComponent<EdgeCollider2D>().enabled = true;
-            x = 0;
+            //x = 0;
             
         }
         GetComponent<Rigidbody2D>().gravityScale = 1;

@@ -20,6 +20,8 @@ public class Hazard : MonoBehaviour
     [Header("Timers")]
     [Tooltip("How long does it take for the player to be able to move again? Make sure this is less than the player's own invulnerability timer!")] public float knockbackTime;
     [Tooltip("For how long does the player slip for?")] public float slipTime;
+    [Tooltip("When the scene starts, it will take this amount of time for the hazard to become active.")] public float delayTime;
+    private bool delayDone;
     [Tooltip("If this is a timed hazard, how long is its active phase?")] public float activeTime;
     [Tooltip("If this is a timed hazard, how long is its inactive phase?")] public float inactiveTime;
 
@@ -34,6 +36,12 @@ public class Hazard : MonoBehaviour
 
     private IEnumerator Timer()
     {
+        if (!delayDone)
+        {
+            yield return new WaitForSeconds(delayTime);
+            delayDone = true;
+        }
+
         while (timed)
         {
             yield return new WaitForSeconds(activeTime);
@@ -66,7 +74,7 @@ public class Hazard : MonoBehaviour
                     }
                     break;
                 case HazardType.Slip:
-                    if (!owMove.slipping)
+                    if (!owMove.slipping && !owMove.crouching)
                     {
                         if (Input.GetKey(KeyCode.LeftArrow))
                         {
@@ -81,7 +89,7 @@ public class Hazard : MonoBehaviour
                     }
 
 
-                    if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+                    if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && !owMove.crouching)
                     {
                         owMove.slipping = true;
                         StopCoroutine(owMove.SlipTimer(slipTime));
