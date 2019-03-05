@@ -16,6 +16,8 @@ public class NarrativeScript1 : MonoBehaviour {
     public GameObject tutEnemy;
     public TutorialEnemy te;
     public GameObject TV;
+    private int loops;
+    public Animator combatUIAnim;
 
     public GameObject playerHolder;
     public GameObject player;
@@ -144,6 +146,8 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(dh.GenericFirstConvo(1, false));
         yield return new WaitUntil(() => dh.scriptedConvoDone[1] == true);
+        dh.CancelDialogue(true); 
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("combat");
         StartCoroutine(nm.bt.StartBattle(masterHologram));
         yield return new WaitUntil(() => nm.bt.battling == true);
@@ -165,6 +169,9 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public IEnumerator eventTwo() {
         Debug.Log("event 2");
+        dh.CancelDialogue(true);
+        nm.combatText = false;
+        nm.autoAdvance = false;
         if (nm.room == 2)
         {
             walls = GameObject.FindGameObjectsWithTag("ShudderWall");
@@ -200,8 +207,12 @@ public class NarrativeScript1 : MonoBehaviour {
         Debug.Log("Can Move but shouldn't");
         nm.owm.canMove = false;
         Debug.Log("Can't move again");
-        convoStartNS1(10);
         convoDone = false;
+
+        nm.dbAnim.ResetTrigger("Popdown");
+        
+        convoStartNS1(10);
+        //nm.dbAnim.SetTrigger("Popup");
         yield return new WaitUntil(() => convoDone);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return new WaitForSeconds(2);
@@ -382,6 +393,7 @@ public class NarrativeScript1 : MonoBehaviour {
         switch (scriptedConvo)
         {
             case 0:
+                loops++;
                 dh.ongoingEvent = true;
                 waitForScript = true;
                 nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
@@ -389,10 +401,18 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 1:
                 dh.ongoingEvent = true;
+                combatUIAnim = gameObject.transform.Find("Canvas").Find("CombatUI").GetComponent<Animator>();
+                if (loops <= 1)
+                {
+                    combatUIAnim.SetBool("Looping", true);
+                    combatUIAnim.SetTrigger("Options");
+                }
                 dh.ongoingEvent = false;
                 break;
             case 2:
                 dh.ongoingEvent = true;
+                combatUIAnim.SetBool("Looping", false);
+                yield return new WaitForEndOfFrame();
                 dh.ongoingEvent = false;
                 break;
             case 3:
@@ -408,6 +428,12 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 5:
                 dh.ongoingEvent = true;
+                if (loops <= 1) {
+                    combatUIAnim.SetBool("Looping", true);
+                    combatUIAnim.SetTrigger("Ingredient");
+                    yield return new WaitForSeconds(1.5f);
+                    combatUIAnim.SetBool("Looping", false);
+                }
                 dh.ongoingEvent = false;
                 break;
         }
@@ -468,10 +494,13 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 3:
                 dh.ongoingEvent = true;
+                combatUIAnim.SetBool("Looping", true);
+                combatUIAnim.SetTrigger("Time");
                 dh.ongoingEvent = false;
                 break;
             case 4:
                 dh.ongoingEvent = true;
+                combatUIAnim.SetBool("Looping", false);
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 waitForScript = false;
                 nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
@@ -615,11 +644,17 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             case 0:
                 dh.ongoingEvent = true;
+
                 animationFlag = false;
                 playerAnim.SetTrigger("OfficeDennis");
                 yield return new WaitUntil(() => animationFlag == true);
                 animationFlag = false;
                 dennisAnim.SetInteger("Scene1", 5);
+                yield return new WaitUntil(() => !nm.db.enabled);
+                nm.db.enabled = true;
+                nm.textTS.enabled = true;
+                nm.imageTS.enabled = true;
+                nm.nameTS.enabled = true;
                 dh.ongoingEvent = false;
                 break;
             case 1:
@@ -666,6 +701,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 dennisAnim.SetInteger("Scene2", 5);
                 yield return new WaitForSeconds(0.11f);
                 dennis.GetComponent<SpriteRenderer>().flipX = true;
+                dh.CancelDialogue(true);
                 break;
         }
     }

@@ -91,5 +91,6 @@ public class BattleTransitions : MonoBehaviour {
         currentEnemy = null;
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
+        Debug.Log("its here in BattleTransitions");
     }
 }

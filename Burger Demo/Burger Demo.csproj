@@ -314,9 +314,9 @@
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DWBOpeningANimCaller.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\IconBAnimEvent.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\LightningAnimEvent.cs" />
-    <Compile Include="Assets\Scripts\Dialogue\DialogHolder.cs" />
     <Compile Include="Assets\Scripts\Dialogue\Dialogue.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueElement.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogueHolder.cs" />
     <Compile Include="Assets\Scripts\Dialogue\InteractDia.cs" />
     <Compile Include="Assets\Scripts\Dialogue\NarrativeManager.cs" />
     <Compile Include="Assets\Scripts\Dialogue\NarrativeScript1.cs" />
