@@ -488,6 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4063337068926340}
   - component: {fileID: 114326962262890948}
+  - component: {fileID: 114166251589099928}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -1275,9 +1276,8 @@ GameObject:
   - component: {fileID: 114409692543097698}
   - component: {fileID: 114679901614183040}
   - component: {fileID: 114238135278421838}
-  - component: {fileID: 114087310049021650}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1934,7 +1934,7 @@ GameObject:
   - component: {fileID: 82355227066589472}
   - component: {fileID: 114943259532978166}
   - component: {fileID: 114278523435827474}
-  - component: {fileID: 114729458927405600}
+  - component: {fileID: 114400436200448872}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1949,7 +1949,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1269713704993422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.378067, y: 7.1895313, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4141025590790068}
@@ -2945,8 +2945,6 @@ MonoBehaviour:
   playerAnim: {fileID: 95099079875426308}
   playerSprite: {fileID: 212628301585509064}
   onLadder: 0
-  ladder: []
-  x: 0
   topDownGrabbing: 0
   touchingLadderCap: 0
   grounded: 1
@@ -3215,24 +3213,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '-'
---- !u!114 &114087310049021650
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1660391523604834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scripts: []
-  mainCam: {fileID: 0}
-  playerHolder: {fileID: 0}
-  blackScreen: {fileID: 0}
-  refuseDialogue: {fileID: 11400000, guid: 55fda0e4e0e746b4789c5db3009ffc24, type: 2}
-  dI: 0
-  cI: 0
 --- !u!114 &114088354599494450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3529,10 +3509,10 @@ MonoBehaviour:
   player: {fileID: 0}
   BurgerSpawner: {fileID: 1245795586985240}
   bci: {fileID: 114491548994834132}
-  ev: 2
+  ev: 0
   reading: 0
   area: 0
-  room: 2
+  room: 0
   textTS: {fileID: 114023504475765138}
   nameTS: {fileID: 114118199078557446}
   textBox: {fileID: 1858032571091354}
@@ -3593,6 +3573,31 @@ MonoBehaviour:
   dontDespawn: 0
   anim: {fileID: 0}
   isTopBun: 0
+--- !u!114 &114166251589099928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269713704993422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scripts: []
+  mainCam: {fileID: 0}
+  playerHolder: {fileID: 0}
+  saveData:
+    currentHealth: 0
+    healthMax: 0
+    currentPos: {x: 0, y: 0}
+    convoDone: 
+    currentScene: 
+    checkpointIndex: 0
+  blackScreen: {fileID: 114196183625485844}
+  refuseDialogue: {fileID: 11400000, guid: 55fda0e4e0e746b4789c5db3009ffc24, type: 2}
+  dI: 0
+  cI: 0
 --- !u!114 &114166478511671738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4449,6 +4454,31 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114400436200448872
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1992182003432990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scripts: []
+  mainCam: {fileID: 0}
+  playerHolder: {fileID: 0}
+  saveData:
+    currentHealth: 0
+    healthMax: 0
+    currentPos: {x: 0, y: 0}
+    convoDone: 
+    currentScene: 
+    checkpointIndex: 0
+  blackScreen: {fileID: 0}
+  refuseDialogue: {fileID: 0}
+  dI: 0
+  cI: 0
 --- !u!114 &114409692543097698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5688,7 +5718,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cdb42162211102349b79681ab6d08c4b, type: 2}
   - {fileID: 11400000, guid: 750641eaf80490d438f2cd6b0845276a, type: 2}
   - {fileID: 11400000, guid: 46930fa4ec40d13488838b4675814d46, type: 2}
-  - {fileID: 11400000, guid: 85559b3b21e7e7348a1b812d53152db9, type: 2}
   scriptedConvo: 
   scriptedConvoStart: 
   scriptedConvoDone: 
@@ -5830,24 +5859,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114729458927405600
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1992182003432990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scripts: []
-  mainCam: {fileID: 0}
-  playerHolder: {fileID: 0}
-  blackScreen: {fileID: 0}
-  refuseDialogue: {fileID: 0}
-  dI: 0
-  cI: 0
 --- !u!114 &114730234713429594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5931,6 +5942,7 @@ MonoBehaviour:
   player: {fileID: 1307309391771030}
   fadeOutScreen: {fileID: 114196183625485844}
   mainCam: {fileID: 1660391523604834}
+  warping: 0
   coCalled: 0
 --- !u!114 &114746322424913582
 MonoBehaviour:
@@ -7671,7 +7683,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.52, y: 0.5}
+  m_AnchoredPosition: {x: 0.521, y: 0.507}
   m_SizeDelta: {x: 7.52, y: 3.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224109601667083818

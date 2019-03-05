@@ -11,7 +11,7 @@ public class NarrativeScript1 : MonoBehaviour {
     //critical game objects
     public GameObject MainCamera;
     public NarrativeManager nm;
-    public DialogHolder dh;
+    public DialogueHolder dh;
     public ScriptedMovement sm;
     public GameObject tutEnemy;
     public TutorialEnemy te;
@@ -51,7 +51,7 @@ public class NarrativeScript1 : MonoBehaviour {
         sm = player.GetComponent<ScriptedMovement>();
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
-        dh = GetComponent<DialogHolder>();
+        dh = GetComponent<DialogueHolder>();
         if (transitMan == null) {
             transitMan = GameObject.FindGameObjectWithTag("Transition Manager").GetComponent<TransitionManager>();
         }

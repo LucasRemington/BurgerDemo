@@ -7,7 +7,7 @@ public class InteractDia : MonoBehaviour {
     //critical game objects
     private GameObject MainCamera;
     private NarrativeManager nm;
-    private DialogHolder dh;
+    private DialogueHolder dh;
     private GameObject player;
     private Animator playerAnim;
     private GenericSounds gs;
@@ -31,7 +31,7 @@ public class InteractDia : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         player = player.transform.Find("OverworldPlayer").gameObject;
         playerAnim = player.GetComponent<Animator>();
-        dh = MainCamera.GetComponent<DialogHolder>();
+        dh = MainCamera.GetComponent<DialogueHolder>();
         gs = player.GetComponent<GenericSounds>();
     }
 
@@ -54,7 +54,7 @@ public class InteractDia : MonoBehaviour {
             StartCoroutine(interactTimer());
             if (gameObject.tag == "MeatLocker")
             {
-                StartCoroutine(MainCamera.GetComponent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
+                StartCoroutine(MainCamera.GetComponentInParent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
             }
         }
     }

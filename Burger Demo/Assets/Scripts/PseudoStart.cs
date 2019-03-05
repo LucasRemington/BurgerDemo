@@ -9,7 +9,7 @@ public class PseudoStart : MonoBehaviour {
     public OverworldMovement ovm;
     public NarrativeManager nm;
     public NarrativeScript1 ns1;
-    public DialogHolder dh;
+    public DialogueHolder dh;
     public GameObject GameController;
     public GameObject playerHolder;
     public GameObject player;
@@ -23,7 +23,7 @@ public class PseudoStart : MonoBehaviour {
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
         ns1 = MainCamera.GetComponent<NarrativeScript1>();
-        dh = MainCamera.GetComponent<DialogHolder>();
+        dh = MainCamera.GetComponent<DialogueHolder>();
         fp = MainCamera.GetComponent<FollowPlayer>();
         playerHolder = GameObject.FindGameObjectWithTag("Player");
         player = playerHolder.transform.Find("OverworldPlayer").gameObject;

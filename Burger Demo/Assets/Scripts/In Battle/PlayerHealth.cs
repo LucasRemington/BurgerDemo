@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour {
     public BurgerComponentInstantiator BCI;
     public int playerHealth;
     public int previousHealth;
-    public float playerHealthMax;
+    public int playerHealthMax;
     public int roundedHealth;
     public int roundedPreviousHealth;
     public Animator[] healthAnim;

@@ -6,7 +6,7 @@ public class DennisAnimEvent : MonoBehaviour {
 
     public GameObject MainCamera;
     public NarrativeManager nm;
-    public DialogHolder dh;
+    public DialogueHolder dh;
     public GameObject player;
     public Animator playerAnim;
 

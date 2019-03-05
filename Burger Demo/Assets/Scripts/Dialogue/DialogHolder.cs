@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogHolder : MonoBehaviour {
+public class DialogueHolder : MonoBehaviour {
 
     public GameObject MainCamera;
     public NarrativeManager nm;
@@ -65,10 +65,6 @@ public class DialogHolder : MonoBehaviour {
                 break;
 
             case 2:
-                if (ns1 != null)
-                {
-                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
-                }
                 break;
 
             case 3:
