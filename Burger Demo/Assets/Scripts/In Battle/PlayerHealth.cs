@@ -25,6 +25,7 @@ public class PlayerHealth : MonoBehaviour {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
         playerHealth = gameController.GetComponent<BattleTransitions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller
+        playerHealthMax = gameController.GetComponent<BattleTransitions>().playerHealthMax; // also takes from the gameController
         BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
         healthText = GameObject.Find("healthtext").GetComponent<Text>();
         healthText.text = playerHealth.ToString();
@@ -77,13 +78,13 @@ public class PlayerHealth : MonoBehaviour {
         healIcon.SetActive(true);
         Debug.Log("gaveShields");
         if ((playerHealth + addShields) >= playerHealthMax) {
-            addShields = (100 - playerHealth);
+            addShields = (playerHealthMax - playerHealth);
             shields = addShields;
         }
         else {
             shields += addShields;
             if (playerHealth + shields >= playerHealthMax) {
-                shields = (100 - playerHealth);
+                shields = (playerHealthMax - playerHealth);
             }
         }
         previousHealth = playerHealth;

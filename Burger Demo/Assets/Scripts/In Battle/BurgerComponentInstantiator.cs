@@ -5,36 +5,38 @@ using UnityEngine.UI;
 
 public class BurgerComponentInstantiator : MonoBehaviour {
 
-    public bool isTutorial = false;
-    public bool broken = false;
-    public bool hasMeat = false;
+    [HideInInspector] public bool isTutorial = false;
+    [HideInInspector] public bool broken = false;
+    [HideInInspector] public bool hasMeat = false;
     
-    //necessary scripts + gameobjects
-    public PlayerHealth ph;
-    public GameObject player;
-    public EnemyBehavior eb;
-    public NarrativeManager nm;
-    public TutorialEnemy te;
-    public GameObject tutEnemy;
-    public GameObject enemy;
-    public GameObject MainCamera;
-    public GameObject CombatUI;
+    [Header("Scripts and GameObjects")]
+    [Tooltip("PlayerHealth script")] public PlayerHealth ph;
+    [Tooltip("Combat player.")] public GameObject player;
+    [Tooltip("Enemy behavior script.")] public EnemyBehavior eb;
+    [Tooltip("Narrative manager script.")] public NarrativeManager nm;
+    [Tooltip("Tutorial enemy script. Master fight, p much. Grabbed via script.")] public TutorialEnemy te;
+    [Tooltip("The tutorial enemy in question. Grabbed via script.")] public GameObject tutEnemy;
+    [Tooltip("Current enemy. Found via script.")] public GameObject enemy;
+    [Tooltip("Main camera of don't destroy on load.")] public GameObject MainCamera;
+    [Tooltip("The combat UI, don't destroy on load.")] public GameObject CombatUI;
 
-    public float originalBurgerPosition;
-    public float burgerPosition; //add 0.2 per pixel of the object
-    float formerBurgerPosition; //burger position before prefab was instantiated
-    public float sinkBP; //reduces burgerposition by amount
+    [Header("Misc. Vitals")]
+    [Tooltip("Current count of components on the burger being worked on.")] public int componentNumber;
+    [Tooltip("The cap of components to each burger.")] public int componentCap;
+    [Tooltip("Called by animations once they become static.")] public bool canSpawn;
+    [Tooltip("Set when the top bun is placed to finish off the burger or trash it.")] bool topPlaced;
+    [Tooltip("Checked off by individual components on whether or not they should despawn.")] public bool spawnReset; 
+    [Tooltip("Determines the ingredient's bounce animation.")] public int bounceTrigger; 
+    [Tooltip("Current number of turns that have passed in this encounter.")] public int turns; //tracks how many turns have passed
+    [Tooltip("A random roll for if an attack is a critical hit or not.")] public int critRoll; //variable for tracking crit
 
-    public bool canSpawn; //called by animations when they go static
-    //bool bottomPlaced; //set when bottom bun is placed - defunct
-    bool topPlaced; //set when top bun is placed
-    public bool spawnReset; //checked by individual component to despawn
-    public int componentNumber; //number of components 
-    public int bounceTrigger; //used to determine bouncing
-    public int componentCap; //caps components to this int
-    public int turns; //tracks how many turns have passed
-    public int critRoll; //variable for tracking crit
+    [Header("Positions")]
+    [Tooltip("Where the burger starts from at any point.")] public float originalBurgerPosition;
+    [Tooltip("The burger's current position; adjusted 0.2 vertically per pixel of the instantiated object.")] public float burgerPosition;
+    [Tooltip("The position of the burger before the ingredient or prefab is added.")] float formerBurgerPosition;
+    [Tooltip("Reduces burger position by indicated amount.")] public float sinkBP;
 
+    [Header("Ingredients")]
     public Image bottomBun; //all prefabs that are instantiated
     public Image tomato;
     public Image lettuce;
@@ -47,18 +49,24 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public Image cheese;
     public Image patty;
     public Image topBun;
-    public int[] componentCount = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    [Tooltip("The current count of ingredients that the player has.\nIdentities: 0:Blank; 1:Tomato; 2:Lettuce; 3:Onion; 4:Bacon; 5:Sauce; 6:Pickles; 7:Ketchup; 8:Mustard; 9:Cheese; 10:Patty")] public int[] ingredientINV = new int[10];
+    [Tooltip("The amount of each ingredient currently applied to the burger.\nIdentities: 0:Blank; 1:Tomato; 2:Lettuce; 3:Onion; 4:Bacon; 5:Sauce; 6:Pickles; 7:Ketchup; 8:Mustard; 9:Cheese; 10:Patty")] public int[] componentCount = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-    public int[] finalCombo; //array checked against combos when topbun comes down
-    public int fcArray; //array location set by components
-    public Text comboText; // text that displays combo name
-    bool noCombo; //true when no combo matches final array;
-    public int[] LastCombo = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    [Header("Ingredient Information")]
+    [Tooltip("Tooltip information about each ingredient as it gets placed.")]
+    public Text[] infoText; 
+    [Tooltip("The icon flash animations as buttons are pressed.")] public Animator[] iconAnim; 
+    [Tooltip("Text that displays the current ingredient count next to icons.")] public Text[] iconText;
 
-    public Text[] infoText; //gives info about ingredients
-    public Animator[] iconAnim; //icons flash when buttons are pressed
-    public Text[] iconText; //text giving information about ingredients
+    [Header("Combo Information")]
+    [Tooltip("The current array of ingredients that is checked against available combos.")] public int[] finalCombo; 
+    [Tooltip("Array location set by components.")] public int fcArray; 
+    [Tooltip("The text of the current combo's name, displayed when the combo is matched.")] public Text comboText; 
+    [Tooltip("If the player's current burger doesn't match anything")] bool noCombo; 
+    [Tooltip("The last combo the player made.")] public int[] LastCombo = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+    [Tooltip("Identities: 0:Blank; 1:Tomato; 2:Lettuce; 3:Onion; 4:Bacon; 5:Sauce; 6:Pickles; 7:Ketchup; 8:Mustard; 9:Cheese; 10:Patty")]
+    [Header("Grand Combos")]
     //combo strings. identity: 0 = blank, 1 = tomato, 2 = lettuce, 3 = onion, 4 = bacon, 5 = sauce, 6 = pickles, 7 = ketchup, 8 = mustard, 9 = cheese, 10 = patty
     public int[] classicCombo3 = { 7, 8, 6, 10, 9, 1, 2, 3, 5, 0 };
     public int[] baconCombo = { 9, 10, 9, 4, 10, 9, 4, 7, 5, 0 };
@@ -69,52 +77,54 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int[] doubleCombo = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
     public int[] doubleCombo3 = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
     public int[] TripleMeatCombo = { 10, 1, 2, 10, 9, 10, 9, 10, 0, 0 };
+    public int[] BLTCombo = { 10, 4, 2, 1, 0, 0, 0, 0, 0, 0};
 
     //subcombo strings, same as above but you can have multiple and some are bad
+    [Header("Sub-Combos")]
     public int[] twoPatt = { 10, 10 };
     public int[] burgCheese = { 10, 9 };
 
     //final attack stats - ingredient modified
-    public float dropMult; //multiplies loot recieved when fight is over
-    public float heal; //amount healed
-    public int crying; //adds to enemy miss chance - stacked with diminishing returns
-    public float damageMult; //multiplies damage
-    public float critChance; //adds flat amount to percentage crit chance
-    public float armorPen = 0; //penetrates enemy armor by flat amount
-    public bool ketchupDamage; // if active, deals ketchup damage
-    public bool mustardDamage; // if active, deals mustard damage
-    public int slow; //slows enemy by percentage amount - stacked with diminishing returns
-    public float damage; //raw damage number
-    public float finalDamage; //final damage number after multipliers and resistances are taken into account
+    [Header("Battle Stats")]
+    [Tooltip("The multiplier for loot gained after a fight.")] public float dropMult; 
+    [Tooltip("The amount getting healed for.")] public float heal; 
+    [Tooltip("Crying accuracy penalty; diminishing returns when stacked.")] public int crying; 
+    [Tooltip("Damage multiplier.")] public float damageMult; 
+    [Tooltip("Added to critical hit ratio percent.")] public float critChance; 
+    [Tooltip("Armor penetration, flat amount.")] public float armorPen = 0;
+    [Tooltip("If ketchup damage is currently active.")] public bool ketchupDamage;
+    [Tooltip("If mustard damage is currently active.")] public bool mustardDamage;
+    [Tooltip("The percent to slow enemy by when cheesed; stacks with diminishing returns.")] public int slow;
+    [Tooltip("The raw damage dealt before modifiers.")] public float damage;
+    [Tooltip("Gross damage dealt after modifiers.")] public float finalDamage;
 
-    public bool pattyDropped; // active when a patty is dropped
-    public bool playerDead; // true when dead
-
-    // player variables INV = inventory
-    public int[] ingredientINV = new int[10];
+    [Tooltip("Once a patty is dropped, we can deal damage.")] public bool pattyDropped;
+    [Tooltip("T H A N K S   O B A M A")] public bool playerDead; // true when dead    
 
     // text displaying stats
-    public Text dropText;
-    public Text healText;
-    public Text cryingText;
-    public Text critChanceText;
-    public Text armorPenText;
-    public Text damageTypeText;
-    public Text slowText;
-    public Text damageText;
+    [Header("Statistics Text")]
+    [Tooltip("")] public Text dropText;
+    [Tooltip("")] public Text healText;
+    [Tooltip("")] public Text cryingText;
+    [Tooltip("")] public Text critChanceText;
+    [Tooltip("")] public Text armorPenText;
+    [Tooltip("")] public Text damageTypeText;
+    [Tooltip("")] public Text slowText;
+    [Tooltip("")] public Text damageText;
 
     //beginning and ending UI
-    public Image fadeBlack; //fades in and out
-    public Text winOrLose;
-    public GameObject lootRecieved;
-    public Text totalLoot;
-    public Image[] lootIcon;
-    public Text[] lootText;
-    public Text replayDemo;
+    [Header("Combat UI")]
+    [Tooltip("A black screen that fades in and out.")] public Image fadeBlack; //fades in and out
+    [Tooltip("Displays if combat is won or lost.")] public Text winOrLose;
+    [Tooltip("Holds text components for loot that is dropped")] public GameObject lootReceived;
+    [Tooltip("Total loot gained.")] public Text totalLoot;
+    [Tooltip("Icons for each ingredient dropped.")] public Image[] lootIcon;
+    [Tooltip("Corresponding text for each ingredient dropped.")] public Text[] lootText;
+    [Tooltip("Will be removed later; Text component for if the player wants to replay the demo or not.")] public Text replayDemo;
 
     private void Awake()
     {
-        Debug.Log("bci start");
+        Debug.Log("BCI: Start!");
         fadeBlack.gameObject.SetActive(true);
         if (enemy == null)
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
@@ -964,7 +974,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             else {
                  totalDrops = te.drops;
             }
-            lootRecieved.SetActive(true);
+            lootReceived.SetActive(true);
             totalLoot.text = totalDrops.ToString() + " Ingredients Recieved";
             yield return new WaitForSeconds(0.25f);
             for (int j = 0; j < lootIcon.Length; j++) //uses enemy behavior and expended ingredients to figure out drops. Or it will, eventually.

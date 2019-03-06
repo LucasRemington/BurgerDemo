@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NarrativeManager : MonoBehaviour {
 
@@ -50,6 +51,8 @@ public class NarrativeManager : MonoBehaviour {
     private bool isChoice = false; // If the choiceanimator is currently in a choice, helps prevents the choice boxes from moving out of place by being called too quickly
     private bool canSkip = true; // if you can currently skip through text
     [HideInInspector] public bool choiceFilling = false; // Whether choice text is still filling out: you can't skip this, so we wait until it fills out. Also helps with back to back choices.
+
+    [HideInInspector] public bool gameStarted; // If the player has watched the cutscene at the very beginning of the game already, don't play it whenever they enter the freezer.
     
 
     private bool spaceHeld;
@@ -74,9 +77,15 @@ public class NarrativeManager : MonoBehaviour {
 
     IEnumerator eventZero() //'event zero' occurs right at the beginning of the game. Might also be phased out.
     {
-        ns1.blackScreen.gameObject.SetActive(true);
-        //yield return new WaitUntil(() => room == 1);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name != "MainMenu");
+        if (!gameStarted)
+        {
+            ns1.blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
+            //yield return new WaitUntil(() => ns1.blackScreen.gameObject != null);
+            ns1.blackScreen.gameObject.SetActive(true);
+            //yield return new WaitUntil(() => room == 1);
+            yield return new WaitForSeconds(0.5f);
+        }       
         ev++;
         CheckEvent();
     }

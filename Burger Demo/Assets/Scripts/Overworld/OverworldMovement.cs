@@ -98,10 +98,15 @@ public class OverworldMovement : MonoBehaviour {
 	void Update () {
 
         // If our interaction trigger is null, fetch it. Set the base offset, which we call when we move to flip it.
-        if (intTrigger.Equals(null) || intTrigger == null)
+        if (intTrigger == null)
         {
             intTrigger = GetComponentInChildren<BoxCollider2D>();
             intTriggerBaseOffset = intTrigger.offset;
+        }
+
+        if (playColl == null)
+        {
+            playColl = GetComponent<CapsuleCollider2D>();
         }
 
         // Previously used !jumping rather than !onLadder. We walk!

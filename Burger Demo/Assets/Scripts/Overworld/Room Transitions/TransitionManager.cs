@@ -42,6 +42,8 @@ public class TransitionManager : MonoBehaviour
 
     [Tooltip("The camera that follows the player. We need to move it after warping.")] public GameObject mainCam;
 
+    private SaveLoad saveLoad;
+
     [SerializeField] private bool coCalled;
 	
     // If our transition tracker isn't set, which happens upon loading a new scene, re set it! This will keep trying until, effectively, the scene is loaded!
@@ -49,31 +51,43 @@ public class TransitionManager : MonoBehaviour
     {
         if (currentTracker == null)
         {
-            currentTracker = GameObject.FindGameObjectWithTag("Transition Tracker").GetComponent<TransitionTracker>();
-            player = currentTracker.player;
+            GameObject currTrackObj = GameObject.FindGameObjectWithTag("Transition Tracker");
+            if (currTrackObj != null)
+            {
+                currentTracker = currTrackObj.GetComponent<TransitionTracker>();
+            }
+            
         }
 
         if (mainCam == null)
         {
             mainCam = GetComponentInParent<NarrativeManager>().gameObject;
         }
+
+        if (saveLoad == null)
+        {
+            saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
+        }
+
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Overworld");
 	}
 
-    public void Warp(int index, SceneField scene, bool flip)
+    public void Warp(int index, SceneField scene, bool flip, bool autoSave)
     {
         player.GetComponent<OverworldMovement>().canMove = false;
 
-        StopCoroutine(WaitForLoad(index, scene, flip));
+        StopCoroutine(WaitForLoad(index, scene, flip, autoSave));
         StopCoroutine(FadeImageToFullAlpha(0.5f, fadeOutScreen));
         StartCoroutine(FadeImageToFullAlpha(0.5f, fadeOutScreen));
-        StartCoroutine(WaitForLoad(index, scene, flip));
+        StartCoroutine(WaitForLoad(index, scene, flip, autoSave));
     }
 
     // We have an enumerator with a waituntil for when the transition tracker isn't set, and once it is, we pretty much know the scene is loaded, so. 
     // So we grab the player and move them to the indicated transform.
 
     // We wait until we've fully faded to black before we go back through and load everything.
-    private IEnumerator WaitForLoad(int index, SceneField scene, bool flip)
+    private IEnumerator WaitForLoad(int index, SceneField scene, bool flip, bool autoSave)
     {
         yield return new WaitUntil(() => coCalled);
         SceneManager.LoadScene(scene);
@@ -81,6 +95,10 @@ public class TransitionManager : MonoBehaviour
 
         yield return new WaitUntil(() => currentTracker != null);
         Debug.Log("We in this new Scene!");
+
+        // Auto-save!
+        if (autoSave)
+            StartCoroutine(saveLoad.SaveGame());
 
         player.GetComponent<OverworldMovement>().canMove = false;
         player.GetComponent<OverworldMovement>().playerSprite.flipX = flip;

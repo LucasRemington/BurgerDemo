@@ -308,6 +308,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BackgroundMusic.cs" />
     <Compile Include="Assets\Scripts\BattleTransitions.cs" />
+    <Compile Include="Assets\Scripts\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\CreditsManager.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DennisAnimEvent.cs" />

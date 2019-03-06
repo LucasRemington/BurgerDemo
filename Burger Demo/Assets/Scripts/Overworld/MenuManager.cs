@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour {
     public AudioClip OpenSound; //The sound made when the menu opens.
     public AudioClip CloseSound; //The sound made when the menu closes.
     public AudioClip menuMoveSound; //The sound made when you move around the menu.
+    public AudioClip errorSound; //The sound made when an option can't be selected.
     public AudioSource soundMaker; //The audiosource actually needed to /play/ the above sounds.
     [HideInInspector] public Scene currentScene; //The current scene.
     [HideInInspector] public bool mainMenu; //True when in the mainMenu. The script doubles for the menu object accessible during gameplay by pressing esc and the menu at the start of the game.
@@ -29,12 +30,16 @@ public class MenuManager : MonoBehaviour {
     public Vector3 startPosition;
     Vector3 currentPosition;
     private float Tick; //An int used to lerp during a coroutine, so we can avoid using update.
+    private bool meatLockersVisited = false; // Determines if the player has visited a meat locker, and thus can respawn. Option is greyed out otherwise.
+
+    private SaveLoad saveLoad; // The saving and loading script attached to Base. It's used for....well... :/
 
     void Start () //grabs the basic scripts. Since the script is present during the first scene, it shouldn't need a pseudostart.
     {
         player = GameObject.FindWithTag("Player");
         player = player.transform.Find("OverworldPlayer").gameObject;
         ovm = player.GetComponent<OverworldMovement>();
+        saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
         //menuBox = GetComponent<Image>();
     }
 
@@ -56,8 +61,9 @@ public class MenuManager : MonoBehaviour {
         {
             mainMenu = false;
             menuBox.transform.localPosition = new Vector3(0, 0, 0);
-            optionText[0].text = "Inventory";
+            optionText[0].text = "Respawn";
         }
+        StopAllCoroutines();
         StartCoroutine(openMenu());
         StartCoroutine(selectOption());
         StartCoroutine(optionChoice());
@@ -99,15 +105,26 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    void ColorText () //This changes the 'selected' text to red, and everything else to white. 
+    void ColorText () //This changes the 'selected' text to red, and everything else to white. However, in the case of respawn text, if it is not unlocked, turns it grey instead.
     {
         if (options == false)
         {
             for (int i = 0; i < optionText.Length; i++)
             {
                 optionText[i].color = Color.white;
+
+                if (optionText[i].text == "Respawn" && !meatLockersVisited)
+                {
+                    optionText[i].color = new Color(0.3f, 0.3f, 0.3f);
+                }
             }
             optionText[optionSelected].color = Color.red;
+            if (optionText[optionSelected].text == "Respawn" && !meatLockersVisited)
+            {
+                optionText[optionSelected].color = Color.red * new Color(0.3f, 0.3f, 0.3f);
+            }
+
+            
         } else
         {
             for (int i = 0; i < optionsSubmenuText.Length; i++)
@@ -126,12 +143,27 @@ public class MenuManager : MonoBehaviour {
 
 	IEnumerator openMenu () //This is a complex function. TLDR it controls how the menu opens and closes. 
     {
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Escape) && mainMenu == false || mainMenu == true && animFlag == true); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
+        
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && ovm.canMove && mainMenu == false) || mainMenu == true && animFlag == true); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
+
+        // Checks first to see if we've visited a meat locker at some point so we can gray out the option if need be.
+        Debug.Log(saveLoad.meatLockerList.Count);
+        if (saveLoad.meatLockerList == null || saveLoad.meatLockerList.Count <= 0)
+        {
+            meatLockersVisited = false;
+        }
+        else
+            meatLockersVisited = true;
+
+
         soundMaker.clip = OpenSound; //this sets the clip to the appropriate sound...
         if (mainMenu == false)
         {
             soundMaker.Play(); //...and plays it, if you aren't in the mainMenu scene.
         }
+
+        Debug.Log("Open");
+
         menuBox.enabled = true; //Enables the image component.
         optionSelected = 0; //Sets the optionselect to default, which should be at the top of the menu.
         ColorText(); //Colors the appropriate text
@@ -206,6 +238,9 @@ public class MenuManager : MonoBehaviour {
 
                 case 2: //This quits the game, clearly.
                     Debug.Log("Quit");
+                    //StartCoroutine(saveLoad.SaveGame());
+                    //yield return new WaitForSeconds(2);
+                    //Debug.Log("Quitting now!");
                     QuitGame();
                     break;
             }
@@ -216,10 +251,18 @@ public class MenuManager : MonoBehaviour {
             {
                 case 0:
                     Debug.Log("Continue"); //this continues the current game. Eventually, it will pull the relevant save data.
+                    closeNow = true;
+                    NarrativeScript1 ns1 = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<NarrativeScript1>();
+                    ns1.blackScreen.color = new Color(0, 0, 0, 1);
+                    StartCoroutine(saveLoad.LoadGame(false));
+                    soundMaker.clip = CloseSound;
+                    
                     break;
 
                 case 1:
                     Debug.Log("WipeEverything"); //This should probably trigger a choice popup: if you select yes, it wipes everything, resetting from zero and starting a new game.
+                    closeNow = true;
+                    SceneManager.LoadScene("OriginFreezer");
                     break;
 
                 case 2: //This backs out of the submenu, 'resetting' back to the default main menu screen. 
@@ -286,8 +329,19 @@ public class MenuManager : MonoBehaviour {
         {
             switch (optionSelected) //This is the default menu during gameplay.
             {
-                case 0: //will eventually open the inventory submenu.
-                    Debug.Log("Inventory");
+                case 0: // Originally Inventory. Now sends the player back to the last Meat Locker they visited.
+                    
+                    if (meatLockersVisited)
+                    {
+                        Debug.Log("Respawn");
+                        soundMaker.clip = OpenSound;
+                        StartCoroutine(saveLoad.LoadGame(true));
+                        closeNow = true;
+                    }
+                    else
+                    {
+                        soundMaker.clip = errorSound;
+                    }
                     break;
 
                 case 1://opens the options menu, as above.
@@ -296,7 +350,10 @@ public class MenuManager : MonoBehaviour {
                     break;
 
                 case 2://quits the game
-                    Debug.Log("Quit"); 
+                    Debug.Log("Quit");
+                    StartCoroutine(saveLoad.SaveGame());
+                    yield return new WaitForSeconds(2);
+                    Debug.Log("Quitting now!");
                     QuitGame();
                     break;
             }

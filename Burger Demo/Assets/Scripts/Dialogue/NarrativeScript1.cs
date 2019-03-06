@@ -81,13 +81,21 @@ public class NarrativeScript1 : MonoBehaviour {
     public IEnumerator eventOne() //first event. Eventually, this will be the 'master function' calling shit in order via coroutines.
     {
         // Black screen on startup. Pressing anything fades it out and spawns in the player.
-        blackScreen.gameObject.SetActive(true);
-        yield return new WaitUntil(() => Input.anyKey == true);
+        if (!nm.gameStarted)
+        {
+            if (blackScreen == null)
+                blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
+            blackScreen.gameObject.SetActive(true);
+            blackScreen.color = new Color(0, 0, 0, 1);
+            yield return new WaitUntil(() => Input.anyKey == true);
 
-        StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
-        yield return new WaitForSeconds(4f);
+            StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
+            yield return new WaitForSeconds(4f);
 
-        startAnim.SetTrigger("Start");
+
+            startAnim.SetTrigger("Start");
+        }
+        
 
         // Wait until we walk into Dennis' office for the first time. 0.75f waits until we load in before grabbing Dennis and his components.
         Debug.Log("event1");
@@ -101,6 +109,11 @@ public class NarrativeScript1 : MonoBehaviour {
 
         // We wait for an animation flag to be set...I think this is shaking your hand? And we get into the first conversation with Dennis!
         yield return new WaitUntil(() => animationFlag == true);
+        dennis = GameObject.FindWithTag("Dennis");
+        dennis = dennis.transform.Find("dennis").gameObject;
+        sm = dennis.GetComponent<ScriptedMovement>();
+        dennisAnim = dennis.GetComponent<Animator>();
+        dennisSR = dennis.GetComponent<SpriteRenderer>();
         playerAnim.SetTrigger("ResetIdle");
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(0, false));
@@ -157,6 +170,7 @@ public class NarrativeScript1 : MonoBehaviour {
         //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         Debug.Log("battle is over");
+        holomAnim.SetTrigger("Sleep");
         animationFlag = false;
         yield return new WaitUntil(() => nm.room == 2);
 

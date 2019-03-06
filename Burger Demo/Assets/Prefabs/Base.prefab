@@ -3595,11 +3595,21 @@ MonoBehaviour:
     currentPos: {x: 0, y: 0}
     convoDone: 
     currentScene: 
-    checkpointIndex: 0
+    ingredients: 
+    ingRowTwoUnlocked: 0
+    ingRowThreeUnlocked: 0
+    meatLockerList: []
+    meatLockerIndex: 0
+    meatLockerPos: {x: 0, y: 0}
   blackScreen: {fileID: 114196183625485844}
+  readyForFade: 0
+  faded: 0
   refuseDialogue: {fileID: 11400000, guid: 55fda0e4e0e746b4789c5db3009ffc24, type: 2}
   dI: 0
   cI: 0
+  meatLockerList: []
+  meatLockerIndex: 0
+  meatLockerPos: {x: 0, y: 0}
 --- !u!114 &114166478511671738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4476,11 +4486,21 @@ MonoBehaviour:
     currentPos: {x: 0, y: 0}
     convoDone: 
     currentScene: 
-    checkpointIndex: 0
+    ingredients: 
+    ingRowTwoUnlocked: 0
+    ingRowThreeUnlocked: 0
+    meatLockerList: []
+    meatLockerIndex: 0
+    meatLockerPos: {x: 0, y: 0}
   blackScreen: {fileID: 0}
+  readyForFade: 0
+  faded: 0
   refuseDialogue: {fileID: 0}
   dI: 0
   cI: 0
+  meatLockerList: []
+  meatLockerIndex: 0
+  meatLockerPos: {x: 0, y: 0}
 --- !u!114 &114409692543097698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4499,6 +4519,7 @@ MonoBehaviour:
   tutEnemy: {fileID: 0}
   te: {fileID: 0}
   TV: {fileID: 0}
+  combatUIAnim: {fileID: 0}
   playerHolder: {fileID: 1835325683146318}
   player: {fileID: 1307309391771030}
   playerSR: {fileID: 212628301585509064}
@@ -4740,16 +4761,16 @@ MonoBehaviour:
   enemy: {fileID: 0}
   MainCamera: {fileID: 1660391523604834}
   CombatUI: {fileID: 1467757391392672}
+  componentNumber: 0
+  componentCap: 4
+  canSpawn: 0
+  spawnReset: 0
+  bounceTrigger: 0
+  turns: 0
+  critRoll: 0
   originalBurgerPosition: 6.5
   burgerPosition: 0
   sinkBP: 0
-  canSpawn: 0
-  spawnReset: 0
-  componentNumber: 0
-  bounceTrigger: 0
-  componentCap: 4
-  turns: 0
-  critRoll: 0
   bottomBun: {fileID: 114857932800016700, guid: ebb5f3585a247d24e8ba661e396561a1,
     type: 2}
   tomato: {fileID: 114634795483546774, guid: cc99519407afd7a4dad6406f20bb665e, type: 2}
@@ -4763,11 +4784,8 @@ MonoBehaviour:
   cheese: {fileID: 114195341656073322, guid: 26393a34cc9fc084a804af4487d08914, type: 2}
   patty: {fileID: 114614988423885082, guid: 1bb8f982105542449b765accf2983878, type: 2}
   topBun: {fileID: 114879485737138338, guid: 7b7b2d474626ab84b92e9b4806d2be11, type: 2}
+  ingredientINV: 0000000009000000090000000900000009000000090000000900000009000000090000000900000000000000
   componentCount: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  finalCombo: 
-  fcArray: 0
-  comboText: {fileID: 114094976267104316}
-  LastCombo: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   infoText:
   - {fileID: 114498892591261654}
   - {fileID: 114136167447068862}
@@ -4799,6 +4817,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  finalCombo: 
+  fcArray: 0
+  comboText: {fileID: 114094976267104316}
+  LastCombo: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   classicCombo3: 0700000008000000060000000a000000090000000100000002000000030000000500000000000000
   baconCombo: 090000000a00000009000000040000000a0000000900000004000000070000000500000000000000
   simpleCombo: 0a000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -4808,6 +4830,7 @@ MonoBehaviour:
   doubleCombo: 0a0000000100000002000000030000000a0000000000000000000000000000000000000000000000
   doubleCombo3: 0a0000000100000002000000030000000a0000000000000000000000000000000000000000000000
   TripleMeatCombo: 0a00000001000000020000000a000000090000000a000000090000000a0000000000000000000000
+  BLTCombo: 0a000000040000000200000001000000000000000000000000000000000000000000000000000000
   twoPatt: 0a0000000a000000
   burgCheese: 0a00000009000000
   dropMult: 0
@@ -4823,7 +4846,6 @@ MonoBehaviour:
   finalDamage: 0
   pattyDropped: 0
   playerDead: 0
-  ingredientINV: 0000000009000000090000000900000009000000090000000900000009000000090000000900000000000000
   dropText: {fileID: 114925348754806526}
   healText: {fileID: 114280184735331700}
   cryingText: {fileID: 114006044912977376}
@@ -4834,7 +4856,7 @@ MonoBehaviour:
   damageText: {fileID: 114028620817095972}
   fadeBlack: {fileID: 114196183625485844}
   winOrLose: {fileID: 114962667403532052}
-  lootRecieved: {fileID: 1429388399712644}
+  lootReceived: {fileID: 0}
   totalLoot: {fileID: 114688067240548964}
   lootIcon: []
   lootText: []
@@ -6165,19 +6187,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battlePrefab: {fileID: 0}
-  battle: {fileID: 1575028108838074, guid: 38e96c5bf014df745b2f11ecd2ff2bb1, type: 2}
-  playerHealth: 100
-  player: {fileID: 0}
-  ph: {fileID: 0}
   OverworldObjects: []
-  currentEnemy: {fileID: 1575028108838074, guid: 38e96c5bf014df745b2f11ecd2ff2bb1,
-    type: 2}
-  enemyStart: {fileID: 0}
-  battleIntro: {fileID: 1890181662025220}
-  db: {fileID: 0}
-  battling: 0
   MainCamera: {fileID: 1660391523604834}
   nm: {fileID: 114162773653533690}
+  db: {fileID: 0}
+  enemyStart: {fileID: 0}
+  bci: {fileID: 0}
+  currentEnemy: {fileID: 1575028108838074, guid: 38e96c5bf014df745b2f11ecd2ff2bb1,
+    type: 2}
+  battle: {fileID: 1575028108838074, guid: 38e96c5bf014df745b2f11ecd2ff2bb1, type: 2}
+  player: {fileID: 0}
+  ph: {fileID: 0}
+  playerHealth: 100
+  playerHealthMax: 60
+  ingredients: 
+  ingRowTwoUnlocked: 0
+  ingRowThreeUnlocked: 0
+  battleIntro: {fileID: 1890181662025220}
+  battling: 0
 --- !u!114 &114819053648698940
 MonoBehaviour:
   m_ObjectHideFlags: 1

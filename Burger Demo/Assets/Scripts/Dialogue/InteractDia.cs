@@ -48,7 +48,7 @@ public class InteractDia : MonoBehaviour {
             StartCoroutine(interactTimer());
         } */
 
-        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling)
+        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling && player.GetComponent<OverworldMovement>().canMove)
         {
             StartCoroutine(dh.GenericInteractableNew( dialogueList[i] ));
             StartCoroutine(interactTimer());

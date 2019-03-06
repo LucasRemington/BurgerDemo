@@ -4,25 +4,38 @@ using UnityEngine;
 
 public class BattleTransitions : MonoBehaviour {
 
-    public GameObject battlePrefab;
-    public GameObject battle;
-    public int playerHealth = 100;
-    public GameObject player;
-    public PlayerHealth ph;
-    public GameObject[] OverworldObjects;
-    public GameObject currentEnemy;
-    public GameObject enemyStart;
-    public GameObject battleIntro;
-    public GameObject db; // dialogue box
+    [Header("Found via Script")]
+    [Tooltip("The battle prefab, found every time a new room loads.")] public GameObject battlePrefab;
+    [Tooltip("Any overworld objects in the scene; originally hidden when battle started. No longer the case. Redundant?")] public GameObject[] OverworldObjects;
+    [Tooltip("The main camera within the scene.")] public GameObject MainCamera;
+    [Tooltip("The narrative manager within the scene.")] public NarrativeManager nm;
+    [Tooltip("Dialogue box.")] public GameObject db; // dialogue box
+    [Tooltip("Used to track the position where the enemy should start attacking from in combat.")] public GameObject enemyStart;
+    [Tooltip("The burger component instantiator script found within the scene.")] public BurgerComponentInstantiator bci;
+    private GameObject burgSpawner;
 
-    public bool battling = false;
+    [Header("Found in Battle")]
+    [Tooltip("The enemy used in the argument for starting battle.")] public GameObject currentEnemy;
+    [Tooltip("The current battle scene.")] public GameObject battle;
+    [Tooltip("The combat player, found when battle starts.")] public GameObject player;
+    [Tooltip("The player health script attached to the combat player.")] public PlayerHealth ph;
 
-    public GameObject MainCamera;
-    public NarrativeManager nm;
+    [Header("Player Stats & Progression")]
+    [Tooltip("The player's current health. When it reaches 0, the player dies and respawns at either the last checkpoint or the last meat locker they visited.")] public int playerHealth = 60;
+    [Tooltip("The player's maximum health. The player will gain more as they progress through the game.")] public int playerHealthMax = 60;
+    [Tooltip("The ingredients that the player currently has in stock. Set in the editor for the player starting a new game.\nIdentities: 0:Blank; 1:Tomato; 2:Lettuce; 3:Onion; 4:Bacon; 5:Sauce; 6:Pickles; 7:Ketchup; 8:Mustard; 9:Cheese; 10:Patty")] public int[] ingredients;
+    [Tooltip("Whether or not the player has unlocked the second row of ingredients.")] public bool ingRowTwoUnlocked;
+    [Tooltip("Whether or not the player has unlocked the third row of ingredients.")] public bool ingRowThreeUnlocked;
+    
+    [Header("Set in Editor")]
+    [Tooltip("The battle intro animation! Set via editor, as if this header didn't tell you so already. Why are you still reading this. Stop that.")] public GameObject battleIntro;
+    
 
-    // Use this for initialization
+    [HideInInspector] public bool battling = false;
+
+    // Use this for initialization; called in every new room.
     public void PseudoStart () {
-        Debug.Log("ps bt");
+        Debug.Log("Pseudostart: BattleTransitions.cs");
         battlePrefab = GameObject.FindWithTag("BattlePrefab");
         battlePrefab = battlePrefab.transform.Find("FullBattlePrefab").gameObject;
         OverworldObjects = GameObject.FindGameObjectsWithTag("Overworld");
@@ -30,15 +43,25 @@ public class BattleTransitions : MonoBehaviour {
         nm = MainCamera.GetComponent<NarrativeManager>();
         db = GameObject.Find("DialogBox");
         enemyStart = battlePrefab.transform.Find("EnemyStart").gameObject;
+        burgSpawner = MainCamera.transform.Find("Canvas").gameObject;
+        burgSpawner = burgSpawner.transform.Find("CombatUI").gameObject;
+        burgSpawner = burgSpawner.transform.Find("BurgerSpawner").gameObject;
+        bci = burgSpawner.GetComponent<BurgerComponentInstantiator>();
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Delete))
             Destroy(battle);
+
+        if (playerHealth > playerHealthMax)
+        {
+            playerHealth = playerHealthMax;
+        }
 	}
 
     public IEnumerator StartBattle(GameObject enemy) {
+        bci.ingredientINV = ingredients;
         currentEnemy = enemy;
         battleIntro.SetActive(true);
         battleIntro.GetComponent<Animator>().Play("Intro1");
@@ -69,6 +92,7 @@ public class BattleTransitions : MonoBehaviour {
     public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
         yield return new WaitForSeconds(1.5f);
+        ingredients = bci.ingredientINV;
         for (int i = 0; i < OverworldObjects.Length; i++) {
             OverworldObjects[i].SetActive(true);
         }
@@ -91,6 +115,5 @@ public class BattleTransitions : MonoBehaviour {
         currentEnemy = null;
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
-        Debug.Log("its here in BattleTransitions");
     }
 }

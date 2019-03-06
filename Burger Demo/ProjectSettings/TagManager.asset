@@ -22,6 +22,9 @@ TagManager:
   - Transition Manager
   - PlayerNoises
   - ShudderWall
+  - MeatLocker
+  - OptionsMenu
+  - BlackScreen
   layers:
   - Default
   - TransparentFX

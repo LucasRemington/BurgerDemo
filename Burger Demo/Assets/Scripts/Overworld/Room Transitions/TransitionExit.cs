@@ -37,6 +37,7 @@ public class TransitionExit : MonoBehaviour
 	}
 
     // Ew, nested if-statements. We check: Is this the player colliding? If so, is this movement of their own accord and not scripted? If so, then we check by our "Activate to use" boolean and call the manager's warp.
+    // If it's a scripted exit, then we don't auto-save.
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.tag == "Overworld")
@@ -49,7 +50,7 @@ public class TransitionExit : MonoBehaviour
                     Debug.Log("Door!");
                     other.gameObject.GetComponent<OverworldMovement>().canMove = false;
                     narrMan.room = narrativeIndex;
-                    transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX);
+                    transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX, true);
 
                 }
                 else if (!activateToUse && !warping)
@@ -57,7 +58,7 @@ public class TransitionExit : MonoBehaviour
                     warping = true;
                     other.gameObject.GetComponent<OverworldMovement>().canMove = false;
                     narrMan.room = narrativeIndex;
-                    transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX);
+                    transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX, true);
 
                 }
             }
@@ -66,7 +67,7 @@ public class TransitionExit : MonoBehaviour
                 warping = true;
                 other.gameObject.GetComponent<OverworldMovement>().canMove = false;
                 narrMan.room = narrativeIndex;
-                transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX);
+                transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX, false);
             }
         }
 
