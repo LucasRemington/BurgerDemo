@@ -526,7 +526,7 @@ public class OverworldMovement : MonoBehaviour {
             //Debug.Log("Fall damage = " + damage + "%");
         }
         playerAnim.SetInteger("Damage", Mathf.RoundToInt(damage));
-        int trueDamage = (int)((damage / gameController.GetComponent<BattleTransitions>().ph.playerHealthMax) * 100);
+        int trueDamage = (int)((damage / gameController.GetComponent<BattleTransitions>().playerHealthMax) * 100);
         StartCoroutine(FloatingDamage(trueDamage));
         StopCoroutine(GetUpWait());
         StartCoroutine(GetUpWait());

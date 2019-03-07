@@ -7,6 +7,7 @@ public class DBAnimEvents : MonoBehaviour {
     public GameObject MainCamera;
     public NarrativeManager nm;
     public GameObject IB;
+    public GameObject Player;
     public AudioSource audio;
     public AudioClip shortBubble;
     public AudioClip longBubble;
@@ -33,10 +34,16 @@ public class DBAnimEvents : MonoBehaviour {
 
     void enableBackgrounds ()
     {
-        IB = GameObject.FindGameObjectWithTag("Player");
-        IB = IB.transform.GetChild(0).gameObject;
         IB.SetActive(true);
         IB.GetComponent<OverworldMovement>().canMove = true;
+    }
+
+    void enablePlayer()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = Player.transform.GetChild(0).gameObject;
+        Player.SetActive(true);
+        Player.GetComponent<OverworldMovement>().canMove = true;
     }
 
     void Choice()

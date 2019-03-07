@@ -626,6 +626,21 @@ Prefab:
       propertyPath: ingredients.Array.data[3]
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 224228681933540118, guid: b852a1219ddfedd46b2f1f20b74272d6,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -22.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 224145963857703794, guid: b852a1219ddfedd46b2f1f20b74272d6,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -22.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 224107008290611332, guid: b852a1219ddfedd46b2f1f20b74272d6,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -22.73
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b852a1219ddfedd46b2f1f20b74272d6, type: 2}
   m_IsPrefabAsset: 0
@@ -31129,6 +31144,7 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   IB: {fileID: 862095550}
+  Player: {fileID: 0}
   audio: {fileID: 884009754}
   shortBubble: {fileID: 8300000, guid: b95f8bf380121534ebf4125e56529738, type: 3}
   longBubble: {fileID: 8300000, guid: 4ad565b582f750a4a89720af81fc40c1, type: 3}
