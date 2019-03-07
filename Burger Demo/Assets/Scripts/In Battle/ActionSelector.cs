@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActionSelector : MonoBehaviour
 {
@@ -31,11 +32,12 @@ public class ActionSelector : MonoBehaviour
             if (isReady && (!choiceText[i].activeInHierarchy || !Indicator.activeInHierarchy))
             {
                 choiceText[i].SetActive(true);
+                choiceText[i].GetComponent<Text>().color = Color.white;
                 Indicator.SetActive(true);
             }
             else if (!isReady && (choiceText[i].activeInHierarchy || Indicator.activeInHierarchy))
             {
-                choiceText[i].SetActive(false);
+                choiceText[i].GetComponent<Text>().color = Color.gray;
                 Indicator.SetActive(false);
             }
         }

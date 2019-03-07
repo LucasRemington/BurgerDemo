@@ -8,9 +8,8 @@ using UnityEngine.UI;
 public class SaveLoad : MonoBehaviour
 {
     [Tooltip("All scripts that need to be saved; these should all be found within Don't Destroy On Load, and should be assigned in the editor.")] public List<MonoBehaviour> scripts;
-    //private List<string> dataPaths;
-    private string dataPath, sceneDataPath;
-    private string currentScene;
+    private string dataPath; // Where the save file is kept locally.
+    private string currentScene; // The scene currently loaded within savedata.
 
     [HideInInspector] [Tooltip("The main camera, which other components are derived from. If this is empty at runtime, that is an issue.")] public GameObject mainCam;
     private NarrativeManager narrMan;
@@ -22,7 +21,7 @@ public class SaveLoad : MonoBehaviour
     private GameObject player;
     private Animator playerAnim;
 
-    [HideInInspector] public SaveData saveData;
+    [HideInInspector] public SaveData saveData; // The serializable save data for the game.
 
     [Tooltip("The black screen UI image, used in fading in and out. We may not use it that much. Set via script.")] public Image blackScreen;
     [Tooltip("Checks if we are ready to fade again.")] public bool readyForFade;
@@ -31,7 +30,6 @@ public class SaveLoad : MonoBehaviour
     [Tooltip("The dialogue used for refusing to use the meat locker.")] public Dialogue refuseDialogue;
 
     [Tooltip("Used for debugging. diaIndex and convoIndex respectively. Duntouch.")] public int dI, cI;
-    //public string name;
 
         // These were previously in just SaveData, but it'll probably work better if these are edited and tracked here rather than directly touching savedata.
     public List<string> meatLockerList; // A list of scene names that the player has visited the Meat Locker of. As new meat lockers are discovered, their scene is stored at an index that can be read off of later.
@@ -51,7 +49,6 @@ public class SaveLoad : MonoBehaviour
             dataPaths.Add( Path.Combine(Application.persistentDataPath, "porygon_" + scripts[i].name + ".txt") );
         }*/
         dataPath = Path.Combine(Application.persistentDataPath, "porygon.txt");
-        sceneDataPath = Path.Combine(Application.persistentDataPath, "porygon2.txt");
 
         narrMan = mainCam.GetComponent<NarrativeManager>();
         diaHold = mainCam.GetComponent<DialogueHolder>();
@@ -160,6 +157,7 @@ public class SaveLoad : MonoBehaviour
 
     public IEnumerator SaveGame()
     {
+        Debug.Log("Saving game!");
         bool done = false;
         done = UpdateSaveData();
         yield return new WaitUntil(() => done);
@@ -173,9 +171,13 @@ public class SaveLoad : MonoBehaviour
         yield return null;
     }
 
+    public void LoadGameFunc(bool gotoLocker)
+    {
+        StartCoroutine(LoadGame(gotoLocker));
+    }
+
     public IEnumerator LoadGame(bool gotoLocker)
     {
-        Debug.Log("List size before: " + meatLockerList.Count);
         // Fade to black first and make sure we can't move.
         player.GetComponent<OverworldMovement>().canMove = false;
         StartCoroutine(FadeImageToFullAlpha(1.5f, blackScreen));
@@ -184,16 +186,14 @@ public class SaveLoad : MonoBehaviour
         bool done = false;
 
         // Actually load data!
+        Debug.Log("Loading...");
         using (StreamReader streamReader = File.OpenText(dataPath))
         {
             string jsonString = streamReader.ReadToEnd();
             saveData = JsonUtility.FromJson<SaveData>(jsonString);
             done = LoadData();
         }
-
         yield return new WaitUntil(() => done);
-
-        Debug.Log("List size middle: " + meatLockerList.Count);
 
         // Now, if this loads us at our last meat locker, we need to load the scene at the last meat locker's index, and grab its transform.
         if (gotoLocker)
@@ -203,11 +203,12 @@ public class SaveLoad : MonoBehaviour
         }
 
         // Fade back in. We wait until it's done doing so before we can move; we can change this to an animation trigger instead later on.
-        
+
+        player.SetActive(true);
         StartCoroutine(FadeImageToZeroAlpha(1.5f, blackScreen));
         yield return new WaitUntil(() => blackScreen.color.a <= 0);
+        
         player.GetComponent<OverworldMovement>().canMove = true;
-        Debug.Log("List size after: " + meatLockerList.Count);
     }
 
     // Update the information in our save data.

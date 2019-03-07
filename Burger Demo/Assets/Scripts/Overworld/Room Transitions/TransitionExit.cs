@@ -44,7 +44,7 @@ public class TransitionExit : MonoBehaviour
         {
             if (other.gameObject.GetComponent<OverworldMovement>().canMove && !scripted)
             {
-                if (activateToUse && Input.GetKeyDown(KeyCode.Space) && !warping)
+                if (activateToUse && Input.GetKeyDown(KeyCode.Space) && !warping && this.enabled)
                 {
                     warping = true;
                     Debug.Log("Door!");

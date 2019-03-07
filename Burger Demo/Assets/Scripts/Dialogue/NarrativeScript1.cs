@@ -37,6 +37,8 @@ public class NarrativeScript1 : MonoBehaviour {
     public GameObject[] walls;
     public TransitionManager transitMan;
 
+    private bool startTimer;
+
     public Dialogue dennis1; // specific dialogue modified by player choice
     //public string[] choiceFor_dennis1; //string holding the dialogue for choice changes. Kept in for template only
     public bool animationFlag; //set from animation events to get timing right
@@ -78,23 +80,40 @@ public class NarrativeScript1 : MonoBehaviour {
         StartCoroutine(dh.GenericFirstConvo(2, true));
     }
 
+    // Literally just makes it so that if the player doesn't hit a key, the game will start anyway.
+    private IEnumerator BriefTimer()
+    {
+        yield return new WaitForSeconds(3);
+        startTimer = true;
+    }
+
     public IEnumerator eventOne() //first event. Eventually, this will be the 'master function' calling shit in order via coroutines.
     {
+        yield return new WaitForSeconds(0.5f);
         // Black screen on startup. Pressing anything fades it out and spawns in the player.
         if (!nm.gameStarted)
         {
+            Debug.Log("Launching initial cutscene.");
             if (blackScreen == null)
                 blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
             blackScreen.gameObject.SetActive(true);
             blackScreen.color = new Color(0, 0, 0, 1);
-            yield return new WaitUntil(() => Input.anyKey == true);
+            StartCoroutine(BriefTimer());
+            yield return new WaitUntil(() => Input.anyKey || startTimer);
 
             StartCoroutine(nm.bci.FadeImageToZeroAlpha(2, blackScreen));
             yield return new WaitForSeconds(4f);
 
-
+            while (startAnim == null)
+            {
+                startAnim = GameObject.FindGameObjectWithTag("BirthLocker").GetComponentInChildren<Animator>();
+                yield return null;
+            }
             startAnim.SetTrigger("Start");
+
+            nm.gameStarted = true;
         }
+        
         
 
         // Wait until we walk into Dennis' office for the first time. 0.75f waits until we load in before grabbing Dennis and his components.

@@ -27,11 +27,12 @@ public class DWBOpeningANimCaller : MonoBehaviour {
         optionMenu = GameObject.FindWithTag("OptionsMenu");
         mm = optionMenu.GetComponent<MenuManager>();
         audS = GetComponent<AudioSource>();
+        black = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
     }
 	
 	void Shrink () //called from an animation event, this calls LerpOver when the animation finishes.
     {
-        if (nm.room != 0)
+        if (nm.room == 0)
         {
             startPosition = this.transform.localPosition;
             StartCoroutine(lerpOver());
@@ -40,7 +41,7 @@ public class DWBOpeningANimCaller : MonoBehaviour {
 
     void Pulse() //A simple animation event that calls some audio when it triggers.
     {
-        if (nm.room != 0)
+        if (nm.room == 0)
         {
             audS.Play();
         }
@@ -62,6 +63,7 @@ public class DWBOpeningANimCaller : MonoBehaviour {
             Tick = 0;
             StartCoroutine(nm.bci.FadeImageToZeroAlpha(1, black));
             yield return new WaitForSeconds(1f);
+            openingLogo.GetComponentInParent<Canvas>().sortingOrder = -2;
             mm.animFlag = true;
         }
     }

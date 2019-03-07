@@ -91,7 +91,7 @@ public class EnemyBehavior : MonoBehaviour {
         
         movingForwards = true;
         seconds = Mathf.RoundToInt(enemySpeed-2);
-        mainCamera = GameObject.Find("Main Camera");
+        mainCamera = GameObject.Find("MainCamera");
         background = mainCamera.GetComponent<AudioSource>();
         //clock = GameObject.Find("ClockUI");
     }

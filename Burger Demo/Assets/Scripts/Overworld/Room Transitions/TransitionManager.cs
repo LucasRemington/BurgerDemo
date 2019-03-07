@@ -94,18 +94,20 @@ public class TransitionManager : MonoBehaviour
         currentTracker = null;
 
         yield return new WaitUntil(() => currentTracker != null);
-        Debug.Log("We in this new Scene!");
-
-        // Auto-save!
-        if (autoSave)
-            StartCoroutine(saveLoad.SaveGame());
+        Debug.Log("We in this new Scene!");            
 
         player.GetComponent<OverworldMovement>().canMove = false;
         player.GetComponent<OverworldMovement>().playerSprite.flipX = flip;
         player.transform.position = currentTracker.exitList[index].position;
         mainCam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, -5);
 
-        
+        // Auto-save!
+        if (autoSave)
+        {
+            StartCoroutine(saveLoad.SaveGame());
+        }
+
+
 
         StopCoroutine(FadeImageToZeroAlpha(0.5f, fadeOutScreen));
         StartCoroutine(FadeImageToZeroAlpha(0.5f, fadeOutScreen));

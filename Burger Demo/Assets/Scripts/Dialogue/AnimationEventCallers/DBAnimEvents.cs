@@ -33,7 +33,10 @@ public class DBAnimEvents : MonoBehaviour {
 
     void enableBackgrounds ()
     {
+        IB = GameObject.FindGameObjectWithTag("Player");
+        IB = IB.transform.GetChild(0).gameObject;
         IB.SetActive(true);
+        IB.GetComponent<OverworldMovement>().canMove = true;
     }
 
     void Choice()

@@ -101,7 +101,7 @@ public class TutorialEnemy : MonoBehaviour {
         
         movingForwards = true;
         seconds = Mathf.RoundToInt(enemySpeed - 2);
-        mainCamera = GameObject.Find("Main Camera");
+        mainCamera = GameObject.Find("MainCamera");
         background = mainCamera.GetComponent<AudioSource>();
         BCI.GetTutorial();
         StartCoroutine(ph.DelayedHealthBarSpawn());

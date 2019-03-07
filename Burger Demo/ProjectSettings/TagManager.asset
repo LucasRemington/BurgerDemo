@@ -25,6 +25,8 @@ TagManager:
   - MeatLocker
   - OptionsMenu
   - BlackScreen
+  - Base
+  - BirthLocker
   layers:
   - Default
   - TransparentFX
