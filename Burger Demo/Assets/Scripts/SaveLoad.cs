@@ -17,6 +17,9 @@ public class SaveLoad : MonoBehaviour
     private GameObject gameController;
     private BattleTransitions battTran;
 
+    [Tooltip("The icon used to indicate that the game is currently saving.")] public Image saveIcon;
+    private bool saving = false;
+
     [HideInInspector] [Tooltip("The player holder, which other components are derived from. Set via script. If this is empty at runtime, that is an issue.")] public GameObject playerHolder;
     private GameObject player;
     private Animator playerAnim;
@@ -58,6 +61,10 @@ public class SaveLoad : MonoBehaviour
 
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
 
+        if (saveIcon == null)
+        {
+            saveIcon = GameObject.FindGameObjectWithTag("SaveIcon").GetComponent<Image>();
+        }
     }
 
     public void Update()
@@ -74,6 +81,14 @@ public class SaveLoad : MonoBehaviour
             Debug.Log("Loading from last meat locker.");
             StartCoroutine(LoadGame(true));
         }
+
+        if (saving)
+        {
+            saveIcon.enabled = true;
+            saveIcon.transform.Rotate(Vector3.forward * Time.deltaTime * 180);
+        }
+        else
+            saveIcon.enabled = false;
     }
 
     // Called whenever we enter a meatlocker. Determines conversation choice order, saves the game, refills health, and offers fast travel...eventually.
@@ -157,6 +172,7 @@ public class SaveLoad : MonoBehaviour
 
     public IEnumerator SaveGame()
     {
+        saving = true;
         Debug.Log("Saving game!");
         bool done = false;
         done = UpdateSaveData();
@@ -168,6 +184,7 @@ public class SaveLoad : MonoBehaviour
             streamWriter.Write(jsonString);
         }
 
+        saving = false;
         yield return null;
     }
 

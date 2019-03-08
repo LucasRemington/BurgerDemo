@@ -288,6 +288,8 @@ public class OverworldMovement : MonoBehaviour {
 
             }
             onLadder = true;
+            // Set out velocity to zero as we get on a ladder; this prevents us from slipping down if we grab a ladder while falling.
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             other.transform.parent.gameObject.GetComponent<EdgeCollider2D>().enabled = false;
         }
 
@@ -304,6 +306,9 @@ public class OverworldMovement : MonoBehaviour {
         if (((other.gameObject.tag == "Ladder" && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))) || (other.gameObject.tag == "Ladder" && onLadder == true)) && canMove && other.GetType() != typeof(EdgeCollider2D) && !touchingLadderCap)
         {
             onLadder = true;
+
+            // Set out velocity to zero as we get on a ladder; this prevents us from slipping down if we grab a ladder while falling.
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
             if (!ladder.Contains(other.gameObject))
             {
@@ -388,6 +393,7 @@ public class OverworldMovement : MonoBehaviour {
         {
             GetComponent<Rigidbody2D>().gravityScale = 1;
             grounded = true;
+            playerAnim.SetBool("Falling", false);
             //playerAnim.SetBool("Falling", false);
             StopCoroutine(GroundTimer());
         }
@@ -415,6 +421,7 @@ public class OverworldMovement : MonoBehaviour {
     // Climby girl.
     private void LadderClimb()
     {
+        grounded = true;
         if (Input.GetKey(KeyCode.UpArrow) && canMove && !topDownGrabbing)
         {
             transform.Translate(Vector2.up * climbSpeed / 100);
@@ -443,6 +450,8 @@ public class OverworldMovement : MonoBehaviour {
             //x = 0;
             
         }
+        playerAnim.SetBool("Climbing", false);
+        playerAnim.SetBool("ClimbingUp", false);
         GetComponent<Rigidbody2D>().gravityScale = 1;
         StartCoroutine(GroundTimer());
     }
@@ -454,9 +463,11 @@ public class OverworldMovement : MonoBehaviour {
         GetComponent<Rigidbody2D>().gravityScale = 5;
         yield return new WaitForSeconds(0.05f);
         grounded = false;
+        crouching = false;
+        
         startPos = transform.position;
         yield return new WaitForSeconds(0.05f);
-        if (!grounded)
+        if (!grounded && !onLadder)
         {
             if (playerAnim.GetBool("Climbing") == false)
             {
@@ -575,14 +586,22 @@ public class OverworldMovement : MonoBehaviour {
             OverworldDeath();
     }
 
+    private bool getUpTimerDone = false;
     // How long does the player need to wait before recovering from falling?
     private IEnumerator GetUpWait()
     {
         canMove = false;
-        yield return new WaitUntil(() => landingAnim == true);
-        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(GetUpTimer());
+        yield return new WaitUntil(() => landingAnim || getUpTimerDone);
+        getUpTimerDone = false;
         landingAnim = false;
         canMove = true;
+    }
+
+    private IEnumerator GetUpTimer()
+    {
+        yield return new WaitForSeconds(0.75f);
+        getUpTimerDone = true;
     }
 
     // set from animation event

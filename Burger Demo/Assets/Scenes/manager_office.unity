@@ -517,11 +517,12 @@ Prefab:
         type: 2}
       propertyPath: sceneToLoad.m_SceneAsset
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 102900000, guid: 30b4a37af4e594e4d85ba2b6f45bde9b,
+        type: 3}
     - target: {fileID: 114664357968783796, guid: ef5876c2872625045bbcc85bfa43f675,
         type: 2}
       propertyPath: sceneToLoad.m_SceneName
-      value: training_hallway
+      value: Kitchenv2
       objectReference: {fileID: 0}
     - target: {fileID: 114664357968783796, guid: ef5876c2872625045bbcc85bfa43f675,
         type: 2}
