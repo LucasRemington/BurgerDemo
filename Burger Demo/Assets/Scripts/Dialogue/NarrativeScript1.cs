@@ -191,7 +191,7 @@ public class NarrativeScript1 : MonoBehaviour {
         Debug.Log("battle is over");
         holomAnim.SetTrigger("Sleep");
         animationFlag = false;
-        yield return new WaitUntil(() => nm.room == 2);
+        
 
         //StartCoroutine(dh.GenericFirstConvo(9, false));
         
@@ -202,6 +202,8 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public IEnumerator eventTwo() {
         Debug.Log("event 2");
+        yield return new WaitUntil(() => nm.room == 2);
+        player.GetComponent<OverworldMovement>().grounded = false;
         dh.CancelDialogue(true);
         nm.combatText = false;
         nm.autoAdvance = false;

@@ -424,13 +424,13 @@ public class OverworldMovement : MonoBehaviour {
         grounded = true;
         if (Input.GetKey(KeyCode.UpArrow) && canMove && !topDownGrabbing)
         {
-            transform.Translate(Vector2.up * climbSpeed / 100);
+            transform.Translate(Vector2.up * climbSpeed * Time.deltaTime);
             playerAnim.speed = 1f;
             playerAnim.SetBool("ClimbingUp", true);
         }
         else if (Input.GetKey(KeyCode.DownArrow) && canMove && !topDownGrabbing)
         {
-            transform.Translate(Vector2.down * climbSpeed / 100);
+            transform.Translate(Vector2.down * climbSpeed * Time.deltaTime);
             playerAnim.speed = 1f;
             playerAnim.SetBool("ClimbingUp", false);
         } else

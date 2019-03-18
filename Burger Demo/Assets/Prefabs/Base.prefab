@@ -2949,8 +2949,8 @@ MonoBehaviour:
   invuln: 0
   invulnTime: 1.1
   lastTouched: {fileID: 0}
-  moveSpeed: 7.5
-  climbSpeed: 3
+  moveSpeed: 4
+  climbSpeed: 2
   crouchSpeedDivider: 2
   canMove: 1
   slipping: 0
@@ -3827,6 +3827,7 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   IB: {fileID: 0}
+  Player: {fileID: 0}
   audio: {fileID: 0}
   shortBubble: {fileID: 0}
   longBubble: {fileID: 0}
@@ -5584,6 +5585,7 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   nm: {fileID: 0}
   IB: {fileID: 1606279549127880}
+  Player: {fileID: 0}
   audio: {fileID: 0}
   shortBubble: {fileID: 0}
   longBubble: {fileID: 0}

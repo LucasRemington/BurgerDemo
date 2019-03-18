@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/training_hallway.unity
     guid: d4f9299a4a352e64999f8933b35f2507
+  - enabled: 1
+    path: Assets/Scenes/Kitchenv2.unity
+    guid: 30b4a37af4e594e4d85ba2b6f45bde9b
   m_configObjects: {}
