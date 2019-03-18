@@ -146,7 +146,7 @@ dfd33ff9ae3ce8d7ca1f22b475ec2387 UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 8bb5675319efe51dd68f7eb5854b83da Assembly-CSharp.dll:.PlayerSounds
 762cc5c1b35e1c889059192f4b978a4b Assembly-CSharp.dll:UnityEngine.Tilemaps.AnimatedTile
 df09b7556f64fa4ac87fb5564cf80a5a Assembly-CSharp.dll:.NarrativeManager
-c3deadfabebb166bf0b970a2b10913f9 Assembly-CSharp.dll:.SaveLoad
+7c3246e995a9d9b781940c5f096b5d9a Assembly-CSharp.dll:.SaveLoad
 648c249e8198aed2240678c6dcd8e752 Assembly-CSharp.dll:.Sign
 a4c82ca2852a84cefdde759619881891 Assembly-CSharp.dll:.NarrativeScript1
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.TurnOffWhenDone

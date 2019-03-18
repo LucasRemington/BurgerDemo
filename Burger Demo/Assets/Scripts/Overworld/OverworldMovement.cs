@@ -112,14 +112,14 @@ public class OverworldMovement : MonoBehaviour {
         // Previously used !jumping rather than !onLadder. We walk!
         if (!gameController.GetComponent<BattleTransitions>().battling) { 
             if (Input.GetKey(KeyCode.RightArrow) && !onLadder && canMove && grounded) {
-                transform.Translate(Vector3.right * moveSpeed / 100);
+                transform.Translate(Vector3.right * moveSpeed *Time.deltaTime);
                 playerAnim.speed = 1f;
                 playerAnim.SetBool("Walking", true);
                 playerSprite.flipX = false;
                 intTrigger.offset = intTriggerBaseOffset;
             }
             else if (Input.GetKey(KeyCode.LeftArrow) && !onLadder && canMove && grounded) {
-                transform.Translate(Vector3.left * moveSpeed / 100);
+                transform.Translate(Vector3.left * moveSpeed *Time.deltaTime);
                 playerAnim.speed = 1f;
                 playerAnim.SetBool("Walking", true);
                 playerSprite.flipX = true;
@@ -206,19 +206,19 @@ public class OverworldMovement : MonoBehaviour {
                 {
                     if (Input.GetKey(KeyCode.LeftArrow))
                     {
-                        transform.Translate(Vector3.left * moveSpeed / 150);
+                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 1.5f);
                     }
                     else
-                        transform.Translate(Vector3.left * moveSpeed / 75);
+                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime *0.75f);
                 }
                 else if (slipRight)
                 {
                     if (Input.GetKey(KeyCode.RightArrow))
                     {
-                        transform.Translate(Vector3.right * moveSpeed / 150);
+                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime *1.5f);
                     }
                     else
-                        transform.Translate(Vector3.right * moveSpeed / 75);
+                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime *0.75f);
                 }
             }
 

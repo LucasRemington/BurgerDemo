@@ -264,7 +264,7 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 4c1bf1f753017e2499aece91dcd3649e, type: 2}
+    m_Data: {fileID: 11400000, guid: 3da3fdae219fb124fa57fe8436ed31ae, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: eb2f33c3a45b34d4f9079c056fe59e08, type: 2}
   - m_RefCount: 1
@@ -274,13 +274,13 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 5ad5d06698bdc4e4184ebfb45fef2012, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 997e1b5122e9ab7498b92d82589181e4, type: 2}
+    m_Data: {fileID: 11400000, guid: 69282c2037f659c49afd6d88a902db8a, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: c00dd678cbafc2f41bd31f0b7c439381, type: 2}
+    m_Data: {fileID: 11400000, guid: c24f8c29d325dca428adddc9a520a63b, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: a3c819589ead8044aba6d7fac06e2e38, type: 2}
+    m_Data: {fileID: 11400000, guid: 90e1193b6704b4642992f2b903b5e4f0, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 485631a9ed39f41438a9920f3d8844f8, type: 2}
+    m_Data: {fileID: 11400000, guid: c1fb600681e16e444881c012235db900, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 9e22daff06e85f044ad10cef21247db3, type: 2}
   - m_RefCount: 1
@@ -338,6 +338,16 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 13
     m_Data: {r: 1, g: 1, b: 1, a: 1}
+  - m_RefCount: 0
+    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+  - m_RefCount: 0
+    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+  - m_RefCount: 0
+    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+  - m_RefCount: 0
+    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+  - m_RefCount: 0
+    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -2, y: -4, z: 0}

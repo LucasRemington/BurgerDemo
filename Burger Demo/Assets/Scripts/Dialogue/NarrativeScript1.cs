@@ -312,7 +312,7 @@ public class NarrativeScript1 : MonoBehaviour {
             case 1:
                 dh.ongoingEvent = true;
                 dennisAnim.SetInteger("Scene1", 2);
-                StartCoroutine(sm.MoveTo(dennis, new Vector3 (-2.85f, 0, 0), 0.8f));
+                StartCoroutine(sm.MoveTo(dennis, new Vector3 (-2.75f, 0, 0), 0.8f));
                 yield return new WaitForSeconds(0.5f);
                 dennisSR.sortingOrder = 9;
                 yield return new WaitUntil(() => sm.finished == true);
