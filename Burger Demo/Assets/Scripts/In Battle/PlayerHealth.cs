@@ -22,6 +22,8 @@ public class PlayerHealth : MonoBehaviour {
     public Image shieldBar;
 
     void Start () {
+        healthBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Fill").GetComponent<Image>();
+        shieldBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Shield").GetComponent<Image>();
         gameController = GameObject.FindGameObjectWithTag("GameController");
         burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
         playerHealth = gameController.GetComponent<BattleTransitions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller

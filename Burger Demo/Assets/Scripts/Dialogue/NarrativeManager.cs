@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class NarrativeManager : MonoBehaviour {
 
+    [Header("Misc")]
     public OverworldMovement owm;
     public BattleTransitions bt;
     public NarrativeScript1 ns1;
@@ -19,7 +20,7 @@ public class NarrativeManager : MonoBehaviour {
     public int area; //used to identify area
     public int room; //used to identify room
 
-    //used for dialogue box
+    [Header("Dialogue Box")]
     public Text textTS; // text box text
     public Text nameTS; //name of talksprite
     public GameObject textBox; //textbox gameobject
@@ -32,12 +33,19 @@ public class NarrativeManager : MonoBehaviour {
     public GameObject canvas;
     private bool dbActive = false; // Set at the beginning of dialogueBox and at the end of dialogueEnd; if this is active, we don't actually go through dialogueBox.
 
-    //used for combat dialogue box
+    [Header("Text Positions")]
+    public Vector2 textPosYesTalksp;
+    public Vector2 textPosNoTalksp;
+    public float widthYesTalksp = 590;
+    public float widthNoTalksp = 805;
+
+    [Header("Combat Dia Box")]
     public GameObject combatUI;
     public Text textTSCombat; // text box text
     public Text nameTSCombat; //name of talksprite
     public Image imageTSCombat; //talksprite image component
 
+    [Header("Choices and Text Bools")]
     public bool choice = false; // true when making a choice
     public bool combatText; //true when combat text can be activated
     public bool dbStartStop; //triggered briefly to start and stop text
@@ -107,13 +115,16 @@ public class NarrativeManager : MonoBehaviour {
         switch (ev)
         {
             case 0:
-                    StartCoroutine(eventZero());
+                StartCoroutine(eventZero());
                 break;
             case 1:
-                    StartCoroutine(ns1.eventOne());
+                StartCoroutine(ns1.eventOne());
                 break;
             case 2:
                 StartCoroutine(ns1.eventTwo());
+                break;
+            case 3:
+                StartCoroutine(ns1.eventThree());
                 break;
         }
     }
@@ -130,10 +141,17 @@ public class NarrativeManager : MonoBehaviour {
             if (talkSprite == true)
             {
                 dbAnim.SetBool("Talksprite", true);
+                textTS.rectTransform.localPosition = textPosYesTalksp;
+                textTS.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthYesTalksp);
+                //textTS.alignment = TextAnchor.MiddleLeft;
+
             }
             else
             {
                 dbAnim.SetBool("Talksprite", false);
+                textTS.rectTransform.localPosition = textPosNoTalksp;
+                textTS.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, widthNoTalksp);
+                //textTS.alignment = TextAnchor.MiddleCenter;
             }
             dbAnim.SetTrigger("Popup");
             yield return new WaitUntil(() => dbStartStop == true);
@@ -349,8 +367,8 @@ public class NarrativeManager : MonoBehaviour {
             tbTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 160);
         }
 
-        //imageTS.transform.SetParent(db.transform);
-        //textTS.transform.SetParent(db.transform);  
+        imageTS.transform.SetParent(db.transform);
+        textTS.transform.SetParent(db.transform);  
 
     }
 

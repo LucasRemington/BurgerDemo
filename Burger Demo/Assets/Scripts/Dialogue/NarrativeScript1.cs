@@ -36,6 +36,8 @@ public class NarrativeScript1 : MonoBehaviour {
     public bool convoDone;
     public GameObject[] walls;
     public TransitionManager transitMan;
+    public Text winLossText;
+    public Text battleEndText2;
 
     private bool startTimer;
 
@@ -189,10 +191,19 @@ public class NarrativeScript1 : MonoBehaviour {
         //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         Debug.Log("battle is over");
+        yield return new WaitForSeconds(2.5f);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        battleEndText2.enabled = false;
+        winLossText.enabled = false;        
+        for (int i = 0; i < 101; i++)
+        {
+            blackScreen.color = new Color(0, 0, 0, blackScreen.color.a - 0.01f);
+            yield return new WaitForEndOfFrame();
+        }
+        yield return new WaitForSeconds(1.5f);
         holomAnim.SetTrigger("Sleep");
         animationFlag = false;
         
-
         //StartCoroutine(dh.GenericFirstConvo(9, false));
         
         nm.ev++;
@@ -207,7 +218,7 @@ public class NarrativeScript1 : MonoBehaviour {
         dh.CancelDialogue(true);
         nm.combatText = false;
         nm.autoAdvance = false;
-        if (nm.room == 2)
+        /*if (nm.room == 2)
         {
             walls = GameObject.FindGameObjectsWithTag("ShudderWall");
             foreach (GameObject wall in walls)
@@ -221,7 +232,7 @@ public class NarrativeScript1 : MonoBehaviour {
             {
                 wall.GetComponent<AudioSource>().mute = false;
             }
-        }
+        }*/
         yield return new WaitUntil(()=> nm.room == 1);
         Debug.Log("In Dennis' room");
         transitMan.readyForFade = false;
@@ -257,11 +268,14 @@ public class NarrativeScript1 : MonoBehaviour {
         dennisAnim.SetInteger("Scene2", 6);
         yield return new WaitUntil(() => sm.finished);
         dennisAnim.SetTrigger("ResetSitting");
-        yield return new WaitUntil(() => nm.room == 4);
+        nm.ev++;
+        nm.CheckEvent();
     }
 
-
-
+    public IEnumerator eventThree() {
+        yield return new WaitUntil(() => nm.room == 4);
+    }
+    
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
     {
         switch (dia)
@@ -296,7 +310,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(convo9Events(dia, scriptedConvo));
                 break;
             case 10:
-                Debug.Log("Call thing");
+                //Debug.Log("Call thing");
                 StartCoroutine(DennisConvo2(dia, scriptedConvo));
                 break;
         }
@@ -383,9 +397,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(nm.isQuestion(dh.Scripted[dia], scriptedConvo + 1)); //dh.scriptedConvo[scriptedConvo]
                 yield return new WaitUntil(() => nm.dbChoiceSS == true);
                 StartCoroutine(nm.choiceChecker());
-                StartCoroutine(SecondTimer(1f));
-                yield return new WaitUntil(() => timerFlag == true); //normally is dh.choiceMade == true
-                Debug.Log("timer true");
+                yield return new WaitForSeconds(0.5f);
+                //Debug.Log("timer true");
                 if (dh.choiceSelected == 1)
                 {
                     Debug.Log("choice 1 made");
@@ -523,8 +536,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = false;
                 break;
             case 2:
-                dh.ongoingEvent = true;
-                
+                dh.ongoingEvent = true;                
                 dh.ongoingEvent = false;
                 break;
             case 3:
@@ -666,6 +678,19 @@ public class NarrativeScript1 : MonoBehaviour {
             case 6:
                 dh.ongoingEvent = true;
                 Debug.Log("battle should close now");
+                blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
+                for (int i = 0; i < 100; i++)
+                {
+                    blackScreen.color = new Color(0, 0, 0, blackScreen.color.a + 0.01f);
+                    yield return new WaitForEndOfFrame();
+                }
+                nm.bci.CombatUI.gameObject.transform.Find("HealthBar").gameObject.SetActive(false);
+                yield return new WaitForSeconds(1.5f);
+                winLossText.text = "Training Complete!";
+                winLossText.enabled = true;
+                yield return new WaitForSeconds(0.5f);
+                battleEndText2.text = "Meat Returned";
+                battleEndText2.enabled = true;
                 StartCoroutine(nm.bt.EndOfBattle(false));
                 waitForScript = false;
                 dh.ongoingEvent = false;
@@ -731,12 +756,13 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 8:
                 dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
                 convoDone = true;
                 dennisAnim.SetInteger("Scene2", 5);
                 yield return new WaitForSeconds(0.11f);
                 dennis.GetComponent<SpriteRenderer>().flipX = true;
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 dh.CancelDialogue(true);
+                dh.ongoingEvent = false;
                 break;
         }
     }

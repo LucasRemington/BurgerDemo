@@ -11,6 +11,7 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("The GameController gameobject within the scene. Set this in the inspector!")] public GameObject gameController;
     [HideInInspector] [Tooltip("For being invincible after taking overworld damage.")] public bool invuln;
     [Tooltip("For how long does the player have i-frames after taking overworld damage?")] public float invulnTime;
+    [Tooltip("The Battle Transition script that is on the game controller.")] BattleTransitions battTran;
 
     [Header("Interaction")]
     [Tooltip("Used to interact with objects.")] public GameObject lastTouched;
@@ -43,6 +44,7 @@ public class OverworldMovement : MonoBehaviour {
     [Header("Animation and Sprites")]
     [Tooltip("The animation component on the player. Set via script.")] public Animator playerAnim;
     [Tooltip("The spriterenderer component on the player. Set via script.")] public SpriteRenderer playerSprite;
+    private bool landingAnim;
 
     // Used in climbing stairs or ladders. Later on we can add a bool that determines if something uses a ladder climb anim or a stair climb anim. That also might just be coded differently here.
     [Header("Ladders and Climbing")]
@@ -53,15 +55,15 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("When the player grabs onto a ladder, this takes the ladder's position at the start so that it can be lerped to.")] private float tempXPos;
     [Tooltip("When the player grabs onto a ladder from the top, this takes the player's y position at the start so that it can be lerped.")] private float tempYPos;
     [Tooltip("When the player grabs onto a ladder from the top, this bool prevents the player from moving and slides them into position smoothly with a lerp.")] public bool topDownGrabbing;
-    [Tooltip("Whether or not the player is allowed to grab the ladder below them.")] private bool canGrabDown;
+    [Tooltip("Whether or not the player is allowed to grab the ladder below them.")] public bool canGrabDown;
     [Tooltip("If the player is currently inside the hitbox for the topmost part of a ladder.")] public bool touchingLadderCap;
 
-    private float tempTimerMax = 0.25f;
+    private float tempTimerMax = 0.4f;
 
     // Fally girl.
     [Header("Falling and Fall Damage")]
     [Tooltip("Whether the player is currently touching the ground or not. Turns false after a very brief moment of not touching the ground.")] public bool grounded;
-    [Tooltip("Health of the player. Connects to the gameController's BattleTransition script.")] private int health;
+    //[Tooltip("Health of the player. Connects to the gameController's BattleTransition script.")] private int health;
     //[Tooltip("How long the player should pause on the ground after falling before getting up and being able to move again.")] public float getUpTime;
     [Tooltip("Starting position when the player starts to fall.")] private Vector2 startPos;
     [Tooltip("End position when the player finishes falling.")] private Vector2 endPos;
@@ -74,7 +76,6 @@ public class OverworldMovement : MonoBehaviour {
     public enum DamageType { LinearDamage, ExponentialDamage, FibonacciDamage };
     [Tooltip("The type of damage the player takes when falling. Linear = Damage * Distance (5, 10, 15, 20, 25, etc);\n Expo = Doubles each block fallen (5, 10, 20, 40, etc);\n Fibonacci: Damage is equal to the past two values added to each other (5, 5, 10, 15, 25, etc);")] public DamageType damageType;
 
-    private bool landingAnim;
 
     public void PseudoStart () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
@@ -84,7 +85,7 @@ public class OverworldMovement : MonoBehaviour {
         intTrigger = GetComponentInChildren<BoxCollider2D>();
         intTriggerBaseOffset = intTrigger.offset;
 
-        health = gameController.GetComponent<BattleTransitions>().playerHealth;
+        battTran = gameController.GetComponent<BattleTransitions>();
         damText = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
 
         tempMoveSpeed = moveSpeed;
@@ -265,6 +266,8 @@ public class OverworldMovement : MonoBehaviour {
         // We can only do this if we are not touching the floor!
         if (other.gameObject.tag == "LadderCap" && Input.GetKeyDown(KeyCode.DownArrow) && !onLadder && !topDownGrabbing && canGrabDown)
         {
+            topDownGrabbing = true;
+
             tempYPos = gameObject.transform.position.y;
             tempXPos = other.transform.position.x;
 
@@ -272,7 +275,7 @@ public class OverworldMovement : MonoBehaviour {
             StartCoroutine(TopDownTimer());
 
             GetComponent<Rigidbody2D>().gravityScale = 0;
-            topDownGrabbing = true;
+            
 
             if (!ladder.Contains(other.transform.parent.gameObject))
             {
@@ -294,8 +297,9 @@ public class OverworldMovement : MonoBehaviour {
         }
 
         // If this is the uppermost ladder in a stack of ladders, and we hit its cap, then we just climb up and "surface"
-        if (other.gameObject.tag == "LadderCap" && Input.GetKey(KeyCode.UpArrow) && onLadder)
+        if (other.gameObject.tag == "LadderCap" && Input.GetKey(KeyCode.UpArrow) && onLadder && !topDownGrabbing)
         {
+            canGrabDown = false; 
             transform.position = new Vector2(other.transform.position.x, other.transform.position.y + other.offset.y);
             LadderJump();
         }
@@ -422,6 +426,7 @@ public class OverworldMovement : MonoBehaviour {
     private void LadderClimb()
     {
         grounded = true;
+        canGrabDown = false;
         if (Input.GetKey(KeyCode.UpArrow) && canMove && !topDownGrabbing)
         {
             transform.Translate(Vector2.up * climbSpeed * Time.deltaTime);
@@ -454,6 +459,7 @@ public class OverworldMovement : MonoBehaviour {
         playerAnim.SetBool("ClimbingUp", false);
         GetComponent<Rigidbody2D>().gravityScale = 1;
         StartCoroutine(GroundTimer());
+        canGrabDown = true;
     }
 
     // This coroutine is just for the grounded check; after this time passes and we haven't connected with the ground again, we are no longer grounded.
@@ -549,11 +555,13 @@ public class OverworldMovement : MonoBehaviour {
     {
         Color tempColor = damText.color;
         
-        health -= damage;
+        battTran.playerHealth -= damage;
 
+        playerAnim.SetInteger("Health", battTran.playerHealth);
+        playerAnim.SetInteger("Damage", damage);
 
         float tempVal = -1;
-        if (health > 0)
+        if (battTran.playerHealth > 0)
             damText.text = ("-" + damage);
         else
             tempVal = Random.Range(0, 10);
@@ -563,7 +571,7 @@ public class OverworldMovement : MonoBehaviour {
         if (tempVal >= 2 && tempVal < 4)
             damText.text = "OW";
         if (tempVal >= 4 && tempVal < 6)
-            damText.text = ". . .";
+            damText.text = "OOF";
         if (tempVal >= 6 && tempVal < 8)
             damText.text = "CAN YOU NOT";
         if (tempVal >= 8 && tempVal <= 10)
@@ -576,14 +584,20 @@ public class OverworldMovement : MonoBehaviour {
 
         damText.enabled = true;
         
-        Debug.Log("Health: " + health);
+        Debug.Log("Health: " + battTran.playerHealth);
         
         yield return new WaitForSeconds(flDamageTextTime);
         damText.enabled = false;
         damText.color = tempColor;
 
-        if (health <= 0)
+        if (battTran.playerHealth <= 0)
+        {
+            canMove = false;
             OverworldDeath();
+        }
+
+        playerAnim.SetInteger("Damage", 0);
+
     }
 
     private bool getUpTimerDone = false;
@@ -612,8 +626,8 @@ public class OverworldMovement : MonoBehaviour {
 
     private void OverworldDeath()
     {
-        Destroy(gameObject);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SaveLoad saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
+        saveLoad.StartCoroutine(saveLoad.LoadGame(false));
     }
 
     // I-Frame timer!
@@ -632,44 +646,51 @@ public class OverworldMovement : MonoBehaviour {
         slipping = false;
     }
 
-        // ######## wOAH OLD CODe ######### //
 
-        /*private void OnCollisionEnter2D(Collision2D other) {
-            lastTouched = other.gameObject;                 
-            Debug.Log("Touched " + other.gameObject.name);
-        }
-                                                                            // these two are also in the interactable script now
-        private void OnCollisionExit2D(Collision2D other) {
-            if(other.gameObject == lastTouched)
-                lastTouched = null;
-        }*/
-
-        // Say hello to the old jumping script!
-        /*public IEnumerator Jump() {
-            jumping = true;
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-            GetComponent<CapsuleCollider2D>().isTrigger = true;
-            float i = 0;
-            while (i <= jumpHeight) {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + jumpSpeed, transform.position.z), 0.1f); // this is a weird way to do it, but it looks nice
-                yield return new WaitForEndOfFrame();
-                i = i + Time.deltaTime;
-            }
-            GetComponent<Rigidbody2D>().gravityScale = 2;
-            GetComponent<CapsuleCollider2D>().isTrigger = false;
-            yield return new WaitForSeconds(0.1f);
-            GetComponent<Rigidbody2D>().gravityScale = 1;
-            jumping = false;
-        }
-
-        public IEnumerator Drop() {
-            jumping = true;
-            GetComponent<CapsuleCollider2D>().isTrigger = true;
-            GetComponent<Rigidbody2D>().gravityScale = 2;
-            yield return new WaitForSeconds(0.5f);
-            GetComponent<CapsuleCollider2D>().isTrigger = false;
-            GetComponent<Rigidbody2D>().gravityScale = 1;
-            jumping = false;
-        }*/
-    
 }
+
+
+
+
+
+
+// ######## wOAH OLD CODe ######### //
+
+/*private void OnCollisionEnter2D(Collision2D other) {
+    lastTouched = other.gameObject;                 
+    Debug.Log("Touched " + other.gameObject.name);
+}
+                                                                    // these two are also in the interactable script now
+private void OnCollisionExit2D(Collision2D other) {
+    if(other.gameObject == lastTouched)
+        lastTouched = null;
+}*/
+
+// Say hello to the old jumping script!
+/*public IEnumerator Jump() {
+    jumping = true;
+    GetComponent<Rigidbody2D>().gravityScale = 0;
+    GetComponent<CapsuleCollider2D>().isTrigger = true;
+    float i = 0;
+    while (i <= jumpHeight) {
+        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + jumpSpeed, transform.position.z), 0.1f); // this is a weird way to do it, but it looks nice
+        yield return new WaitForEndOfFrame();
+        i = i + Time.deltaTime;
+    }
+    GetComponent<Rigidbody2D>().gravityScale = 2;
+    GetComponent<CapsuleCollider2D>().isTrigger = false;
+    yield return new WaitForSeconds(0.1f);
+    GetComponent<Rigidbody2D>().gravityScale = 1;
+    jumping = false;
+}
+
+public IEnumerator Drop() {
+    jumping = true;
+    GetComponent<CapsuleCollider2D>().isTrigger = true;
+    GetComponent<Rigidbody2D>().gravityScale = 2;
+    yield return new WaitForSeconds(0.5f);
+    GetComponent<CapsuleCollider2D>().isTrigger = false;
+    GetComponent<Rigidbody2D>().gravityScale = 1;
+    jumping = false;
+}*/
+

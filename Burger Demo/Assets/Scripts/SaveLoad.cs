@@ -247,6 +247,9 @@ public class SaveLoad : MonoBehaviour
         saveData.meatLockerIndex = meatLockerIndex;
         saveData.meatLockerPos = meatLockerPos;
         saveData.gameStarted = narrMan.gameStarted;
+
+        saveData.narrManEventNo = narrMan.ev;
+        saveData.narrManEventNo = narrMan.room;
         
 
         return true;
@@ -272,6 +275,9 @@ public class SaveLoad : MonoBehaviour
         meatLockerIndex = saveData.meatLockerIndex;
         meatLockerPos = saveData.meatLockerPos;
         narrMan.gameStarted = saveData.gameStarted;
+
+        narrMan.ev = saveData.narrManEventNo;
+        narrMan.room = saveData.narrManRoomNo;
 
         return true;
     }

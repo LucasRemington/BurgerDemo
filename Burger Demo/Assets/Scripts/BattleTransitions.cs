@@ -101,7 +101,15 @@ public class BattleTransitions : MonoBehaviour {
         battlePrefab.transform.SetParent(MainCamera.transform);
         player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
         ph = player.GetComponent<PlayerHealth>();
-        playerHealth = ph.playerHealth;
+        playerHealth = ph.playerHealth + 20;
+        if (playerHealth > playerHealthMax)
+            playerHealth = playerHealthMax;
+        nm.ns1.winLossText.text = "";
+        /*for (int i = 0; i < 101; i++)
+        {
+            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
+            yield return new WaitForEndOfFrame();
+        }*/
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Destroy(battle.gameObject);
         if (win)

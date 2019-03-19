@@ -28,6 +28,7 @@ TagManager:
   - Base
   - BirthLocker
   - SaveIcon
+  - HealthBar
   layers:
   - Default
   - TransparentFX
