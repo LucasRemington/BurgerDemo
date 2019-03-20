@@ -494,5 +494,9 @@ public class TutorialEnemy : MonoBehaviour {
     {
         GetComponent<AudioSource>().Play();
     }
+
+    public void triggerAnim() {
+        //does nothing but fixes a bug
+    }
 }
 

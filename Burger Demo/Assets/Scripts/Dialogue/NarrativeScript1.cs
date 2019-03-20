@@ -136,6 +136,7 @@ public class NarrativeScript1 : MonoBehaviour {
         dennisAnim = dennis.GetComponent<Animator>();
         dennisSR = dennis.GetComponent<SpriteRenderer>();
         playerAnim.SetTrigger("ResetIdle");
+        playerAnim.gameObject.GetComponent<SpriteRenderer>().flipX = false;
         animationFlag = false;
         StartCoroutine(dh.GenericFirstConvo(0, false));
         nm.owm.canMove = false;

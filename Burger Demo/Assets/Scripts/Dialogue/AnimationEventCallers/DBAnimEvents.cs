@@ -35,7 +35,6 @@ public class DBAnimEvents : MonoBehaviour {
     void enableBackgrounds ()
     {
         IB.SetActive(true);
-        IB.GetComponent<OverworldMovement>().canMove = true;
     }
 
     void enablePlayer()

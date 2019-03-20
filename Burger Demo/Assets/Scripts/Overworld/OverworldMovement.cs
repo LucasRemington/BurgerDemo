@@ -27,6 +27,8 @@ public class OverworldMovement : MonoBehaviour {
     [HideInInspector] public bool slipLeft;
     [HideInInspector] public bool slipRight;
     [Tooltip("Is the player crouching? Do I need to explain this?")] public bool crouching;
+    [Tooltip("Whether the player is in a tight space or not. If so, they cannot uncrouch.")] public bool tightSpace;
+    private bool crouchTimeUp = true; // A small timer after getting off a ladder plays, just to give player time to touch the ground and be firmly grounded before their hitbox changes size; prevents some jankiness.
     private float tempMoveSpeed;
 
     private CapsuleCollider2D playColl;
@@ -95,8 +97,8 @@ public class OverworldMovement : MonoBehaviour {
 
         ladder.Clear();
     }
-	
-	void Update () {
+
+    void Update() {
 
         // If our interaction trigger is null, fetch it. Set the base offset, which we call when we move to flip it.
         if (intTrigger == null)
@@ -110,17 +112,36 @@ public class OverworldMovement : MonoBehaviour {
             playColl = GetComponent<CapsuleCollider2D>();
         }
 
-        // Previously used !jumping rather than !onLadder. We walk!
-        if (!gameController.GetComponent<BattleTransitions>().battling) { 
-            if (Input.GetKey(KeyCode.RightArrow) && !onLadder && canMove && grounded) {
-                transform.Translate(Vector3.right * moveSpeed *Time.deltaTime);
+        // As this can mess with a lot of things, if the player is crouching, we create a raycast from the top of the player's collider upward; if it returns a collision, we stay crouching after releasing the button.
+        if (crouching)
+        {
+            var crouchHit = CrouchRaycast();
+            if (crouchHit.collider != null)
+            {
+                tightSpace = true;
+            }
+            else
+            {
+                tightSpace = false;
+            }
+        }
+
+        
+
+        // Here's our movement! We go by time.deltatime so that movement isn't tied to overclocking or framerate.
+        if (!gameController.GetComponent<BattleTransitions>().battling)
+        {
+            if (Input.GetKey(KeyCode.RightArrow) && !onLadder && canMove && grounded)
+            {
+                transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
                 playerAnim.speed = 1f;
                 playerAnim.SetBool("Walking", true);
                 playerSprite.flipX = false;
                 intTrigger.offset = intTriggerBaseOffset;
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !onLadder && canMove && grounded) {
-                transform.Translate(Vector3.left * moveSpeed *Time.deltaTime);
+            else if (Input.GetKey(KeyCode.LeftArrow) && !onLadder && canMove && grounded)
+            {
+                transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
                 playerAnim.speed = 1f;
                 playerAnim.SetBool("Walking", true);
                 playerSprite.flipX = true;
@@ -130,7 +151,7 @@ public class OverworldMovement : MonoBehaviour {
             {
                 playerAnim.SetBool("Walking", false);
                 playerAnim.SetBool("Climbing", false);
-                
+
             }
             else if (!onLadder)
             {
@@ -142,12 +163,12 @@ public class OverworldMovement : MonoBehaviour {
             // Crouch? Crouch. But we need to be able to move. And not be on a ladder. And need to be grounded. Plus a couple other things but those are mostly standard. We'll determine the crouching status first, and then if we are crouching, apply proper affects.
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                if (canMove && !onLadder && grounded && !topDownGrabbing && !inLadderHitBox)
+                if (canMove && !onLadder && grounded && !topDownGrabbing && crouchTimeUp)
                 {
                     crouching = true;
                 }
             }
-            if (!Input.GetKey(KeyCode.DownArrow) || onLadder || !canMove || !grounded || topDownGrabbing)
+            if (!tightSpace && (!Input.GetKey(KeyCode.DownArrow) || onLadder || !canMove || !grounded || topDownGrabbing))
             {
                 crouching = false;
             }
@@ -159,7 +180,7 @@ public class OverworldMovement : MonoBehaviour {
                 moveSpeed = tempMoveSpeed / crouchSpeedDivider;
                 playColl.size = crouchCollSize;
                 playColl.offset = crouchCollOffset;
-                GetComponent<Animator>().SetBool("Crouching",true);//anim here
+                GetComponent<Animator>().SetBool("Crouching", true);//anim here
             }
 
             if (!crouching)
@@ -180,9 +201,12 @@ public class OverworldMovement : MonoBehaviour {
                 LadderClimb();
 
                 transform.position = Vector2.Lerp(transform.position, new Vector2(tempXPos, transform.position.y), 0.3f);
+
+                // While on a ladder, we reset our crouchtimer.
+                crouchTimeUp = false;
             }
 
-            
+
 
             // If we grab the uppermost ladder from the top, we do a short translate until our y position matches the first tile down, essentially.
             if (topDownGrabbing)
@@ -207,21 +231,28 @@ public class OverworldMovement : MonoBehaviour {
                 {
                     if (Input.GetKey(KeyCode.LeftArrow))
                     {
-                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 3);
+                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 1.5f);
                     }
                     else
-                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 1.5f);
+                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 0.75f);
                 }
                 else if (slipRight)
                 {
                     if (Input.GetKey(KeyCode.RightArrow))
                     {
-                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime * 3);
+                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime * 1.5f);
                     }
                     else
-                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime * 1.5f);
+                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime * 0.75f);
                 }
             }
+
+            // A small check at the end of update that forces us to crouch if we are still in a tight space.
+            if (tightSpace)
+            {
+                crouching = true;
+            }
+            
 
 
 
@@ -243,6 +274,15 @@ public class OverworldMovement : MonoBehaviour {
             }
             */
         }
+    }
+
+    // Here's the actual raycast for our crouching ceiling detection! First we create a layermask, and add any layers we want to ignore in the inspector.
+    [Header("Layer Mask")] [Tooltip("A matrix of any layers that need to be ignored for crouching raycasts; anything that should not block the player from standing up.")] public LayerMask mask;
+    private RaycastHit2D CrouchRaycast()
+    {
+        // Grab the top of the player's hitbox by multiplying the size of the player's hitbox by their local scale, and dividing it by two; this is the length of the center toward the top. We then add it to the player's y transform!
+        float height = (gameObject.transform.localScale.y * playColl.size.y) / 2;
+        return Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + height), new Vector2(0, 1), 0.55f, mask);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -460,6 +500,10 @@ public class OverworldMovement : MonoBehaviour {
         GetComponent<Rigidbody2D>().gravityScale = 1;
         StartCoroutine(GroundTimer());
         canGrabDown = true;
+
+        // Start a timer before we can crouch again.
+        StopCoroutine(CrouchTimer(0.3f));
+        StartCoroutine(CrouchTimer(0.3f));
     }
 
     // This coroutine is just for the grounded check; after this time passes and we haven't connected with the ground again, we are no longer grounded.
@@ -646,6 +690,11 @@ public class OverworldMovement : MonoBehaviour {
         slipping = false;
     }
 
+    public IEnumerator CrouchTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        crouchTimeUp = true;
+    }
 
 }
 
