@@ -15,7 +15,7 @@ MonoBehaviour:
   - Character: 0
     CharacterPosition: 0
     CharacterPic: {fileID: 0}
-    DialogueText: It's missing something.
+    DialogueText: If you fell off of this, you might get hurt.
     ChoiceText: []
     CharacterName: 
     DialogueTextStyle:
@@ -90,7 +90,7 @@ MonoBehaviour:
   - Character: 0
     CharacterPosition: 0
     CharacterPic: {fileID: 0}
-    DialogueText: Life, maybe.
+    DialogueText: Or not.
     ChoiceText: []
     CharacterName: 
     DialogueTextStyle:

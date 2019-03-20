@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SaveLoad : MonoBehaviour
 {
-    [Tooltip("All scripts that need to be saved; these should all be found within Don't Destroy On Load, and should be assigned in the editor.")] public List<MonoBehaviour> scripts;
+    //[Tooltip("All scripts that need to be saved; these should all be found within Don't Destroy On Load, and should be assigned in the editor.")] public List<MonoBehaviour> scripts;
     private string dataPath; // Where the save file is kept locally.
     private string currentScene; // The scene currently loaded within savedata.
 
@@ -17,7 +17,8 @@ public class SaveLoad : MonoBehaviour
     private GameObject gameController;
     private BattleTransitions battTran;
 
-    [Tooltip("The icon used to indicate that the game is currently saving.")] public Image saveIcon;
+    [Tooltip("The icon used to indicate that the game is currently saving. This is what rotates.")] public Image saveIcon;
+    [Tooltip("The icon used to indicate that the game is currently saving. This is what stays static.")] public Image saveIconText;
     private bool saving = false;
 
     [HideInInspector] [Tooltip("The player holder, which other components are derived from. Set via script. If this is empty at runtime, that is an issue.")] public GameObject playerHolder;
@@ -32,10 +33,10 @@ public class SaveLoad : MonoBehaviour
 
     [Tooltip("The dialogue used for refusing to use the meat locker.")] public Dialogue refuseDialogue;
 
-    [Tooltip("Used for debugging. diaIndex and convoIndex respectively. Duntouch.")] public int dI, cI;
+    //[Tooltip("Used for debugging. diaIndex and convoIndex respectively. Duntouch.")] public int dI, cI;
 
         // These were previously in just SaveData, but it'll probably work better if these are edited and tracked here rather than directly touching savedata.
-    public List<string> meatLockerList; // A list of scene names that the player has visited the Meat Locker of. As new meat lockers are discovered, their scene is stored at an index that can be read off of later.
+    [HideInInspector] public List<string> meatLockerList; // A list of scene names that the player has visited the Meat Locker of. As new meat lockers are discovered, their scene is stored at an index that can be read off of later.
     [HideInInspector] public int meatLockerIndex; // Tracks the last meat locker the player visited by its index in the above list, so they can respawn there via menu.
     [HideInInspector] public Vector2 meatLockerPos; // Similarly, tracks the transform of the last meat locker visited within the scene.
 
@@ -61,34 +62,47 @@ public class SaveLoad : MonoBehaviour
 
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
 
+        Debug.Log(saveIcon);
+
         if (saveIcon == null)
         {
-            saveIcon = GameObject.FindGameObjectWithTag("SaveIcon").GetComponent<Image>();
+            saveIcon = GameObject.FindGameObjectsWithTag("SaveIcon")[0].GetComponent<Image>();
+            saveIcon.enabled = false;
         }
+        if (saveIconText == null)
+        {
+            saveIconText = GameObject.FindGameObjectsWithTag("SaveIcon")[1].GetComponent<Image>();
+            saveIconText.enabled = false;
+        }
+
+        StartCoroutine(SaveSpin());
     }
 
     public void Update()
     {
-        // Using this to test Loading in particular.
-        if (Input.GetKeyDown(KeyCode.L) && player.GetComponent<OverworldMovement>().canMove)
+        // Used in conjunction with our SaveSpin coroutine; while the icon is enabled, it spins. A while loop was previously used but it could not spin for waitforseconds while simultaneously while saving, which is only for a single frame, actually.
+        if (saveIcon.enabled)
         {
-            Debug.Log("Loading from last checkpoint.");
-            StartCoroutine(LoadGame(false));
+            saveIcon.transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * 360);
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && player.GetComponent<OverworldMovement>().canMove)
-        {
-            Debug.Log("Loading from last meat locker.");
-            StartCoroutine(LoadGame(true));
-        }
+            
+    }
 
-        if (saving)
-        {
-            saveIcon.enabled = true;
-            saveIcon.transform.Rotate(Vector3.forward * Time.deltaTime * 180);
-        }
-        else
-            saveIcon.enabled = false;
+    // Used in conjunction with a rotation line in Update. Here, we enable the icon, wait for a minimum amount of time, and then disable the icon. This way the player will always see the saving icon, as currently the game saves within a single frame.
+    public IEnumerator SaveSpin()
+    {
+        yield return new WaitUntil(() => saving);
+        saveIcon.enabled = true;
+        saveIconText.enabled = true;
+
+        yield return new WaitForSeconds(1f);
+
+        yield return new WaitUntil(() => !saving);
+        saveIcon.enabled = false;
+        saveIconText.enabled = false;
+
+        StartCoroutine(SaveSpin());
     }
 
     // Called whenever we enter a meatlocker. Determines conversation choice order, saves the game, refills health, and offers fast travel...eventually.

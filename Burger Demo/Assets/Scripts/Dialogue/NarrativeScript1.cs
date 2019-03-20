@@ -70,7 +70,7 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public void Start()
     {
-        StartCoroutine(battleEarly());
+        //StartCoroutine(battleEarly());
     }
 
     public IEnumerator battleEarly ()
@@ -704,7 +704,6 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             case 0:
                 dh.ongoingEvent = true;
-
                 animationFlag = false;
                 playerAnim.SetTrigger("OfficeDennis");
                 yield return new WaitUntil(() => animationFlag == true);
@@ -727,34 +726,34 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 dh.ongoingEvent = false;
                 break;
-            case 3:
+            case 8:
                 dh.ongoingEvent = true;
                 dennisAnim.SetInteger("Scene2", 2);
                 dh.ongoingEvent = false;
                 break;
-            case 4:
+            case 9:
                 dh.ongoingEvent = true;
                 dennisAnim.SetInteger("Scene2", 3);
                 dh.ongoingEvent = false;
                 break;
-            case 5:
+            case 10:
                 dh.ongoingEvent = true;
                 dennisAnim.SetBool("Loop", true);
                 dennisAnim.SetInteger("Scene2", 1);
                 dh.ongoingEvent = false;
                 break;
-            case 6:
+            case 11:
                 dh.ongoingEvent = true;
                 dennisAnim.SetBool("Loop", false);
                 dh.ongoingEvent = false;
                 break;
-            case 7:
+            case 12:
                 dh.ongoingEvent = true;
                 dennis.GetComponent<SpriteRenderer>().flipX = false;
                 dennisAnim.SetInteger("Scene2", 4);
                 dh.ongoingEvent = false;
                 break;
-            case 8:
+            case 13:
                 dh.ongoingEvent = true;
                 convoDone = true;
                 dennisAnim.SetInteger("Scene2", 5);
@@ -762,6 +761,10 @@ public class NarrativeScript1 : MonoBehaviour {
                 dennis.GetComponent<SpriteRenderer>().flipX = true;
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 dh.CancelDialogue(true);
+                dh.ongoingEvent = false;
+                break;
+            default:
+                dh.ongoingEvent = true;
                 dh.ongoingEvent = false;
                 break;
         }
@@ -773,5 +776,4 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitForSeconds(time);
         timerFlag = true;
     }
-
 }

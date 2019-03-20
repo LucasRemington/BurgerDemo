@@ -207,19 +207,19 @@ public class OverworldMovement : MonoBehaviour {
                 {
                     if (Input.GetKey(KeyCode.LeftArrow))
                     {
-                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 1.5f);
+                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 3);
                     }
                     else
-                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime *0.75f);
+                        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime * 1.5f);
                 }
                 else if (slipRight)
                 {
                     if (Input.GetKey(KeyCode.RightArrow))
                     {
-                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime *1.5f);
+                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime * 3);
                     }
                     else
-                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime *0.75f);
+                        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime * 1.5f);
                 }
             }
 

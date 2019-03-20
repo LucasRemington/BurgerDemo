@@ -18,6 +18,7 @@ public class DWBOpeningANimCaller : MonoBehaviour {
     [HideInInspector] public GameObject optionMenu; // the esc menu. During the mainmenu scene, that menu doubles as the start menu.
     [HideInInspector] public MenuManager mm; // the esc menu script.
     [HideInInspector] public AudioSource audS; //The audio source used to play some sounds: on the object.
+    private bool shrinking; // If we shrink early, don't do it again.
 
     void Start () //Grabs all the relevant scripts and objects. black still needs to be set in inspector - it's the black screen that will fade out.
     {
@@ -29,13 +30,20 @@ public class DWBOpeningANimCaller : MonoBehaviour {
         audS = GetComponent<AudioSource>();
         black = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
     }
-	
-	void Shrink () //called from an animation event, this calls LerpOver when the animation finishes.
+
+    private void Update()
     {
-        if (nm.room == 0)
+        if (Input.anyKeyDown)
+            Shrink();
+    }
+
+    void Shrink () //called from an animation event, this calls LerpOver when the animation finishes.
+    {
+        if (nm.room == 0 && !shrinking)
         {
             startPosition = this.transform.localPosition;
             StartCoroutine(lerpOver());
+            shrinking = true;
         }
 	}
 
