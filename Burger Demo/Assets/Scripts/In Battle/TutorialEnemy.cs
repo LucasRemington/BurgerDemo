@@ -151,6 +151,7 @@ public class TutorialEnemy : MonoBehaviour {
             Debug.Log("incorrect combo");
             ns1.convoStartNS1(7);
         }
+        BCI.StopAllCoroutines();
     }
 
     public void TakeDamage(float finalDamage) //calculates damage taken by enemy

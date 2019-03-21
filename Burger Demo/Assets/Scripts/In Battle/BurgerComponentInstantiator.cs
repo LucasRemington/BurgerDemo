@@ -442,7 +442,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         clearText();
         spawnReset = false;
         bounceTrigger = 0;
-        if (isTutorial) {
+        if (isTutorial && thrown) {
             te.seconds = -2;
         }
         yield return new WaitForSeconds(2);

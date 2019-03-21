@@ -19,6 +19,8 @@ public class NarrativeScript1 : MonoBehaviour {
     private int loops;
     public Animator combatUIAnim;
 
+    [HideInInspector] public SaveLoad saveLoad;
+
     public GameObject playerHolder;
     public GameObject player;
     public SpriteRenderer playerSR;
@@ -58,6 +60,12 @@ public class NarrativeScript1 : MonoBehaviour {
         MainCamera = GameObject.FindWithTag("MainCamera");
         nm = MainCamera.GetComponent<NarrativeManager>();
         dh = GetComponent<DialogueHolder>();
+
+        if (saveLoad == null)
+        {
+            saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
+        }
+
         if (transitMan == null) {
             transitMan = GameObject.FindGameObjectWithTag("Transition Manager").GetComponent<TransitionManager>();
         }
@@ -108,9 +116,14 @@ public class NarrativeScript1 : MonoBehaviour {
 
             while (startAnim == null)
             {
-                startAnim = GameObject.FindGameObjectWithTag("BirthLocker").GetComponentInChildren<Animator>();
+                startAnim = GameObject.FindGameObjectWithTag("BirthLocker").GetComponent<Animator>();
                 yield return null;
             }
+
+            saveLoad.meatLockerList.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            saveLoad.meatLockerIndex = 0;
+            saveLoad.meatLockerPos = startAnim.gameObject.transform.parent.position;
+
             startAnim.SetTrigger("Start");
 
             nm.gameStarted = true;
@@ -186,27 +199,30 @@ public class NarrativeScript1 : MonoBehaviour {
         Debug.Log("combat");
         StartCoroutine(nm.bt.StartBattle(masterHologram));
         yield return new WaitUntil(() => nm.bt.battling == true);
+        yield return new WaitForSeconds(1);
         StartCoroutine(dh.GenericFirstConvo(2, true));
         /*yield return new WaitUntil(() => animationFlag == true); //change this to wait until combat finishes + flag set from animation event   (!nm.bt.battling)
         animationFlag = false;*/
         //StartCoroutine(dh.GenericFirstConvo(2, true));
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         Debug.Log("battle is over");
-        yield return new WaitForSeconds(2.5f);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         battleEndText2.enabled = false;
-        winLossText.enabled = false;        
+        winLossText.enabled = false;
+        yield return new WaitForSeconds(1);
         for (int i = 0; i < 101; i++)
         {
             blackScreen.color = new Color(0, 0, 0, blackScreen.color.a - 0.01f);
             yield return new WaitForEndOfFrame();
         }
-        yield return new WaitForSeconds(1.5f);
-        holomAnim.SetTrigger("Sleep");
-        animationFlag = false;
-        
-        //StartCoroutine(dh.GenericFirstConvo(9, false));
-        
+        dh.CancelDialogue(true);
+        nm.dbAnim.ResetTrigger("Popdown");
+        yield return new WaitUntil(() => nm.owm.canMove == true);
+        nm.owm.canMove = false;
+        convoStartNS1(10);
+        yield return new WaitUntil(() => nm.owm.canMove == true);
+        nm.owm.canMove = false;
+        yield return new WaitUntil(() => dh.scriptedConvoDone[10] == true);
+        nm.owm.canMove = true;
         nm.ev++;
         
         nm.CheckEvent();
@@ -258,7 +274,7 @@ public class NarrativeScript1 : MonoBehaviour {
 
         nm.dbAnim.ResetTrigger("Popdown");
         
-        convoStartNS1(10);
+        convoStartNS1(11);
         //nm.dbAnim.SetTrigger("Popup");
         yield return new WaitUntil(() => convoDone);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
@@ -311,6 +327,9 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(convo9Events(dia, scriptedConvo));
                 break;
             case 10:
+                StartCoroutine(convo10Events(dia, scriptedConvo));
+                break;
+            case 11:
                 //Debug.Log("Call thing");
                 StartCoroutine(DennisConvo2(dia, scriptedConvo));
                 break;
@@ -470,7 +489,6 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 4:
                 dh.ongoingEvent = true;
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
                 waitForScript = false;
                 nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
                 dh.ongoingEvent = false;
@@ -658,26 +676,6 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 1:
                 dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 2:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 3:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 4:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 5:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 6:
-                dh.ongoingEvent = true;
                 Debug.Log("battle should close now");
                 blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
                 for (int i = 0; i < 100; i++)
@@ -698,7 +696,33 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
         }
     }
-    IEnumerator DennisConvo2(int dia, int scriptedConvo)
+
+    IEnumerator convo10Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
+    {
+        yield return null;
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                yield return new WaitUntil(() => !nm.db.enabled);
+                nm.db.enabled = true;
+                nm.textTS.enabled = true;
+                nm.imageTS.enabled = true;
+                nm.nameTS.enabled = true;
+                dh.ongoingEvent = false;
+                break;
+            case 6:
+                dh.ongoingEvent = true;
+                yield return new WaitUntil(() => Input.GetAxis("Submit") != 0);
+                dh.CancelDialogue(true);
+                holomAnim.SetTrigger("Sleep");
+                animationFlag = false;
+                nm.owm.canMove = true;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
+                IEnumerator DennisConvo2(int dia, int scriptedConvo)
     {
         yield return new WaitForSeconds(0);
         switch (scriptedConvo)

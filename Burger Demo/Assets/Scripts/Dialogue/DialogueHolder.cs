@@ -193,7 +193,7 @@ public class DialogueHolder : MonoBehaviour {
         if (endNow)
         {
             nm.StartCoroutine(nm.dialogueEnd());
-            Debug.Log("its here in CancelDialogue");
+            //Debug.Log("its here in CancelDialogue");
         }
 
 

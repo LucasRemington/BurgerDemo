@@ -671,7 +671,7 @@ public class OverworldMovement : MonoBehaviour {
     private void OverworldDeath()
     {
         SaveLoad saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
-        saveLoad.StartCoroutine(saveLoad.LoadGame(false));
+        saveLoad.StartCoroutine(saveLoad.LoadGame(true));
     }
 
     // I-Frame timer!
