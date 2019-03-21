@@ -8,10 +8,14 @@ public class MenuManager : MonoBehaviour {
 
     [HideInInspector] public GameObject player; //the player.
     [HideInInspector] public OverworldMovement ovm; //Movement script on the player
-    private bool MenuOpen; //This bool is true when the menu is open.
-    [Header("Images")] 
+    [HideInInspector] public bool MenuOpen; //This bool is true when the menu is open.
+    [Header("Images and Text")] 
     [Tooltip("Menu dialogue box; set in inspector.")] public Image menuBox; //this image is the menu itself. THIS MUST BE SET IN THE INSPECTOR-- sceneload triggers before start, so this will break stuff if you don't do this!
+    [Tooltip("Second menu for ingredients; set in inspector.")] public Image menuBox2; //this is the secondary menu showing ingredients and HP that appears in game.
+    [Tooltip("Images for the ingredients in the second menu; set in inspector.")] public Image[] ingredientImg; //the images of burger components in menu 2
+    [Tooltip("Text for the ingredients in the second menu; set in inspector.")] public Text[] ingredientText; // the text below the images of burger components in menu2
     [HideInInspector] public Animator boxUI; //The animation /on/ the menu.
+    [HideInInspector] public Animator boxUI2; //The animation on menu2.
     [HideInInspector] public int optionSelected; //The currently selected option: Either 0, 1, or 2 as of now. Checked alongside row to determine what event gets called.
     [HideInInspector] public int optionRow; //The currently selected row: Either 0, or as of now. Checked alongside optionSelected to determine what event gets called.
     [Tooltip("Each of the text boxes for the various options; should be three. Set in inspector.")] public Text[] optionText; //The three text objects that represent the three choices. 
@@ -49,6 +53,7 @@ public class MenuManager : MonoBehaviour {
         player = player.transform.Find("OverworldPlayer").gameObject;
         ovm = player.GetComponent<OverworldMovement>();
         saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
+        boxUI2 = menuBox2.GetComponent<Animator>();
         //menuBox = GetComponent<Image>();
 
         // Checks the path for the save file, and if it exists, then we know we have save data and can use Continue.
@@ -75,7 +80,7 @@ public class MenuManager : MonoBehaviour {
         else
         {
             mainMenu = false;
-            menuBox.transform.localPosition = new Vector3(0, 0, 0);
+            menuBox.transform.localPosition = new Vector3(220, 0, 0);
             optionText[0].text = "Respawn";
         }
         StopAllCoroutines();
@@ -159,7 +164,6 @@ public class MenuManager : MonoBehaviour {
 	IEnumerator openMenu () //This is a complex function. TLDR it controls how the menu opens and closes. 
     {
         yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && ovm.canMove && !mainMenu) || (mainMenu && animFlag && !mainMenuDone)); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
-
         // Checks first to see if we've visited a meat locker at some point so we can gray out the option if need be.
         Debug.Log(saveLoad.meatLockerList.Count);
         if (saveLoad.meatLockerList == null || saveLoad.meatLockerList.Count <= 0)
@@ -173,6 +177,7 @@ public class MenuManager : MonoBehaviour {
         soundMaker.clip = OpenSound; //this sets the clip to the appropriate sound...
         if (mainMenu == false)
         {
+            menu2Open(); //enables second menu
             soundMaker.Play(); //...and plays it, if you aren't in the mainMenu scene.
         }
 
@@ -186,6 +191,10 @@ public class MenuManager : MonoBehaviour {
         TurnOnText(true); //Activates the text components for the default menu.
         MenuOpen = true; //The menu is open, so this is true.
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Escape) && mainMenu == false && options == false || closeNow == true); //in-game, the function proceeds on escape press OR when closeNow is called. In mainmenu, this portion of the function shouldn't ever be called.
+        if (options == false && mainMenu == false)
+        {
+            menu2Shut();
+        }
         closeNow = false; //Turns off the flag, if it's on.
         soundMaker.clip = CloseSound; //Sets the clip to the appropriate sound and plays it.
         soundMaker.Play();
@@ -312,20 +321,7 @@ public class MenuManager : MonoBehaviour {
                     switch (optionSelected) //This undoes most of the parameters set during the options function. 
                     {       
                         case 0:
-                            if (mainMenu == true) //This begins to move the menu back to its original position if mainmenu is true.
-                            {
-                                StartCoroutine(lerpOver(0, 125));
-                            }
-                            boxUI.SetBool("OptionsMenu", false); //Sets the appropriate bools.
-                            boxUI.SetInteger("OptionSelected", 4);
-                            SwitchTextSix(false); //Turns off the option text.
-                            menuBox.transform.localScale = new Vector3(4, 4, 0); //Sets the appropriate size of the menu.
-                            yield return new WaitForSeconds(0.25f); //Waits for the close animation to finish.
-                            TurnOnText(true); //Turns on the menu text.
-                            boxUI.SetInteger("OptionSelected", 0); //Resets the optionselect value to default.
-                            optionSelected = 0;
-                            options = false; //Sets the submenu bool to false.
-                            ColorText(); //Colors the appropriate text.
+                            StartCoroutine(resetToDefault());
                             break;
 
                         case 1:
@@ -394,9 +390,11 @@ public class MenuManager : MonoBehaviour {
         StartCoroutine(optionChoice());
     }
 
+    //these functions can be used to smoothly fade text and images in and out
+
     public IEnumerator FadeImageToZeroAlpha(float t, Image i)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.1f);
         //yield return new WaitUntil(() => readyForFade == true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
         while (i.color.a > 0.0f)
@@ -407,9 +405,21 @@ public class MenuManager : MonoBehaviour {
 
     }
 
+    public IEnumerator FadeImageToFullAlpha(float t, Image i)
+    {
+        yield return new WaitForSeconds(.1f);
+        //yield return new WaitUntil(() => readyForFade == true);
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
+        while (i.color.a < 1.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+
     public IEnumerator FadeTextToZeroAlpha(float t, Text i)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.1f);
         //yield return new WaitUntil(() => readyForFade == true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
         while (i.color.a > 0.0f)
@@ -418,6 +428,18 @@ public class MenuManager : MonoBehaviour {
             yield return null;
         }
 
+    }
+
+    public IEnumerator FadeTextToFullAlpha(float t, Text i)
+    {
+        yield return new WaitForSeconds(.1f);
+        //yield return new WaitUntil(() => readyForFade == true);
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
+        while (i.color.a < 1.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
+            yield return null;
+        }
     }
 
     public IEnumerator FadeOutlineToZeroAlpha(float t, Outline i)
@@ -436,13 +458,14 @@ public class MenuManager : MonoBehaviour {
     IEnumerator Options () //A complex function that sets up the options submenu, changing the size and position of the menu object while also adding the concept of 'rows' to optionselect.
     {
         options = true; //Sets the options submenu bool to true.
-        if (mainMenu == true)//begins to move over, if mainmenu is true.
-        {
-            StartCoroutine(lerpOver(125, 0));
-        }
+        transform.localPosition = new Vector3(0, 0, 0); //Originally tried this with lerping, but it looked weird
         menuBox.transform.localScale = new Vector3 (8, 4, 0); //Changes the size of the menu.
         boxUI.SetBool("OptionsMenu", true); //Set the animation bools.
         boxUI.SetInteger("OptionSelected", -1);
+        if (mainMenu == false)
+        {
+            menu2Shut();
+        }
         TurnOnText(false); //turns off the default text.
         yield return new WaitForSeconds(0.5f); //waits until the opening animation is finished.
         SwitchTextSix(true); //Turns on the option menu text.
@@ -453,26 +476,78 @@ public class MenuManager : MonoBehaviour {
         yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && mainMenu == false) || options == false); //the coroutine ends when options is no longer true OR when escape is pressed in-game.
         if (Input.GetKeyDown(KeyCode.Escape) && mainMenu == false) //when escape is pressed in-game...
         {
-            boxUI.SetBool("OptionsMenu", false); //The animation bools to close options are set.
-            boxUI.SetInteger("OptionSelected", 4);
-            SwitchTextSix(false); //The options text is turned off
-            menuBox.transform.localScale = new Vector3(4, 4, 0); //Size is set back to default
-            yield return new WaitForSeconds(0.25f); //The function waits until the close animation is finished...
-            TurnOnText(true); //... before turning on the default text and setting the appropriate bools. 
-            boxUI.SetInteger("OptionSelected", 0);
-            optionSelected = 0;
-            options = false; //Then, it turns options off, and automatically closes the default menu with the flag bool closeNow.
-            ColorText();
-            closeNow = true; 
+            StartCoroutine(resetToDefault());
         }
 
+    }
+
+    IEnumerator resetToDefault ()
+    {
+        if (mainMenu == true) //This begins to move the menu back to its original position if mainmenu is true.
+        {
+            StartCoroutine(lerpOver(0, 125));
+        }
+        else
+        {
+            StartCoroutine(lerpOver(0, 220));
+            menu2Open();
+        }
+        boxUI.SetBool("OptionsMenu", false); //Sets the appropriate bools.
+        boxUI.SetInteger("OptionSelected", 4);
+        SwitchTextSix(false); //Turns off the option text.
+        menuBox.transform.localScale = new Vector3(4, 4, 0); //Sets the appropriate size of the menu.
+        yield return new WaitForSeconds(0.25f); //Waits for the close animation to finish.
+        TurnOnText(true); //Turns on the menu text.
+        boxUI.SetInteger("OptionSelected", 0); //Resets the optionselect value to default.
+        optionSelected = 0;
+        options = false; //Sets the submenu bool to false.
+        ColorText(); //Colors the appropriate text.
+    }
+
+    public void menu2Open ()
+    {
+        menuBox2.enabled = true;
+        boxUI2.SetTrigger("Menu2Close"); //turns on the secondary menu
+    }
+
+    public void fadeInMenu2Text () //called from animation, at the end of menu2open. fades in text and images
+    {
+        Debug.Log("fade in called");
+        for (int i = 0; i < ingredientImg.Length; i++) //fades out text and images
+        {
+            if (ingredientImg[i] != null)
+            {
+                StartCoroutine(FadeImageToFullAlpha(0.5f, ingredientImg[i]));
+                StartCoroutine(FadeTextToFullAlpha(0.5f, ingredientText[i]));
+            }
+            else
+            {
+                i = 20;
+            }
+        }
+    }
+
+    public void menu2Shut()
+    {
+        boxUI2.SetTrigger("Menu2Close"); //closes the secondary menu
+            for (int i =0; i < ingredientImg.Length; i++) //fades out text and images
+        {
+            if (ingredientImg[i] != null)
+            {
+                ingredientImg[i].color = new Color(ingredientImg[i].color.r, ingredientImg[i].color.g, ingredientImg[i].color.b, 0);
+                ingredientText[i].color = new Color(ingredientText[i].color.r, ingredientText[i].color.g, ingredientText[i].color.b, 0);
+            } else
+            {
+                i = 20;
+            }
+        }
     }
 
     IEnumerator lerpOver(int startX, int endX) //This moves the object over to the correct position during mainmenu.
     {
         startPosition = new Vector3(startX, 0, 0);
         endPosition = new Vector3(endX, 0, 0);
-        transform.localPosition = Vector3.Lerp(startPosition, endPosition, (Tick / 25f));
+        transform.localPosition = Vector3.Lerp(startPosition, endPosition, (Tick / 15f));
         currentPosition = this.transform.localPosition;
         yield return new WaitForSeconds(0.01f);
         if (currentPosition != endPosition)

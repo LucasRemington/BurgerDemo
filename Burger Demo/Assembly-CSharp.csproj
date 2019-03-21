@@ -53,14 +53,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BackgroundMusic.cs" />
      <Compile Include="Assets\Scripts\BattleTransitions.cs" />
+     <Compile Include="Assets\Scripts\Checkpoint.cs" />
+     <Compile Include="Assets\Scripts\CreditsManager.cs" />
      <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
      <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DennisAnimEvent.cs" />
+     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DWBOpeningANimCaller.cs" />
      <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\IconBAnimEvent.cs" />
      <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\LightningAnimEvent.cs" />
-     <Compile Include="Assets\Scripts\Dialogue\DialogHolder.cs" />
+     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\Menu2Close.cs" />
      <Compile Include="Assets\Scripts\Dialogue\Dialogue.cs" />
      <Compile Include="Assets\Scripts\Dialogue\DialogueElement.cs" />
+     <Compile Include="Assets\Scripts\Dialogue\DialogueHolder.cs" />
      <Compile Include="Assets\Scripts\Dialogue\InteractDia.cs" />
      <Compile Include="Assets\Scripts\Dialogue\NarrativeManager.cs" />
      <Compile Include="Assets\Scripts\Dialogue\NarrativeScript1.cs" />
@@ -75,16 +80,27 @@
      <Compile Include="Assets\Scripts\In Battle\TurnOffWhenDone.cs" />
      <Compile Include="Assets\Scripts\In Battle\TutorialEnemy.cs" />
      <Compile Include="Assets\Scripts\In Battle\UIActivate.cs" />
+     <Compile Include="Assets\Scripts\Overworld\CrumpingHatMan.cs" />
      <Compile Include="Assets\Scripts\Overworld\Door.cs" />
      <Compile Include="Assets\Scripts\Overworld\Enemy.cs" />
      <Compile Include="Assets\Scripts\Overworld\FollowPlayer.cs" />
      <Compile Include="Assets\Scripts\Overworld\GenericSounds.cs" />
+     <Compile Include="Assets\Scripts\Overworld\Hazard.cs" />
      <Compile Include="Assets\Scripts\Overworld\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Overworld\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Overworld\OverworldMovement.cs" />
-     <Compile Include="Assets\Scripts\Overworld\SceneSwitcher.cs" />
+     <Compile Include="Assets\Scripts\Overworld\PlayerSounds.cs" />
+     <Compile Include="Assets\Scripts\Overworld\Room Transitions\SceneField.cs" />
+     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionExit.cs" />
+     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionManager.cs" />
+     <Compile Include="Assets\Scripts\Overworld\Room Transitions\TransitionTracker.cs" />
      <Compile Include="Assets\Scripts\Overworld\ScriptedMovement.cs" />
+     <Compile Include="Assets\Scripts\Overworld\ShudderSlam.cs" />
      <Compile Include="Assets\Scripts\Overworld\Sign.cs" />
      <Compile Include="Assets\Scripts\PseudoStart.cs" />
+     <Compile Include="Assets\Scripts\RoomEventChecker.cs" />
+     <Compile Include="Assets\Scripts\SaveData.cs" />
+     <Compile Include="Assets\Scripts\SaveLoad.cs" />
      <Compile Include="Assets\Scripts\SceneManager.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\TechManager.cs" />

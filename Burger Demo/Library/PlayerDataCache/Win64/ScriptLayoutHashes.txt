@@ -1,12 +1,13 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/mspilla4/Documents/Github/BurgerDemo/Builds/Burger Demo.exe
+C:/Users/Plush Von Plush/Documents/GitHub/BurgerDemo/Builds/DWBv0.11/Burger Demo.exe
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/OriginFreezer.unity
 Assets/Scenes/manager_office.unity
-Assets/Scenes/training_room.unity
 Assets/Scenes/training_hallway.unity
+Assets/Scenes/training_room.unity
+Assets/Scenes/Kitchenv2.unity
 SceneListEnd?
 c422dd62785a6d0afa870fbd111886ce Unity.TextMeshPro.dll:TMPro.TMP_SelectionCaret
 7b803eb2910e9b4cd5e521ae07b9f7d6 Unity.TextMeshPro.dll:TMPro.TMP_Dropdown
@@ -22,7 +23,7 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
-f74fa2c767a580d6d9499c847b19ea73 Assembly-CSharp.dll:.OverworldMovement
+68ae955ee594c2aa1755c421e7aa1e32 Assembly-CSharp.dll:.OverworldMovement
 f6637497451c9a030c421de4a1ad5cdb Unity.TextMeshPro.dll:TMPro.TMP_ScrollbarEventHandler
 894f49c27332d41f6ae29e0b57ebd5e1 Assembly-CSharp.dll:.ScriptedMovement
 b14b4630cc47b6e9ea8a644551a6a8cc Unity.TextMeshPro.dll:TMPro.TMP_Text
@@ -145,10 +146,10 @@ dfd33ff9ae3ce8d7ca1f22b475ec2387 UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 499bf5ac7e4d6e17d9b91859d7463f1a Assembly-CSharp.dll:.SoundManager
 8bb5675319efe51dd68f7eb5854b83da Assembly-CSharp.dll:.PlayerSounds
 762cc5c1b35e1c889059192f4b978a4b Assembly-CSharp.dll:UnityEngine.Tilemaps.AnimatedTile
-df09b7556f64fa4ac87fb5564cf80a5a Assembly-CSharp.dll:.NarrativeManager
-7c3246e995a9d9b781940c5f096b5d9a Assembly-CSharp.dll:.SaveLoad
+e3a9816286e5a8f9cd3b7d41607121e3 Assembly-CSharp.dll:.NarrativeManager
+a028f30b9deddc30fa09df5e3ae75243 Assembly-CSharp.dll:.SaveLoad
 648c249e8198aed2240678c6dcd8e752 Assembly-CSharp.dll:.Sign
-a4c82ca2852a84cefdde759619881891 Assembly-CSharp.dll:.NarrativeScript1
+4cd8d903ddc1ab90145556d4967e4b45 Assembly-CSharp.dll:.NarrativeScript1
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.TurnOffWhenDone
 f16835701e71dd5d6fb1fed4b7aff1d8 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 f0987faf14527267f4b87dd3645db2c0 Assembly-CSharp.dll:.DBAnimEvents
@@ -178,7 +179,7 @@ e53cc67d84060d628c7f03fc725766d8 Unity.TextMeshPro.dll:TMPro.TMP_FontAsset
 392c5b921098bd4c139d9146d0efa6d7 Unity.TextMeshPro.dll:TMPro.TMP_Settings
 73e21f5ab607a350a1387556807cedda Assembly-CSharp.dll:.IconBAnimEvent
 9121e8c8170571a83bd5ebe9d9138567 Assembly-CSharp.dll:.EnemyBehavior
-3f77ca59e7e7ab1aa2a19512815ad83c Assembly-CSharp.dll:.MenuManager
+ac8eac8ebdf04245573d1ce95e229b4c Assembly-CSharp.dll:.MenuManager
 6ba23a8a5c814e34da96d7145d3b22c5 Assembly-CSharp.dll:.DialogueHolder
 486cd95c82d8305219c352c06b776e1f UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 e033f131358cea5a0eabf9561e781deb UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -205,7 +206,7 @@ aac9c55ae7ba4b95b852a7d9c191acd1 Unity.TextMeshPro.dll:TMPro.TextMeshProUGUI
 0a006f3734181ba8b26758f0866152c0 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 91dab3f8068b7dd4e72de24b6318fe82 Assembly-CSharp.dll:.IndividualComponent
 8c042738ed90ace6daeecbbbcece8ee6 Assembly-CSharp.dll:.TintTextureGenerator
-010718124a1915d70258ed949ea86b05 Assembly-CSharp.dll:.InteractDia
+6470d0b56487643ce58c47503a343ecb Assembly-CSharp.dll:.InteractDia
 39936b7be92b0097dd6849c42dcdcc37 Assembly-CSharp.dll:.TutorialEnemy
 f5ece19966a893bd3def5b7aaf85514d Assembly-CSharp.dll:UnityEngine.Tilemaps.TerrainTile
 3247080d700358ab8acac5a5fc587356 Assembly-CSharp.dll:.Enemy
@@ -222,3 +223,6 @@ c2047195c2d5344e64812dbad0f662c9 Assembly-CSharp.dll:.ShudderSlam
 93307bd34e39d73fd24e00ec39c25a91 Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 eb5caf68243b9b42a698ef437b5333ec Assembly-CSharp.dll:.Hazard
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.DontDestroy
+915e09d5021ae95fd75b75aea3f5d446 Assembly-CSharp.dll:.RoomEventChecker
+0b37bf920a3325e2c47ed319c8e86fa1 Assembly-CSharp.dll:.Menu2Close
+8c073430cc14e0aed8615eb591225dd4 Assembly-CSharp.dll:.CrumpingHatMan

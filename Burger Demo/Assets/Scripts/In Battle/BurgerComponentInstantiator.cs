@@ -187,7 +187,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         {
             if (ingredientINV[i] == 0)
             {
-                iconAnim[i-1].SetBool("Faded", false);
+                //iconAnim[i-1].SetBool("Faded", false);
             }
             ingredientINV[i] = 99;
         }

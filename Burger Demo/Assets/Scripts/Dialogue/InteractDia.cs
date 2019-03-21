@@ -11,7 +11,8 @@ public class InteractDia : MonoBehaviour {
     private GameObject player;
     private Animator playerAnim;
     private GenericSounds gs;
-    private bool canInteract = true;
+    private MenuManager menuManager;
+    [HideInInspector] public bool canInteract = true;
 
     /*[Tooltip("The index of the first dialogue in the dialogue holder's interactable list.")] public int identity;
     
@@ -33,6 +34,7 @@ public class InteractDia : MonoBehaviour {
         playerAnim = player.GetComponent<Animator>();
         dh = MainCamera.GetComponent<DialogueHolder>();
         gs = player.GetComponent<GenericSounds>();
+        menuManager = MainCamera.GetComponentInChildren<MenuManager>();
     }
 
     private void OnTriggerStay2D(Collider2D collision) // Detects when the player is present and can interact.
@@ -48,7 +50,7 @@ public class InteractDia : MonoBehaviour {
             StartCoroutine(interactTimer());
         } */
 
-        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling && player.GetComponent<OverworldMovement>().canMove)
+        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling && player.GetComponent<OverworldMovement>().canMove && menuManager.MenuOpen == false)
         {
             StartCoroutine(dh.GenericInteractableNew( dialogueList[i] ));
             StartCoroutine(interactTimer());
