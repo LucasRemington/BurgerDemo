@@ -292,14 +292,15 @@ public class NarrativeScript1 : MonoBehaviour {
     public IEnumerator eventThree() {
         yield return new WaitUntil(() => nm.room == 4);
         player.GetComponent<OverworldMovement>().canMove = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         dennis = GameObject.FindGameObjectWithTag("Dennis");
         dennisAnim = dennis.GetComponent<Animator>();
         Debug.Log("move now");
-        StartCoroutine(sm.MoveTo(dennis, new Vector3(2, 0, 0), 2));
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(2.2f, 0, 0), 0.5f));
         yield return new WaitUntil(() => sm.finished);
         dennis.GetComponent<SpriteRenderer>().flipX = false;
         convoStartNS1(12);
+        //nm.ev++;
     }
     
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
@@ -817,14 +818,20 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             case 0:
                 dh.ongoingEvent = true;
+                dennisAnim.SetTrigger("Gun");
                 dh.ongoingEvent = false;
                 break;
             case 1:
                 dh.ongoingEvent = true;
+                dennisAnim.SetTrigger("Bounce");
                 dh.ongoingEvent = false;
                 break;
             case 2:
                 dh.ongoingEvent = true;
+                dennisAnim.SetBool("Looping", true);
+                dennisAnim.SetTrigger("Write");
+                yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
+                dennis.GetComponent<SpriteRenderer>().flipX = true;
                 dh.ongoingEvent = false;
                 break;
 

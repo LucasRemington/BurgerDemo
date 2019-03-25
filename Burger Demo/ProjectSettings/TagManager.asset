@@ -29,6 +29,7 @@ TagManager:
   - BirthLocker
   - SaveIcon
   - HealthBar
+  - LouNote
   layers:
   - Default
   - TransparentFX

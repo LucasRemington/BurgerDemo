@@ -11127,6 +11127,7 @@ MonoBehaviour:
   canInteract: 1
   dialogueList:
   - {fileID: 11400000, guid: ef7a4e705e363174485839f65207adbe, type: 2}
+  i: 0
 --- !u!1 &997310318
 GameObject:
   m_ObjectHideFlags: 0
@@ -11572,11 +11573,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.67
+      value: 4.781
       objectReference: {fileID: 0}
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.325
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.z
@@ -11672,6 +11673,7 @@ MonoBehaviour:
   canInteract: 1
   dialogueList:
   - {fileID: 11400000, guid: 63d75844216cc6f4a8c8c12eb2434102, type: 2}
+  i: 0
 --- !u!1 &1622477926
 GameObject:
   m_ObjectHideFlags: 0
@@ -12548,6 +12550,7 @@ MonoBehaviour:
   canInteract: 1
   dialogueList:
   - {fileID: 11400000, guid: bbe4adcfc0b72774fb03a372bf283bdb, type: 2}
+  i: 0
 --- !u!1001 &2050270346
 Prefab:
   m_ObjectHideFlags: 0
@@ -12657,6 +12660,7 @@ MonoBehaviour:
   canInteract: 1
   dialogueList:
   - {fileID: 11400000, guid: 26752722ba186c241831e3b4edc1a8d5, type: 2}
+  i: 0
 --- !u!1 &2075958165
 GameObject:
   m_ObjectHideFlags: 0
@@ -12977,6 +12981,7 @@ MonoBehaviour:
   canInteract: 1
   dialogueList:
   - {fileID: 11400000, guid: 0be25c6259d2e054aa2a006f03a20280, type: 2}
+  i: 0
 --- !u!1 &2142685278
 GameObject:
   m_ObjectHideFlags: 0

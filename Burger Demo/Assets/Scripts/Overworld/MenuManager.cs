@@ -17,7 +17,8 @@ public class MenuManager : MonoBehaviour {
     [Tooltip("Second menu for ingredients; set in inspector.")] public Image menuBox2; //this is the secondary menu showing ingredients and HP that appears in game.
     [Tooltip("Images for the ingredients in the second menu; set in inspector.")] public Image[] ingredientImg; //the images of burger components in menu 2
     [Tooltip("Text for the ingredients in the second menu; set in inspector.")] public Text[] ingredientText; // the text below the images of burger components in menu2
-    [Tooltip("Images for the ingredients in the second menu; set in inspector.")] public Image[] healthImg; //the components of the menu2 healthbar
+    [Tooltip("Components of the menu2 health bar; set in inspector.")] public Image[] healthImg; //the components of the menu2 healthbar
+    [Tooltip("Player health, used for testing currently but will be adjusted to not be shortly.")] public float health; 
     [HideInInspector] public Animator boxUI; //The animation /on/ the menu.
     [HideInInspector] public Animator boxUI2; //The animation on menu2.
     [HideInInspector] public int optionSelected; //The currently selected option: Either 0, 1, or 2 as of now. Checked alongside row to determine what event gets called.
@@ -519,27 +520,26 @@ public class MenuManager : MonoBehaviour {
     public void fadeInMenu2Text () //called from animation, at the end of menu2open. fades in text and images
     {
         Debug.Log("fade in called");
-        for (int i = 0; i < ingredientText.Length; i++) //fades out text and images
+        for (int i = 0; i < ingredientText.Length; i++) // Fade in texts.
         {
             if (ingredientText[i] != null)
             {
                 StartCoroutine(FadeTextToFullAlpha(0.5f, ingredientText[i]));
             }
+        }
+        for (int i = 0; i < ingredientImg.Length; i++) //fades in images.
+        {
             if (ingredientImg[i] != null)
             {
                 StartCoroutine(FadeImageToFullAlpha(0.5f, ingredientImg[i]));
             }
-            else
-            {
-                i = 20;
-            }
         }
-        for (int i = 0; i < healthImg.Length; i++) //fades out text and images
-        { 
-              StartCoroutine(FadeImageToFullAlpha(0.5f, healthImg[i]));
+        for (int i = 0; i < healthImg.Length; i++) // Fade in health bar images
+        {
+            StartCoroutine(FadeImageToFullAlpha(0.5f, healthImg[i]));
         }
-        ingredientText[0].text = "Meat: " + bt.playerHealth;
-        healthImg[1].fillAmount = (float)bt.playerHealth / (float)bt.playerHealthMax; //this should always reference health bar fill
+        ingredientText[0].text = "Meat: " + bt.playerHealth + " / " + bt.playerHealthMax;
+        healthImg[2].fillAmount = (float)bt.playerHealth / (float)bt.playerHealthMax; //this should always reference health bar fill
         ingredientText[1].text = "Tomato: " + bt.ingredients[1];
         ingredientText[2].text = "Lettuce: " + bt.ingredients[2];
         ingredientText[3].text = "Onion: " + bt.ingredients[3];
@@ -550,19 +550,18 @@ public class MenuManager : MonoBehaviour {
     {
         boxUI2.SetTrigger("Menu2Close"); //closes the secondary menu
         Menu2Open = false;
-        for (int i = 0; i < ingredientImg.Length; i++) //fades out text and images
+        for (int i = 0; i < ingredientText.Length; i++) // Fade out texts.
         {
             if (ingredientText[i] != null)
             {
                 ingredientText[i].color = new Color(ingredientText[i].color.r, ingredientText[i].color.g, ingredientText[i].color.b, 0);
             }
+        }
+        for (int i = 0; i < ingredientImg.Length; i++) // Fade out images.
+        {
             if (ingredientImg[i] != null)
             {
                 ingredientImg[i].color = new Color(ingredientImg[i].color.r, ingredientImg[i].color.g, ingredientImg[i].color.b, 0);
-            }
-            else
-            {
-                i = 20;
             }
         }
         for (int i = 0; i < healthImg.Length; i++) //fades out text and images
