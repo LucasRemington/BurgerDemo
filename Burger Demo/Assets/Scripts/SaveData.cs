@@ -22,4 +22,8 @@ public class SaveData
 
     public int narrManEventNo; // The current event number being kept track of in narrative manager.
     public int narrManRoomNo; // The current room number being kept track of in narrative manager. I don't like this.
+
+    //public List<string> louNoteSceneList; // A list of every scene in which Lou notes appear in. Upon transitioning to a new room, check: does this room have a Lou note somewhere within it? If yes: is this room already in the list? If no: Add it.
+    public List<bool> louNotesSeen; // So basically, the first list[a] acts similarly to the above list of strings; their indeces correspond to each other. The lists[b] inside of it are the same size as the Lou Note Holders within those scenes, and determine if they've been read or not and can be destroyed if so.
+    public bool louDone; // Whether or not to bother checking and updating Lou notes in the first place.
 }

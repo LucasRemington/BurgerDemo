@@ -291,6 +291,15 @@ public class NarrativeScript1 : MonoBehaviour {
 
     public IEnumerator eventThree() {
         yield return new WaitUntil(() => nm.room == 4);
+        player.GetComponent<OverworldMovement>().canMove = false;
+        yield return new WaitForSeconds(1);
+        dennis = GameObject.FindGameObjectWithTag("Dennis");
+        dennisAnim = dennis.GetComponent<Animator>();
+        Debug.Log("move now");
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(2, 0, 0), 2));
+        yield return new WaitUntil(() => sm.finished);
+        dennis.GetComponent<SpriteRenderer>().flipX = false;
+        convoStartNS1(12);
     }
     
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
@@ -332,6 +341,9 @@ public class NarrativeScript1 : MonoBehaviour {
             case 11:
                 //Debug.Log("Call thing");
                 StartCoroutine(DennisConvo2(dia, scriptedConvo));
+                break;
+            case 12:
+                StartCoroutine(DennisConvo3(dia, scriptedConvo));
                 break;
         }
     }
@@ -537,6 +549,9 @@ public class NarrativeScript1 : MonoBehaviour {
             case 11:
                 StartCoroutine(dh.GenericFirstConvo(11, false));
                 break;
+            case 12:
+                StartCoroutine(dh.GenericFirstConvo(12, false));
+                break;
         }
     }
 
@@ -722,7 +737,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
         }
     }
-                IEnumerator DennisConvo2(int dia, int scriptedConvo)
+    IEnumerator DennisConvo2(int dia, int scriptedConvo)
     {
         yield return new WaitForSeconds(0);
         switch (scriptedConvo)
@@ -792,6 +807,27 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 dh.ongoingEvent = false;
                 break;
+        }
+    }
+
+    public IEnumerator DennisConvo3(int dia, int scriptedConvo)
+    {
+        yield return new WaitForSeconds(0);
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 1:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+            case 2:
+                dh.ongoingEvent = true;
+                dh.ongoingEvent = false;
+                break;
+
         }
     }
 

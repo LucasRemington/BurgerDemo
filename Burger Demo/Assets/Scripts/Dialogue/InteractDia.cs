@@ -22,7 +22,7 @@ public class InteractDia : MonoBehaviour {
 
     [Tooltip("Each dialogue that this object should bring up. Each interaction increments the index by one, but won't exceed length. So effectively, only add as many dialogues as you want the player to see, and the last will be repeated. Keep size to 1 for a single interaction that never changes.")] public List<Dialogue> dialogueList;
     //private int listLength;
-    private int i = 0;
+    [HideInInspector] public int i = 0;
 
 
     private void Start()
@@ -50,8 +50,12 @@ public class InteractDia : MonoBehaviour {
             StartCoroutine(interactTimer());
         } */
 
-        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling && player.GetComponent<OverworldMovement>().canMove && menuManager.MenuOpen == false)
+        if (collision.tag == "IntTrigger" && Input.GetKeyDown(KeyCode.Space) && canInteract == true && !nm.bt.battling && player.GetComponent<OverworldMovement>().canMove && menuManager.MenuOpen == false && !player.GetComponent<OverworldMovement>().onLadder)
         {
+            // If our iterator has exceeded our list of dialogues, bring it back one to repeat the last in the list.
+            if (i >= dialogueList.Count)
+                i--;
+
             StartCoroutine(dh.GenericInteractableNew( dialogueList[i] ));
             StartCoroutine(interactTimer());
             if (gameObject.tag == "MeatLocker")
@@ -72,7 +76,7 @@ public class InteractDia : MonoBehaviour {
         playerAnim.SetBool("Thinking", false);
         canInteract = true;
 
-        if (i < dialogueList.Count - 1)
+        if (i < dialogueList.Count)
         {
             i++;
         }

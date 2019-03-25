@@ -8,12 +8,16 @@ public class MenuManager : MonoBehaviour {
 
     [HideInInspector] public GameObject player; //the player.
     [HideInInspector] public OverworldMovement ovm; //Movement script on the player
+    [HideInInspector] public GameObject GameController; // Game controller
+    [HideInInspector] public BattleTransitions bt; //battle transitions
     [HideInInspector] public bool MenuOpen; //This bool is true when the menu is open.
+    [HideInInspector] public bool Menu2Open; //This bool is true when the secondary menu is open.
     [Header("Images and Text")] 
     [Tooltip("Menu dialogue box; set in inspector.")] public Image menuBox; //this image is the menu itself. THIS MUST BE SET IN THE INSPECTOR-- sceneload triggers before start, so this will break stuff if you don't do this!
     [Tooltip("Second menu for ingredients; set in inspector.")] public Image menuBox2; //this is the secondary menu showing ingredients and HP that appears in game.
     [Tooltip("Images for the ingredients in the second menu; set in inspector.")] public Image[] ingredientImg; //the images of burger components in menu 2
     [Tooltip("Text for the ingredients in the second menu; set in inspector.")] public Text[] ingredientText; // the text below the images of burger components in menu2
+    [Tooltip("Images for the ingredients in the second menu; set in inspector.")] public Image[] healthImg; //the components of the menu2 healthbar
     [HideInInspector] public Animator boxUI; //The animation /on/ the menu.
     [HideInInspector] public Animator boxUI2; //The animation on menu2.
     [HideInInspector] public int optionSelected; //The currently selected option: Either 0, 1, or 2 as of now. Checked alongside row to determine what event gets called.
@@ -51,6 +55,8 @@ public class MenuManager : MonoBehaviour {
     {
         player = GameObject.FindWithTag("Player");
         player = player.transform.Find("OverworldPlayer").gameObject;
+        GameController = GameObject.FindWithTag("GameController");
+        bt = GameController.GetComponent<BattleTransitions>();
         ovm = player.GetComponent<OverworldMovement>();
         saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
         boxUI2 = menuBox2.GetComponent<Animator>();
@@ -71,6 +77,7 @@ public class MenuManager : MonoBehaviour {
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) //This sets the default menu based on the scene: currently, it's only different if mainmenu is the current scene. Also calls all the initial coroutines.
     {
         currentScene = SceneManager.GetActiveScene();
+        optionText[1].text = "Options";
         if (currentScene.name == "MainMenu")
         {
             mainMenu = true;
@@ -402,7 +409,6 @@ public class MenuManager : MonoBehaviour {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
-
     }
 
     public IEnumerator FadeImageToFullAlpha(float t, Image i)
@@ -410,7 +416,7 @@ public class MenuManager : MonoBehaviour {
         yield return new WaitForSeconds(.1f);
         //yield return new WaitUntil(() => readyForFade == true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
-        while (i.color.a < 1.0f)
+        while (i.color.a < 1.0f && Menu2Open == true)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
             yield return null;
@@ -427,7 +433,6 @@ public class MenuManager : MonoBehaviour {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
-
     }
 
     public IEnumerator FadeTextToFullAlpha(float t, Text i)
@@ -435,7 +440,7 @@ public class MenuManager : MonoBehaviour {
         yield return new WaitForSeconds(.1f);
         //yield return new WaitUntil(() => readyForFade == true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
-        while (i.color.a < 1.0f)
+        while (i.color.a < 1.0f && Menu2Open == true)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
             yield return null;
@@ -507,39 +512,62 @@ public class MenuManager : MonoBehaviour {
     public void menu2Open ()
     {
         menuBox2.enabled = true;
+        Menu2Open = true;
         boxUI2.SetTrigger("Menu2Close"); //turns on the secondary menu
     }
 
     public void fadeInMenu2Text () //called from animation, at the end of menu2open. fades in text and images
     {
         Debug.Log("fade in called");
-        for (int i = 0; i < ingredientImg.Length; i++) //fades out text and images
+        for (int i = 0; i < ingredientText.Length; i++) //fades out text and images
         {
+            if (ingredientText[i] != null)
+            {
+                StartCoroutine(FadeTextToFullAlpha(0.5f, ingredientText[i]));
+            }
             if (ingredientImg[i] != null)
             {
                 StartCoroutine(FadeImageToFullAlpha(0.5f, ingredientImg[i]));
-                StartCoroutine(FadeTextToFullAlpha(0.5f, ingredientText[i]));
             }
             else
             {
                 i = 20;
             }
         }
+        for (int i = 0; i < healthImg.Length; i++) //fades out text and images
+        { 
+              StartCoroutine(FadeImageToFullAlpha(0.5f, healthImg[i]));
+        }
+        ingredientText[0].text = "Meat: " + bt.playerHealth;
+        healthImg[1].fillAmount = (float)bt.playerHealth / (float)bt.playerHealthMax; //this should always reference health bar fill
+        ingredientText[1].text = "Tomato: " + bt.ingredients[1];
+        ingredientText[2].text = "Lettuce: " + bt.ingredients[2];
+        ingredientText[3].text = "Onion: " + bt.ingredients[3];
+
     }
 
     public void menu2Shut()
     {
         boxUI2.SetTrigger("Menu2Close"); //closes the secondary menu
-            for (int i =0; i < ingredientImg.Length; i++) //fades out text and images
+        Menu2Open = false;
+        for (int i = 0; i < ingredientImg.Length; i++) //fades out text and images
         {
+            if (ingredientText[i] != null)
+            {
+                ingredientText[i].color = new Color(ingredientText[i].color.r, ingredientText[i].color.g, ingredientText[i].color.b, 0);
+            }
             if (ingredientImg[i] != null)
             {
                 ingredientImg[i].color = new Color(ingredientImg[i].color.r, ingredientImg[i].color.g, ingredientImg[i].color.b, 0);
-                ingredientText[i].color = new Color(ingredientText[i].color.r, ingredientText[i].color.g, ingredientText[i].color.b, 0);
-            } else
+            }
+            else
             {
                 i = 20;
             }
+        }
+        for (int i = 0; i < healthImg.Length; i++) //fades out text and images
+        {
+            healthImg[i].color = new Color(healthImg[i].color.r, healthImg[i].color.g, healthImg[i].color.b, 0);
         }
     }
 

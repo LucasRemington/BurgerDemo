@@ -72,7 +72,10 @@ public class DialogueHolder : MonoBehaviour {
                 break;
 
             case 3:
-
+                if (ns1 != null)
+                {
+                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
+                }
                 break;
         }
     }
@@ -102,7 +105,7 @@ public class DialogueHolder : MonoBehaviour {
         if (scriptedConvo[scriptedConversation] >= sizeOfList)
         {
             StartCoroutine(nm.dialogueEnd());
-            Debug.Log("its here in dialogue holder");
+            //Debug.Log("its here in dialogue holder");
             scriptedConvoDone[scriptedConversation] = true;
         }
         else

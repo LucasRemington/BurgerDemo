@@ -11,25 +11,26 @@ public class SaveLoad : MonoBehaviour
     private string dataPath; // Where the save file is kept locally.
     private string currentScene; // The scene currently loaded within savedata.
 
+    [Header("Components and Objects")]
     [HideInInspector] [Tooltip("The main camera, which other components are derived from. If this is empty at runtime, that is an issue.")] public GameObject mainCam;
     private NarrativeManager narrMan;
     private DialogueHolder diaHold;
     private GameObject gameController;
     private BattleTransitions battTran;
-
-    [Tooltip("The icon used to indicate that the game is currently saving. This is what rotates.")] public Image saveIcon;
-    [Tooltip("The icon used to indicate that the game is currently saving. This is what stays static.")] public Image saveIconText;
-    private bool saving = false;
-
-    [HideInInspector] [Tooltip("The player holder, which other components are derived from. Set via script. If this is empty at runtime, that is an issue.")] public GameObject playerHolder;
-    private GameObject player;
-    private Animator playerAnim;
-
     [HideInInspector] public SaveData saveData; // The serializable save data for the game.
 
+    [Header("UI")]
+    [Tooltip("The icon used to indicate that the game is currently saving. This is what rotates.")] public Image saveIcon;
+    [Tooltip("The icon used to indicate that the game is currently saving. This is what stays static.")] public Image saveIconText;
     [Tooltip("The black screen UI image, used in fading in and out. We may not use it that much. Set via script.")] public Image blackScreen;
     [Tooltip("Checks if we are ready to fade again.")] public bool readyForFade;
     [Tooltip("Checks if the image has fully faded out or not.")] public bool faded;
+    private bool saving = false;
+
+    [Header("Player References")]
+    [HideInInspector] [Tooltip("The player holder, which other components are derived from. Set via script. If this is empty at runtime, that is an issue.")] public GameObject playerHolder;
+    private GameObject player;
+    private Animator playerAnim;
 
     [Tooltip("The dialogue used for refusing to use the meat locker.")] public Dialogue refuseDialogue;
 
@@ -39,6 +40,17 @@ public class SaveLoad : MonoBehaviour
     [HideInInspector] public List<string> meatLockerList; // A list of scene names that the player has visited the Meat Locker of. As new meat lockers are discovered, their scene is stored at an index that can be read off of later.
     [HideInInspector] public int meatLockerIndex; // Tracks the last meat locker the player visited by its index in the above list, so they can respawn there via menu.
     [HideInInspector] public Vector2 meatLockerPos; // Similarly, tracks the transform of the last meat locker visited within the scene.
+
+    [Header("Lou Notes")]
+    [Tooltip("Each Lou Note present in the game. You should only need to add the first dialogue object that appears each time you read the relevant note; ie, if interacting with the note yields a different dialogue each time, only add the first.")] public List<Dialogue> louNotes; // A list of all louNotes in the game; must be added to manually in the inspector. Its indeces correspond to those in louNotesSeen.
+    [Tooltip("Whether each of the above notes have been read; you shouldn't need to touch this.")] public List<bool> louNotesSeen; // A list of bools that tracks which of the above Lou Notes have been read by the player.
+    [HideInInspector] public bool louDone; // Whether or not to bother checking and updating Lou notes in the first place.
+    private GameObject noteHolder;
+
+
+    // Makes our foreach loops for Lou stuff more efficient CPU-wise.
+    private string lastScene = ""; // The scene the player was in last frame. Refreshed at the end of Update. Prevents us from constantly running through a foreach loop every frame.
+    private bool canCheckNewValues; // After a brief timer upon loading into a new scene, this value gets refreshed; this gives objects time to load. 
 
 
     void Start()
@@ -62,7 +74,7 @@ public class SaveLoad : MonoBehaviour
 
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
 
-        Debug.Log(saveIcon);
+        //Debug.Log(saveIcon);
 
         if (saveIcon == null)
         {
@@ -73,6 +85,15 @@ public class SaveLoad : MonoBehaviour
         {
             saveIconText = GameObject.FindGameObjectsWithTag("SaveIcon")[1].GetComponent<Image>();
             saveIconText.enabled = false;
+        }
+
+        // Quickly make sure that our louNotesSeen list has the same length as our manually set list.
+        if (louNotesSeen.Count != louNotes.Count)
+        {
+            for (int i = louNotesSeen.Count; i < louNotes.Count; i++)
+            {
+                louNotesSeen.Add(false);
+            }
         }
 
         StartCoroutine(SaveSpin());
@@ -86,7 +107,56 @@ public class SaveLoad : MonoBehaviour
             saveIcon.transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * 360);
         }
 
-            
+        // Check if we're in a new scene at the end of update and perform relevant functions.
+        if (lastScene != SceneManager.GetActiveScene().name)
+        {
+            if (!canCheckNewValues)
+                StartCoroutine(CanCheckRefreshTimer());
+
+            StartCoroutine(LouNoteCheck(louDone));
+
+            lastScene = SceneManager.GetActiveScene().name;
+        }
+        
+    }
+
+    // Called on each new scene as long as we haven't finished the Lou segment. 
+    public IEnumerator LouNoteCheck(bool louDone)
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        // First, make sure this scene HAS a Lou Note Holder. Then we can do everything.
+        if (GameObject.FindGameObjectWithTag("LouNote"))
+        { 
+            noteHolder = GameObject.FindGameObjectWithTag("LouNote");
+            LouNoteHolder noteHolderScript = noteHolder.GetComponent<LouNoteHolder>();
+
+            // A for loop that goes through all of our dialogue components in louNotes. We check to see if a dialogue has been read, and if so, disable the relevant note.
+            for (int i = 0; i < louNotesSeen.Count; i++)
+            {
+                if (louNotesSeen[i]) // So, if Note[i] has been read...
+                {
+                    Dialogue dia = louNotes[i]; // Set a dialogue variable to Note[i].
+
+                    foreach (GameObject note in noteHolderScript.louNoteList) // Create a foreach loop that iterates through the louNoteList in the note holder.
+                    {
+                        if (note.GetComponent<LouNoteTrigger>().dia == dia) // Now, if the dialogue of Note[i] is the same as the dialogue in our note holder...
+                        {
+                            note.SetActive(false); // Disable that note and break the loop!
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        yield return null;
+    }
+
+    public IEnumerator CanCheckRefreshTimer()
+    {
+        yield return new WaitForSeconds(0.75f);
+        canCheckNewValues = true;
     }
 
     // Used in conjunction with a rotation line in Update. Here, we enable the icon, wait for a minimum amount of time, and then disable the icon. This way the player will always see the saving icon, as currently the game saves within a single frame.
@@ -264,7 +334,9 @@ public class SaveLoad : MonoBehaviour
 
         saveData.narrManEventNo = narrMan.ev;
         saveData.narrManEventNo = narrMan.room;
-        
+
+        saveData.louNotesSeen = louNotesSeen;
+        saveData.louDone = louDone;
 
         return true;
     }
@@ -292,6 +364,9 @@ public class SaveLoad : MonoBehaviour
 
         narrMan.ev = saveData.narrManEventNo;
         narrMan.room = saveData.narrManRoomNo;
+
+        louNotesSeen = saveData.louNotesSeen;
+        louDone = saveData.louDone;
 
         return true;
     }
