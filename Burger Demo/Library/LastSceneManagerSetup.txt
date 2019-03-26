@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Kitchenv2.unity
+- path: Assets/Scenes/training_room.unity
   isLoaded: 1
   isActive: 1
