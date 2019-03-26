@@ -59,6 +59,7 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("When the player grabs onto a ladder from the top, this bool prevents the player from moving and slides them into position smoothly with a lerp.")] public bool topDownGrabbing;
     [Tooltip("Whether or not the player is allowed to grab the ladder below them.")] public bool canGrabDown;
     [Tooltip("If the player is currently inside the hitbox for the topmost part of a ladder.")] public bool touchingLadderCap;
+    [HideInInspector] public bool ladderAnimToggle; // Called from animation events.
 
     private float tempTimerMax = 0.4f;
 
@@ -203,6 +204,8 @@ public class OverworldMovement : MonoBehaviour {
                 transform.position = Vector2.Lerp(transform.position, new Vector2(tempXPos, transform.position.y), 0.3f);
 
                 // While on a ladder, we reset our crouchtimer.
+                // Also while on a ladder, stop crouchin' ya dingus.
+                crouching = false;
                 crouchTimeUp = false;
             }
 
@@ -480,14 +483,25 @@ public class OverworldMovement : MonoBehaviour {
             playerAnim.SetBool("ClimbingUp", false);
         } else
         {
-            playerAnim.speed = 0f;
+            if (ladderAnimToggle)
+            {
+                playerAnim.speed = 0f;
+            }
+            
         }
+    }
+
+    // An animation event called from the ladder climb animations to not pause our animation until we actually start the proper anims.
+    void ToggleClimbAnim()
+    {
+        ladderAnimToggle = true;
     }
 
     // The method called to remove self from the ladder. Reenable the edge colliders on all the ladders touched, and that x value. We begin the ground check timer to make us fall to the floor.
     public void LadderJump()
     {
         onLadder = false;
+        ladderAnimToggle = false;
         
         for (int i = 0; i < ladder.Count; i++)
         {

@@ -28,6 +28,8 @@ public class DialogueHolder : MonoBehaviour {
     public bool choiceMade; //
     public bool autoAdvance; //when true automatically advances dialogue. Set from outside, if at all
 
+    private int i = 0; // this is for iterating in the interactable
+
     public void PseudoStart() //sets certain array lengths equal to scripted or interactable
     {
         MainCamera = GameObject.FindWithTag("MainCamera");
@@ -141,7 +143,7 @@ public class DialogueHolder : MonoBehaviour {
         }
     }*/
 
-    public IEnumerator GenericInteractableNew(Dialogue dia) //Trying a new spin on the generic interactable script, this time not requiring you to link indexes. In this case, 0 in the array should be left empty of any sort of dialogue and will be a default index, but won't read from there. Instead, only dialogues that want to be checked for "has been used" need be added, and are found dynamically.
+    public IEnumerator GenericInteractableNew(Dialogue dia, GameObject theObject) //Trying a new spin on the generic interactable script, this time not requiring you to link indexes. In this case, 0 in the array should be left empty of any sort of dialogue and will be a default index, but won't read from there. Instead, only dialogues that want to be checked for "has been used" need be added, and are found dynamically.
     {
         int interactableIdentity = 0;
         foreach (Dialogue dialogue in Interactable)
@@ -155,9 +157,24 @@ public class DialogueHolder : MonoBehaviour {
         if (interactConvoStart[interactableIdentity] == false)
         {
             interactConvoStart[interactableIdentity] = true;
-            StartCoroutine(nm.dialogueBox(false));
+            if (!dia.DialogItems[interactConvo[interactableIdentity]].CharacterPic)
+            {
+                StartCoroutine(nm.dialogueBox(false));
+            }
+            else
+            {
+                StartCoroutine(nm.dialogueBox(true));                
+            }
             sizeOfListInteractable = dia.DialogItems.Count;
         }
+        if(dia.DialogItems[interactConvo[interactableIdentity]].CharacterPic) {
+            nm.imageTS.sprite = dia.DialogItems[interactConvo[interactableIdentity]].CharacterPic;
+            nm.nameTS.text = dia.DialogItems[interactConvo[interactableIdentity]].CharacterName;
+        }
+        Debug.Log(i);
+        if(theObject.GetComponent<Animator>())
+            theObject.GetComponent<Animator>().SetInteger("AnimInt", i);
+        i++;
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(nm.AnimateText(dia, interactConvo[interactableIdentity]));
         interactConvo[interactableIdentity]++;
@@ -170,10 +187,17 @@ public class DialogueHolder : MonoBehaviour {
             interactConvoDone[interactableIdentity] = true;
             interactConvo[interactableIdentity] = 0;
             interactConvoStart[interactableIdentity] = false;
+            i = 0;
+
+            if (theObject.GetComponent<Animator>())
+            {
+                theObject.GetComponent<Animator>().SetInteger("AnimInt", i); yield return new WaitForEndOfFrame();
+                theObject.GetComponent<Animator>().SetInteger("AnimInt", -1);
+            }
         }
         else
         {
-            StartCoroutine(GenericInteractableNew(dia));
+            StartCoroutine(GenericInteractableNew(dia, theObject));
         }
     }
 

@@ -93,8 +93,9 @@ public class NarrativeManager : MonoBehaviour {
             ns1.blackScreen.gameObject.SetActive(true);
             //yield return new WaitUntil(() => room == 1);
             yield return new WaitForSeconds(0.5f);
+            ev++;
         }       
-        ev++;
+        
         CheckEvent();
     }
 

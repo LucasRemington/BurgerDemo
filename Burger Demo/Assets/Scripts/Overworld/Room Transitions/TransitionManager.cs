@@ -94,7 +94,7 @@ public class TransitionManager : MonoBehaviour
         currentTracker = null;
 
         yield return new WaitUntil(() => currentTracker != null);
-        Debug.Log("We in this new Scene!");            
+        Debug.Log("We are now in a new scene!!");            
 
         player.GetComponent<OverworldMovement>().canMove = false;
         player.GetComponent<OverworldMovement>().playerSprite.flipX = flip;
@@ -128,7 +128,7 @@ public class TransitionManager : MonoBehaviour
         while (i.color.a < 1.0f)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
-            Debug.Log("Fading in: " + SceneManager.GetActiveScene().name);
+            //Debug.Log("Fading in: " + SceneManager.GetActiveScene().name);
             yield return null;
         }
         if (i.color.a >= 1.0f && coCalled == false)

@@ -308,7 +308,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1fc4a5916899a1f48b8c2bb1114e32bf, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.596
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -586,7 +586,7 @@ MonoBehaviour:
   start: {fileID: 0}
   end: {fileID: 0}
   anim: {fileID: 0}
-  seconds: 10
+  seconds: 30
   secondsText: {fileID: 0}
   timerStarted: 0
   aboveText:

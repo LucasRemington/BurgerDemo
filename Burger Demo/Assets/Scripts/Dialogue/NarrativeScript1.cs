@@ -128,11 +128,11 @@ public class NarrativeScript1 : MonoBehaviour {
 
             nm.gameStarted = true;
         }
-        
-        
+
+
 
         // Wait until we walk into Dennis' office for the first time. 0.75f waits until we load in before grabbing Dennis and his components.
-        Debug.Log("event1");
+        Debug.Log("Event 1: Dennis into Master.");
         yield return new WaitUntil(() => nm.room == 1); //change this to pull from gameManager + flag set from animation event 
         yield return new WaitForSeconds(0.75f);
         dennis = GameObject.FindWithTag("Dennis");
@@ -173,12 +173,14 @@ public class NarrativeScript1 : MonoBehaviour {
 
 
         sm = player.GetComponent<ScriptedMovement>();
-        
+
         nm.owm.canMove = false;
         Debug.Log("room 3 ");
 
         // Chair flips around, and we approach the Master.
-        yield return new WaitForSeconds(1.5f);        
+        yield return new WaitForSeconds(1.5f);
+        yield return new WaitUntil(() => nm.owm.canMove);
+        nm.owm.canMove = false;
         StartCoroutine(sm.MoveTo(player, new Vector3(7.6f, 0, 0), 0.8f));
         yield return new WaitUntil(() => sm.finished == true);
         playerSR.flipX = false;
@@ -194,7 +196,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(dh.GenericFirstConvo(1, false));
         yield return new WaitUntil(() => dh.scriptedConvoDone[1] == true);
-        dh.CancelDialogue(true); 
+        dh.CancelDialogue(true);
         yield return new WaitForSeconds(0.5f);
         Debug.Log("combat");
         StartCoroutine(nm.bt.StartBattle(masterHologram));
@@ -224,7 +226,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => dh.scriptedConvoDone[10] == true);
         nm.owm.canMove = true;
         nm.ev++;
-        
+
         nm.CheckEvent();
     }
 
@@ -590,7 +592,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 te = tutEnemy.GetComponent<TutorialEnemy>();
                 StartCoroutine(te.EnemyTimer());
                 te.convoToCall++;
-                te.seconds = 10;
+                te.seconds = 30;
                 dh.ongoingEvent = false;
                 break;
             case 5:
@@ -631,7 +633,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
                 te = tutEnemy.GetComponent<TutorialEnemy>();
                 StartCoroutine(te.EnemyTimer());
-                te.seconds = 10;
+                te.seconds = 30;
                 dh.ongoingEvent = false;
                 break;
             case 5:
@@ -656,7 +658,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
                 te = tutEnemy.GetComponent<TutorialEnemy>();
                 StartCoroutine(te.EnemyTimer());
-                te.seconds = 10;
+                te.seconds = 30;
                 waitForScript = false;
                 nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
                 dh.ongoingEvent = false;
@@ -671,7 +673,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
                 te = tutEnemy.GetComponent<TutorialEnemy>();
                 StartCoroutine(te.EnemyTimer());
-                te.seconds = 10;
+                te.seconds = 30;
                 waitForScript = false;
                 nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
                 dh.ongoingEvent = false;
@@ -729,13 +731,13 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 6:
                 dh.ongoingEvent = true;
-                yield return new WaitUntil(() => Input.GetAxis("Submit") != 0);
-                dh.CancelDialogue(true);
-                dh.interactConvoDone[10] = true;
-                holomAnim.SetTrigger("Sleep");
                 animationFlag = false;
                 nm.owm.canMove = true;
                 dh.ongoingEvent = false;
+                yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
+                dh.scriptedConvoDone[10] = true;
+                holomAnim.SetTrigger("Sleep");
+                dh.CancelDialogue(true);
                 break;
         }
     }

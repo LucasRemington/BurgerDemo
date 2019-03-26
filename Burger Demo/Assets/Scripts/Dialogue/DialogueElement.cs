@@ -6,7 +6,7 @@ using UnityEngine;
 public class DialogueElement
 {
 
-    public enum Characters { DialogBox, Protag, Dennis, TutorialMaster};
+    public enum Characters { DialogBox, Protag, Dennis, TutorialMaster, DWBEmployee};
     public enum AvatarPos { overworld, combat};
     public Characters Character;
     public AvatarPos CharacterPosition;

@@ -6,7 +6,6 @@ public class Checkpoint : MonoBehaviour
 {
     private SaveLoad saveLoad;
     //[Tooltip("Makes sure that we aren't saving every frame we're inside the checkpoint.")] public int index;
-    private bool canCheckpoint = true;
 
 	void Start ()
     {
@@ -17,18 +16,12 @@ public class Checkpoint : MonoBehaviour
     // Called as the player enters its trigger.
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Overworld" && canCheckpoint && other.gameObject.GetComponent<OverworldMovement>().canMove)
+        if (other.gameObject.tag == "Overworld" && other.gameObject.GetComponent<OverworldMovement>().canMove)
         {
             // On collision with the player, save the game without adjusting ingredients or such.
             StartCoroutine(saveLoad.SaveGame());
-            canCheckpoint = false;
-            StartCoroutine(Reactivate());
+            Destroy(gameObject);
         }
     }
 
-    private IEnumerator Reactivate()
-    {
-        yield return new WaitForSeconds(3.0f);
-        canCheckpoint = true;
-    }
 }

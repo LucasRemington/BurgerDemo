@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour {
     [HideInInspector] public BattleTransitions bt; //battle transitions
     [HideInInspector] public bool MenuOpen; //This bool is true when the menu is open.
     [HideInInspector] public bool Menu2Open; //This bool is true when the secondary menu is open.
+
     [Header("Images and Text")] 
     [Tooltip("Menu dialogue box; set in inspector.")] public Image menuBox; //this image is the menu itself. THIS MUST BE SET IN THE INSPECTOR-- sceneload triggers before start, so this will break stuff if you don't do this!
     [Tooltip("Second menu for ingredients; set in inspector.")] public Image menuBox2; //this is the secondary menu showing ingredients and HP that appears in game.
@@ -171,9 +172,8 @@ public class MenuManager : MonoBehaviour {
 
 	IEnumerator openMenu () //This is a complex function. TLDR it controls how the menu opens and closes. 
     {
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && ovm.canMove && !mainMenu) || (mainMenu && animFlag && !mainMenuDone)); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && ovm.canMove && !mainMenu && saveLoad.blackScreen.color.a <= 0) || (mainMenu && animFlag && !mainMenuDone)); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
         // Checks first to see if we've visited a meat locker at some point so we can gray out the option if need be.
-        Debug.Log(saveLoad.meatLockerList.Count);
         if (saveLoad.meatLockerList == null || saveLoad.meatLockerList.Count <= 0)
         {
             meatLockersVisited = false;
@@ -210,7 +210,12 @@ public class MenuManager : MonoBehaviour {
         boxUI.SetInteger("OptionSelected", 3);
         TurnOnText(false); //Turns off the text immediately.
         yield return new WaitForSeconds (4 / 12f); //Waits until the close animation is finished, then switches off the appropriate variables.
+        foreach (Text textItem in optionText)
+        {
+            textItem.enabled = false;
+        }
         menuBox.enabled = false;
+        yield return new WaitUntil(() => menuBox2.enabled == false); // The secondary menu takes longer to close than the main menu, so we wait for that to finish, too.
         MenuOpen = false;
         if (!mainMenu || mainMenuDone)
             ovm.canMove = true;
@@ -354,8 +359,12 @@ public class MenuManager : MonoBehaviour {
                         break;
 
                         case 2:
-                           Debug.Log("I guess");
-                        break;
+                           Debug.Log("Quit Game");
+                            StartCoroutine(saveLoad.SaveGame());
+                            yield return new WaitForSeconds(2);
+                            Debug.Log("Quitting now!");
+                            QuitGame();
+                            break;
                     }
                     break;
         }
@@ -384,12 +393,10 @@ public class MenuManager : MonoBehaviour {
                     StartCoroutine(Options());
                     break;
 
-                case 2://quits the game
-                    Debug.Log("Quit");
-                    StartCoroutine(saveLoad.SaveGame());
-                    yield return new WaitForSeconds(2);
-                    Debug.Log("Quitting now!");
-                    QuitGame();
+                case 2://closes the menu
+                    Debug.Log("Back");
+                    closeNow = true;
+                    mainMenuDone = true;
                     break;
             }
         }
@@ -402,7 +409,7 @@ public class MenuManager : MonoBehaviour {
 
     public IEnumerator FadeImageToZeroAlpha(float t, Image i)
     {
-        yield return new WaitForSeconds(.1f);
+        //yield return new WaitForSeconds(.1f);
         //yield return new WaitUntil(() => readyForFade == true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
         while (i.color.a > 0.0f)
@@ -488,7 +495,7 @@ public class MenuManager : MonoBehaviour {
     }
 
     IEnumerator resetToDefault ()
-    {
+    { 
         if (mainMenu == true) //This begins to move the menu back to its original position if mainmenu is true.
         {
             StartCoroutine(lerpOver(0, 125));
@@ -519,7 +526,6 @@ public class MenuManager : MonoBehaviour {
 
     public void fadeInMenu2Text () //called from animation, at the end of menu2open. fades in text and images
     {
-        Debug.Log("fade in called");
         for (int i = 0; i < ingredientText.Length; i++) // Fade in texts.
         {
             if (ingredientText[i] != null)

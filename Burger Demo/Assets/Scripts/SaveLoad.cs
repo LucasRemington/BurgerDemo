@@ -11,13 +11,16 @@ public class SaveLoad : MonoBehaviour
     private string dataPath; // Where the save file is kept locally.
     private string currentScene; // The scene currently loaded within savedata.
 
+
+    [Header("Save Data")]
+    [Tooltip("The serializeable save data for the game. Do NOT touch this; this is for reference purposes only! Or debugging if your name is Matt, James, or I guess theoretically anyone if I'm dropping this egotistical facade...")] public SaveData saveData; // The serializable save data for the game.
+
     [Header("Components and Objects")]
     [HideInInspector] [Tooltip("The main camera, which other components are derived from. If this is empty at runtime, that is an issue.")] public GameObject mainCam;
     private NarrativeManager narrMan;
     private DialogueHolder diaHold;
     private GameObject gameController;
     private BattleTransitions battTran;
-    [HideInInspector] public SaveData saveData; // The serializable save data for the game.
 
     [Header("UI")]
     [Tooltip("The icon used to indicate that the game is currently saving. This is what rotates.")] public Image saveIcon;
@@ -232,7 +235,7 @@ public class SaveLoad : MonoBehaviour
             // We cancel the current dialogue and replace it with a new "You refused" piece of dialogue.
             diaHold.CancelDialogue(false);
             yield return new WaitUntil(() => narrMan.dbChoiceSS);
-            diaHold.StartCoroutine(diaHold.GenericInteractableNew(refuseDialogue));
+            diaHold.StartCoroutine(diaHold.GenericInteractableNew(refuseDialogue, this.gameObject));
             end = true;
             narrMan.choiceSelected = 0;
         }

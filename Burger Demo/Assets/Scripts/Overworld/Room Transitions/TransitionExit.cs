@@ -51,7 +51,7 @@ public class TransitionExit : MonoBehaviour
                     other.gameObject.GetComponent<OverworldMovement>().canMove = false;
                     narrMan.room = narrativeIndex;
                     transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX, true);
-
+                    Debug.Log("Loading into a new scene: " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
                 }
                 else if (!activateToUse && !warping)
                 {
@@ -59,8 +59,9 @@ public class TransitionExit : MonoBehaviour
                     other.gameObject.GetComponent<OverworldMovement>().canMove = false;
                     narrMan.room = narrativeIndex;
                     transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX, true);
-
+                    Debug.Log("Loading into a new scene: " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
                 }
+                
             }
             else if (!other.gameObject.GetComponent<OverworldMovement>().canMove && scripted && !warping)
             {
@@ -68,6 +69,7 @@ public class TransitionExit : MonoBehaviour
                 other.gameObject.GetComponent<OverworldMovement>().canMove = false;
                 narrMan.room = narrativeIndex;
                 transitionManager.Warp(exitIndex, sceneToLoad, other.GetComponent<OverworldMovement>().playerSprite.flipX, false);
+                Debug.Log("Loading into a new scene: " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
             }
         }
 

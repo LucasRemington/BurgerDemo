@@ -673,7 +673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1309156662356528
 GameObject:
   m_ObjectHideFlags: 1
@@ -1246,7 +1246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1586125237531120
 GameObject:
   m_ObjectHideFlags: 1
@@ -2256,7 +2256,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1269713704993422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 1.98, z: 0}
+  m_LocalPosition: {x: -10.27467, y: 8.350078, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4141025590790068}
@@ -2298,7 +2298,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1307309391771030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.17, y: -1.7885675, z: 4.912109}
+  m_LocalPosition: {x: -3.12, y: 0.92, z: 4.912109}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 224363786070925918}
@@ -3284,7 +3284,7 @@ MonoBehaviour:
   invuln: 0
   invulnTime: 1.1
   lastTouched: {fileID: 0}
-  moveSpeed: 4
+  moveSpeed: 2.8
   climbSpeed: 1.5
   crouchSpeedDivider: 2
   canMove: 1
@@ -3303,6 +3303,7 @@ MonoBehaviour:
   topDownGrabbing: 0
   canGrabDown: 0
   touchingLadderCap: 0
+  ladderAnimToggle: 0
   grounded: 1
   flDamageTextTime: 1.1
   damStartDist: 3
@@ -3343,7 +3344,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Sound
+  m_Text: '[ x ]'
 --- !u!114 &114023504475765138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3976,7 +3977,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCam: {fileID: 0}
   saveData:
     currentHealth: 0
     healthMax: 0
@@ -3994,6 +3994,7 @@ MonoBehaviour:
     narrManRoomNo: 0
     louNotesSeen: 
     louDone: 0
+  mainCam: {fileID: 0}
   saveIcon: {fileID: 114462156523745620}
   saveIconText: {fileID: 114233765469778612}
   blackScreen: {fileID: 114196183625485844}
@@ -4142,7 +4143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4585,7 +4586,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: I Guess
+  m_Text: Quit Game
 --- !u!114 &114285910511053996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5016,7 +5017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bf31e55ac8baf44926d2cae3d00da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCam: {fileID: 0}
   saveData:
     currentHealth: 0
     healthMax: 0
@@ -5034,6 +5034,7 @@ MonoBehaviour:
     narrManRoomNo: 0
     louNotesSeen: 
     louDone: 0
+  mainCam: {fileID: 0}
   saveIcon: {fileID: 0}
   saveIconText: {fileID: 0}
   blackScreen: {fileID: 0}
@@ -5286,7 +5287,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Other
+  m_Text: '[ x ]'
 --- !u!114 &114489580357480148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5340,6 +5341,7 @@ MonoBehaviour:
   componentNumber: 0
   componentCap: 4
   canSpawn: 0
+  serveStart: 0
   spawnReset: 0
   bounceTrigger: 0
   turns: 0
@@ -5843,7 +5845,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Bullshit
+  m_Text: '[ x ]'
 --- !u!114 &114555017677537504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6961,7 +6963,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Image
+  m_Text: '[ x ]'
 --- !u!114 &114809053561614706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9020,7 +9022,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.199997, y: 47.100006}
+  m_AnchoredPosition: {x: 0, y: 47.100006}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224228681933540118
@@ -9836,7 +9838,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -172, y: -19.700012}
+  m_AnchoredPosition: {x: -166, y: -19.700012}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224590276377601134

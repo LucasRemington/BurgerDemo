@@ -11573,11 +11573,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.781
+      value: 4.73
       objectReference: {fileID: 0}
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.994
+      value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.z
@@ -12632,7 +12632,7 @@ Prefab:
     - target: {fileID: 61113942655724846, guid: ede83de9326e528449382b8b69c8e140,
         type: 2}
       propertyPath: m_Size.x
-      value: 1.916149
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114553634766985372, guid: ede83de9326e528449382b8b69c8e140, type: 2}
@@ -12788,7 +12788,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1fc4a5916899a1f48b8c2bb1114e32bf, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.705
   m_Pitch: 1
   Loop: 0
   Mute: 0

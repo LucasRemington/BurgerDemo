@@ -11,12 +11,7 @@ public class TransitionTracker : MonoBehaviour
     {
         if (player == null)
         {
-            GameObject tempPlayer = GameObject.FindGameObjectWithTag("Player");
-            player = tempPlayer.GetComponentInChildren<OverworldMovement>().gameObject;
+            player = GameObject.FindGameObjectWithTag("Overworld");
         }
     }
-
-	void Update () {
-		
-	}
 }

@@ -25,6 +25,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     [Tooltip("The cap of components to each burger.")] public int componentCap;
     [Tooltip("Called by animations once they become static.")] public bool canSpawn;
     [Tooltip("Set when the top bun is placed to finish off the burger or trash it.")] bool topPlaced;
+    [Tooltip("Set when the serve button is hit, dropping the bottom bun immediately.")] public bool serveStart; 
     [Tooltip("Checked off by individual components on whether or not they should despawn.")] public bool spawnReset; 
     [Tooltip("Determines the ingredient's bounce animation.")] public int bounceTrigger; 
     [Tooltip("Current number of turns that have passed in this encounter.")] public int turns; //tracks how many turns have passed
@@ -103,14 +104,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     // text displaying stats
     [Header("Statistics Text")]
-    [Tooltip("")] public Text dropText;
-    [Tooltip("")] public Text healText;
-    [Tooltip("")] public Text cryingText;
-    [Tooltip("")] public Text critChanceText;
-    [Tooltip("")] public Text armorPenText;
-    [Tooltip("")] public Text damageTypeText;
-    [Tooltip("")] public Text slowText;
-    [Tooltip("")] public Text damageText;
+    [Tooltip("Text for drop rate.")] public Text dropText;
+    [Tooltip("Text for healing by lettuce shields.")] public Text healText;
+    [Tooltip("Text for crying effects.")] public Text cryingText;
+    [Tooltip("Text for crit change multipliers.")] public Text critChanceText;
+    [Tooltip("Text for armor penetration stats.")] public Text armorPenText;
+    [Tooltip("Text for the current type of damage.")] public Text damageTypeText;
+    [Tooltip("Text for the slow effect from cheese.")] public Text slowText;
+    [Tooltip("Text for the current amount of damage about to be dealt.")] public Text damageText;
 
     //beginning and ending UI
     [Header("Combat UI")]
@@ -202,7 +203,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     //identity: 0 = buns, 1 = tomato, 2 = lettuce, 3 = onion, 4 = bacon, 5 = sauce, 6 = pickles, 7 = ketchup, 8 = mustard, 9 = cheese, 10 = patty
     {
         yield return new WaitForSeconds(0.01f);
-        yield return new WaitUntil(() => Input.GetKeyDown(key) == true || topPlaced == true);
+        yield return new WaitUntil(() => Input.GetKeyDown(key) == true || topPlaced == true || serveStart);
         if (topPlaced == false && componentNumber < componentCap)
         {
             yield return new WaitUntil(() => canSpawn == true);
@@ -244,6 +245,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(TopBunSpawn());
                         ph.protag.SetTrigger("BunPlace");
                         ph.protag.SetBool("isBunPlaced", true);
+                        serveStart = false;
                         break;
                     case 1:
                         Debug.Log("Component1");

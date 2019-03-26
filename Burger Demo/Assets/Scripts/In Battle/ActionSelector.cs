@@ -94,6 +94,7 @@ public class ActionSelector : MonoBehaviour
                         //Indicator.SetActive(false);
                         //choiceText.SetActive(false);
                         StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().ComponentSpawn(KeyCode.Space, 3, BCI.GetComponent<BurgerComponentInstantiator>().bottomBun, 0));
+                    BCI.GetComponent<BurgerComponentInstantiator>().serveStart = true;
                         StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().StartStuff());
                         StartCoroutine(BCI.GetComponent<BurgerComponentInstantiator>().enableCheats());
                         yield return new WaitUntil(() => BCI.activeInHierarchy == false);

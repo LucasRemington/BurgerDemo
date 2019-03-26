@@ -54,8 +54,8 @@ public class FollowPlayer : MonoBehaviour
     IEnumerator Crouching()
     {        
         yield return new WaitForSeconds(1);
-        if(player.GetComponent<OverworldMovement>().crouching)
-            ySetter = player.transform.position.y - 1.6f;
+        /*if(player.GetComponent<OverworldMovement>().crouching)
+            ySetter = player.transform.position.y - 1.6f;*/
     }
 
     /*IEnumerator upTrack () {

@@ -12,7 +12,7 @@ public class InteractDia : MonoBehaviour {
     private Animator playerAnim;
     private GenericSounds gs;
     private MenuManager menuManager;
-    [HideInInspector] public bool canInteract = true;
+    [HideInInspector] public bool canInteract = true; 
 
     /*[Tooltip("The index of the first dialogue in the dialogue holder's interactable list.")] public int identity;
     
@@ -54,15 +54,14 @@ public class InteractDia : MonoBehaviour {
         {
             // If our iterator has exceeded our list of dialogues, bring it back one to repeat the last in the list.
             if (i >= dialogueList.Count)
-                i--;
-
-            StartCoroutine(dh.GenericInteractableNew( dialogueList[i] ));
-            StartCoroutine(interactTimer());
-            if (gameObject.tag == "MeatLocker")
-            {
-                StartCoroutine(MainCamera.GetComponentInParent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
-            }
-        }
+                i--;            
+                StartCoroutine(dh.GenericInteractableNew(dialogueList[i], this.gameObject));
+                StartCoroutine(interactTimer());
+                if (gameObject.tag == "MeatLocker")
+                {
+                    StartCoroutine(MainCamera.GetComponentInParent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
+                }
+           }
     }
 
     IEnumerator interactTimer ()
