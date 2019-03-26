@@ -731,6 +731,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 yield return new WaitUntil(() => Input.GetAxis("Submit") != 0);
                 dh.CancelDialogue(true);
+                dh.interactConvoDone[10] = true;
                 holomAnim.SetTrigger("Sleep");
                 animationFlag = false;
                 nm.owm.canMove = true;
