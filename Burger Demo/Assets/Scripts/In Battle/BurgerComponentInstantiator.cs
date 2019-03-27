@@ -367,7 +367,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
         {
-            StartCoroutine(ClearBurger(true));
+            StartCoroutine(ClearBurger(false));
         } else if (Input.GetKeyDown(KeyCode.Space) == true)
         {
             ph.protag.SetTrigger("BurgerThrow");
@@ -376,7 +376,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             {
                 ph.HealDamage(Mathf.RoundToInt(heal));
             }
-            StartCoroutine(ClearBurger(false));
+            StartCoroutine(ClearBurger(true));
         }
     }
 
@@ -406,21 +406,22 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             {
                 StartCoroutine(eb.setAboveText("+" + dropMult + " Drops!"));
             }
-        } else
+        }
+        else
         {
             Debug.Log("tutorial");
-           // if (te != null)
+            // if (te != null)
             //{
-                te.RecieveAttack();
-                Debug.Log("ra");
-           // }
+            te.RecieveAttack();
+            Debug.Log("ra");
+            // }
+            if (finalDamage > 0)
+                hasMeat = true;
+            else
+                hasMeat = false;
+            te.lastCombo = finalCombo;
+            gameObject.SetActive(false);
         }
-        if (finalDamage > 0)
-            hasMeat = true;
-        else
-            hasMeat = false;
-        te.lastCombo = finalCombo;
-        gameObject.SetActive(false);
     }
 
     public IEnumerator ClearBurger(bool thrown) //resets most variables

@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/mspilla4/Desktop/Build/Burger Demo.exe
+C:/Users/mspilla4/Documents/Build/Burger Demo.exe
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/OriginFreezer.unity
@@ -111,7 +111,7 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 79b045383d9df8359cb0484efad256e5 Assembly-CSharp.dll:.TransitionTracker
-a91d9fa5fdbba5e7ba1a3cf427559f15 Assembly-CSharp.dll:.ActionSelector
+83dcc09d85e302dc1013cd4eb618b485 Assembly-CSharp.dll:.ActionSelector
 66b3109aa5921cf800bec17926c6adba Unity.TextMeshPro.dll:TMPro.TMP_SubMeshUI
 60d7af6daf991f68c0fed5833496bb6b Assembly-CSharp.dll:.BurgerComponentInstantiator
 201273fb4f889724fb090164b7d6c657 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -136,7 +136,7 @@ e1e9e5275b3646cb1cbc070bb26026ac Assembly-CSharp.dll:.UIActivate
 f895e2a30329ae03a8d6f490dfea8743 Assembly-CSharp.dll:.BackgroundMusic
 382b8ef512fa8d6108723a01b57af65b UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
 d22c788799ee45d8676254eccf20e8b8 UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
-b8823cee9bfb3f56b9530c68b475a1c1 Assembly-CSharp.dll:.BattleTransitions
+7610c5e8c7edb0c48a77ce12a2cf4182 Assembly-CSharp.dll:.BattleTransitions
 8c073430cc14e0aed8615eb591225dd4 Assembly-CSharp.dll:.CrumpingHatMan
 a6e95e89e1c5fbbf01b7b994bde56928 Assembly-CSharp.dll:.TransitionExit
 d75dc834c5dec688db75a55a1724c90f UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
@@ -148,10 +148,10 @@ dfd33ff9ae3ce8d7ca1f22b475ec2387 UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 499bf5ac7e4d6e17d9b91859d7463f1a Assembly-CSharp.dll:.SoundManager
 8bb5675319efe51dd68f7eb5854b83da Assembly-CSharp.dll:.PlayerSounds
 762cc5c1b35e1c889059192f4b978a4b Assembly-CSharp.dll:UnityEngine.Tilemaps.AnimatedTile
-e3a9816286e5a8f9cd3b7d41607121e3 Assembly-CSharp.dll:.NarrativeManager
+7799f6fa21687abe993f68f997d7c775 Assembly-CSharp.dll:.NarrativeManager
 20fc26ca16d21e3a7c55dfa6842837d3 Assembly-CSharp.dll:.SaveLoad
 648c249e8198aed2240678c6dcd8e752 Assembly-CSharp.dll:.Sign
-752da70f7b029dcdf37cd616f6848093 Assembly-CSharp.dll:.NarrativeScript1
+b7d1759ed184c232fe043f47d509730e Assembly-CSharp.dll:.NarrativeScript1
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.TurnOffWhenDone
 f16835701e71dd5d6fb1fed4b7aff1d8 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 f0987faf14527267f4b87dd3645db2c0 Assembly-CSharp.dll:.DBAnimEvents

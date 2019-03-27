@@ -68,6 +68,8 @@ public class EnemyBehavior : MonoBehaviour {
     public GameObject tear;
     public Animator tearAnim;
 
+    private bool dead = false;
+
     private void Awake() // this is just to set some things when its being instantiated freely
     {
         gameController = GameObject.FindGameObjectWithTag("GameController");
@@ -90,17 +92,17 @@ public class EnemyBehavior : MonoBehaviour {
         //tearAnim = tear.GetComponent<Animator>();
         
         movingForwards = true;
-        seconds = Mathf.RoundToInt(enemySpeed-2);
+        seconds = Mathf.RoundToInt(enemySpeed -2 );
         mainCamera = GameObject.Find("MainCamera");
-        background = mainCamera.GetComponent<AudioSource>();
+        background = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
         //clock = GameObject.Find("ClockUI");
     }
 
     public void TakeDamage (float finalDamage) //calculates damage taken by enemy
     {
         enemyArmor = baseArmor;
-        Debug.Log(BCI);
-        Debug.Log(enemyArmor);
+        //Debug.Log(BCI);
+        //Debug.Log(enemyArmor);
         enemyArmor = enemyArmor - (enemyArmor * BCI.armorPen * 0.01f);
         if (enemyArmor <= 0)
         {
@@ -134,13 +136,16 @@ public class EnemyBehavior : MonoBehaviour {
         damagedPosition = this.transform.position;
         StartCoroutine(SetTicksWhenReady());
         //clockAnim.SetBool("Stopped", true);                           fix this later
+        Debug.Log(finalDamage);
         if (finalDamage > 0)
         {
             enemyHealth = enemyHealth - finalDamage;
             anim.SetTrigger("Damaged");
             HealthText.text = Mathf.RoundToInt(enemyHealth).ToString();
             healthBar.SetTrigger("Damaged");
+            cantMove = false;
             StartCoroutine(setAboveText(finalDamage + " damage!"));
+            CheckDeath();
         } else
         {
             cantMove = false;
@@ -151,6 +156,8 @@ public class EnemyBehavior : MonoBehaviour {
         {
             StartCoroutine(setAboveText("Crying!"));
         }
+        BCI.StopAllCoroutines();
+        BCI.gameObject.SetActive(false);
     }
 
     public IEnumerator setAboveText(string text)
@@ -178,10 +185,9 @@ public class EnemyBehavior : MonoBehaviour {
     {
         if (enemyHealth <= 0)
         {
+            dead = true;
             anim.SetTrigger("Damaged");
-            anim.SetTrigger("Dead");
-            StartCoroutine(BCI.FadeImageToFullAlpha(2, BCI.fadeBlack));
-            StartCoroutine(BCI.whenBlackScreen());  
+            anim.SetTrigger("Dead");              
             background.Stop();                  // sound
             victory.Play();                     // sound
             for (int i = 0; i<aboveText.Length; i++) {
@@ -198,84 +204,88 @@ public class EnemyBehavior : MonoBehaviour {
 
     public IEnumerator MoveForwards () //movement function. contains turn reset
     {
-
-        if (movingForwards == true && hasBeenDamaged == false && cantMove == false)
+        if (!dead)
         {
-            yield return new WaitForSeconds(0.01f);
-            ticks++;
-            transform.position = Vector3.Lerp(startPosition, endPosition, (ticks/(50f * enemySpeed)));
-            if (seconds <= 0)
+            if (movingForwards == true && hasBeenDamaged == false && cantMove == false)
             {
-                Attack();
-            } else
-            {
-                StartCoroutine(MoveForwards());
-            }
-        }
-        else if (movingForwards == true && hasBeenDamaged == true && cantMove == false)
-        {
-            yield return new WaitForSeconds(0.01f);
-            ticks++;
-            transform.position = Vector3.Lerp(damagedPosition, endPosition, (ticks/50f));
-            if (transform.position == endPosition)
-            {
-                Attack();
-            }
-            else
-            {
-                StartCoroutine(MoveForwards());
-            }
-        }
-        else if (movingBackwards == true && cantMove == false)
-        {
-            yield return new WaitForSeconds(0.01f);
-            ticks++;
-            tear = HealthText.transform.GetChild(3).gameObject;
-            transform.position = Vector3.Lerp(endPosition, startPosition, (ticks/50f));
-            if (transform.position == startPosition) // turn reset
-            {
-                anim.SetTrigger("Reset");
-                if (cryingStacks > 0)
+                yield return new WaitForSeconds(0.01f);
+                ticks++;
+                transform.position = Vector3.Lerp(startPosition, endPosition, (ticks / (60f * enemySpeed)));
+                if (seconds <= 0)
                 {
-                    tearText.text = cryingStacks.ToString();
-                    cryingStacks--;
+                    Attack();
                 }
-                else if (slowStacks <= 0)
+                else
                 {
-                    tearText.text = "";
-                    if (tear.activeInHierarchy == true)
+                    StartCoroutine(MoveForwards());
+                }
+            }
+            else if (movingForwards == true && hasBeenDamaged == true && cantMove == false)
+            {
+                yield return new WaitForSeconds(0.01f);
+                ticks++;
+                transform.position = Vector3.Lerp(damagedPosition, endPosition, (ticks / 50f));
+                if (transform.position == end.position)
+                {
+                    Attack();
+                }
+                else
+                {
+                    StartCoroutine(MoveForwards());
+                }
+            }
+            else if (movingBackwards == true && cantMove == false)
+            {
+                yield return new WaitForSeconds(0.01f);
+                ticks++;
+                tear = HealthText.transform.GetChild(3).gameObject;
+                transform.position = Vector3.Lerp(endPosition, startPosition, (ticks / 50f));
+                if (transform.position == startPosition) // turn reset
+                {
+                    anim.SetTrigger("Reset");
+                    if (cryingStacks > 0)
                     {
-                        tearAnim.SetTrigger("tearEnd");
+                        tearText.text = cryingStacks.ToString();
+                        cryingStacks--;
                     }
-                }
-                if (slowStacks > 0)
-                {
-                    cheeseText.text = slowStacks.ToString();
-                    slowStacks--;
-                }
-                else if (slowStacks <= 0)
-                {
-                    cheeseText.text = "";
-                    if (cheese.activeInHierarchy == true)
+                    else if (slowStacks <= 0)
                     {
-                        cheeseAnim.SetTrigger("endCheese");
+                        tearText.text = "";
+                        if (tear.activeInHierarchy == true)
+                        {
+                            tearAnim.SetTrigger("tearEnd");
+                        }
                     }
+                    if (slowStacks > 0)
+                    {
+                        cheeseText.text = slowStacks.ToString();
+                        slowStacks--;
+                    }
+                    else if (slowStacks <= 0)
+                    {
+                        cheeseText.text = "";
+                        if (cheese.activeInHierarchy == true)
+                        {
+                            cheeseAnim.SetTrigger("endCheese");
+                        }
+                    }
+                    enemyDamage = baseDamage;
+                    movingBackwards = false;
+                    movingForwards = true;
+                    StartCoroutine(SetTicksWhenReady());
+                    hasBeenDamaged = false;
+                    BCI.turns++;
+                    BCI.canSpawn = true;
+                    seconds = Mathf.RoundToInt(enemySpeed - 2);
+                    timerStarted = false;
+                    attackCalled = false;
+                    StartCoroutine(MoveForwards());
+                    // clockAnim.SetBool("Stopped", false);                                                             Fix this later too
                 }
-                enemyDamage = baseDamage;
-                movingBackwards = false;
-                movingForwards = true;
-                StartCoroutine(SetTicksWhenReady());
-                hasBeenDamaged = false;
-                BCI.turns++;
-                BCI.canSpawn = true;
-                seconds = Mathf.RoundToInt(enemySpeed-2);
-                timerStarted = false;
-                attackCalled = false;
-                // clockAnim.SetBool("Stopped", false);                                                             Fix this later too
-            }
-            else
-            {
-                StartCoroutine(MoveForwards());
+                else
+                {
+                    StartCoroutine(MoveForwards());
+                }
             }
         }
     }
@@ -287,6 +297,7 @@ public class EnemyBehavior : MonoBehaviour {
             anim.SetTrigger("TimesUp");
         }
         attackCalled = true;
+        DamagePlayer();
     }
 
     public void DamagePlayer () {
@@ -294,7 +305,8 @@ public class EnemyBehavior : MonoBehaviour {
         ph.DealDamage(enemyDamage);
         movingBackwards = true;
         movingForwards = false;
-        ticks = 0;//StartCoroutine(SetTicksWhenReady());
+        ticks = 0;
+        StartCoroutine(SetTicksWhenReady());
     }
 
     public void ChanceToMiss()
@@ -348,10 +360,12 @@ public class EnemyBehavior : MonoBehaviour {
             yield return new WaitUntil(() => secondsText != null);
         }
         secondsText.text = (enemySpeed - 2).ToString();
+        StartCoroutine(EnemyTimer());
     }
 
     public IEnumerator EnemyTimer ()
     {
+        Debug.Log("Enemytimer is called");
         /*if (clock == null) {
             yield return new WaitUntil(() => clock != null);
         }
@@ -363,12 +377,18 @@ public class EnemyBehavior : MonoBehaviour {
         if (hasBeenDamaged == false || movingBackwards == false)
         {
             seconds--;
-            if (secondsText == null) {
+            /*if (secondsText == null) {
                 yield return new WaitUntil(() => secondsText != null);
-            }
+            }*/
             secondsText.text = seconds.ToString();
             if (seconds > 0)
             {
+                StartCoroutine(EnemyTimer());
+            }
+            else {
+                Attack();
+                yield return new WaitForSeconds(0.1f);
+                StartCoroutine(MoveForwards());
                 StartCoroutine(EnemyTimer());
             }
         } else
@@ -408,5 +428,7 @@ public class EnemyBehavior : MonoBehaviour {
             }
             yield return new WaitForEndOfFrame();
         }
+        StartCoroutine(MoveForwards());
+        StartCoroutine(StartTimerSet());
     }
 }

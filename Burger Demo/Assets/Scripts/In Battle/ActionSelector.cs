@@ -6,15 +6,16 @@ using UnityEngine.UI;
 public class ActionSelector : MonoBehaviour
 {
 
-    public NarrativeScript1 ns1;
-    public GameObject BCI;
-    public int option;
-    public Vector3[] optionMovements;
-    public GameObject Indicator;
-    public bool isReady;
-    public GameObject Player;
-    public GameObject[] choiceText;
-    public bool canRun = false;
+    [Tooltip("NarrativeScript1, attached to the MainCamera.")] public NarrativeScript1 ns1;
+    [Tooltip("BurgerComponentInstantiator, attached to the BurgerSpawner object.")] public GameObject BCI;
+    [Tooltip("Current option in battle selected.")] public int option;
+    [Tooltip("An array for where the indicator moves as each option is selected.")] public Vector3[] optionMovements;
+    [Tooltip("The indicator game object, used in selecting commands in battle.")] public GameObject Indicator;
+    [Tooltip("Whether a command can actually be selected or not; if yes, a round can start. If no, selecting the option does nothing.")] public bool isReady;
+    [Tooltip("Determines if the commands should be in an 'active' state or if they should be grayed out.")] public bool commandReady = true;
+    [Tooltip("Pwayer")] public GameObject Player;
+    [Tooltip("The text for each command in battle.")] public GameObject[] choiceText;
+    [Tooltip("Whether the player can flee from a given fight.")] public bool canRun = false;
 
     // Use this for initialization
     void Start()
@@ -29,13 +30,13 @@ public class ActionSelector : MonoBehaviour
     {
         for (int i = 0; i < choiceText.Length; i++)
         {
-            if (isReady && (!choiceText[i].activeInHierarchy || !Indicator.activeInHierarchy))
+            if (commandReady && (!choiceText[i].activeInHierarchy || !Indicator.activeInHierarchy))
             {
                 choiceText[i].SetActive(true);
                 choiceText[i].GetComponent<Text>().color = Color.white;
                 Indicator.SetActive(true);
             }
-            else if (!isReady && (choiceText[i].activeInHierarchy || Indicator.activeInHierarchy))
+            else if (!commandReady && (choiceText[i].activeInHierarchy || Indicator.activeInHierarchy))
             {
                 choiceText[i].GetComponent<Text>().color = Color.gray;
                 Indicator.SetActive(false);
@@ -73,7 +74,7 @@ public class ActionSelector : MonoBehaviour
                     break;
             }
         }
-        else if ((Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space)) && isReady)
+        else if ((Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space)) && isReady && commandReady)
         {
             StartCoroutine(Confirm(option));
         }

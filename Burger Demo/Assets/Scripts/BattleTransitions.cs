@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleTransitions : MonoBehaviour {
 
@@ -29,6 +30,8 @@ public class BattleTransitions : MonoBehaviour {
     
     [Header("Set in Editor")]
     [Tooltip("The battle intro animation! Set via editor, as if this header didn't tell you so already. Why are you still reading this. Stop that.")] public GameObject battleIntro;
+
+    public Image BlackScreen;
     
 
     [HideInInspector] public bool battling = false;
@@ -71,7 +74,14 @@ public class BattleTransitions : MonoBehaviour {
         battlePrefab.SetActive(true);
         //battlePrefab.transform.parent = null;
         GetComponent<ActionSelector>().isReady = true;
-        battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0,0,0,0),this.transform);
+        if (enemy.GetComponent<Enemy>())
+        {
+            battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0, 0, 0, 0), this.transform);
+        }
+        else
+        {
+            battle = Instantiate(enemy, enemyStart.transform.position, new Quaternion(0, 0, 0, 0), this.transform);
+        }
         for (int i = 0; i < OverworldObjects.Length; i++) {
             //OverworldObjects[i].SetActive(false);
         }
@@ -86,10 +96,11 @@ public class BattleTransitions : MonoBehaviour {
         //Instantiate(enemy.GetComponent<Enemy>().battlePrefab, this.transform);
         battling = true;
         yield return new WaitForSeconds(0.4f);
+        Debug.Log("battle intro should be gone");
         battleIntro.SetActive(false);
     }
 
-    public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
+    public IEnumerator EndOfTutorialBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
         yield return new WaitForSeconds(1.5f);
         ingredients = bci.ingredientINV;
@@ -121,6 +132,57 @@ public class BattleTransitions : MonoBehaviour {
         battling = false;
         nm.combatUI.SetActive(false);
         currentEnemy = null;
+        yield return new WaitForSeconds(0.2f);
+        db.GetComponent<Animator>().ResetTrigger("Popdown");
+    }
+
+    public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
+    {
+        yield return new WaitForSeconds(1.5f);
+        ingredients = bci.ingredientINV;
+        for (int i = 0; i < OverworldObjects.Length; i++)
+        {
+            OverworldObjects[i].SetActive(true);
+        }
+        BlackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
+        for (int i = 0; i < 101; i++)
+        {
+            BlackScreen.color = new Color(0, 0, 0, BlackScreen.color.a - 0.01f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        BlackScreen.color = Color.black;
+        yield return new WaitForSeconds(1);
+        //ph.healthUpdate();
+        battling = false;
+        battlePrefab.transform.SetParent(MainCamera.transform);
+        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
+        ph = player.GetComponent<PlayerHealth>();
+        playerHealth = ph.playerHealth + 20;
+        if (playerHealth > playerHealthMax)
+            playerHealth = playerHealthMax;
+        nm.ns1.winLossText.text = "";
+        /*for (int i = 0; i < 101; i++)
+        {
+            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
+            yield return new WaitForEndOfFrame();
+        }*/
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        if (win && !battle.gameObject.GetComponent<TutorialEnemy>())
+        {
+            Destroy(currentEnemy.gameObject);
+            /*for (int i = 0; i < 101; i++)
+            {
+                BlackScreen.color = new Color(0, 0, 0, BlackScreen.color.a + 0.01f);
+                yield return new WaitForSeconds(0.01f);
+            }
+            BlackScreen.color = new Color(0, 0, 0, 0);*/
+        }
+        Destroy(battle.gameObject);
+        //GameObject thing = GameObject.Find("FullBattlePrefab");
+        battlePrefab.SetActive(false);
+        nm.combatUI.SetActive(false);
+        currentEnemy = null;
+
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
     }

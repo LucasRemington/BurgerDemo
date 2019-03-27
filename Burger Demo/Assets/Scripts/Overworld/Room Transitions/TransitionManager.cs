@@ -77,6 +77,7 @@ public class TransitionManager : MonoBehaviour
     {
         player.GetComponent<OverworldMovement>().canMove = false;
 
+        fadeOutScreen.enabled = true;
         StopCoroutine(WaitForLoad(index, scene, flip, autoSave));
         StopCoroutine(FadeImageToFullAlpha(0.5f, fadeOutScreen));
         StartCoroutine(FadeImageToFullAlpha(0.5f, fadeOutScreen));
@@ -120,9 +121,9 @@ public class TransitionManager : MonoBehaviour
 
     public IEnumerator FadeImageToFullAlpha(float t, Image i) //used to fade in and fade out scene, and controls UI for death
     {
-        foreach (Transform exit in currentTracker.GetComponent<TransitionTracker>().exitList) {
+        /*foreach (Transform exit in currentTracker.GetComponent<TransitionTracker>().exitList) {
             exit.gameObject.GetComponent<TransitionExit>().warping = false;
-        }
+        }*/
         i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
         coCalled = false;
         while (i.color.a < 1.0f)

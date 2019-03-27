@@ -17,7 +17,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300002, guid: 759e765beeb001a48b203d74fdcf49f4, type: 3}
     DialogueText: "You\u2019re new here? Be careful around the fryers."
     ChoiceText: []
-    CharacterName: Fryer Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -93,7 +93,7 @@ MonoBehaviour:
     DialogueText: If you fall in, the grease will devour your soul and turn you into
       a monster.
     ChoiceText: []
-    CharacterName: Fryer Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -168,7 +168,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300004, guid: 759e765beeb001a48b203d74fdcf49f4, type: 3}
     DialogueText: "On the plus side, you\u2019ll also taste delicious."
     ChoiceText: []
-    CharacterName: Fryer Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -243,7 +243,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300000, guid: 759e765beeb001a48b203d74fdcf49f4, type: 3}
     DialogueText: "So...it\u2019s probably a fair trade."
     ChoiceText: []
-    CharacterName: Fryer Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:

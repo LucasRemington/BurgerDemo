@@ -61,7 +61,8 @@ public class NarrativeManager : MonoBehaviour {
     [HideInInspector] public bool choiceFilling = false; // Whether choice text is still filling out: you can't skip this, so we wait until it fills out. Also helps with back to back choices.
 
     [HideInInspector] public bool gameStarted; // If the player has watched the cutscene at the very beginning of the game already, don't play it whenever they enter the freezer.
-    
+
+    [HideInInspector] public bool BattleWon = false; // active if you have killed the enemy, for narrative purposes.
 
     private bool spaceHeld;
     private float textTime = 0.01f;
@@ -126,6 +127,9 @@ public class NarrativeManager : MonoBehaviour {
                 break;
             case 3:
                 StartCoroutine(ns1.eventThree());
+                break;
+            case 4:
+                StartCoroutine(ns1.eventFour());
                 break;
         }
     }

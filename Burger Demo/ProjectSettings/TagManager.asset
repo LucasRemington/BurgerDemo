@@ -30,6 +30,7 @@ TagManager:
   - SaveIcon
   - HealthBar
   - LouNote
+  - Music
   layers:
   - Default
   - TransparentFX

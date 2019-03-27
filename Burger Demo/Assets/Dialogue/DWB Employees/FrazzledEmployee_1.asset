@@ -17,7 +17,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300002, guid: f2fef2b54f2122e45824544219075fce, type: 3}
     DialogueText: "I told Dennis that I don\u2019t get paid enough to deal with customers."
     ChoiceText: []
-    CharacterName: Frazzled Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -92,7 +92,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300000, guid: f2fef2b54f2122e45824544219075fce, type: 3}
     DialogueText: "And then he told me I don\u2019t get paid at all."
     ChoiceText: []
-    CharacterName: Frazzled Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -167,7 +167,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300012, guid: f2fef2b54f2122e45824544219075fce, type: 3}
     DialogueText: "So that\u2019s fair."
     ChoiceText: []
-    CharacterName: Frazzled Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:

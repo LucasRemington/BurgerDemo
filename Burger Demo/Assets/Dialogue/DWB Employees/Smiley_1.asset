@@ -17,7 +17,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300000, guid: b8f2e09f31f40214eb0622910e149503, type: 3}
     DialogueText: The Queen is the the most beautiful woman in the land.
     ChoiceText: []
-    CharacterName: Smiling Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -93,7 +93,7 @@ MonoBehaviour:
     DialogueText: I used to think about her all the time. I told Dennis about it,
       so he showed me a really great training video, and I stopped thinking.
     ChoiceText: []
-    CharacterName: Smiling Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -169,7 +169,7 @@ MonoBehaviour:
     DialogueText: "If you\u2019re having any thoughts, be sure to tell someone, okay?
       I wouldn\u2019t want you to fall behind because of something silly."
     ChoiceText: []
-    CharacterName: Smiling Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:

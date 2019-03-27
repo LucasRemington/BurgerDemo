@@ -673,7 +673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1309156662356528
 GameObject:
   m_ObjectHideFlags: 1
@@ -1246,7 +1246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1586125237531120
 GameObject:
   m_ObjectHideFlags: 1
@@ -2256,7 +2256,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1269713704993422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.27467, y: 8.350078, z: 0}
+  m_LocalPosition: {x: 1.85, y: 1.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4141025590790068}
@@ -2298,7 +2298,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1307309391771030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.12, y: 0.92, z: 4.912109}
+  m_LocalPosition: {x: -4.172, y: -1.788568, z: 4.912109}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 224363786070925918}
@@ -3311,7 +3311,7 @@ MonoBehaviour:
   damageType: 2
   mask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3379
 --- !u!114 &114016939781719678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3526,7 +3526,7 @@ MonoBehaviour:
   walk:
   - {fileID: 8300000, guid: 4d8080f566175ff498470d5fa457f64b, type: 3}
   - {fileID: 8300000, guid: 5741e1107710fb44fa3441ebe26ce8a5, type: 3}
-  climb: {fileID: 8300000, guid: 10840084f14c95a4086656831620f383, type: 3}
+  climb: {fileID: 8300000, guid: 80172e8eb722faf4fa5426b61a2f33c0, type: 3}
   step: 0
   sm: {fileID: 114333746999105258}
 --- !u!114 &114072104913538054
@@ -3932,6 +3932,7 @@ MonoBehaviour:
   choiceMade: 0
   choiceFilling: 0
   gameStarted: 0
+  BattleWon: 0
 --- !u!114 &114162853943223200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4443,6 +4444,7 @@ MonoBehaviour:
   - {x: -10, y: -19.5, z: 0}
   Indicator: {fileID: 1549922026284640}
   isReady: 0
+  commandReady: 1
   Player: {fileID: 0}
   choiceText:
   - {fileID: 1961497402969330}
@@ -5091,6 +5093,8 @@ MonoBehaviour:
   animationFlag: 0
   timerFlag: 0
   masterHologram: {fileID: 1575028108838074, guid: 38e96c5bf014df745b2f11ecd2ff2bb1,
+    type: 2}
+  BattleDixie: {fileID: 1129177481651490, guid: 831f0a67f25a8e449b9555b3f4b412b4,
     type: 2}
 --- !u!114 &114415164915386212
 MonoBehaviour:
@@ -6445,6 +6449,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 90e6f023b9791694fb7f9c0a385d33bb, type: 2}
   - {fileID: 11400000, guid: 5cb29c0074ad5d24b830b608e6c260cd, type: 2}
   - {fileID: 11400000, guid: 18fa87e6b3771cc4591c2e040a2442e6, type: 2}
+  - {fileID: 11400000, guid: fce3b28ca1ce38f48b1b944f125783f0, type: 2}
   scriptedConvo: 
   scriptedConvoStart: 
   scriptedConvoDone: 
@@ -6993,6 +6998,7 @@ MonoBehaviour:
   ingRowTwoUnlocked: 0
   ingRowThreeUnlocked: 0
   battleIntro: {fileID: 1890181662025220}
+  BlackScreen: {fileID: 0}
   battling: 0
 --- !u!114 &114819053648698940
 MonoBehaviour:

@@ -17,7 +17,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300004, guid: b28c8a47aac797f47be8a30ed55420b9, type: 3}
     DialogueText: '...'
     ChoiceText: []
-    CharacterName: Toy Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:
@@ -92,7 +92,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300006, guid: b28c8a47aac797f47be8a30ed55420b9, type: 3}
     DialogueText: 'I regret nothing. '
     ChoiceText: []
-    CharacterName: Toy Employee
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:

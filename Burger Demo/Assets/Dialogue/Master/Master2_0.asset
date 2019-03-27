@@ -91,7 +91,7 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300004, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: Select the Serve option from your menu.
+    DialogueText: To serve a customer, select the Serve option from your menu.
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:
@@ -166,7 +166,8 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300002, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: 'Now: serve me however you please.'
+    DialogueText: By selecting Serve, you will drop a bun. Repeat this to drop another,
+      and once more to send it to the customer.
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:
@@ -316,7 +317,7 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300006, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: Press spacebar to select, spacebar to begin, and spacebar when finished.
+    DialogueText: Press A to add Tomato, S to add Lettuce, and D to add Onion.
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:
@@ -391,7 +392,7 @@ MonoBehaviour:
   - Character: 3
     CharacterPosition: 1
     CharacterPic: {fileID: 21300004, guid: 8db068eb91c705445a6987ea9619c9a0, type: 3}
-    DialogueText: 'Use A, S, and D to add ingredients. '
+    DialogueText: 'Now: Serve me however you please.'
     ChoiceText: []
     CharacterName: ???
     DialogueTextStyle:

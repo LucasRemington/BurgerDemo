@@ -15,7 +15,7 @@ MonoBehaviour:
   - Character: 0
     CharacterPosition: 0
     CharacterPic: {fileID: 0}
-    DialogueText: It's Locked.
+    DialogueText: It's locked.
     ChoiceText: []
     CharacterName: 
     DialogueTextStyle:

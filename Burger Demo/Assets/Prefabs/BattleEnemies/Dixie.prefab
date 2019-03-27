@@ -37,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1129177481651490}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.848967, y: 8.192415, z: 3.7910144}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 11.848967, y: -1.53, z: 3.7910144}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -179,15 +179,15 @@ MonoBehaviour:
   baseMissChance: 5
   finalMissChance: 0
   cryingStacks: 0
-  baseArmor: 5
-  enemyArmor: 5
+  baseArmor: 0
+  enemyArmor: 0
   vulnKetchup: 0
   vulnMustard: 0
   resistsKetchup: 0
   resistsMustard: 0
   resistsBun: 0
-  baseSpeed: 12
-  enemySpeed: 12
+  baseSpeed: 22
+  enemySpeed: 22
   slowStacks: 0
   baseDamage: 10
   enemyDamage: 10
