@@ -11,7 +11,7 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("The GameController gameobject within the scene. Set this in the inspector!")] public GameObject gameController;
     [HideInInspector] [Tooltip("For being invincible after taking overworld damage.")] public bool invuln;
     [Tooltip("For how long does the player have i-frames after taking overworld damage?")] public float invulnTime;
-    [Tooltip("The Battle Transition script that is on the game controller.")] BattleTransitions battTran;
+    [Tooltip("The Battle Transition script that is on the game controller.")] public BattleTransitions battTran;
 
     [Header("Interaction")]
     [Tooltip("Used to interact with objects.")] public GameObject lastTouched;
@@ -89,6 +89,8 @@ public class OverworldMovement : MonoBehaviour {
         intTriggerBaseOffset = intTrigger.offset;
 
         battTran = gameController.GetComponent<BattleTransitions>();
+        Debug.Log("BattTran set");
+        Debug.Log(battTran);
         damText = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
 
         tempMoveSpeed = moveSpeed;
@@ -130,23 +132,43 @@ public class OverworldMovement : MonoBehaviour {
         
 
         // Here's our movement! We go by time.deltatime so that movement isn't tied to overclocking or framerate.
-        if (!gameController.GetComponent<BattleTransitions>().battling)
+        if (!battTran.battling)
         {
             if (Input.GetKey(KeyCode.RightArrow) && !onLadder && canMove && grounded)
             {
-                transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-                playerAnim.speed = 1f;
-                playerAnim.SetBool("Walking", true);
-                playerSprite.flipX = false;
-                intTrigger.offset = intTriggerBaseOffset;
+                var walkHitRight = WallCheckCast(false);
+                //Debug.Log("Walk Right: " + walkHitRight.collider);
+
+                if (walkHitRight.collider == null)
+                {
+                    transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+                    playerAnim.speed = 1f;
+                    playerAnim.SetBool("Walking", true);
+                    playerSprite.flipX = false;
+                    intTrigger.offset = intTriggerBaseOffset;
+                }
+                else
+                {
+                    playerAnim.SetBool("Walking", false);
+                }
             }
             else if (Input.GetKey(KeyCode.LeftArrow) && !onLadder && canMove && grounded)
             {
-                transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
-                playerAnim.speed = 1f;
-                playerAnim.SetBool("Walking", true);
-                playerSprite.flipX = true;
-                intTrigger.offset = intTriggerBaseOffset * new Vector2(-1, 1);
+                var walkHitLeft = WallCheckCast(true);
+                //Debug.Log("Walk Left: " + walkHitLeft.collider);
+
+                if (walkHitLeft.collider == null)
+                {
+                    transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+                    playerAnim.speed = 1f;
+                    playerAnim.SetBool("Walking", true);
+                    playerSprite.flipX = true;
+                    intTrigger.offset = intTriggerBaseOffset * new Vector2(-1, 1);
+                }
+                else
+                {
+                    playerAnim.SetBool("Walking", false);
+                }
             }
             else if (!onLadder && !grounded)
             {
@@ -280,12 +302,40 @@ public class OverworldMovement : MonoBehaviour {
     }
 
     // Here's the actual raycast for our crouching ceiling detection! First we create a layermask, and add any layers we want to ignore in the inspector.
-    [Header("Layer Mask")] [Tooltip("A matrix of any layers that need to be ignored for crouching raycasts; anything that should not block the player from standing up.")] public LayerMask mask;
+    [Header("Layer Mask")] [Tooltip("A matrix of any layers that need to be ignored for crouching raycasts; anything that should not block the player from standing up. Make sure that everything is selected EXCEPT for: ignore raycast, ladders, and interaction hitbox.")] public LayerMask mask;
     private RaycastHit2D CrouchRaycast()
     {
         // Grab the top of the player's hitbox by multiplying the size of the player's hitbox by their local scale, and dividing it by two; this is the length of the center toward the top. We then add it to the player's y transform!
-        float height = (gameObject.transform.localScale.y * playColl.size.y) / 2;
-        return Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + height), new Vector2(0, 1), 0.55f, mask);
+        float height = (gameObject.transform.localScale.y * playColl.size.y) / 2; // From the center of the player to the top of their current collider
+        float baseHeight = (gameObject.transform.localScale.y * baseCollSize.y) / 2; // See above, except from their standing collider
+        float dist = baseHeight - height;
+
+        return Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + height), new Vector2(0, 1), dist, mask);
+    }
+
+    private RaycastHit2D WallCheckCast(bool faceLeft)
+    {
+        float dist = 0.03f; // A very small float used to judge how far the raycast should check for a wall.
+        float width = (gameObject.transform.localScale.x * playColl.size.x) / 2; // The distance from the center of the player to the edge of their collider.
+        float offsetWidth = (gameObject.transform.localScale.x * playColl.offset.x); // Account for the offset of the collider, too.
+        float modifier = 0.01f; // Just a tiny little float so that the rays don't actually start inside the player, because then it detects the player.
+
+        float height = (gameObject.transform.localScale.y * playColl.size.y) / 2; // Grab the height of the player's collider from center
+        float offsetHeight = (gameObject.transform.localScale.y * playColl.offset.y); // More offset accounting. It should get a secretary at this point.
+        float yPos = gameObject.transform.position.y + offsetHeight + (height / 2); // And now we set the y value of our origin to a 3/4 distance to make sure our head isn't bashing against a ceiling!
+
+        if (faceLeft) // Player moving left
+        {
+            Vector2 origin = new Vector2(gameObject.transform.position.x - width + offsetWidth - modifier, yPos);
+            Debug.DrawRay(origin, new Vector2(-1, 0) * dist, Color.cyan);
+            return Physics2D.Raycast(origin, new Vector2(-1, 0), dist, mask);
+        }
+        else // Player moving right
+        {
+            Vector2 origin = new Vector2(gameObject.transform.position.x + width + offsetWidth + modifier, yPos);
+            Debug.DrawRay(origin, new Vector2(1, 0) * dist, Color.cyan);
+            return Physics2D.Raycast(origin, new Vector2(1, 0), dist, mask);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -615,6 +665,12 @@ public class OverworldMovement : MonoBehaviour {
         
         battTran.playerHealth -= damage;
 
+        if (battTran.playerHealth <= 0)
+        {
+            canMove = false;
+            //OverworldDeath();
+        }
+
         playerAnim.SetInteger("Health", battTran.playerHealth);
         playerAnim.SetInteger("Damage", damage);
 
@@ -645,14 +701,15 @@ public class OverworldMovement : MonoBehaviour {
         Debug.Log("Health: " + battTran.playerHealth);
         
         yield return new WaitForSeconds(flDamageTextTime);
-        damText.enabled = false;
-        damText.color = tempColor;
 
         if (battTran.playerHealth <= 0)
         {
-            canMove = false;
+            //canMove = false;
             OverworldDeath();
         }
+
+        damText.enabled = false;
+        damText.color = tempColor;
 
         playerAnim.SetInteger("Damage", 0);
 

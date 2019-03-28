@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: GreaseTrap
   m_EditorClassIdentifier: 
   DialogItems:
-  - Character: 1
+  - Character: 0
     CharacterPosition: 0
     CharacterPic: {fileID: 0}
     DialogueText: A vat made to contain runoff grease and dissolve any meat that falls
@@ -88,7 +88,7 @@ MonoBehaviour:
       m_StretchHeight: 0
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
-  - Character: 1
+  - Character: 0
     CharacterPosition: 0
     CharacterPic: {fileID: 0}
     DialogueText: '...this includes careless employees.'
@@ -163,7 +163,7 @@ MonoBehaviour:
       m_StretchHeight: 0
     TextPlayBackSpeed: 0
     PlayBackSoundFile: {fileID: 0}
-  - Character: 1
+  - Character: 0
     CharacterPosition: 0
     CharacterPic: {fileID: 0}
     DialogueText: Yes, this includes you.

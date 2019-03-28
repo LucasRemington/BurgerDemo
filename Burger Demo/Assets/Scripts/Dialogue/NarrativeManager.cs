@@ -78,7 +78,7 @@ public class NarrativeManager : MonoBehaviour {
     public void Start () //note that the Narrative Script and each sub-script are intended to be on the same object. Other scripts currently reference MainCamera, so use that.
     {
         CheckEvent();
-        StartCoroutine(combatUIOn());
+        //StartCoroutine(combatUIOn());
         ClearText();
        
     }

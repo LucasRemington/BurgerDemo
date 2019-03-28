@@ -15,6 +15,8 @@ public class PseudoStart : MonoBehaviour {
     public GameObject player;
     public GameObject MainCamera;
     public BurgerComponentInstantiator BCI;
+    public Vector3 minCameraPos;
+    public Vector3 maxCameraPos;
 
     public int Identity;
 
@@ -25,6 +27,8 @@ public class PseudoStart : MonoBehaviour {
         ns1 = MainCamera.GetComponent<NarrativeScript1>();
         dh = MainCamera.GetComponent<DialogueHolder>();
         fp = MainCamera.GetComponent<FollowPlayer>();
+        fp.minCameraPos = minCameraPos;
+        fp.maxCameraPos = maxCameraPos;
         playerHolder = GameObject.FindGameObjectWithTag("Player");
         player = playerHolder.transform.Find("OverworldPlayer").gameObject;
         ovm = player.GetComponent<OverworldMovement>();

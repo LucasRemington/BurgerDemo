@@ -51,6 +51,7 @@ public class NarrativeScript1 : MonoBehaviour {
     public GameObject masterHologram;
 
     [Tooltip("SET THIS IN THE INSPECTOR. its prefabs/battleEnemies/Dixie")]public GameObject BattleDixie;
+    public Sprite DixieBattleFace;
 
     public void PseudoStart ()
     {
@@ -267,6 +268,7 @@ public class NarrativeScript1 : MonoBehaviour {
         dennis = dennis.transform.Find("dennis").gameObject;
         dennisAnim = dennis.GetComponent<Animator>();
         dennisAnim.SetBool("SitImmediate", true);
+        bool left = false;
         if (dennis.transform.position.x < player.transform.position.x)
         {
             dennis.GetComponent<SpriteRenderer>().flipX = true;
@@ -274,6 +276,7 @@ public class NarrativeScript1 : MonoBehaviour {
         }
         else
         {
+            left = true;
             dennis.GetComponent<SpriteRenderer>().flipX = false;
             StartCoroutine(sm.MoveTo(dennis, new Vector3(-3.04f, 0, 0), 0.01f));
             playerSR.flipX = false;
@@ -290,7 +293,7 @@ public class NarrativeScript1 : MonoBehaviour {
         convoDone = false;
 
         nm.dbAnim.ResetTrigger("Popdown");
-        if (dennis.transform.position.x < player.transform.position.x)
+        if (!left)
             convoStartNS1(11);
         else
             convoStartNS1(13);
@@ -299,7 +302,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return new WaitForSeconds(2);
         dennisAnim.SetInteger("Scene1", 0);
-        if (dennis.transform.position.x < player.transform.position.x)
+        if (!left)
         {
             dennis.GetComponent<SpriteRenderer>().flipX = false;
             StartCoroutine(sm.MoveTo(dennis, new Vector3(-4.58f, 0, 0), 1f));
@@ -313,7 +316,9 @@ public class NarrativeScript1 : MonoBehaviour {
         dennisAnim.SetInteger("Scene2", 6);
         yield return new WaitUntil(() => sm.finished);
         dennis.GetComponent<SpriteRenderer>().flipX = false;
-        
+        nm.bt.ingredients[1] = 15;
+        nm.bt.ingredients[2] = 15;
+        nm.bt.ingredients[3] = 15;
         dennisAnim.SetTrigger("ResetSitting");
         nm.ev++;
         nm.CheckEvent();
@@ -327,7 +332,7 @@ public class NarrativeScript1 : MonoBehaviour {
         dennis = GameObject.FindGameObjectWithTag("Dennis");
         dennisAnim = dennis.GetComponent<Animator>();
         Debug.Log("move now");
-        StartCoroutine(sm.MoveTo(dennis, new Vector3(2.2f, 0, 0), 0.1f));
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(1f, 0, 0), 0.1f));
         yield return new WaitUntil(() => sm.finished);
         dennis.GetComponent<SpriteRenderer>().flipX = false;
         convoStartNS1(12);
@@ -348,10 +353,16 @@ public class NarrativeScript1 : MonoBehaviour {
     public IEnumerator eventFour() {
         Debug.Log("Event 4 start");
         animationFlag = false;
+        yield return new WaitUntil(() => nm.room == 4);
+        nm.imageTSCombat.sprite = DixieBattleFace;
+        nm.nameTSCombat.text = "Dixie";
+        playerSR.flipX = false;
+        MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
         yield return new WaitUntil(() => animationFlag);
         StartCoroutine(nm.bt.StartBattle(BattleDixie));
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         StartCoroutine(nm.dialogueEnd());
+        
     }
     
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
@@ -516,9 +527,13 @@ public class NarrativeScript1 : MonoBehaviour {
                 StartCoroutine(sm.MoveTo(dennis, new Vector3(0.2f, 0, 0), 0.1f)); // Quickly slide Dennis just a tad over to his button so he can hit it properly.
                 yield return new WaitUntil(() => animationFlag == true);
                 animationFlag = false;
-                sm = player.GetComponent<ScriptedMovement>();
-                StartCoroutine(sm.MoveTo(player, new Vector3(7.8f, 0, 0), 0.8f));   //And then the player is sent off to the training hallway!    
+
                 playerSR.flipX = true;
+                yield return new WaitForSeconds(0.5f); // Flip the player, wait a brief moment, and THEN they go flying.
+
+                sm = player.GetComponent<ScriptedMovement>();
+                StartCoroutine(sm.MoveTo(player, new Vector3(7.8f, 0, 0), 0.5f));   //And then the player is sent off to the training hallway!    
+                //playerSR.flipX = true;
                 dennisAnim.SetInteger("Scene1", 15);
                 playerAnim.SetTrigger("OfficeDennis");
                 dh.ongoingEvent = false;

@@ -68,6 +68,7 @@ public class BattleTransitions : MonoBehaviour {
         currentEnemy = enemy;
         battleIntro.SetActive(true);
         battleIntro.GetComponent<Animator>().Play("Intro1");
+        StartCoroutine(nm.combatUIOn());
         yield return new WaitForSeconds(0.3f);
         battling = true;
         yield return new WaitForSeconds(0.1f);
@@ -115,7 +116,7 @@ public class BattleTransitions : MonoBehaviour {
         playerHealth = ph.playerHealth + 20;
         if (playerHealth > playerHealthMax)
             playerHealth = playerHealthMax;
-        nm.ns1.winLossText.text = "";
+        nm.ns1.winLossText.text = "Press Space to continue...";
         /*for (int i = 0; i < 101; i++)
         {
             nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);

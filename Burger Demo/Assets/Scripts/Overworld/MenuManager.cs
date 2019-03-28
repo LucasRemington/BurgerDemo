@@ -172,7 +172,8 @@ public class MenuManager : MonoBehaviour {
 
 	IEnumerator openMenu () //This is a complex function. TLDR it controls how the menu opens and closes. 
     {
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && ovm.canMove && !mainMenu && saveLoad.blackScreen.color.a <= 0) || (mainMenu && animFlag && !mainMenuDone)); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
+        // We can only pause if: we are in the main menu and it ain't done yet; or if we're in the overworld (not battling), not in a cutscene, and our screen isn't mid-fade.
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Escape) && ovm.canMove && !mainMenu && saveLoad.blackScreen.color.a <= 0 && !bt.battling) || (mainMenu && animFlag && !mainMenuDone)); //in-game, the function is called on esc press. In the mainmenu, it's called after the logo animation ends.
         // Checks first to see if we've visited a meat locker at some point so we can gray out the option if need be.
         if (saveLoad.meatLockerList == null || saveLoad.meatLockerList.Count <= 0)
         {

@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/mspilla4/Documents/Build/Burger Demo.exe
+C:/Users/mspilla4/Documents/Build/Mono/Burger Demo.exe
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/OriginFreezer.unity
@@ -23,7 +23,7 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
-8e7f77ff26066a599e1def29bca7be04 Assembly-CSharp.dll:.OverworldMovement
+b5c3ff4ad2adbe5f4a8098a361cf1cc6 Assembly-CSharp.dll:.OverworldMovement
 915e09d5021ae95fd75b75aea3f5d446 Assembly-CSharp.dll:.RoomEventChecker
 f6637497451c9a030c421de4a1ad5cdb Unity.TextMeshPro.dll:TMPro.TMP_ScrollbarEventHandler
 894f49c27332d41f6ae29e0b57ebd5e1 Assembly-CSharp.dll:.ScriptedMovement
@@ -132,7 +132,7 @@ e92a39fb7e3b19554af137dbdc2ad06e Assembly-CSharp.dll:.Door
 0a006f3734181ba8b26758f0866152c0 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 e1e9e5275b3646cb1cbc070bb26026ac Assembly-CSharp.dll:.UIActivate
 5b9b2f59726c6ff8c5be027e767006cf Assembly-CSharp.dll:.Interactable
-08fccf76c1fe3669937aea826e56bd1b Assembly-CSharp.dll:.PseudoStart
+52cd5c3e536109ef5d5c717fadd68738 Assembly-CSharp.dll:.PseudoStart
 f895e2a30329ae03a8d6f490dfea8743 Assembly-CSharp.dll:.BackgroundMusic
 382b8ef512fa8d6108723a01b57af65b UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
 d22c788799ee45d8676254eccf20e8b8 UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
@@ -151,7 +151,7 @@ dfd33ff9ae3ce8d7ca1f22b475ec2387 UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 7799f6fa21687abe993f68f997d7c775 Assembly-CSharp.dll:.NarrativeManager
 20fc26ca16d21e3a7c55dfa6842837d3 Assembly-CSharp.dll:.SaveLoad
 648c249e8198aed2240678c6dcd8e752 Assembly-CSharp.dll:.Sign
-b7d1759ed184c232fe043f47d509730e Assembly-CSharp.dll:.NarrativeScript1
+9078249ff33fb7f3c758c3c56ca25ac3 Assembly-CSharp.dll:.NarrativeScript1
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.TurnOffWhenDone
 f16835701e71dd5d6fb1fed4b7aff1d8 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 f0987faf14527267f4b87dd3645db2c0 Assembly-CSharp.dll:.DBAnimEvents
@@ -200,7 +200,7 @@ e033f131358cea5a0eabf9561e781deb UnityEngine.TestRunner.dll:UnityEngine.TestTool
 28a95668dd28649297d595834fe8417e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
 28a95668dd28649297d595834fe8417e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSourceExtension
 6a93394d521435c5becc274bd87d07c4 Assembly-CSharp.dll:.LouNoteHolder
-832d563b772580e3ef0b80a5042ac060 Assembly-CSharp.dll:.FollowPlayer
+ec09ccda437a16ee9207e6e2594d2e29 Assembly-CSharp.dll:.FollowPlayer
 d75dc834c5dec688db75a55a1724c90f UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
 486cd95c82d8305219c352c06b776e1f UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInput
 e1ea12ca952c81d81a9a21fdf34446ed UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule

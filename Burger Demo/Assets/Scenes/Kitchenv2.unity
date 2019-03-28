@@ -11429,7 +11429,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.8939996
+      value: -6.49
       objectReference: {fileID: 0}
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -11467,7 +11467,7 @@ Prefab:
     - target: {fileID: 212027574846672136, guid: 24d08c5b2bae6ae42ac682341793a82f,
         type: 2}
       propertyPath: m_FlipX
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1994518287575022, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_IsActive
@@ -38513,6 +38513,31 @@ Prefab:
     - target: {fileID: 4266350002706700, guid: 78fc30d568075154a81a495464753975, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114312471662796292, guid: 78fc30d568075154a81a495464753975,
+        type: 2}
+      propertyPath: minCameraPos.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114312471662796292, guid: 78fc30d568075154a81a495464753975,
+        type: 2}
+      propertyPath: minCameraPos.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114312471662796292, guid: 78fc30d568075154a81a495464753975,
+        type: 2}
+      propertyPath: maxCameraPos.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 114312471662796292, guid: 78fc30d568075154a81a495464753975,
+        type: 2}
+      propertyPath: maxCameraPos.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 114312471662796292, guid: 78fc30d568075154a81a495464753975,
+        type: 2}
+      propertyPath: Identity
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78fc30d568075154a81a495464753975, type: 2}

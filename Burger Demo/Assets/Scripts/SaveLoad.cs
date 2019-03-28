@@ -309,10 +309,14 @@ public class SaveLoad : MonoBehaviour
         // Fade back in. We wait until it's done doing so before we can move; we can change this to an animation trigger instead later on.
 
         player.SetActive(true);
+
+        narrMan.owm.playerAnim.SetInteger("Health", battTran.playerHealth); // Set a quick animation value so we aren't in a state of slurried meat when we respawn.
+        narrMan.owm.playerAnim.SetTrigger("ResetIdle");
+
         StartCoroutine(FadeImageToZeroAlpha(1.5f, blackScreen));
         yield return new WaitUntil(() => blackScreen.color.a <= 0);
         
-        player.GetComponent<OverworldMovement>().canMove = true;
+        narrMan.owm.canMove = true;
     }
 
     // Update the information in our save data.
@@ -336,7 +340,7 @@ public class SaveLoad : MonoBehaviour
         saveData.gameStarted = narrMan.gameStarted;
 
         saveData.narrManEventNo = narrMan.ev;
-        saveData.narrManEventNo = narrMan.room;
+        saveData.narrManRoomNo = narrMan.room;
 
         saveData.louNotesSeen = louNotesSeen;
         saveData.louDone = louDone;
@@ -349,7 +353,7 @@ public class SaveLoad : MonoBehaviour
         if (SceneManager.GetActiveScene().name != saveData.currentScene)
         {
             SceneManager.LoadScene(saveData.currentScene);
-        }
+        }        
 
         battTran.playerHealth = saveData.currentHealth;
         battTran.playerHealthMax = saveData.healthMax;

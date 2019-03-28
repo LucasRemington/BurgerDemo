@@ -73,9 +73,7 @@ public class EnemyBehavior : MonoBehaviour {
     private void Awake() // this is just to set some things when its being instantiated freely
     {
         gameController = GameObject.FindGameObjectWithTag("GameController");
-        StartCoroutine(StartSets());
-        burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(3).gameObject;
-        BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
+        StartCoroutine(StartSets());        
     }
 
     void Start () {
@@ -399,30 +397,34 @@ public class EnemyBehavior : MonoBehaviour {
 
     public IEnumerator StartSets() {
         while (/*clock == null || clockAnim == null ||*/ start == null || end == null || secondsText == null || HealthText == null || healthBar == null || cheese == null || cheeseText == null || tearText == null || tear == null || GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target == null || GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target == null) {
-            start = GameObject.Find("EnemyStart").transform;
-            end = GameObject.Find("EnemyEnd").transform;
-            aboveText[0] = GameObject.Find("AboveText").GetComponent<TextMesh>();
-            aboveText[1] = GameObject.Find("AboveText (1)").GetComponent<TextMesh>();
-            aboveText[2] = GameObject.Find("AboveText (2)").GetComponent<TextMesh>();
-            aboveText[3] = GameObject.Find("AboveText (3)").GetComponent<TextMesh>();
-            aboveText[4] = GameObject.Find("AboveText (4)").GetComponent<TextMesh>();
-            aboveText[5] = GameObject.Find("AboveText (5)").GetComponent<TextMesh>();
-            aboveText[6] = GameObject.Find("AboveText (6)").GetComponent<TextMesh>();
-            aboveText[7] = GameObject.Find("AboveText (7)").GetComponent<TextMesh>();
-            aboveText[8] = GameObject.Find("AboveText (8)").GetComponent<TextMesh>();
-            secondsText = GameObject.Find("enemytimer").GetComponent<Text>();
-            HealthText = GameObject.Find("HealthText").GetComponent<TextMesh>();
+            GameObject BattlePrefab = GameObject.FindGameObjectWithTag("BattlePrefab").transform.Find("FullBattlePrefab").gameObject;
+            GameObject CombatUI = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("Canvas").Find("CombatUI").gameObject;
+            start = BattlePrefab.transform.Find("EnemyStart").transform;
+            end = BattlePrefab.transform.Find("EnemyEnd").transform;
+            aboveText[0] = BattlePrefab.transform.Find("AboveText").GetComponent<TextMesh>();
+            aboveText[1] = BattlePrefab.transform.Find("AboveText (1)").GetComponent<TextMesh>();
+            aboveText[2] = BattlePrefab.transform.Find("AboveText (2)").GetComponent<TextMesh>();
+            aboveText[3] = BattlePrefab.transform.Find("AboveText (3)").GetComponent<TextMesh>();
+            aboveText[4] = BattlePrefab.transform.Find("AboveText (4)").GetComponent<TextMesh>();
+            aboveText[5] = BattlePrefab.transform.Find("AboveText (5)").GetComponent<TextMesh>();
+            aboveText[6] = BattlePrefab.transform.Find("AboveText (6)").GetComponent<TextMesh>();
+            aboveText[7] = BattlePrefab.transform.Find("AboveText (7)").GetComponent<TextMesh>();
+            aboveText[8] = BattlePrefab.transform.Find("AboveText (8)").GetComponent<TextMesh>();
+            secondsText = CombatUI.transform.Find("enemytimer").GetComponent<Text>();
+            HealthText = BattlePrefab.transform.Find("HealthText").GetComponent<TextMesh>();
             healthBar = GameObject.Find("EnemyHealth_0").GetComponent<Animator>();
             //clock = GameObject.Find("ClockUI");
             //clockAnim = GameObject.Find("ClockUI").GetComponent<Animator>();
-            cheeseText = HealthText.transform.GetChild(1).gameObject.GetComponent<TextMesh>();
-            cheese = HealthText.transform.GetChild(4).gameObject;
+            cheeseText = HealthText.transform.Find("cheesetext").gameObject.GetComponent<TextMesh>();
+            cheese = HealthText.transform.Find("cheese slow_0").gameObject;
             cheeseAnim = cheese.GetComponent<Animator>();
-            tearText = HealthText.transform.GetChild(2).gameObject.GetComponent<TextMesh>();
-            tear = HealthText.transform.GetChild(3).gameObject;
+            tearText = HealthText.transform.Find("TearText").gameObject.GetComponent<TextMesh>();
+            tear = HealthText.transform.Find("Tear (1)_0").gameObject;
             tearAnim = tear.GetComponent<Animator>();
             GameObject.Find("HealthText").GetComponent<FollowWithOffset>().target = this.gameObject.transform;
             GameObject.Find("EnemyHealth_0").GetComponent<FollowWithOffset>().target = this.gameObject.transform;
+            burgerSpawner = CombatUI.transform.Find("BurgerSpawner").gameObject;
+            BCI = burgerSpawner.GetComponent<BurgerComponentInstantiator>();
             for (int i = 0; i < aboveText.Length; i++) {
                 aboveText[i].GetComponent<FollowWithOffset>().stop = false;
             }
