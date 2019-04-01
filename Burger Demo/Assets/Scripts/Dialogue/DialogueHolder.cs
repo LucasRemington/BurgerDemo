@@ -149,7 +149,7 @@ public class DialogueHolder : MonoBehaviour {
         }
     }*/
 
-    public IEnumerator GenericInteractableNew(Dialogue dia, GameObject theObject) //Trying a new spin on the generic interactable script, this time not requiring you to link indexes. In this case, 0 in the array should be left empty of any sort of dialogue and will be a default index, but won't read from there. Instead, only dialogues that want to be checked for "has been used" need be added, and are found dynamically.
+    public IEnumerator GenericInteractableNew(Dialogue dia, GameObject theObject, bool isNPC) //Trying a new spin on the generic interactable script, this time not requiring you to link indexes. In this case, 0 in the array should be left empty of any sort of dialogue and will be a default index, but won't read from there. Instead, only dialogues that want to be checked for "has been used" need be added, and are found dynamically.
     {
         int interactableIdentity = 0;
         foreach (Dialogue dialogue in Interactable)
@@ -163,7 +163,7 @@ public class DialogueHolder : MonoBehaviour {
         if (interactConvoStart[interactableIdentity] == false)
         {
             interactConvoStart[interactableIdentity] = true;
-            if (!dia.DialogItems[interactConvo[interactableIdentity]].CharacterPic)
+            if (!isNPC)
             {
                 StartCoroutine(nm.dialogueBox(false));
             }
@@ -173,11 +173,22 @@ public class DialogueHolder : MonoBehaviour {
             }
             sizeOfListInteractable = dia.DialogItems.Count;
         }
-        if(dia.DialogItems[interactConvo[interactableIdentity]].CharacterPic) {
+        if (isNPC)
+        {
+            float dir = nm.player.transform.position.x - theObject.transform.position.x;
+            if (dir > 0) // If the player is to the right of the NPC.
+            {
+                theObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else // If the player is directly on top of or to the left of the NPC.
+            {
+                theObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
+
             nm.imageTS.sprite = dia.DialogItems[interactConvo[interactableIdentity]].CharacterPic;
             nm.nameTS.text = dia.DialogItems[interactConvo[interactableIdentity]].CharacterName;
         }
-        Debug.Log(i);
+        //Debug.Log(i);
         if(theObject.GetComponent<Animator>())
             theObject.GetComponent<Animator>().SetInteger("AnimInt", i);
         i++;
@@ -203,7 +214,7 @@ public class DialogueHolder : MonoBehaviour {
         }
         else
         {
-            StartCoroutine(GenericInteractableNew(dia, theObject));
+            StartCoroutine(GenericInteractableNew(dia, theObject, isNPC));
         }
     }
 

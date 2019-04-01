@@ -12,7 +12,8 @@ public class InteractDia : MonoBehaviour {
     private Animator playerAnim;
     private GenericSounds gs;
     private MenuManager menuManager;
-    [HideInInspector] public bool canInteract = true; 
+    [HideInInspector] public bool canInteract = true;
+    [HideInInspector] public bool isNPC;
 
     /*[Tooltip("The index of the first dialogue in the dialogue holder's interactable list.")] public int identity;
     
@@ -35,6 +36,11 @@ public class InteractDia : MonoBehaviour {
         dh = MainCamera.GetComponent<DialogueHolder>();
         gs = player.GetComponent<GenericSounds>();
         menuManager = MainCamera.GetComponentInChildren<MenuManager>();
+
+        if (dialogueList[0].DialogItems[0].CharacterPic) // If there is a talksprite in the first line of dialogue with this interactable, it is deemed an NPC.
+        {
+            isNPC = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision) // Detects when the player is present and can interact.
@@ -55,7 +61,7 @@ public class InteractDia : MonoBehaviour {
             // If our iterator has exceeded our list of dialogues, bring it back one to repeat the last in the list.
             if (i >= dialogueList.Count)
                 i--;            
-                StartCoroutine(dh.GenericInteractableNew(dialogueList[i], this.gameObject));
+                StartCoroutine(dh.GenericInteractableNew(dialogueList[i], this.gameObject, isNPC));
                 StartCoroutine(interactTimer());
                 if (gameObject.tag == "MeatLocker")
                 {

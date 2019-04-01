@@ -235,7 +235,7 @@ public class SaveLoad : MonoBehaviour
             // We cancel the current dialogue and replace it with a new "You refused" piece of dialogue.
             diaHold.CancelDialogue(false);
             yield return new WaitUntil(() => narrMan.dbChoiceSS);
-            diaHold.StartCoroutine(diaHold.GenericInteractableNew(refuseDialogue, this.gameObject));
+            diaHold.StartCoroutine(diaHold.GenericInteractableNew(refuseDialogue, this.gameObject, false));
             end = true;
             narrMan.choiceSelected = 0;
         }

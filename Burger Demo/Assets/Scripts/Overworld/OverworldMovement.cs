@@ -11,7 +11,7 @@ public class OverworldMovement : MonoBehaviour {
     [Tooltip("The GameController gameobject within the scene. Set this in the inspector!")] public GameObject gameController;
     [HideInInspector] [Tooltip("For being invincible after taking overworld damage.")] public bool invuln;
     [Tooltip("For how long does the player have i-frames after taking overworld damage?")] public float invulnTime;
-    [Tooltip("The Battle Transition script that is on the game controller.")] public BattleTransitions battTran;
+    [Tooltip("The Battle Transition script that is on the game controller.")] BattleTransitions battTran;
 
     [Header("Interaction")]
     [Tooltip("Used to interact with objects.")] public GameObject lastTouched;
@@ -89,8 +89,6 @@ public class OverworldMovement : MonoBehaviour {
         intTriggerBaseOffset = intTrigger.offset;
 
         battTran = gameController.GetComponent<BattleTransitions>();
-        Debug.Log("BattTran set");
-        Debug.Log(battTran);
         damText = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
 
         tempMoveSpeed = moveSpeed;
