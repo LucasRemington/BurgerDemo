@@ -237,7 +237,7 @@ public class NarrativeScript1 : MonoBehaviour {
     }
 
     public IEnumerator eventTwo() {
-        Debug.Log("event 2");
+        Debug.Log("Event 2 Start");
         yield return new WaitUntil(() => nm.room == 2 || nm.room == 0);
         player.GetComponent<OverworldMovement>().grounded = false;
         dh.CancelDialogue(true);
@@ -325,6 +325,7 @@ public class NarrativeScript1 : MonoBehaviour {
     }
 
     public IEnumerator eventThree() {
+        Debug.Log("Event 3 start");
         yield return new WaitUntil(() => nm.room == 4);
         GetComponent<FollowPlayer>().battleCamera = new Vector3(-44, 10, -1);
         player.GetComponent<OverworldMovement>().canMove = false;
@@ -362,6 +363,16 @@ public class NarrativeScript1 : MonoBehaviour {
         StartCoroutine(nm.bt.StartBattle(BattleDixie));
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(nm.dialogueEnd());
+        yield return new WaitUntil(() => nm.bci.gameObject);
+        nm.bci.isTutorial = false;
+        yield return new WaitUntil(() => nm.BattleDone);
+        if (!nm.BattleWon)
+        {
+            nm.CheckEvent();
+        }
+        else {
+
+        }
         
     }
     
@@ -407,7 +418,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 12:
                 StartCoroutine(DennisConvo3(dia, scriptedConvo));
-                Debug.Log("calls the thing");
+                //Debug.Log("calls the thing");
                 break;
             case 13:
                 StartCoroutine(DennisConvo2(dia, scriptedConvo));

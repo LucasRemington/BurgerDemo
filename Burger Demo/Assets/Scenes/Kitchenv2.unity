@@ -38539,6 +38539,11 @@ Prefab:
       propertyPath: maxCameraPos.y
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 114312471662796292, guid: 78fc30d568075154a81a495464753975,
+        type: 2}
+      propertyPath: Identity
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78fc30d568075154a81a495464753975, type: 2}
   m_IsPrefabAsset: 0

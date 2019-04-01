@@ -23,9 +23,9 @@ public class ScriptedMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.M) && finished) {
+        /*if (Input.GetKey(KeyCode.M) && finished) {
             StartCoroutine(MoveTo(this.gameObject, destination, overTime));
-        }
+        }*/
         
 	}
 

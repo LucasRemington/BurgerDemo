@@ -62,6 +62,7 @@ public class NarrativeManager : MonoBehaviour {
 
     [HideInInspector] public bool gameStarted; // If the player has watched the cutscene at the very beginning of the game already, don't play it whenever they enter the freezer.
 
+    [HideInInspector] public bool BattleDone = false; // active if you have finished a battle, for narrative purposes.
     [HideInInspector] public bool BattleWon = false; // active if you have killed the enemy, for narrative purposes.
 
     private bool spaceHeld;

@@ -64,6 +64,7 @@ public class BattleTransitions : MonoBehaviour {
 	}
 
     public IEnumerator StartBattle(GameObject enemy) {
+        nm.BattleDone = false;
         bci.ingredientINV = ingredients;
         currentEnemy = enemy;
         battleIntro.SetActive(true);
@@ -127,6 +128,10 @@ public class BattleTransitions : MonoBehaviour {
         if (win)
         {
             Destroy(currentEnemy.gameObject);
+            nm.BattleWon = true;
+        }
+        else {
+            nm.BattleWon = false;
         }
         //GameObject thing = GameObject.Find("FullBattlePrefab");
         battlePrefab.SetActive(false);
@@ -135,6 +140,7 @@ public class BattleTransitions : MonoBehaviour {
         currentEnemy = null;
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
+        nm.BattleDone = true;
     }
 
     public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
