@@ -132,6 +132,9 @@ public class NarrativeManager : MonoBehaviour {
             case 4:
                 StartCoroutine(ns1.eventFour());
                 break;
+            case 5:
+                StartCoroutine(ns1.eventFive());
+                break;
         }
     }
 
@@ -253,8 +256,10 @@ public class NarrativeManager : MonoBehaviour {
                     textTS.text = strComplete;
                     i = strComplete.Length;
                 }
-                yield return new WaitForSeconds(0.01f);
-
+                if (dia.DialogItems[convoNumber].TextPlayBackSpeed == 0)
+                    yield return new WaitForSeconds(0.01f);
+                else
+                    yield return new WaitForSeconds(dia.DialogItems[convoNumber].TextPlayBackSpeed);
             }
         }
         else if (bt.battling && !isComplete)
@@ -270,7 +275,10 @@ public class NarrativeManager : MonoBehaviour {
                     textTSCombat.text = strComplete;
                     i = strComplete.Length;
                 }
-                yield return new WaitForSeconds(0.01f);
+                if (dia.DialogItems[convoNumber].TextPlayBackSpeed == 0)
+                    yield return new WaitForSeconds(0.01f);
+                else
+                    yield return new WaitForSeconds(dia.DialogItems[convoNumber].TextPlayBackSpeed);
             }
         }
 

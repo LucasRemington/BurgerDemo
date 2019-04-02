@@ -229,6 +229,12 @@ MonoBehaviour:
   tearText: {fileID: 0}
   tear: {fileID: 0}
   tearAnim: {fileID: 0}
+  RandomBattleQuips:
+  - {fileID: 11400000, guid: 0ac3bdb2c70fd6e4e97ee7238de71dcf, type: 2}
+  - {fileID: 11400000, guid: 14bf223d183c59a4ab2e5aa5e7819bcb, type: 2}
+  - {fileID: 11400000, guid: eb70ad12001569441b790a60303f2d90, type: 2}
+  - {fileID: 11400000, guid: af53bec417a14d4409a5072e76a90449, type: 2}
+  DeathDialogue: {fileID: 11400000, guid: 45cd30633a31df4468ad1fc3b91accf4, type: 2}
 --- !u!212 &212034957412073206
 SpriteRenderer:
   m_ObjectHideFlags: 1

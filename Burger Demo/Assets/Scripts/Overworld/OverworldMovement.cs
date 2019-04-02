@@ -755,8 +755,10 @@ public class OverworldMovement : MonoBehaviour {
     // Called from Hazard.cs to dictate how long the player loses control from slipping for.
     public IEnumerator SlipTimer(float time)
     {
+        GetComponent<Animator>().SetTrigger("Slip");
         yield return new WaitForSeconds(time);
         slipping = false;
+        GetComponent<Animator>().SetTrigger("StopSlip");
     }
 
     public IEnumerator CrouchTimer(float time)
