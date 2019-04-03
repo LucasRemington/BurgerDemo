@@ -357,7 +357,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => nm.room == 4);
         nm.imageTSCombat.sprite = DixieBattleFace;
         nm.nameTSCombat.text = "Dixie";
-        playerSR.flipX = false;
+        //playerSR.flipX = false;
         MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
         yield return new WaitUntil(() => animationFlag);
         StartCoroutine(nm.bt.StartBattle(BattleDixie));
@@ -371,9 +371,14 @@ public class NarrativeScript1 : MonoBehaviour {
             nm.CheckEvent();
         }
         else {
+            nm.ev++;
+            nm.CheckEvent();
+        }           
+    }
 
-        }
-        
+    public IEnumerator eventFive() {
+        yield return null;
+
     }
     
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
