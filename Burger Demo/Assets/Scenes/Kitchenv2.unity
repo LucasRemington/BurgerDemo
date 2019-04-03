@@ -5080,7 +5080,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.8939996
+      value: -5.93
       objectReference: {fileID: 0}
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -35610,6 +35610,7 @@ MonoBehaviour:
   - {fileID: 793392005}
   SpawnLocations:
   - {x: -14.48, y: 7.504, z: 0}
+  constantCheck: 0
 --- !u!4 &1769949750
 Transform:
   m_ObjectHideFlags: 0
