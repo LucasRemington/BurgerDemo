@@ -17,26 +17,11 @@ public class RoomEventChecker : MonoBehaviour {
 
     [Tooltip("This is where things will be Created. Obviously only matters if you are using Create.")] public Vector3[] SpawnLocations;
 
-    [Tooltip("turn this on if you want it to check every frame and not only on load")] public bool constantCheck = false;
-
     private NarrativeManager NarMan;
-    private int oldEvent;
 
     // Use this for initialization
     void Start()
     {
-        CheckIt();
-        oldEvent = NarMan.ev;
-    }
-
-    private void Update()
-    {
-        if (NarMan.ev != oldEvent && constantCheck)
-            CheckIt();
-        oldEvent = NarMan.ev;
-    }
-
-    public void CheckIt() {
         NarMan = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<NarrativeManager>();
         if ((NarMan.ev < eventNumber && When == B4OrAfter.Before) || (NarMan.ev == eventNumber && When == B4OrAfter.During) || (NarMan.ev > eventNumber && When == B4OrAfter.After))
         {

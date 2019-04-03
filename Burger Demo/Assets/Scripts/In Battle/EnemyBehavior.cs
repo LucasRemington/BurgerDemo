@@ -68,9 +68,6 @@ public class EnemyBehavior : MonoBehaviour {
     public GameObject tear;
     public Animator tearAnim;
 
-    public Dialogue[] RandomBattleQuips;
-    public Dialogue DeathDialogue;
-
     private bool dead = false;
 
     private void Awake() // this is just to set some things when its being instantiated freely
@@ -157,12 +154,6 @@ public class EnemyBehavior : MonoBehaviour {
         {
             StartCoroutine(setAboveText("Crying!"));
         }
-
-        if (RandomBattleQuips.Length > 0) {                                                                  //this doesn't necessarily work currently, but hopefully soon
-            int rand = Random.Range(0, RandomBattleQuips.Length - 1);
-            BCI.nm.ns1.dh.GenericInteractableNew(RandomBattleQuips[rand], gameObject, true);
-        }
-
         BCI.StopAllCoroutines();
         BCI.gameObject.SetActive(false);
     }

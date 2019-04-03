@@ -145,11 +145,6 @@ public class BattleTransitions : MonoBehaviour {
 
     public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
-        if (win && currentEnemy.GetComponent<EnemyBehavior>().DeathDialogue != null) {
-            nm.ns1.dh.GenericInteractableNew(currentEnemy.GetComponent<EnemyBehavior>().DeathDialogue, currentEnemy, true);
-            yield return new WaitUntil(() => nm.canAdvance == true);
-            yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
-        }
         yield return new WaitForSeconds(1.5f);
         ingredients = bci.ingredientINV;
         for (int i = 0; i < OverworldObjects.Length; i++)
@@ -179,14 +174,15 @@ public class BattleTransitions : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }*/
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        if (win)
+        if (win && !battle.gameObject.GetComponent<TutorialEnemy>())
         {
             Destroy(currentEnemy.gameObject);
-            nm.BattleWon = true;
-        }
-        else
-        {
-            nm.BattleWon = false;
+            /*for (int i = 0; i < 101; i++)
+            {
+                BlackScreen.color = new Color(0, 0, 0, BlackScreen.color.a + 0.01f);
+                yield return new WaitForSeconds(0.01f);
+            }
+            BlackScreen.color = new Color(0, 0, 0, 0);*/
         }
         Destroy(battle.gameObject);
         //GameObject thing = GameObject.Find("FullBattlePrefab");

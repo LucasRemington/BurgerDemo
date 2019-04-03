@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -110,10 +110,14 @@ MonoBehaviour:
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   controlID: 11
 =======
   controlID: 120
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+  controlID: 86
+>>>>>>> parent of 48bbd9d2... work for tuesday
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,10 +142,14 @@ MonoBehaviour:
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
   controlID: 12
 =======
   controlID: 121
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+  controlID: 87
+>>>>>>> parent of 48bbd9d2... work for tuesday
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,10 +174,14 @@ MonoBehaviour:
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   controlID: 13
 =======
   controlID: 122
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+  controlID: 88
+>>>>>>> parent of 48bbd9d2... work for tuesday
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -213,8 +225,8 @@ MonoBehaviour:
     y: 0
     width: 1719
     height: 886
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -456,14 +468,14 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.9387799
+    - e00: 0.776505
       e01: 0
       e02: 0
-      e03: 153.617
+      e03: 705.7723
       e10: 0
-      e11: 0.9387799
+      e11: 0.776505
       e12: 0
-      e13: -127.570526
+      e13: -166.09613
       e20: 0
       e21: 0
       e22: 1
@@ -473,10 +485,10 @@ MonoBehaviour:
       e32: 0
       e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 5b56b3018617b434e85b63ac692b1b0e,
+  m_AnimatorController: {fileID: 9100000, guid: 2c854cbb1f1026d4e835e4f073a97b3c,
     type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 1107759762709863232, guid: 5b56b3018617b434e85b63ac692b1b0e,
+  - m_Target: {fileID: 1107205206607607296, guid: 2c854cbb1f1026d4e835e4f073a97b3c,
       type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
@@ -597,6 +609,7 @@ MonoBehaviour:
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_SelectedIDs: 44daffff
     m_LastClickedID: -9660
     m_ExpandedIDs: 56bfffffa6defffffedfffffe4fbfffff4ffffff00000000c82400009e260000
@@ -605,6 +618,11 @@ MonoBehaviour:
     m_LastClickedID: 0
     m_ExpandedIDs: 6a3ff6ff8a52f6fff696f6ff9c9ff6fff2d9f9ffecf9ffff3afaffff46faffff86faffff88faffff8cfaffffe4fbfffff4ffffff000000001ead00007ac00000b2de000088e00000
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+    m_SelectedIDs: d2100000
+    m_LastClickedID: 0
+    m_ExpandedIDs: 5684f4ffb456f6ff0257f6ff4e57f6ff5057f6ff5457f6ffac58f6ff566cf6ff068afdff8cfaffffe4fbfffff4ffffff000000006c580000b28600001c870000
+>>>>>>> parent of 48bbd9d2... work for tuesday
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -660,6 +678,7 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_Position:
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Target: {x: 8.929831, y: 9.644488, z: 1.8513395}
     speed: 2
     m_Value: {x: 8.929831, y: 9.644488, z: 1.8513395}
@@ -668,6 +687,11 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 4.8250003, y: 8.129737, z: 0.14004079}
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+    m_Target: {x: 0.71051645, y: 8.022694, z: 0}
+    speed: 2
+    m_Value: {x: 0.71051645, y: 8.022694, z: 0}
+>>>>>>> parent of 48bbd9d2... work for tuesday
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -700,6 +724,7 @@ MonoBehaviour:
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Target: 16.156988
     speed: 2
     m_Value: 16.156988
@@ -708,6 +733,11 @@ MonoBehaviour:
     speed: 2
     m_Value: 7.9706254
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+    m_Target: 21.949175
+    speed: 2
+    m_Value: 21.949175
+>>>>>>> parent of 48bbd9d2... work for tuesday
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -781,16 +811,17 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Overworld
+    - Assets/Sprites/Protagonist/ProtagonistAnimations
   m_ViewMode: 1
   m_StartGridSize: 65
   m_LastFolders:
-  - Assets/Scripts/Overworld
+  - Assets/Sprites/Protagonist/ProtagonistAnimations
   m_LastFoldersGridSize: 65
   m_LastProjectPath: C:\Users\mspilla4\Documents\Github\BurgerDemo\Burger Demo
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
+<<<<<<< HEAD
     scrollPos: {x: 0, y: 240}
 <<<<<<< HEAD
     m_SelectedIDs: 14110000
@@ -801,6 +832,12 @@ MonoBehaviour:
     m_LastClickedID: 6306
     m_ExpandedIDs: 00000000f2090000560a00003a0e00003c0e0000c80e0000e4100000261100002412000020140000fa1b0000321c0000361d00009a1d000000ca9a3b
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+    scrollPos: {x: 0, y: 245}
+    m_SelectedIDs: 000a0000
+    m_LastClickedID: 2560
+    m_ExpandedIDs: 00000000f2090000540a0000c60e0000e2100000301d0000941d000000ca9a3b
+>>>>>>> parent of 48bbd9d2... work for tuesday
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -829,10 +866,14 @@ MonoBehaviour:
     m_SelectedIDs: 
     m_LastClickedID: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_ExpandedIDs: 00000000f2090000580a0000560e0000580e0000e60e0000161100007c1100008812000098140000901c0000ca1c0000d21d0000381e0000
 =======
     m_ExpandedIDs: 00000000f2090000560a0000c80e0000e4100000361d00009a1d0000
 >>>>>>> parent of e9983d2e... new kitchen package
+=======
+    m_ExpandedIDs: 00000000f2090000380e00003a0e0000c60e0000e210000002130000f41b00002c1c0000301d0000
+>>>>>>> parent of 48bbd9d2... work for tuesday
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -860,7 +901,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000840b0000604e00002e4f0000000000008c0f0000dcd302002c160000ee4e0000d0150000e81a00007a100000f40c0000f210000012590000ba13000030180000262300003237000034090100644700004ec40200081f000064180000b60d00006a100000f0f0000022100000c2300100e2410100602d0100941a0000cc370000b800010082170000ca14000054200000e2c10100e8c10100060f0000ee1e0000104701004c120000fe200000140d00006a910000f60c0000
+    m_ExpandedInstanceIDs: c6230000840b0000604e00002e4f0000000000008c0f0000dcd302002c160000ee4e0000d0150000e81a00007a100000f40c0000f210000012590000ba13000030180000262300003237000034090100644700004ec40200081f000064180000b60d00006a100000f0f0000022100000c2300100e2410100602d0100941a0000cc370000b800010082170000ca14000054200000e2c10100e8c10100060f0000ee1e0000104701004c120000fe200000140d00006a910000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
