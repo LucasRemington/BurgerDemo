@@ -5252,11 +5252,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.8939996
+      value: -6.117
       objectReference: {fileID: 0}
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.004000187
+      value: 0.032
       objectReference: {fileID: 0}
     - target: {fileID: 4122401547956672, guid: 24d08c5b2bae6ae42ac682341793a82f, type: 2}
       propertyPath: m_LocalPosition.z

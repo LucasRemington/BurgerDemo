@@ -101,48 +101,7 @@ public class BattleTransitions : MonoBehaviour {
         Debug.Log("battle intro should be gone");
         battleIntro.SetActive(false);
     }
-
-    public IEnumerator EndOfTutorialBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
-    {
-        yield return new WaitForSeconds(1.5f);
-        ingredients = bci.ingredientINV;
-        for (int i = 0; i < OverworldObjects.Length; i++) {
-            OverworldObjects[i].SetActive(true);
-        }
-        yield return new WaitForSeconds(1);
-        //ph.healthUpdate();
-        battlePrefab.transform.SetParent(MainCamera.transform);
-        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
-        ph = player.GetComponent<PlayerHealth>();
-        playerHealth = ph.playerHealth + 20;
-        if (playerHealth > playerHealthMax)
-            playerHealth = playerHealthMax;
-        nm.ns1.winLossText.text = "Press Space to continue...";
-        /*for (int i = 0; i < 101; i++)
-        {
-            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
-            yield return new WaitForEndOfFrame();
-        }*/
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        Destroy(battle.gameObject);
-        if (win)
-        {
-            Destroy(currentEnemy.gameObject);
-            nm.BattleWon = true;
-        }
-        else {
-            nm.BattleWon = false;
-        }
-        //GameObject thing = GameObject.Find("FullBattlePrefab");
-        battlePrefab.SetActive(false);
-        battling = false;
-        nm.combatUI.SetActive(false);
-        currentEnemy = null;
-        yield return new WaitForSeconds(0.2f);
-        db.GetComponent<Animator>().ResetTrigger("Popdown");
-        nm.BattleDone = true;
-    }
-
+      
     public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
         if (win && currentEnemy.GetComponent<EnemyBehavior>().DeathDialogue != null) {
@@ -196,5 +155,48 @@ public class BattleTransitions : MonoBehaviour {
 
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
+    }
+
+    public IEnumerator EndOfTutorialBattle(bool win)            // only used in the tutorial, because the tutorial is a bit weird
+    {
+        yield return new WaitForSeconds(1.5f);
+        ingredients = bci.ingredientINV;
+        for (int i = 0; i < OverworldObjects.Length; i++)
+        {
+            OverworldObjects[i].SetActive(true);
+        }
+        yield return new WaitForSeconds(1);
+        //ph.healthUpdate();
+        battlePrefab.transform.SetParent(MainCamera.transform);
+        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
+        ph = player.GetComponent<PlayerHealth>();
+        playerHealth = ph.playerHealth + 20;
+        if (playerHealth > playerHealthMax)
+            playerHealth = playerHealthMax;
+        nm.ns1.winLossText.text = "Press Space to continue...";
+        /*for (int i = 0; i < 101; i++)
+        {
+            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
+            yield return new WaitForEndOfFrame();
+        }*/
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        Destroy(battle.gameObject);
+        if (win)
+        {
+            Destroy(currentEnemy.gameObject);
+            nm.BattleWon = true;
+        }
+        else
+        {
+            nm.BattleWon = false;
+        }
+        //GameObject thing = GameObject.Find("FullBattlePrefab");
+        battlePrefab.SetActive(false);
+        battling = false;
+        nm.combatUI.SetActive(false);
+        currentEnemy = null;
+        yield return new WaitForSeconds(0.2f);
+        db.GetComponent<Animator>().ResetTrigger("Popdown");
+        nm.BattleDone = true;
     }
 }

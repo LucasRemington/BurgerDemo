@@ -400,7 +400,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 finalDamage = finalDamage * 2;
                 StartCoroutine(eb.setAboveText("Critical Hit!"));
             }
-            eb.TakeDamage(finalDamage);
+            StartCoroutine(eb.TakeDamage(finalDamage));
             eb.drops = eb.drops + dropMult;
             if (dropMult > 0)
             {

@@ -368,16 +368,37 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => nm.BattleDone);
         if (!nm.BattleWon)
         {
+            nm.ev++;
             nm.CheckEvent();
         }
         else {
-            nm.ev++;
+            nm.ev += 2;
             nm.CheckEvent();
         }           
     }
 
     public IEnumerator eventFive() {
-        yield return null;
+        yield return new WaitUntil(() => nm.room == 4);
+        nm.imageTSCombat.sprite = DixieBattleFace;
+        nm.nameTSCombat.text = "Dixie";
+        //playerSR.flipX = false;
+        MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
+        yield return new WaitUntil(() => animationFlag);
+        StartCoroutine(nm.bt.StartBattle(BattleDixie));
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(nm.dialogueEnd());
+        yield return new WaitUntil(() => nm.bci.gameObject);
+        nm.bci.isTutorial = false;
+        yield return new WaitUntil(() => nm.BattleDone);
+        if (!nm.BattleWon)
+        {
+            nm.CheckEvent();
+        }
+        else
+        {
+            nm.ev++;
+            nm.CheckEvent();
+        }
 
     }
     

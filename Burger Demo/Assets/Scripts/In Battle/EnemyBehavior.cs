@@ -70,6 +70,11 @@ public class EnemyBehavior : MonoBehaviour {
 
     public Dialogue[] RandomBattleQuips;
     public Dialogue DeathDialogue;
+    public bool AnimFlag = false;
+
+    public void AnimDone() {
+        AnimFlag = true;
+    }
 
     private bool dead = false;
 
@@ -99,8 +104,9 @@ public class EnemyBehavior : MonoBehaviour {
         //clock = GameObject.Find("ClockUI");
     }
 
-    public void TakeDamage (float finalDamage) //calculates damage taken by enemy
+    public IEnumerator TakeDamage (float finalDamage) //calculates damage taken by enemy
     {
+        yield return null;
         enemyArmor = baseArmor;
         //Debug.Log(BCI);
         //Debug.Log(enemyArmor);
@@ -138,11 +144,21 @@ public class EnemyBehavior : MonoBehaviour {
         StartCoroutine(SetTicksWhenReady());
         //clockAnim.SetBool("Stopped", true);                           fix this later
         Debug.Log(finalDamage);
+        BCI.StopAllCoroutines();
+        BCI.gameObject.SetActive(false);
+        if (RandomBattleQuips.Length > 0)
+        {                                                                  //this doesn't necessarily work currently, but hopefully soon
+            int rand = Random.Range(0, RandomBattleQuips.Length - 1);
+            BCI.nm.ns1.dh.GenericInteractableNew(RandomBattleQuips[rand], gameObject, true);
+        }
+
+
         if (finalDamage > 0)
         {
             enemyHealth = enemyHealth - finalDamage;
+            AnimFlag = false;
             anim.SetTrigger("Damaged");
-            HealthText.text = Mathf.RoundToInt(enemyHealth).ToString();
+            HealthText.text = Mathf.RoundToInt(enemyHealth).ToString();            
             healthBar.SetTrigger("Damaged");
             cantMove = false;
             StartCoroutine(setAboveText(finalDamage + " damage!"));
@@ -158,13 +174,9 @@ public class EnemyBehavior : MonoBehaviour {
             StartCoroutine(setAboveText("Crying!"));
         }
 
-        if (RandomBattleQuips.Length > 0) {                                                                  //this doesn't necessarily work currently, but hopefully soon
-            int rand = Random.Range(0, RandomBattleQuips.Length - 1);
-            BCI.nm.ns1.dh.GenericInteractableNew(RandomBattleQuips[rand], gameObject, true);
-        }
+        
 
-        BCI.StopAllCoroutines();
-        BCI.gameObject.SetActive(false);
+             
     }
 
     public IEnumerator setAboveText(string text)
@@ -188,12 +200,14 @@ public class EnemyBehavior : MonoBehaviour {
         ticks = 0;
     }
     
-    public void CheckDeath ()
+    public IEnumerator CheckDeath ()
     {
+        yield return null;
         if (enemyHealth <= 0)
         {
             dead = true;
-            anim.SetTrigger("Damaged");
+            //anim.SetTrigger("Damaged");
+            //yield return new WaitUntil(() => AnimFlag);
             anim.SetTrigger("Dead");              
             background.Stop();                  // sound
             victory.Play();                     // sound
@@ -205,6 +219,7 @@ public class EnemyBehavior : MonoBehaviour {
         } else
         {
             cantMove = false;
+            yield return new WaitUntil(() => AnimFlag);
             StartCoroutine(MoveForwards());
         }
     }
@@ -228,8 +243,7 @@ public class EnemyBehavior : MonoBehaviour {
                 }
             }
             else if (movingForwards == true && hasBeenDamaged == true && cantMove == false)
-            {
-                yield return new WaitForSeconds(0.01f);
+            {                
                 ticks++;
                 transform.position = Vector3.Lerp(damagedPosition, endPosition, (ticks / 50f));
                 if (transform.position == end.position)
@@ -301,7 +315,7 @@ public class EnemyBehavior : MonoBehaviour {
     {
         if (attackCalled == false)
         {
-            anim.SetTrigger("TimesUp");
+            anim.SetTrigger("Attack");
         }
         attackCalled = true;
         DamagePlayer();
