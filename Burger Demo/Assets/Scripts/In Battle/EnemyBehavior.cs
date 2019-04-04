@@ -162,7 +162,7 @@ public class EnemyBehavior : MonoBehaviour {
             healthBar.SetTrigger("Damaged");
             cantMove = false;
             StartCoroutine(setAboveText(finalDamage + " damage!"));
-            CheckDeath();
+            StartCoroutine(CheckDeath());
         } else
         {
             cantMove = false;
@@ -207,19 +207,19 @@ public class EnemyBehavior : MonoBehaviour {
         {
             dead = true;
             //anim.SetTrigger("Damaged");
-            //yield return new WaitUntil(() => AnimFlag);
+            //yield return new WaitUntil(() => AnimFlag == true);
             anim.SetTrigger("Dead");              
             background.Stop();                  // sound
             victory.Play();                     // sound
             for (int i = 0; i<aboveText.Length; i++) {
                 aboveText[i].GetComponent<FollowWithOffset>().stop = true;
             }
-            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle(true));     // i think this the only thing i added to this
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle(true));     
 
         } else
         {
             cantMove = false;
-            yield return new WaitUntil(() => AnimFlag);
+           // yield return new WaitUntil(() => AnimFlag == true);
             StartCoroutine(MoveForwards());
         }
     }
