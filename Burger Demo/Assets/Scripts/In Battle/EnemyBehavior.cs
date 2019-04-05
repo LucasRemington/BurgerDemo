@@ -181,16 +181,14 @@ public class EnemyBehavior : MonoBehaviour {
 
     public IEnumerator setAboveText(string text)
     {
-        for (int i = 0; i < aboveText.Length; i++)
-        {
+        int i = 0;
             if (aboveText[i].text == "")
             {
                 aboveText[i].text = text;
                 yield return new WaitForSeconds(2f);
                 aboveText[i].text = "";
                 i = aboveText.Length + 1;
-            }
-        }
+            }        
     }
 
     IEnumerator SetTicksWhenReady ()
@@ -214,12 +212,11 @@ public class EnemyBehavior : MonoBehaviour {
             for (int i = 0; i<aboveText.Length; i++) {
                 aboveText[i].GetComponent<FollowWithOffset>().stop = true;
             }
-            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle(true));     
-
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().EndOfBattle(true)); 
         } else
         {
             cantMove = false;
-           // yield return new WaitUntil(() => AnimFlag == true);
+            //yield return new WaitUntil(() => AnimFlag == true);
             StartCoroutine(MoveForwards());
         }
     }
@@ -246,18 +243,22 @@ public class EnemyBehavior : MonoBehaviour {
             {                
                 ticks++;
                 transform.position = Vector3.Lerp(damagedPosition, endPosition, (ticks / 50f));
-                if (transform.position == end.position)
+
+                if (transform.position == end.position && !attackCalled)
                 {
+                    AnimFlag = false;
                     Attack();
                 }
                 else
                 {
+                    yield return new WaitUntil(() => AnimFlag);
                     StartCoroutine(MoveForwards());
                 }
             }
             else if (movingBackwards == true && cantMove == false)
             {
                 yield return new WaitForSeconds(0.01f);
+                //yield return new WaitUntil(() => AnimFlag);
                 ticks++;
                 tear = HealthText.transform.GetChild(3).gameObject;
                 transform.position = Vector3.Lerp(endPosition, startPosition, (ticks / 50f));
