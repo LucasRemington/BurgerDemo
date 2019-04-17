@@ -208,21 +208,10 @@ public class SaveLoad : MonoBehaviour
             // Add ingredients we're missing here. Break the loop if we don't have ingredients past a certain point unlocked.
             for (int i = 0; i < battTran.ingredients.Length; i++)
             {
-                if (battTran.ingredients[i] == 0)
+                if (battTran.ingUnlocked[i] && battTran.ingredients[i] == 0)
                 {
                     battTran.ingredients[i] = 1;
                 }
-
-                if (!battTran.ingRowTwoUnlocked && i > 3)
-                {
-                    break;
-                }
-
-                if (!battTran.ingRowThreeUnlocked && i > 6)
-                {
-                    break;
-                }
-
             }
 
             // We want to play the animation for climbing in here; We'll need to make it so that dialogue can't progress until the animation ends and saving is done.
@@ -330,8 +319,7 @@ public class SaveLoad : MonoBehaviour
         saveData.currentPos = player.transform.position;
 
         saveData.ingredients = battTran.ingredients;
-        saveData.ingRowTwoUnlocked = battTran.ingRowTwoUnlocked;
-        saveData.ingRowThreeUnlocked = battTran.ingRowThreeUnlocked;
+        saveData.ingUnlocked = battTran.ingUnlocked;
 
 
         saveData.meatLockerList = meatLockerList;
@@ -344,6 +332,10 @@ public class SaveLoad : MonoBehaviour
 
         saveData.louNotesSeen = louNotesSeen;
         saveData.louDone = louDone;
+
+        saveData.combosUnlocked = battTran.combosUnlocked;
+        saveData.itemsUnlocked = battTran.itemsUnlocked;
+        saveData.itemCount = battTran.itemCount;
 
         return true;
     }
@@ -361,8 +353,7 @@ public class SaveLoad : MonoBehaviour
         player.transform.position = saveData.currentPos;
 
         battTran.ingredients = saveData.ingredients;
-        battTran.ingRowThreeUnlocked = saveData.ingRowThreeUnlocked;
-        battTran.ingRowTwoUnlocked = saveData.ingRowTwoUnlocked;
+        battTran.ingUnlocked = saveData.ingUnlocked;
 
         meatLockerList = saveData.meatLockerList;
         meatLockerIndex = saveData.meatLockerIndex;
@@ -374,6 +365,10 @@ public class SaveLoad : MonoBehaviour
 
         louNotesSeen = saveData.louNotesSeen;
         louDone = saveData.louDone;
+
+        battTran.combosUnlocked = saveData.combosUnlocked;
+        battTran.itemsUnlocked = saveData.itemsUnlocked;
+        battTran.itemCount = saveData.itemCount;
 
         return true;
     }

@@ -555,7 +555,7 @@ MonoBehaviour:
   gameController: {fileID: 0}
   ns1: {fileID: 0}
   lastCombo: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  classicCombo: 0a000000010000000200000003000000
+  classicCombo: 0a000000030000000200000001000000
   drops: 0
   baseMissChance: 0
   finalMissChance: 0
@@ -614,6 +614,11 @@ MonoBehaviour:
   LightningBolt: {fileID: 0}
   animFlag: 0
   convoToCall: 0
+  convoStage: 0
+  ingOut: 0
+  wrongCombo: 0
+  fuckedUp: 0
+  actSel: {fileID: 0}
 --- !u!212 &212000844065589002
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -20,13 +20,17 @@ public class BattleTransitions : MonoBehaviour {
     [Tooltip("The current battle scene.")] public GameObject battle;
     [Tooltip("The combat player, found when battle starts.")] public GameObject player;
     [Tooltip("The player health script attached to the combat player.")] public PlayerHealth ph;
+    [Tooltip("The text component for floating text relevant to the player.")] public Text floatingPlayerText;
+    [Tooltip("The text component for floating text relevant to the enemy.")] public Text floatingEnemyText;
 
     [Header("Player Stats & Progression")]
     [Tooltip("The player's current health. When it reaches 0, the player dies and respawns at either the last checkpoint or the last meat locker they visited.")] public int playerHealth = 60;
     [Tooltip("The player's maximum health. The player will gain more as they progress through the game.")] public int playerHealthMax = 60;
     [Tooltip("The ingredients that the player currently has in stock. Set in the editor for the player starting a new game.\nIdentities: 0:Blank; 1:Tomato; 2:Lettuce; 3:Onion; 4:Bacon; 5:Sauce; 6:Pickles; 7:Ketchup; 8:Mustard; 9:Cheese; 10:Patty")] public int[] ingredients;
-    [Tooltip("Whether or not the player has unlocked the second row of ingredients.")] public bool ingRowTwoUnlocked;
-    [Tooltip("Whether or not the player has unlocked the third row of ingredients.")] public bool ingRowThreeUnlocked;
+    [Tooltip("Ingredients unlocked. Check above tooltip for what each index corresponds to. Also add 11:Trash.")] public bool[] ingUnlocked;
+    [Tooltip("Combos unlocked by the player. For now, size 21. Combos unlock after performing them at least once, except for the Classic Combo which is unlocked immediately.")] public bool[] combosUnlocked;
+    [Tooltip("Items that the player has unlocked.")] public bool[] itemsUnlocked;
+    [Tooltip("Items that the player currently has.")] public int[] itemCount;
     
     [Header("Set in Editor")]
     [Tooltip("The battle intro animation! Set via editor, as if this header didn't tell you so already. Why are you still reading this. Stop that.")] public GameObject battleIntro;
@@ -64,7 +68,6 @@ public class BattleTransitions : MonoBehaviour {
 	}
 
     public IEnumerator StartBattle(GameObject enemy) {
-        nm.BattleDone = false;
         bci.ingredientINV = ingredients;
         currentEnemy = enemy;
         battleIntro.SetActive(true);
@@ -75,7 +78,7 @@ public class BattleTransitions : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
         battlePrefab.SetActive(true);
         //battlePrefab.transform.parent = null;
-        GetComponent<ActionSelector>().isReady = true;
+        //GetComponent<ActionSelector>().isReady = true; // This line changed in my version! Consult Matt!
         if (enemy.GetComponent<Enemy>())
         {
             battle = Instantiate(enemy.GetComponent<Enemy>().battlePrefab, enemyStart.transform.position, new Quaternion(0, 0, 0, 0), this.transform);
@@ -101,14 +104,51 @@ public class BattleTransitions : MonoBehaviour {
         Debug.Log("battle intro should be gone");
         battleIntro.SetActive(false);
     }
-      
+
+    public IEnumerator EndOfTutorialBattle(bool win)            // Called by narrativescript1.
+    {
+        yield return new WaitUntil(() => nm.ns1.blackScreen.color.a >= 1); // Wait until we fully fade to black.
+        //yield return new WaitForSeconds(1.5f);
+
+        ingredients = bci.ingredientINV; // Reset our ingredient inventory.
+
+        /*for (int i = 0; i < OverworldObjects.Length; i++) {
+            OverworldObjects[i].SetActive(true);
+        }*/
+
+        yield return new WaitForSeconds(1); // Wait a moment, then move camera back, restore player health, and allow the player to continue.
+
+        //ph.healthUpdate();
+        battlePrefab.transform.SetParent(MainCamera.transform);
+        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
+        ph = player.GetComponent<PlayerHealth>();
+        playerHealth = ph.playerHealth + 20;
+        if (playerHealth > playerHealthMax)
+            playerHealth = playerHealthMax;
+        nm.ns1.winLossText.text = "Press the Action Button to continue...";
+        /*for (int i = 0; i < 101; i++)
+        {
+            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
+            yield return new WaitForEndOfFrame();
+        }*/
+        yield return new WaitUntil(() => Input.GetButtonDown("Submit") && !nm.ns1.waitForScript); // Wait until the player hits Space and we aren't waiting for script.
+
+        Destroy(battle.gameObject);
+        if (win)
+        {
+            Destroy(currentEnemy.gameObject);
+        }
+        //GameObject thing = GameObject.Find("FullBattlePrefab");
+        battlePrefab.SetActive(false);
+        battling = false;
+        nm.combatUI.SetActive(false);
+        currentEnemy = null;
+        yield return new WaitForSeconds(0.2f);
+        db.GetComponent<Animator>().ResetTrigger("Popdown");
+    }
+
     public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
-        if (win && currentEnemy.GetComponent<EnemyBehavior>().DeathDialogue != null) {
-            nm.ns1.dh.GenericInteractableNew(currentEnemy.GetComponent<EnemyBehavior>().DeathDialogue, currentEnemy, true);
-            yield return new WaitUntil(() => nm.canAdvance == true);
-            yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
-        }
         yield return new WaitForSeconds(1.5f);
         ingredients = bci.ingredientINV;
         for (int i = 0; i < OverworldObjects.Length; i++)
@@ -138,14 +178,15 @@ public class BattleTransitions : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }*/
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        if (win)
+        if (win && !battle.gameObject.GetComponent<TutorialEnemy>())
         {
             Destroy(currentEnemy.gameObject);
-            nm.BattleWon = true;
-        }
-        else
-        {
-            nm.BattleWon = false;
+            /*for (int i = 0; i < 101; i++)
+            {
+                BlackScreen.color = new Color(0, 0, 0, BlackScreen.color.a + 0.01f);
+                yield return new WaitForSeconds(0.01f);
+            }
+            BlackScreen.color = new Color(0, 0, 0, 0);*/
         }
         Destroy(battle.gameObject);
         //GameObject thing = GameObject.Find("FullBattlePrefab");
@@ -155,48 +196,5 @@ public class BattleTransitions : MonoBehaviour {
 
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
-    }
-
-    public IEnumerator EndOfTutorialBattle(bool win)            // only used in the tutorial, because the tutorial is a bit weird
-    {
-        yield return new WaitForSeconds(1.5f);
-        ingredients = bci.ingredientINV;
-        for (int i = 0; i < OverworldObjects.Length; i++)
-        {
-            OverworldObjects[i].SetActive(true);
-        }
-        yield return new WaitForSeconds(1);
-        //ph.healthUpdate();
-        battlePrefab.transform.SetParent(MainCamera.transform);
-        player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
-        ph = player.GetComponent<PlayerHealth>();
-        playerHealth = ph.playerHealth + 20;
-        if (playerHealth > playerHealthMax)
-            playerHealth = playerHealthMax;
-        nm.ns1.winLossText.text = "Press Space to continue...";
-        /*for (int i = 0; i < 101; i++)
-        {
-            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
-            yield return new WaitForEndOfFrame();
-        }*/
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        Destroy(battle.gameObject);
-        if (win)
-        {
-            Destroy(currentEnemy.gameObject);
-            nm.BattleWon = true;
-        }
-        else
-        {
-            nm.BattleWon = false;
-        }
-        //GameObject thing = GameObject.Find("FullBattlePrefab");
-        battlePrefab.SetActive(false);
-        battling = false;
-        nm.combatUI.SetActive(false);
-        currentEnemy = null;
-        yield return new WaitForSeconds(0.2f);
-        db.GetComponent<Animator>().ResetTrigger("Popdown");
-        nm.BattleDone = true;
     }
 }

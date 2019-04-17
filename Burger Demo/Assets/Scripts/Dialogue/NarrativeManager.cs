@@ -198,19 +198,19 @@ public class NarrativeManager : MonoBehaviour {
     {
         yield return new WaitUntil(() => bt.battling == true);
         combatUI.SetActive(true);
-        yield return new WaitUntil(() => dbStartStop == true);
+        /*yield return new WaitUntil(() => dbStartStop == true);
         dbStartStop = false;
         textTSCombat.enabled = true;
         nameTSCombat.enabled = true;
         imageTSCombat.enabled = true;
-        combatText = true;
+        combatText = true;*/
     }
 
     public void setTalksprite (Dialogue dia, int convoNumber) //sets the appropriate talksprite of the image when called.
     {
         string name = dia.DialogItems[convoNumber].CharacterName;
         Sprite sprite = dia.DialogItems[convoNumber].CharacterPic;
-        if (bt.battling == false)
+        if (/*bt.battling == false*/ true) // We're getting rid of our old combat UI, but just in case...
         {
             nameTS.text = name;
             imageTS.sprite = sprite;
@@ -244,7 +244,7 @@ public class NarrativeManager : MonoBehaviour {
         bool isComplete = false;
 
 
-        if (bt.battling == false && !isComplete)
+        if (/*bt.battling == false &&*/ !isComplete)
         {
             textTS.text = "";
             while (i < strComplete.Length)
@@ -262,7 +262,7 @@ public class NarrativeManager : MonoBehaviour {
                     yield return new WaitForSeconds(dia.DialogItems[convoNumber].TextPlayBackSpeed);
             }
         }
-        else if (bt.battling && !isComplete)
+        /*else if (bt.battling && !isComplete) // Again, this is combatUI specific, and as we're unifying combat and out of combat UI...leaving the skellington, just in case.
         {
             //Debug.Log(strComplete);
             textTSCombat.text = "";
@@ -280,7 +280,7 @@ public class NarrativeManager : MonoBehaviour {
                 else
                     yield return new WaitForSeconds(dia.DialogItems[convoNumber].TextPlayBackSpeed);
             }
-        }
+        }*/
 
 
         /*while (spaceHeld && !Input.GetKey(KeyCode.Space))

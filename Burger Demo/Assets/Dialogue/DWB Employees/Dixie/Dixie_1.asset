@@ -92,7 +92,7 @@ MonoBehaviour:
     CharacterPic: {fileID: 21300000, guid: 30c12332fa8421d43aef7f2cc4725e25, type: 3}
     DialogueText: I'm Dixie! Who're you?
     ChoiceText: []
-    CharacterName: Dixie
+    CharacterName: ???
     DialogueTextStyle:
       m_Name: 
       m_Normal:

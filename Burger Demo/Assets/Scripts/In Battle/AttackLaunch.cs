@@ -16,8 +16,13 @@ public class AttackLaunch : MonoBehaviour {
     }
 
     void LaunchAttack () {
-        BCI.LaunchBurger();
+        StartCoroutine(BCI.LaunchBurger());
 	}
+
+    void BCIDone()
+    {
+        BCI.bciDone = true;
+    }
 
     void Die ()
     {

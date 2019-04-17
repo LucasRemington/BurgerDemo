@@ -19,6 +19,10 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     [Tooltip("Current enemy. Found via script.")] public GameObject enemy;
     [Tooltip("Main camera of don't destroy on load.")] public GameObject MainCamera;
     [Tooltip("The combat UI, don't destroy on load.")] public GameObject CombatUI;
+    [Tooltip("The Action Selector script. Sets itself in said script.")] public ActionSelector actSelect;
+    [Tooltip("The BattleTransitions component in GameController, set via script.")] public BattleTransitions batTran;
+    private Image topBunItem;
+    private IndividualComponent topBunScript;
 
     [Header("Misc. Vitals")]
     [Tooltip("Current count of components on the burger being worked on.")] public int componentNumber;
@@ -30,6 +34,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     [Tooltip("Determines the ingredient's bounce animation.")] public int bounceTrigger; 
     [Tooltip("Current number of turns that have passed in this encounter.")] public int turns; //tracks how many turns have passed
     [Tooltip("A random roll for if an attack is a critical hit or not.")] public int critRoll; //variable for tracking crit
+    [Tooltip("Made true after discarding a burger or throwing one; set back to false from ActionSelector and referenced from such.")] public bool bciDone;
+    [Tooltip("Whether our StartStuff coroutine has finished setting up.")] public bool startupDone;
 
     [Header("Positions")]
     [Tooltip("Where the burger starts from at any point.")] public float originalBurgerPosition;
@@ -72,7 +78,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     public int[] classicCombo3 = { 7, 8, 6, 10, 9, 1, 2, 3, 5, 0 };
     public int[] baconCombo = { 9, 10, 9, 4, 10, 9, 4, 7, 5, 0 };
     public int[] simpleCombo = { 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    public int[] classicCombo = { 10, 1, 2, 3, 0, 0, 0, 0, 0, 0 };
+    public int[] classicCombo = { 10, 3, 2, 1, 0, 0, 0, 0, 0, 0 };
     public int[] veggieCombo = { 2, 10, 2, 0, 0, 0, 0, 0, 0, 0 };
     public int[] weepCombo = { 3, 10, 3, 2, 1, 0, 0, 0, 0, 0 };
     public int[] doubleCombo = { 10, 1, 2, 3, 10, 0, 0, 0, 0, 0 };
@@ -127,6 +133,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     {
         Debug.Log("BCI: Start!");
         fadeBlack.gameObject.SetActive(true);
+        batTran = GameObject.FindGameObjectWithTag("GameController").GetComponent<BattleTransitions>();
         if (enemy == null)
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         StartCoroutine(StartStuff());
@@ -139,7 +146,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             //StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0)); //bottom bun must spawn before others
         }
         ingredientINV[0] = 1;
-        ingredientINV[10] = 1;
+        batTran.ingredients[0] = 1;
+        //ingredientINV[10] = 1;
         //IconDimmer();
         IconTextUpdate();
         StartCoroutine(enableCheats());
@@ -152,28 +160,43 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl) && actSelect.enemyReset && actSelect.isReady && actSelect.readyUp && batTran.ingUnlocked[11] && nm.ns1.canProceed)
+        {
+            Debug.Log("Clear burger");
+            StartCoroutine(ClearBurger(false));
+        }
+    }
+
     public void GetTutorial ()
     {
         tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         te = tutEnemy.GetComponent<TutorialEnemy>();
     }
 
-    void IconTextUpdate()
+    public void IconTextUpdate() // Updates the text of each ingredient icon to reflect their ingredient count, and also adjusts them in the animator.
     {
-        for (int i = 0; i < 9; i++)
+        if (!batTran)
         {
-            if (iconText[i] != null)
+            batTran = GameObject.FindGameObjectWithTag("GameController").GetComponent<BattleTransitions>();
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            if (batTran.ingUnlocked[i+1]) // Only do so if we have the ingredient unlocked. i + 1 as this section of ingredients is from 1-9 normally, and instead we're treating it as 0-8...if that makes sense?
             {
-                iconText[i].text = ingredientINV[i + 1].ToString();
+                iconText[i].text = batTran.ingredients[i + 1].ToString();
+                iconText[i].GetComponentInParent<Animator>().SetInteger("Count", batTran.ingredients[i + 1]);
             }
         }
     }
 
-    void IconDimmer() //dims icons that are at 0 inventory
+    void IconDimmer() //dims icons that are at 0 inventory. No longer needed.
     {
         for (int i = 0; i < 9; i++)
         {
-            if (ingredientINV[i] == 0 && i != 0)
+            if (batTran.ingredients[i] == 0 && i != 0)
             {
                 iconAnim[i].SetBool("Faded", true);
             }
@@ -186,36 +209,40 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         ph.playerHealth = 100;
         for (int i = 1; i < 10; i++)
         {
-            if (ingredientINV[i] == 0)
+            if (batTran.ingredients[i] == 0)
             {
                 //iconAnim[i-1].SetBool("Faded", false);
             }
-            ingredientINV[i] = 99;
+            batTran.ingredients[i] = 99;
         }
         IconTextUpdate();
-        StartCoroutine(enableCheats());
+        //StartCoroutine(enableCheats()); // We can only do this now once, you fool. You buffoon. You nincompoop. You scallywaggling hurgusburgus muffin.
     }
 
     public IEnumerator ComponentSpawn(KeyCode key, float pixels, Image prefab, int identity)//controls how components spawn 
     //key: corresponding keyboard key 
     //pixels: number of pixels to occupy 
     //prefab: desired prefab 
-    //identity: 0 = buns, 1 = tomato, 2 = lettuce, 3 = onion, 4 = bacon, 5 = sauce, 6 = pickles, 7 = ketchup, 8 = mustard, 9 = cheese, 10 = patty
+    //identity: 0 = buns, 1 = tomato, 2 = lettuce, 3 = cheese, 4 = bacon, 5 = sauce, 6 = pickles, 7 = ketchup, 8 = mustard, 9 = onion, 10 = patty
     {
         yield return new WaitForSeconds(0.01f);
         yield return new WaitUntil(() => Input.GetKeyDown(key) == true || topPlaced == true || serveStart);
         if (topPlaced == false && componentNumber < componentCap)
         {
-            yield return new WaitUntil(() => canSpawn == true);
             
-            if (ingredientINV[identity] > 0)
+            yield return new WaitUntil(() => canSpawn);
+            if (batTran.ingredients[identity] <= 0 && identity != 0)
+                yield return new WaitUntil(() => batTran.ingredients[identity] > 0 && Input.GetKeyDown(key));
+
+            if (batTran.ingredients[identity] > 0)
             {
+                Debug.Log("Component Spawn (BCI) called");
                 if (identity >= 1 && identity <= 9)
                 {
-                    ingredientINV[identity] = ingredientINV[identity] - 1;
+                    batTran.ingredients[identity] = batTran.ingredients[identity] - 1;
                 }
                 canSpawn = false;
-                if(identity != 0)
+                if (identity != 0)
                     componentNumber++;
                 if (identity > 0 && identity < 10)
                 {
@@ -230,7 +257,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         ResetAttack();
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
-                        StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
+                        StartCoroutine(ComponentSpawn(KeyCode.D, 1, cheese, 3));
                         if (isTutorial == false)
                         {
                             StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
@@ -239,7 +266,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
                             StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
                             StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
-                            StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
+                            StartCoroutine(ComponentSpawn(KeyCode.C, 1, onion, 9));
                         }
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         StartCoroutine(TopBunSpawn());
@@ -253,7 +280,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.A, 1, tomato, 1));
                         burgPlaceAnim();
-                        iconAnim[identity-1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 2:
                         Debug.Log("Component2");
@@ -261,15 +288,15 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.S, 1, lettuce, 2));
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 3:
                         Debug.Log("Component3");
                         burgerPosition = burgerPosition + 3.25f;
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
-                        StartCoroutine(ComponentSpawn(KeyCode.D, 1, onion, 3));
+                        StartCoroutine(ComponentSpawn(KeyCode.D, 0f, cheese, 3));
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 4:
                         Debug.Log("Component4");
@@ -277,14 +304,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.Q, 1, bacon, 4));
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 5:
                         Debug.Log("Component 5");
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.W, 1, sauce, 5));
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 6:
                         Debug.Log("Component 6");
@@ -293,7 +320,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.E, 1, pickles, 6));
                         burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 7:
                         Debug.Log("Component 7");
@@ -302,7 +329,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.Z, 1, ketchup, 7));
                         burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 8:
                         Debug.Log("Component 8");
@@ -311,14 +338,14 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.X, 1, mustard, 8));
                         burgerPosition = burgerPosition - 3.25f;
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 9:
                         Debug.Log("Component 9");
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
-                        StartCoroutine(ComponentSpawn(KeyCode.C, 1, cheese, 9));
+                        StartCoroutine(ComponentSpawn(KeyCode.C, 1, onion, 9));
                         burgPlaceAnim();
-                        iconAnim[identity - 1].SetTrigger("Bounce");
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                     case 10:
                         Debug.Log("Component 10");
@@ -327,49 +354,73 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
                         ph.DealDamage(2);
                         burgPlaceAnim();
+                        iconAnim[identity].SetTrigger("Bounce");
                         break;
                 }
-                
+
                 if (identity != 0)
                 {
                     addToCombo(identity);
                     IconTextUpdate();
-                    if (ingredientINV[identity] == 0)
+                    /*if (batTran.ingredients[identity] == 0) // Handled automatically, now.
                     {
-                        iconAnim[identity-1].SetTrigger("Dim");
-                    }
+                        iconAnim[identity].SetTrigger("Dim");
+                    }*/
                 }
             }
+            else
+            {
+
+            }
+
         }
     }
 
     IEnumerator TopBunSpawn() //Triggers when the cap is reached or space is pressed a second time.
     {
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true || (canSpawn == true && componentNumber >= componentCap));
+        yield return new WaitUntil(() => (Input.GetButtonDown("Submit") == true && !nm.ns1.waitForScript) || (canSpawn == true && componentNumber >= componentCap && !nm.ns1.waitForScript));
+        bool hitCap = false;
+
+        if (isTutorial && nm.ns1.te.convoStage == 0)
+            nm.ns1.combatUIAnim.SetTrigger("BCItrueFlash");
+
         canSpawn = false;
         if (componentNumber >= componentCap)
         {
-            yield return new WaitForSeconds(0.5f);
+            hitCap = true;
+            yield return new WaitForSeconds(0.25f);
         }
+
         yield return new WaitUntil(() => canSpawn == true);
         componentNumber = 0;
         topPlaced = true;
-        Instantiate(topBun, new Vector3(CombatUI.transform.localPosition.x, burgerPosition + 6.25f - sinkBP, 0), Quaternion.identity);
+
+        topBunItem = Instantiate(topBun, new Vector3(CombatUI.transform.localPosition.x, burgerPosition + 3.25f - sinkBP, 0), Quaternion.identity);
+        topBunScript = topBunItem.GetComponent<IndividualComponent>();
+
+
         executeCombo();
         FinalInfo();
+        yield return new WaitUntil(() => topBunScript.doneBouncing);
+
+        if (hitCap)
+            yield return new WaitForSeconds(0.25f); // The top bun seems to leave early if the component cap is reached, so here's a counter-delay.
+
         if (!isTutorial)
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && eb.movingBackwards == false || Input.GetKeyDown(KeyCode.LeftControl) == true);
+            yield return new WaitUntil(() => eb.movingBackwards == false);
         else
         {
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
             te = enemy.GetComponent<TutorialEnemy>();
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true && te.movingBackwards == false || Input.GetKeyDown(KeyCode.LeftControl) == true);
+            yield return new WaitUntil(() => te.movingBackwards == false);
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl) == true)
-        {
-            StartCoroutine(ClearBurger(false));
-        } else if (Input.GetKeyDown(KeyCode.Space) == true)
-        {
+
+
+        //Debug.Log("Top bun done bouncing");
+
+
+            actSelect.enemyReset = false;
+            Debug.Log("Throw burgie!");
             ph.protag.SetTrigger("BurgerThrow");
             ph.protag.SetBool("isBunPlaced", false);
             if (heal > 0)
@@ -377,13 +428,16 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 ph.HealDamage(Mathf.RoundToInt(heal));
             }
             StartCoroutine(ClearBurger(true));
-        }
     }
 
-    public void LaunchBurger () //unsure if any of this will calculate correctly. Treat with caution. called from protag attack animation
+    public IEnumerator LaunchBurger() //unsure if any of this will calculate correctly. Treat with caution. called from protag attack animation
     {
         if (!isTutorial)
         {
+            actSelect.enemyReset = false;
+            Debug.Log("Hit");
+            StopAllCoroutines();
+
             if (crying > 0)
             {
                 eb.cryingStacks = eb.cryingStacks + crying;
@@ -400,12 +454,19 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 finalDamage = finalDamage * 2;
                 StartCoroutine(eb.setAboveText("Critical Hit!"));
             }
-            StartCoroutine(eb.TakeDamage(finalDamage));
+            eb.TakeDamage(finalDamage);
             eb.drops = eb.drops + dropMult;
             if (dropMult > 0)
             {
                 StartCoroutine(eb.setAboveText("+" + dropMult + " Drops!"));
             }
+
+            yield return new WaitUntil(() => !enemy.GetComponent<EnemyBehavior>().movingForwards); // After we attack, wait until enemy finishes moving forward, and then until they are before we can make the next burgie.
+            yield return new WaitUntil(() => enemy.GetComponent<EnemyBehavior>().movingForwards);
+
+            actSelect.enemyReset = true;
+            bciDone = true;
+            gameObject.SetActive(false);
         }
         else
         {
@@ -413,13 +474,15 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             // if (te != null)
             //{
             te.RecieveAttack();
-            Debug.Log("ra");
+            Debug.Log("Tutorial enemy receive attack.");
             // }
             if (finalDamage > 0)
                 hasMeat = true;
             else
                 hasMeat = false;
             te.lastCombo = finalCombo;
+            actSelect.enemyReset = true;
+            actSelect.isReady = false;
             gameObject.SetActive(false);
         }
     }
@@ -433,23 +496,31 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         heal = 0;
         burgerPosition = originalBurgerPosition;
         formerBurgerPosition = originalBurgerPosition;
+
         if (noCombo == true)
         {
             yield return new WaitForSeconds(0.1f);
         }
         else
         {
-            yield return new WaitForSeconds(2f);
+            //yield return new WaitForSeconds(2f);
             noCombo = false;
         }
+
         clearText();
-        spawnReset = false;
         bounceTrigger = 0;
         if (isTutorial && thrown) {
             te.seconds = -2;
         }
-        yield return new WaitForSeconds(2);
-        StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0));
+        //bciDone = false;
+        //spawnReset = false;
+
+        yield return new WaitForSeconds(0.1f);
+        StopAllCoroutines();
+
+        this.gameObject.SetActive(false);
+        //yield return new WaitForSeconds(2);
+        //StartCoroutine(ComponentSpawn(KeyCode.Space, 3, bottomBun, 0));
     }
 
     void IngredientsInfo ()
@@ -724,7 +795,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     IEnumerator setComboText(string combo)
     {
         comboText.text = combo;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) == true || Input.GetKeyDown(KeyCode.LeftControl) == true);
+        yield return new WaitUntil(() => Input.GetButtonDown("Submit") || Input.GetKeyDown(KeyCode.LeftControl) == true);
         comboText.text = "";
     }
 
@@ -1072,7 +1143,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         ph.protag.SetTrigger("IngredientPlace");
     }
 
-    public IEnumerator StartStuff() {
+    public IEnumerator StartStuff()
+    {
         while (player == null)
         {
             yield return new WaitForEndOfFrame();
@@ -1083,7 +1155,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 ph.BCI = this;
             }
         }
-        while (enemy == null) {
+        while (enemy == null)
+        {
             yield return new WaitForEndOfFrame();
             enemy = GameObject.FindGameObjectWithTag("BattleEnemy");
         }
@@ -1104,5 +1177,26 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         {
             componentCount[i] = 0;
         }
+
+        while (actSelect == null)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        if (!isTutorial)
+        {
+            actSelect.isReady = true;
+
+            for (int i = 0; i < actSelect.commandsAvailable.Length; i++)
+                actSelect.commandsAvailable[i] = true;
+        }
+
+        batTran = GameObject.FindGameObjectWithTag("GameController").GetComponent<BattleTransitions>();
+        IconTextUpdate();
+
+        startupDone = true;
+    }
+
+    public void StopTheCoroutines() {
+        StopAllCoroutines();
     }
 }

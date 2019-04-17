@@ -15,7 +15,7 @@ public class TutorialEnemy : MonoBehaviour {
     public GameObject gameController;
     public NarrativeScript1 ns1;
     public int[] lastCombo = { 0, 0, 0, 0};
-    public int[] classicCombo = { 10, 1, 2, 3 };
+    public int[] classicCombo = { 10, 3, 2, 1 };
 
     //public attack stats
     public float drops;
@@ -73,8 +73,17 @@ public class TutorialEnemy : MonoBehaviour {
     public bool animFlag; //checked and unchecked by animation events
     public int convoToCall;
 
+    // James here. Gonna introduce several values specifically for the tutorial and for my own sake of making things easier; it may make some things redundant, unfortunately.
+    public int convoStage = 0; // Where we are in the conversation with the Master; ie, which dialogue do we need? Feed this into NarrScr1, which BattleConvoChecker references to decide which conversation to load. 
+    public int ingOut; // Whether the player has run out of ingredients once before or nah. 0 = No. 1 = First screw-up. 2 = Second screw-up, and termination.
+    public bool wrongCombo; // If the player screwed up by virtue of making the wrong combo, reflect as much.
+    public bool fuckedUp; // Whether the player screwed up a stage of the tutorial.
+    public ActionSelector actSel; // Our Action Selector script.
+    
+
     private void Awake() // this is just to set some things when its being instantiated freely
     {
+        fuckedUp = false;
         gameController = GameObject.FindGameObjectWithTag("GameController");
         StartCoroutine(StartSets());
         burgerSpawner = GameObject.Find("CombatUI").transform.Find("BurgerSpawner").gameObject;
@@ -83,6 +92,8 @@ public class TutorialEnemy : MonoBehaviour {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         ns1 = mainCamera.GetComponent<NarrativeScript1>();
         LightningBolt = transform.Find("LightningBolt").gameObject;
+        actSel = BCI.actSelect;
+
     }
 
     void Start()
@@ -110,32 +121,103 @@ public class TutorialEnemy : MonoBehaviour {
 
     public void RecieveAttack ()
     {
-        Debug.Log("tookdamage");
+        Debug.Log("Took damage.");
         ns1.waitForScript = true;
         //lastCombo = BCI.LastCombo;
         StartCoroutine(recieveAttackTimer());
+
+        for (int i = 0; i < BCI.actSelect.commandsAvailable.Length; i++) // Removes the ability to select any command at all after a burger is launched.
+        {
+            BCI.actSelect.commandsAvailable[i] = false;
+        }
     }
 
     public IEnumerator recieveAttackTimer ()
     {
-        bool same = false;
+        bool same = false; // Tracks if we have the correct combo or not.
         yield return new WaitForSeconds(0.5f);
-        LightningBolt.GetComponent<Animator>().SetTrigger("strike");
-        /*yield return new WaitUntil(() => animFlag == true);
-        animFlag = false;
-        LightningBolt.SetActive(false);*/
-        yield return new WaitForSeconds(1.5f);
-        if (lastCombo.Length == classicCombo.Length)
+
+        if (convoStage < 2)
         {
-            same = true;
-            Debug.Log("same length = " + same);
-            for (int i = 0; i < lastCombo.Length; i++)
+            LightningBolt.GetComponent<Animator>().SetTrigger("strike"); // Lightning strike animation, and its necessary delays. Only do so if this is one of the first few stages of the tutorial.
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        if (convoStage > 1)
+        {
+            if (lastCombo.Length == classicCombo.Length) // If we have completed a full burger, we reflect that in our 'same' bool.
             {
-                if (lastCombo[i] != classicCombo[i])
-                    same = false;
+                same = true;
+                
+                for (int i = 0; i < lastCombo.Length; i++) // With a for-loop, we change the 'same' bool to reflect if we are making the correct combo.
+                {
+                    if (lastCombo[i] != classicCombo[i])
+                        same = false;
+                }
+
+                if (!same) // If we're at a point that we're making combos, we are considered to have fucked up if we make the incorrect combo.
+                {
+                    fuckedUp = true;
+                    wrongCombo = true;
+                }
+
+                Debug.Log("Full length burger: = " + same);
+            }
+
+            for (int i = 1; i < 4; i++)
+            {
+                if (ns1.nm.bt.ingredients[i] < 1) // If any of our ingredients run out...we done fucked up. Only once we get into combos, though.
+                {
+                    fuckedUp = true;
+                    ingOut++;
+                    i = 5; // Break.
+                }
             }
         }
-        if (convoToCall <= 3)
+
+        if (timerStarted && seconds < 0)
+        {
+            fuckedUp = true;
+        }
+
+        if (BCI.playerDead) // If the player is dead, we do its actions and immediately break.
+        {
+            fuckedUp = true;
+            ns1.BattleConvoChecker(9);
+        }
+
+        if (fuckedUp)
+        {
+            Debug.Log("Done fucked up");
+            fuckedUp = false;
+            if (ingOut < 0)
+            {
+                ns1.BattleConvoChecker(6);
+                // Call ingredient out conversation.
+            }
+            else if (wrongCombo)
+            {
+                wrongCombo = false;
+                ns1.BattleConvoChecker(8);
+                // Call wrong combo conversation.
+            }
+            else if (timerStarted && seconds < 0)
+            {
+                ns1.BattleConvoChecker(7);
+            }
+        }
+        else
+        {
+            convoStage++; // Increment where we are in the conversation by one stage.
+            seconds = -2; // Effectively disable our timer.
+
+            Debug.Log("TE: Call ns1.battleconvochecker stage " + convoStage);
+            ns1.BattleConvoChecker(convoStage); // Call the BattleConvoChecker.
+        }
+
+        
+
+        /*if (convoToCall <= 3)
         {
             ns1.convoStartNS1(convoToCall + 3);
             convoToCall++;
@@ -150,7 +232,7 @@ public class TutorialEnemy : MonoBehaviour {
         {
             Debug.Log("incorrect combo");
             ns1.convoStartNS1(7);
-        }
+        }*/
         BCI.StopAllCoroutines();
     }
 
@@ -408,6 +490,7 @@ public class TutorialEnemy : MonoBehaviour {
 
     public void setStartTimer()
     {
+        StopCoroutine(StartTimerSet());
         StartCoroutine(StartTimerSet());
     }
 
@@ -444,7 +527,7 @@ public class TutorialEnemy : MonoBehaviour {
             ns1.convoStartNS1(5);
             LightningBolt.GetComponent<Animator>().SetTrigger("strike");
             secondsText.text = "";
-            seconds = 10;
+            seconds = 30;
             StartCoroutine(EnemyTimer());
         }
         else {

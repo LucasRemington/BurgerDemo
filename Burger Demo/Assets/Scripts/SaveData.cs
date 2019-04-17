@@ -14,7 +14,12 @@ public class SaveData
     public bool[] convoDone; // Conversations that the player has seen. From dialogue holder.
     public string currentScene; // The room the player saved in.
     public int[] ingredients; // Current ingredient count.
-    public bool ingRowTwoUnlocked, ingRowThreeUnlocked, gameStarted; // Ingredient tiers unlocked. // If you've watched the opening cutscene or not.
+    public bool[] ingUnlocked; // Ingredients the player has obtained. 0 = Bun; 1 = Tomato; 2 = Lettuce; 3 = Onion; 4 = Bacon; 5 = Sauce; 6 = Pickles; 7 = Ketchup; 8 = Mustard; 9 = Cheese; 10 = Patty 
+    public bool gameStarted; // Ingredient tiers unlocked. // If you've watched the opening cutscene or not.
+
+    public bool[] combosUnlocked;
+    public bool[] itemsUnlocked;
+    public int[] itemCount;
 
     public List<string> meatLockerList; // All currently-visited meat lockers. Serialized by the name of the scene they inhabit. 
     public int meatLockerIndex; // The index of the meat locker you last visited inside the above list.

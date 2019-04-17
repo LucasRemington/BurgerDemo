@@ -203,6 +203,7 @@ public class EnemyBehavior : MonoBehaviour {
         yield return null;
         if (enemyHealth <= 0)
         {
+            BCI.StopTheCoroutines();
             dead = true;
             //anim.SetTrigger("Damaged");
             //yield return new WaitUntil(() => AnimFlag == true);
@@ -252,18 +253,21 @@ public class EnemyBehavior : MonoBehaviour {
                 else
                 {
                     yield return new WaitUntil(() => AnimFlag);
+                    AnimFlag = false;
                     StartCoroutine(MoveForwards());
                 }
             }
             else if (movingBackwards == true && cantMove == false)
             {
                 yield return new WaitForSeconds(0.01f);
-                //yield return new WaitUntil(() => AnimFlag);
+                yield return new WaitUntil(() => AnimFlag);
                 ticks++;
+                anim.ResetTrigger("Damaged");
                 tear = HealthText.transform.GetChild(3).gameObject;
                 transform.position = Vector3.Lerp(endPosition, startPosition, (ticks / 50f));
                 if (transform.position == startPosition) // turn reset
                 {
+                    StartCoroutine(EnemyTimer());
                     anim.SetTrigger("Reset");
                     if (cryingStacks > 0)
                     {
@@ -411,7 +415,7 @@ public class EnemyBehavior : MonoBehaviour {
                 Attack();
                 yield return new WaitForSeconds(0.1f);
                 StartCoroutine(MoveForwards());
-                StartCoroutine(EnemyTimer());
+                //StartCoroutine(EnemyTimer());
             }
         } else
         {

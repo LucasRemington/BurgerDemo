@@ -85,5 +85,5 @@ MonoBehaviour:
       m_FixedHeight: 0
       m_StretchWidth: 0
       m_StretchHeight: 0
-    TextPlayBackSpeed: 0.2
+    TextPlayBackSpeed: 0.25
     PlayBackSoundFile: {fileID: 0}

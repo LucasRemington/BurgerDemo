@@ -63,13 +63,14 @@ public class DialogueHolder : MonoBehaviour {
                 if (ns1 != null)
                 {
                     ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
+                    //Debug.Log("DH Event 1: Calling ns1.convoChecker with scripted conversation  " + scriptedConversation);
                 }
                 break;
 
             case 2:
                 if (ns1 != null)
                 {
-                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
+                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]); 
                 }
                 break;
 
@@ -94,7 +95,7 @@ public class DialogueHolder : MonoBehaviour {
         if (scriptedConvoStart[scriptedConversation] == false)
         {
             scriptedConvoStart[scriptedConversation] = true;
-            if (inCombat == false)
+            if (/*inCombat == false*/ true)
             {
                 StartCoroutine(nm.dialogueBox(true));
             }
@@ -106,8 +107,9 @@ public class DialogueHolder : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(nm.AnimateText(Scripted[scriptedConversation], scriptedConvo[scriptedConversation]));
         specifyScript(scriptedConversation); //here is where we put a switch(?) statement calling other functions when appropriate
+        Debug.Log("DH: Calling specify script at stage " + scriptedConversation + " with dialogue text '" + Scripted[scriptedConversation].DialogItems[scriptedConvo[scriptedConversation]].DialogueText + "'");
         scriptedConvo[scriptedConversation]++;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && ongoingEvent == false || autoAdvance == true && nm.canAdvance == true && ongoingEvent == false);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && nm.canAdvance == true && ongoingEvent == false || autoAdvance == true && nm.canAdvance == true);
         autoAdvance = false;
         //Debug.Log("scripted convo = " + scriptedConvo[scriptedConversation] + "  &   Size of List = " + sizeOfList);
         if (scriptedConvo[scriptedConversation] >= sizeOfList)

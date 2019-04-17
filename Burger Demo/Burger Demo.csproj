@@ -310,6 +310,7 @@
     <Compile Include="Assets\Scripts\BattleTransitions.cs" />
     <Compile Include="Assets\Scripts\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\CreditsManager.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\BattleMenuIngCaller.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DBAnimEvents.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DennisAnimEvent.cs" />
     <Compile Include="Assets\Scripts\Dialogue\AnimationEventCallers\DWBOpeningANimCaller.cs" />
@@ -327,14 +328,17 @@
     <Compile Include="Assets\Scripts\DontDestroy.cs" />
     <Compile Include="Assets\Scripts\In Battle\ActionSelector.cs" />
     <Compile Include="Assets\Scripts\In Battle\AttackLaunch.cs" />
+    <Compile Include="Assets\Scripts\In Battle\BoolArray.cs" />
     <Compile Include="Assets\Scripts\In Battle\BurgerComponentInstantiator.cs" />
     <Compile Include="Assets\Scripts\In Battle\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\In Battle\FollowWithOffset.cs" />
     <Compile Include="Assets\Scripts\In Battle\IndividualComponent.cs" />
     <Compile Include="Assets\Scripts\In Battle\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\In Battle\StringArray.cs" />
     <Compile Include="Assets\Scripts\In Battle\TurnOffWhenDone.cs" />
     <Compile Include="Assets\Scripts\In Battle\TutorialEnemy.cs" />
     <Compile Include="Assets\Scripts\In Battle\UIActivate.cs" />
+    <Compile Include="Assets\Scripts\In Battle\Vector2Array.cs" />
     <Compile Include="Assets\Scripts\Overworld\CrumpingHatMan.cs" />
     <Compile Include="Assets\Scripts\Overworld\Door.cs" />
     <Compile Include="Assets\Scripts\Overworld\Enemy.cs" />

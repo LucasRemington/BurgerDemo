@@ -70,12 +70,13 @@ public class PlayerHealth : MonoBehaviour {
         healthText.text = playerHealth.ToString();
         if (playerHealth <= 0)
         {
-            protag.SetBool("CombatLost", true);
+            protag.SetTrigger("CombatLost");
+            StartCoroutine(BCI.nm.bt.EndOfBattle(false));
         }
         shieldBar.fillAmount = (float)shields / (float)playerHealthMax;
     }
 
-    public void HealDamage(int addShields) //used to heal damage, takes amount of healing as an argument
+    public void HealDamage(int addShields) // used to heal damage, takes amount of healing as an argument
     {
         healIcon.SetActive(true);
         Debug.Log("gaveShields");
@@ -97,7 +98,14 @@ public class PlayerHealth : MonoBehaviour {
         healthText.text = playerHealth.ToString();
         shieldBar.fillAmount = (float)shields / (float)playerHealthMax;
     }
+
     public void healthUpdate() {
         gameController.GetComponent<BattleTransitions>().playerHealth = playerHealth;
+    }
+
+    public void BurgerTax(int amount) {
+        playerHealth -= amount;
+        healthBar.fillAmount = (float)playerHealth / (float)playerHealthMax;
+        healthText.text = playerHealth.ToString();
     }
 }

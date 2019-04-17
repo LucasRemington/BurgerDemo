@@ -16,6 +16,8 @@ public class IndividualComponent : MonoBehaviour {
     private Image sprite;
     public Animator anim;
 
+    public bool doneBouncing;
+
     public bool isTopBun;
 
     void Awake () //sets variables for other scripts, mostly
@@ -65,6 +67,7 @@ public class IndividualComponent : MonoBehaviour {
     IEnumerator Bounce() //...with this coroutine, checking if that global number is ever changed.
     {
         yield return new WaitUntil(() => BCI.bounceTrigger != prevTrigger);
+        doneBouncing = false;
         StartCoroutine(BounceTicks());
         prevTrigger = BCI.bounceTrigger;
     }
@@ -86,6 +89,7 @@ public class IndividualComponent : MonoBehaviour {
         } else
         {
             StartCoroutine(Bounce());
+            doneBouncing = true;
             tickDown = false;
             ticks = 0;
         }
