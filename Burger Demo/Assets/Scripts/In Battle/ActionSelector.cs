@@ -141,11 +141,11 @@ public class ActionSelector : MonoBehaviour
         // This segment hides the indicator if it should be off, or turns it back on if the reverse is true.
         if (!indicatorOn)
         {
-            Indicator.SetActive(false);
+            Indicator.GetComponent<Image>().enabled = false;
         }
         else
         {
-            Indicator.SetActive(true);
+            Indicator.GetComponent<Image>().enabled = true;
         }
 
     }
@@ -567,7 +567,7 @@ public class ActionSelector : MonoBehaviour
 
         if (commandOpen != CommandMenus.None) // If we aren't in the base command menu, go back into the command menu.
         {
-
+            Debug.Log("Return to base Command menu.");
             uiAnim.SetBool("BCI", false); // Reset our animator.
             uiAnim.SetBool("ItemCombo", false);
             uiAnim.SetBool("ComboInfo", false);
@@ -589,11 +589,14 @@ public class ActionSelector : MonoBehaviour
 
         if (!ns1.waitForScript) // As long as we're not waiting for the narrative script, we can confirm an option.
         {
+
             switch (commandOpen) // Base how Confirm behaves on which menu we're in.
             {
                 case CommandMenus.None:
                     if (!backHome || !isReady) // If we haven't returned to the main menu or are otherwise not ready, don't do anything.
                         break;
+
+                    StartEnemyTimer(); // Start our timer, having selected things.
 
                     switch (choice) // If we're in the base command menu, select our command.
                     {
@@ -796,6 +799,23 @@ public class ActionSelector : MonoBehaviour
         else
         {
             //Debug.Log("wait for script");
+        }
+    }
+
+    public void StartEnemyTimer()
+    {
+        if (bci.isTutorial) // If we're in the tutorial, start ticking seconds down, but only if the timer has been enabled.
+        {
+            if (bci.te.timerEnabled && !bci.te.timerInProgress)
+            {
+                StartCoroutine(bci.te.EnemyTimer());
+                bci.te.seconds = (int)bci.te.enemySpeed - 2;
+            }
+        }
+        else if (!bci.isTutorial) // If we're NOT in the tutorial...also do that. But always.
+        {
+            //StartCoroutine(bci.eb.EnemyTimer());
+            //bci.eb.seconds = (int)bci.eb.enemySpeed - 2;
         }
     }
 

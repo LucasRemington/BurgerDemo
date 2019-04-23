@@ -352,7 +352,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                         burgerPosition = burgerPosition + 4.55f;
                         Instantiate(prefab, new Vector3(CombatUI.transform.localPosition.x, burgerPosition, 0), Quaternion.identity);
                         StartCoroutine(ComponentSpawn(KeyCode.LeftShift, 2, patty, 10));
-                        ph.DealDamage(2);
+                        ph.BurgerTax(5);
                         burgPlaceAnim();
                         iconAnim[identity].SetTrigger("Bounce");
                         break;
@@ -436,7 +436,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         {
             actSelect.enemyReset = false;
             Debug.Log("Hit");
-            StopAllCoroutines();
+            //StopAllCoroutines();
 
             if (crying > 0)
             {
@@ -454,7 +454,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
                 finalDamage = finalDamage * 2;
                 StartCoroutine(eb.setAboveText("Critical Hit!"));
             }
-            eb.TakeDamage(finalDamage);
+            Debug.Log("BCI: Call eb.take damage");
+            eb.StartTakeDamage(finalDamage);
             eb.drops = eb.drops + dropMult;
             if (dropMult > 0)
             {
@@ -473,6 +474,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
             Debug.Log("tutorial");
             // if (te != null)
             //{
+            te.seconds = -2;
             te.RecieveAttack();
             Debug.Log("Tutorial enemy receive attack.");
             // }
@@ -494,9 +496,9 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         topPlaced = false;
         pattyDropped = false;
         heal = 0;
+        componentNumber = 0;
         burgerPosition = originalBurgerPosition;
         formerBurgerPosition = originalBurgerPosition;
-
         if (noCombo == true)
         {
             yield return new WaitForSeconds(0.1f);
@@ -509,9 +511,6 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
         clearText();
         bounceTrigger = 0;
-        if (isTutorial && thrown) {
-            te.seconds = -2;
-        }
         //bciDone = false;
         //spawnReset = false;
 
@@ -1025,8 +1024,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
     {
         playerDead = true;
         ClearBurger(false);
-        ResetAttack();
-        StartCoroutine(FadeImageToFullAlpha(2, fadeBlack));
+        ResetAttack();if (!isTutorial)
+            StartCoroutine(FadeImageToFullAlpha(2, fadeBlack));
     }
 
     public IEnumerator whenBlackScreen () //controls UI, triggering when screen is fully black
@@ -1169,6 +1168,8 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         if (te != null) {
             isTutorial = true;
         }
+        if (!te)
+            isTutorial = false;
         for (int i = 0; i < componentCap; i++) //returns finalcombo array to all 0
         {
             finalCombo[i] = 0;
@@ -1198,5 +1199,21 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     public void StopTheCoroutines() {
         StopAllCoroutines();
+    }
+
+    public void ResetBattleSystem() {
+        ph = null;
+        player = null;
+        eb = null;
+        te = null;
+        tutEnemy = null;
+        enemy = null;
+        canSpawn = false;
+        serveStart = false;
+        bounceTrigger = 0;
+        turns = 0;
+        spawnReset = false;
+        startupDone = false;
+        canSpawn = true;
     }
 }

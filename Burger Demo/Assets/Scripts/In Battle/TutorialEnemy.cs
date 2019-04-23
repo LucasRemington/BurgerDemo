@@ -79,6 +79,8 @@ public class TutorialEnemy : MonoBehaviour {
     public bool wrongCombo; // If the player screwed up by virtue of making the wrong combo, reflect as much.
     public bool fuckedUp; // Whether the player screwed up a stage of the tutorial.
     public ActionSelector actSel; // Our Action Selector script.
+    public bool timerEnabled;
+    public bool timerInProgress;
     
 
     private void Awake() // this is just to set some things when its being instantiated freely
@@ -132,23 +134,21 @@ public class TutorialEnemy : MonoBehaviour {
         }
     }
 
-    public IEnumerator recieveAttackTimer ()
+    public IEnumerator recieveAttackTimer()
     {
+        timerInProgress = false; // Make sure anything checking if our timer is running knows we stopped.
+        StopCoroutine(StartTimerSet());
         bool same = false; // Tracks if we have the correct combo or not.
+        ph.protag.ResetTrigger("Hurt"); // Reset the damage trigger on the player.
+        yield return new WaitUntil(() => !ns1.combatUIAnim.GetBool("BCI"));
         yield return new WaitForSeconds(0.5f);
-
-        if (convoStage < 2)
-        {
-            LightningBolt.GetComponent<Animator>().SetTrigger("strike"); // Lightning strike animation, and its necessary delays. Only do so if this is one of the first few stages of the tutorial.
-            yield return new WaitForSeconds(1.5f);
-        }
 
         if (convoStage > 1)
         {
             if (lastCombo.Length == classicCombo.Length) // If we have completed a full burger, we reflect that in our 'same' bool.
             {
                 same = true;
-                
+
                 for (int i = 0; i < lastCombo.Length; i++) // With a for-loop, we change the 'same' bool to reflect if we are making the correct combo.
                 {
                     if (lastCombo[i] != classicCombo[i])
@@ -180,6 +180,12 @@ public class TutorialEnemy : MonoBehaviour {
             fuckedUp = true;
         }
 
+        if (convoStage < 2 || fuckedUp)
+        {
+            LightningBolt.GetComponent<Animator>().SetTrigger("strike"); // Lightning strike animation, and its necessary delays. Only do so if this is one of the first few stages of the tutorial.
+            yield return new WaitForSeconds(1.5f);
+        }
+
         if (BCI.playerDead) // If the player is dead, we do its actions and immediately break.
         {
             fuckedUp = true;
@@ -190,10 +196,14 @@ public class TutorialEnemy : MonoBehaviour {
         {
             Debug.Log("Done fucked up");
             fuckedUp = false;
-            if (ingOut < 0)
+            if (ingOut > 0 && (ns1.nm.bt.ingredients[1] < 1 || ns1.nm.bt.ingredients[2] < 1 || ns1.nm.bt.ingredients[3] < 1))
             {
                 ns1.BattleConvoChecker(6);
                 // Call ingredient out conversation.
+            }
+            else if (timerStarted && seconds < 0 && seconds > -2)
+            {
+                ns1.BattleConvoChecker(7);
             }
             else if (wrongCombo)
             {
@@ -201,10 +211,7 @@ public class TutorialEnemy : MonoBehaviour {
                 ns1.BattleConvoChecker(8);
                 // Call wrong combo conversation.
             }
-            else if (timerStarted && seconds < 0)
-            {
-                ns1.BattleConvoChecker(7);
-            }
+            
         }
         else
         {
@@ -490,6 +497,7 @@ public class TutorialEnemy : MonoBehaviour {
 
     public void setStartTimer()
     {
+        //timerInProgress = true;
         StopCoroutine(StartTimerSet());
         StartCoroutine(StartTimerSet());
     }
@@ -513,6 +521,8 @@ public class TutorialEnemy : MonoBehaviour {
             clock.SetActive(true);
         }*/
         yield return new WaitForSeconds(1f);
+        seconds--;
+        timerInProgress = true;
         if (secondsText == null)
         {
             yield return new WaitUntil(() => secondsText != null);
@@ -524,16 +534,22 @@ public class TutorialEnemy : MonoBehaviour {
         }
         else if (seconds == 0)
         {
-            ns1.convoStartNS1(5);
-            LightningBolt.GetComponent<Animator>().SetTrigger("strike");
-            secondsText.text = "";
-            seconds = 30;
-            StartCoroutine(EnemyTimer());
+            //ns1.convoStartNS1(5);
+            //LightningBolt.GetComponent<Animator>().SetTrigger("strike");
+            secondsText.text = "00";
+            //seconds = (int)enemySpeed - 2;
+            //StartCoroutine(EnemyTimer());
+
+            StartCoroutine(BCI.ClearBurger(true));
+            BCI.bciDone = true;
+            actSel.enemyReset = true;
+            RecieveAttack();
+            BCI.gameObject.SetActive(false);
         }
         else {
             secondsText.text = "";
         }
-        seconds--;
+        
     }
 
     public IEnumerator StartSets()

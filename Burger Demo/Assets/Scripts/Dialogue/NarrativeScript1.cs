@@ -54,7 +54,7 @@ public class NarrativeScript1 : MonoBehaviour {
     private bool eventInProgress = false; // Called at the beginning and end of each convo event. Don't call ConvoChecker if we're in the middle of an event.
 
     [Header("Kitchen & Related")]
-    [Tooltip("SET THIS IN THE INSPECTOR. It can be found at Prefabs/BattleEnemies/Dixie. Allows us to fight Dixie I presume.")]public GameObject BattleDixie;
+    [Tooltip("SET THIS IN THE INSPECTOR. It can be found at Prefabs/BattleEnemies/Dixie. Allows us to fight Dixie I presume.")] public GameObject BattleDixie;
     [Tooltip("The sprite for Dixie's face.")] public Sprite DixieBattleFace;
 
     [HideInInspector] public Dialogue dennis1; // specific dialogue modified by player choice
@@ -64,7 +64,7 @@ public class NarrativeScript1 : MonoBehaviour {
 
 
 
-    public void PseudoStart ()
+    public void PseudoStart()
     {
         playerHolder = GameObject.FindWithTag("Player");
         player = playerHolder.transform.Find("OverworldPlayer").gameObject;
@@ -95,11 +95,11 @@ public class NarrativeScript1 : MonoBehaviour {
         //StartCoroutine(battleEarly());
     }
 
-    public IEnumerator battleEarly ()
+    public IEnumerator battleEarly()
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.J));
         Debug.Log("j");
-        StartCoroutine(nm.bt.StartBattle(masterHologram));
+        StartCoroutine(nm.bt.StartBattle(masterHologram, true));
         yield return new WaitUntil(() => nm.bt.battling == true);
         StartCoroutine(dh.GenericFirstConvo(2, true));
     }
@@ -213,7 +213,7 @@ public class NarrativeScript1 : MonoBehaviour {
         //dh.CancelDialogue(true);
         yield return new WaitUntil(() => !nm.db.enabled); // Waits until the dialogue box closes.
         Debug.Log("BEGIN TUTORIAL");
-        StartCoroutine(nm.bt.StartBattle(masterHologram));
+        StartCoroutine(nm.bt.StartBattle(masterHologram, true));
         yield return new WaitUntil(() => nm.bt.battling == true);
         AudioSource music = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
         music.Play();
@@ -226,28 +226,32 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => /*animationFlag == true && */nm.bt.battling == false); //change this to wait until combat finishes + flag set from animation event 
         Debug.Log("battle is over");
         music.Stop();
-        battleEndText2.enabled = false;
-        winLossText.enabled = false;
-        yield return new WaitUntil(() => !eventInProgress);
-        /*for (int i = 0; i < 101; i++)
+        if (!nm.bci.playerDead) // Once the battle is over, this event ends if the player dies midway through.
         {
-            blackScreen.color = new Color(0, 0, 0, blackScreen.color.a - 0.01f);
-            yield return new WaitForEndOfFrame();
-        }*/
-        //dh.CancelDialogue(true);
-        //nm.dbAnim.ResetTrigger("Popdown");
-        yield return new WaitUntil(() => nm.owm.canMove == true);
-        nm.owm.canMove = false;
-        StartCoroutine(nm.bci.FadeImageToZeroAlpha(1f, blackScreen));
-        yield return new WaitForSeconds(1.5f);
-        convoStartNS1(8);
-        yield return new WaitUntil(() => nm.owm.canMove == true);
-        nm.owm.canMove = false;
-        yield return new WaitUntil(() => dh.scriptedConvoDone[10] == true);
-        nm.owm.canMove = true;
-        nm.ev++;
+            battleEndText2.enabled = false;
+            winLossText.enabled = false;
+            yield return new WaitUntil(() => !eventInProgress);
+            /*for (int i = 0; i < 101; i++)
+            {
+                blackScreen.color = new Color(0, 0, 0, blackScreen.color.a - 0.01f);
+                yield return new WaitForEndOfFrame();
+            }*/
+            //dh.CancelDialogue(true);
+            //nm.dbAnim.ResetTrigger("Popdown");
+            yield return new WaitUntil(() => nm.owm.canMove == true);
+            nm.owm.canMove = false;
+            StartCoroutine(nm.bci.FadeImageToZeroAlpha(1f, blackScreen));
+            yield return new WaitForSeconds(1.5f);
+            convoStartNS1(8);
+            yield return new WaitUntil(() => nm.owm.canMove == true);
+            nm.owm.canMove = false;
+            yield return new WaitUntil(() => dh.scriptedConvoDone[10] == true);
+            nm.owm.canMove = true;
+            nm.ev++;
 
-        nm.CheckEvent();
+            nm.CheckEvent();
+        }
+        
     }
 
     public IEnumerator eventTwo() {
@@ -273,11 +277,11 @@ public class NarrativeScript1 : MonoBehaviour {
                 wall.GetComponent<AudioSource>().mute = false;
             }
         }*/
-        yield return new WaitUntil(()=> nm.room == 1);
+        yield return new WaitUntil(() => nm.room == 1);
         Debug.Log("In Dennis' room");
         transitMan.readyForFade = false;
         yield return new WaitForSeconds(1);
-        player.GetComponent<SpriteRenderer>().flipX = true;        
+        player.GetComponent<SpriteRenderer>().flipX = true;
         dennis = GameObject.FindGameObjectWithTag("Dennis");
         dennis = dennis.transform.Find("dennis").gameObject;
         dennisAnim = dennis.GetComponent<Animator>();
@@ -299,7 +303,7 @@ public class NarrativeScript1 : MonoBehaviour {
         nm.owm.canMove = false;
         dennisAnim.SetBool("SitImmediate", false);
         Debug.Log("Can't move");
-        transitMan.readyForFade = true;       
+        transitMan.readyForFade = true;
         yield return new WaitUntil(() => nm.owm.canMove == true);
         Debug.Log("Can Move but shouldn't");
         nm.owm.canMove = false;
@@ -320,22 +324,22 @@ public class NarrativeScript1 : MonoBehaviour {
         {
             dennis.GetComponent<SpriteRenderer>().flipX = false;
             StartCoroutine(sm.MoveTo(dennis, new Vector3(-4.58f, 0, 0), 1f));
-            
+
         }
         else {
             StartCoroutine(sm.MoveTo(dennis, new Vector3(3.04f, 0, 0), 1f));
             dennis.GetComponent<SpriteRenderer>().flipX = true;
         }
-        
+
         dennisAnim.SetInteger("Scene2", 6);
+        nm.ev++;
+        nm.CheckEvent();
         yield return new WaitUntil(() => sm.finished);
         dennis.GetComponent<SpriteRenderer>().flipX = false;
         nm.bt.ingredients[1] = 15;
         nm.bt.ingredients[2] = 15;
         nm.bt.ingredients[3] = 15;
         dennisAnim.SetTrigger("ResetSitting");
-        nm.ev++;
-        nm.CheckEvent();
     }
 
     public IEnumerator eventThree() {
@@ -375,7 +379,7 @@ public class NarrativeScript1 : MonoBehaviour {
         MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
         yield return new WaitUntil(() => animationFlag);
         yield return new WaitForSeconds(0.1f);
-        StartCoroutine(nm.bt.StartBattle(BattleDixie));
+        StartCoroutine(nm.bt.StartBattle(BattleDixie, true));
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(nm.dialogueEnd());
         yield return new WaitUntil(() => nm.bci.gameObject);
@@ -389,7 +393,7 @@ public class NarrativeScript1 : MonoBehaviour {
         else {
             nm.ev += 2;
             nm.CheckEvent();
-        }           
+        }
     }
 
     public IEnumerator eventFive() {
@@ -399,7 +403,7 @@ public class NarrativeScript1 : MonoBehaviour {
         //playerSR.flipX = false;
         MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
         yield return new WaitUntil(() => animationFlag);
-        StartCoroutine(nm.bt.StartBattle(BattleDixie));
+        StartCoroutine(nm.bt.StartBattle(BattleDixie, true));
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(nm.dialogueEnd());
         yield return new WaitUntil(() => nm.bci.gameObject);
@@ -416,7 +420,7 @@ public class NarrativeScript1 : MonoBehaviour {
         }
 
     }
-    
+
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
     {
         Debug.Log("Convo Checker: Calling case " + dia);
@@ -451,10 +455,10 @@ public class NarrativeScript1 : MonoBehaviour {
                     StartCoroutine(convo8Events(dia, scriptedConvo));
                     break;
                 case 9:
-                    StartCoroutine(convo9Events(dia, scriptedConvo));
+                    StartCoroutine(TutorialDeath(dia, scriptedConvo));
                     break;
                 case 10:
-                    StartCoroutine(convo9Events(dia, scriptedConvo));
+                    StartCoroutine(TutorialTimeout(dia, scriptedConvo));
                     break;
                 case 11:
                     //Debug.Log("Call thing");
@@ -467,8 +471,17 @@ public class NarrativeScript1 : MonoBehaviour {
                 case 13:
                     StartCoroutine(DennisConvo2(dia, scriptedConvo));
                     break;
+                case 14:
+                    StartCoroutine(TutorialWrongCombo(dia, scriptedConvo));
+                    break;
+                case 15:
+                    StartCoroutine(TutorialIngredientsOut(dia, scriptedConvo, true));
+                    break;
+                case 16:
+                    StartCoroutine(TutorialIngredientsOut(dia, scriptedConvo, false));
+                    break;
             }
-        
+
         }
     }
 
@@ -506,9 +519,13 @@ public class NarrativeScript1 : MonoBehaviour {
                 }
                 break;
             case 7: // Ran out of time.
+                dh.scriptedConvoStart[10] = false;
+                dh.scriptedConvo[10] = 0;
                 StartCoroutine(dh.GenericFirstConvo(10, true));
                 break;
             case 8: // Wrong combo.
+                dh.scriptedConvoStart[14] = false;
+                dh.scriptedConvo[14] = 0;
                 StartCoroutine(dh.GenericFirstConvo(14, true));
                 break;
             case 9: // Dead.
@@ -659,13 +676,14 @@ public class NarrativeScript1 : MonoBehaviour {
 
                 tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy"); // Set our tutorial enemy and relevant script once battle is underway.
                 te = tutEnemy.GetComponent<TutorialEnemy>();
+                te.secondsText.text = "";
 
                 dh.ongoingEvent = true; // Make this true at the beginning of each case, and false at the end of each. Has dialogue holder wait up on us here.
 
                 combatUIAnim = gameObject.transform.Find("Canvas").Find("CombatUI").GetComponent<Animator>();
 
                 //loops++;
-                
+
                 waitForScript = true;
                 dh.ongoingEvent = false;
                 break;
@@ -694,9 +712,11 @@ public class NarrativeScript1 : MonoBehaviour {
                     }
                     yield return null;
                 }
-                yield return new WaitForSeconds(0.1f); // Then wait for the end of the frame so we can confirm the option in ActionSelector.
+                yield return new WaitUntil(() => combatUIAnim.GetBool("BCI")); // Once we select it, wait for BCI to load in, as well as at least buns to finally appear before we continue on.
+                yield return new WaitUntil(() => nm.bci.iconAnim[0].GetComponent<Image>().enabled);
+                actSel.indicatorOn = false;
                 dh.autoAdvance = true;
-                
+
                 dh.ongoingEvent = false;
                 break;
             case 2:
@@ -705,10 +725,11 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 combatUIAnim.SetTrigger("BCItrueFlash"); // Flash our main BCI panel instead.
                 yield return new WaitUntil(() => actSel.row == 2);
-                
+
                 actSel.row = 0;
                 actSel.col = 2;
-                             
+                actSel.indicatorOn = true;
+
                 yield return new WaitUntil(() => nm.canAdvance); // Wait until our text box is full, then stop waiting for script.
                 //combatUIAnim.SetTrigger("BCItrueFlash"); // Stop flashing our BCI main panel once the text box fills up.    // Now handled in BCI itself if this is the first stage of the Master fight.
                 //yield return new WaitForEndOfFrame(); // Pass two frames to allow BCI to stop flashing.
@@ -716,33 +737,35 @@ public class NarrativeScript1 : MonoBehaviour {
                 waitForScript = false;
                 dh.ongoingEvent = false;
                 eventInProgress = false;
+
+
                 // CONVERSATION END HERE.
                 break;
 
 
-            /*case 3:
-                dh.ongoingEvent = true;
-                dh.ongoingEvent = false;
-                break;
-            case 4:
-                dh.ongoingEvent = true;
-                waitForScript = false;
-                if (loops <= 1)
-                {
-                    combatUIAnim.SetBool("Looping", true);
-                    combatUIAnim.SetTrigger("Ingredient");
-                    yield return new WaitForSeconds(1.5f);
-                    combatUIAnim.SetBool("Looping", false);
-                }
-                nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
-                dh.ongoingEvent = false;
-                break;
-            case 5:
-                dh.ongoingEvent = true;
-                Debug.Log("Convo 2: " + scriptedConvo);
-                nm.bt.gameObject.GetComponent<ActionSelector>().commandReady = true;
-                dh.ongoingEvent = false;
-                break;*/
+                /*case 3:
+                    dh.ongoingEvent = true;
+                    dh.ongoingEvent = false;
+                    break;
+                case 4:
+                    dh.ongoingEvent = true;
+                    waitForScript = false;
+                    if (loops <= 1)
+                    {
+                        combatUIAnim.SetBool("Looping", true);
+                        combatUIAnim.SetTrigger("Ingredient");
+                        yield return new WaitForSeconds(1.5f);
+                        combatUIAnim.SetBool("Looping", false);
+                    }
+                    nm.bt.gameObject.GetComponent<ActionSelector>().isReady = true;
+                    dh.ongoingEvent = false;
+                    break;
+                case 5:
+                    dh.ongoingEvent = true;
+                    Debug.Log("Convo 2: " + scriptedConvo);
+                    nm.bt.gameObject.GetComponent<ActionSelector>().commandReady = true;
+                    dh.ongoingEvent = false;
+                    break;*/
         }
 
     }
@@ -840,7 +863,11 @@ public class NarrativeScript1 : MonoBehaviour {
                     }
                     yield return null;
                 }
-                yield return new WaitForSeconds(0.25f); // Then wait for the end of the frame so we can confirm the option in ActionSelector.
+                yield return new WaitUntil(() => combatUIAnim.GetBool("BCI")); // Once we select it, wait for BCI to load in, as well as at least buns to finally appear before we continue on.
+                yield return new WaitUntil(() => nm.bci.iconAnim[0].GetComponent<Image>().enabled);
+                actSel.isReady = false;
+                //yield return new WaitForSeconds(0.25f);
+                waitForScript = true;
                 dh.autoAdvance = true;
 
                 dh.ongoingEvent = false;
@@ -938,7 +965,10 @@ public class NarrativeScript1 : MonoBehaviour {
                     yield return null;
                 }
                 dh.ongoingEvent = false;
-                yield return new WaitForSeconds(0.1f); // Then wait for the end of the frame so we can confirm the option in ActionSelector.
+                yield return new WaitUntil(() => combatUIAnim.GetBool("ItemCombo")); // Once we select it, wait for the Combo menu to load in, as well as the first combo to load in before we continue.
+                yield return new WaitUntil(() => actSel.comboHolder.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>()); // This SHOULD return the first combo's image component... ComboHolder -> Row2 ->
+                actSel.isReady = false;
+                waitForScript = true;
                 dh.autoAdvance = true;
 
                 dh.ongoingEvent = false;
@@ -947,7 +977,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
                 actSel.isReady = false;
                 waitForScript = true;
-                
+
                 combatUIAnim.SetTrigger("ItemComboFlash");
 
 
@@ -979,25 +1009,37 @@ public class NarrativeScript1 : MonoBehaviour {
                     }
                     yield return null;
                 }
-                yield return new WaitForSeconds(0.25f); // Then wait for the end of the frame so we can confirm the option in ActionSelector.
-                dh.autoAdvance = true;
-                dh.ongoingEvent = false;
-                break;
-            case 4: // Note that having an ingredient selected is not necessary to add it to your burger, nor is it necessary to first select a Combo from the Combo menu to serve one. [ Hold. ]
+                yield return new WaitUntil(() => combatUIAnim.GetBool("BCI")); // Once we select it, wait for the Combo menu to load in, as well as the first combo to load in before we continue.
+                yield return new WaitUntil(() => nm.bci.iconAnim[0].GetComponent<Image>().enabled); // This SHOULD return the first combo's image component... ComboHolder -> Row2 ->
                 actSel.isReady = false;
                 waitForScript = true;
+                dh.autoAdvance = true;
+
+                dh.ongoingEvent = false;
+                break;
+            case 4: // Instructions on how to assemble the selected Combo will appear in the Information Panel. Observe.
+                dh.ongoingEvent = true;
+                waitForScript = true;
+                combatUIAnim.SetTrigger("InfoFlash"); // Flash information panel again.
+                dh.ongoingEvent = false;
+                break;
+            case 5: // Note that having an ingredient selected is not necessary to add it to your burger, nor is it necessary to first select a Combo from the Combo menu to serve one. [ Hold. ]
+                actSel.isReady = false;
+                combatUIAnim.SetTrigger("InfoFlash");
+                //waitForScript = true;
                 dh.ongoingEvent = true;
                 dh.ongoingEvent = false;
                 break;
-            case 5: // Also note that you have been given a limited quantity of each ingredient. Although you may discard a failure by pressing your Cancel button, any Ingredients used are forfeit. [ Hold ]
+            case 6: // Also note that you have been given a limited quantity of each ingredient. Although you may discard a failure by pressing your Cancel button, any Ingredients used are forfeit. [ Hold ]
                 dh.ongoingEvent = true;
 
                 dh.ongoingEvent = false;
                 break;
-            case 6: // Serve me. Failure to serve the appropriate Combo will result in punishment. [ Won't serve burger until dialogue is closed ]
+            case 7: // Serve me. Failure to serve the appropriate Combo will result in punishment. [ Won't serve burger until dialogue is closed ]
                 dh.ongoingEvent = true;
                 actSel.commandsAvailable[0] = true; // Unlock command menu in case we decide to retreat a menu.
                 yield return new WaitUntil(() => nm.canAdvance);
+                actSel.isReady = true;
                 waitForScript = true;
                 nm.bt.ingredients[10] = 1; // Set our ingredients to their proper values, now.
                 nm.bt.ingredients[1] = 10;
@@ -1006,7 +1048,6 @@ public class NarrativeScript1 : MonoBehaviour {
                 nm.bt.ingUnlocked[11] = true;
                 nm.bci.iconAnim[10].SetInteger("Count", 1);
                 nm.bci.IconTextUpdate();
-
                 yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
                 yield return new WaitForSeconds(0.1f);
                 dh.autoAdvance = true;
@@ -1037,6 +1078,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 dh.ongoingEvent = true;
 
                 combatUIAnim.SetTrigger("TimerFlash"); // Flash timer here.
+                nm.bci.te.setStartTimer();
+                te.timerEnabled = true; // Make sure the tutorial enemy script knows to reapply the timer from now on.
 
                 dh.ongoingEvent = false;
                 break;
@@ -1104,7 +1147,7 @@ public class NarrativeScript1 : MonoBehaviour {
 
                 blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
                 StartCoroutine(nm.bci.FadeImageToFullAlpha(1.5f, blackScreen));
-                
+
 
                 StartCoroutine(nm.bt.EndOfTutorialBattle(true));
 
@@ -1180,17 +1223,26 @@ public class NarrativeScript1 : MonoBehaviour {
         }
     }
 
-    IEnumerator convo9Events(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
+    IEnumerator TutorialDeath(int dia, int scriptedConvo) //called from convochecker. These are where 'events' throughout conversations like people turning around or walking should be called.
     {
         yield return new WaitForSeconds(0);
         switch (scriptedConvo)
         {
-            case 0:
+            case 0: // Failure terminated. Education complete.
                 dh.ongoingEvent = true;
+                eventInProgress = true;
                 waitForScript = true;
                 nm.bt.gameObject.GetComponent<ActionSelector>().isReady = false;
+
+                yield return new WaitForSeconds(2.0f);
+                StartCoroutine(ForceLoad());
+
+                waitForScript = false;
+                eventInProgress = false;
                 dh.ongoingEvent = false;
                 break;
+
+
             case 1:
                 dh.ongoingEvent = true;
                 Debug.Log("battle should close now");
@@ -1240,6 +1292,146 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
         }
     }
+
+    IEnumerator TutorialTimeout(int dia, int scriptedConvo)
+    {
+        yield return null;
+        ActionSelector actSel = nm.bt.GetComponent<ActionSelector>();
+
+        switch (scriptedConvo)
+        {
+            case 0: // Inefficient. You have run out of time, and as such, have suffered punishment.
+                dh.ongoingEvent = true;
+                eventInProgress = true;
+
+                actSel.isReady = false;
+
+                dh.ongoingEvent = false;
+                break;
+            case 1: // Try again.
+                dh.ongoingEvent = true;
+
+                yield return new WaitUntil(() => nm.canAdvance);
+                actSel.isReady = true;
+                actSel.commandsAvailable[0] = true;
+                actSel.commandsAvailable[1] = true;
+                waitForScript = false;
+
+                eventInProgress = false;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
+
+    IEnumerator TutorialIngredientsOut(int dia, int scriptedConvo, bool firstSet)
+    {
+        yield return null;
+        ActionSelector actSel = nm.bt.GetComponent<ActionSelector>();
+
+        if (firstSet) // First time player runs out of ingredients.
+        {
+            switch (scriptedConvo)
+            {
+                case 0: // Carelessly, you have run out of an ingredient.
+                    dh.ongoingEvent = true;
+                    eventInProgress = true;
+                    waitForScript = true;
+                    dh.ongoingEvent = false;
+                    break;
+                case 1: // As this is your first offense, I will replenish your stocks. Do not expect this same generosity again.
+                    dh.ongoingEvent = true;
+                    nm.bt.ingredients[1] = 10;
+                    nm.bt.ingredients[2] = 10;
+                    nm.bt.ingredients[3] = 10;
+
+                    yield return new WaitUntil(() => nm.canAdvance);
+                    actSel.isReady = true;
+                    actSel.commandsAvailable[0] = true;
+                    actSel.commandsAvailable[1] = true;
+                    waitForScript = false;
+
+
+                    eventInProgress = false;
+                    dh.ongoingEvent = false;
+                    break;
+            }
+        }
+        else // Second time player runs out of ingredients.
+        {
+            switch (scriptedConvo)
+            {
+                case 0: // ...
+                    dh.ongoingEvent = true;
+                    eventInProgress = true;
+                    actSel.isReady = false;
+                    actSel.commandsAvailable[0] = false;
+                    actSel.commandsAvailable[1] = false;
+                    dh.ongoingEvent = false;
+                    break;
+                case 1: // If I were not so disappointed, I would almost be impressed at your carelessness.
+                    dh.ongoingEvent = true;
+                    
+                    dh.ongoingEvent = false;
+                    break;
+                case 2: // Prepare for termination.
+                    dh.ongoingEvent = true;
+                    waitForScript = true;
+                    yield return new WaitForSeconds(1.5f);
+                    te.LightningBolt.GetComponent<Animator>().SetTrigger("strike"); // Wait a moment, then kill the player.
+                    yield return new WaitForSeconds(1.0f);
+                    te.ph.DealDamage(1000);
+                    dh.ongoingEvent = false;
+                    break;
+                case 3: // Failure terminated. Education complete.
+                    dh.ongoingEvent = true;
+                    yield return new WaitForSeconds(2.0f);
+                    StartCoroutine(ForceLoad());
+                    eventInProgress = false;
+                    dh.ongoingEvent = false;
+                    break;
+            }
+        } 
+    }
+
+    IEnumerator TutorialWrongCombo(int dia, int scriptedConvo)
+    {
+        ActionSelector actSel = nm.bt.GetComponent<ActionSelector>();
+
+        
+        switch (scriptedConvo)
+        {
+            case 0: // Incorrect. The correct Combo is present in your Combo menu: pressing your Action button when you have it selected will provide detailed assembly instructions while serving me.
+                dh.ongoingEvent = true;
+                eventInProgress = true;
+                waitForScript = true;
+                actSel.isReady = false;
+
+                dh.ongoingEvent = false;
+                break;
+            case 1: // Try again.
+                dh.ongoingEvent = true;
+
+                yield return new WaitUntil(() => nm.canAdvance);
+                actSel.isReady = true;
+                actSel.commandsAvailable[0] = true;
+                actSel.commandsAvailable[1] = true;
+                waitForScript = false;
+                eventInProgress = false;
+                dh.ongoingEvent = false;
+                break;
+        }
+    }
+
+    IEnumerator ForceLoad()
+    {
+        Debug.Log("Waiting for battle to end and dialogue box to go away...");
+        yield return new WaitUntil(() => !nm.db.enabled && !nm.bt.battling);
+        Debug.Log("LOADING");
+        StartCoroutine(saveLoad.LoadGame(true));
+        //StopAllCoroutines();
+    }
+
+
     IEnumerator DennisConvo2(int dia, int scriptedConvo)
     {
         yield return new WaitForSeconds(0);

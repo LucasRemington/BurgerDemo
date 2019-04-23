@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour {
     }
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.name == "OverworldPlayer" && !gameController.GetComponent<BattleTransitions>().battling) {
-            StartCoroutine(gameController.GetComponent<BattleTransitions>().StartBattle(this.gameObject));
+            StartCoroutine(gameController.GetComponent<BattleTransitions>().StartBattle(this.gameObject, false));
         }
     }
 }

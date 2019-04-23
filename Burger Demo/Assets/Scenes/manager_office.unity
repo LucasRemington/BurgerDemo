@@ -970,6 +970,7 @@ MonoBehaviour:
   Objects:
   - {fileID: 279643004}
   SpawnLocations: []
+  constantCheck: 0
 --- !u!4 &90262314
 Transform:
   m_ObjectHideFlags: 0
@@ -1000,6 +1001,7 @@ MonoBehaviour:
   Objects:
   - {fileID: 2090928036}
   SpawnLocations: []
+  constantCheck: 0
 --- !u!1001 &233120829
 Prefab:
   m_ObjectHideFlags: 0
@@ -1162,6 +1164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 539e330e8b9891b459deda7ba2fa83dd, type: 2}
   - {fileID: 11400000, guid: b8672bad0ef8e0841b614ea34dc5cd03, type: 2}
@@ -1277,6 +1280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 85559b3b21e7e7348a1b812d53152db9, type: 2}
   i: 0
@@ -1733,6 +1737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 3be4534ac8bcb5a4582cf1d4438853f9, type: 2}
   i: 0
@@ -2505,6 +2510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: c87fb02be6067cb44845184eb5b1968a, type: 2}
   - {fileID: 11400000, guid: b8672bad0ef8e0841b614ea34dc5cd03, type: 2}
@@ -5759,6 +5765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 4d5d5470a8657f241885c6f9f3f55881, type: 2}
   i: 0
@@ -5813,6 +5820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 936dd8dd11d613248ba8447cbc5fa03f, type: 2}
   i: 0
@@ -6149,6 +6157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: bbe4adcfc0b72774fb03a372bf283bdb, type: 2}
   i: 0
@@ -7601,7 +7610,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 10.01
+      value: 5.76
       objectReference: {fileID: 0}
     - target: {fileID: 4964175775618138, guid: ede83de9326e528449382b8b69c8e140, type: 2}
       propertyPath: m_LocalPosition.y
@@ -7704,6 +7713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: c3a54b76296cba545a31bc4f3cfd12d9, type: 2}
   i: 0

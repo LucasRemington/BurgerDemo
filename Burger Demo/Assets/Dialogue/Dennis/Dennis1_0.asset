@@ -693,8 +693,8 @@ MonoBehaviour:
     CharacterPosition: 0
     CharacterPic: {fileID: 21300002, guid: ec80426ad5cce3644944aa6348eaa120, type: 3}
     DialogueText: "Alright then! It says here in your resume that you\u2019re a low-level
-      employee specializing in Tomato, Lettuce, and Onion. I\u2019ll just set up the
-      training video\u2026"
+      employee specializing in Tomato, Lettuce, and Cheese. I\u2019ll just set up
+      the training video\u2026"
     ChoiceText: []
     CharacterName: Dennis
     DialogueTextStyle:

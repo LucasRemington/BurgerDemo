@@ -17,6 +17,7 @@ public class BattleTransitions : MonoBehaviour {
 
     [Header("Found in Battle")]
     [Tooltip("The enemy used in the argument for starting battle.")] public GameObject currentEnemy;
+    private bool isCurrentEnemyScripted;
     [Tooltip("The current battle scene.")] public GameObject battle;
     [Tooltip("The combat player, found when battle starts.")] public GameObject player;
     [Tooltip("The player health script attached to the combat player.")] public PlayerHealth ph;
@@ -67,9 +68,10 @@ public class BattleTransitions : MonoBehaviour {
         }
 	}
 
-    public IEnumerator StartBattle(GameObject enemy) {
+    public IEnumerator StartBattle(GameObject enemy, bool isScripted) {
         bci.ingredientINV = ingredients;
         currentEnemy = enemy;
+        isCurrentEnemyScripted = isScripted;
         battleIntro.SetActive(true);
         battleIntro.GetComponent<Animator>().Play("Intro1");
         StartCoroutine(nm.combatUIOn());
@@ -103,10 +105,13 @@ public class BattleTransitions : MonoBehaviour {
         yield return new WaitForSeconds(0.4f);
         Debug.Log("battle intro should be gone");
         battleIntro.SetActive(false);
+        yield return new WaitUntil(()=> bci.gameObject.activeInHierarchy);
+        StartCoroutine(bci.StartStuff());
     }
 
     public IEnumerator EndOfTutorialBattle(bool win)            // Called by narrativescript1.
     {
+        bci.ResetBattleSystem();
         yield return new WaitUntil(() => nm.ns1.blackScreen.color.a >= 1); // Wait until we fully fade to black.
         //yield return new WaitForSeconds(1.5f);
 
@@ -122,7 +127,7 @@ public class BattleTransitions : MonoBehaviour {
         battlePrefab.transform.SetParent(MainCamera.transform);
         player = GameObject.Find("FullBattlePrefab").transform.GetChild(0).gameObject;
         ph = player.GetComponent<PlayerHealth>();
-        playerHealth = ph.playerHealth + 20;
+        playerHealth = ph.playerHealth = ph.playerHealthMax;
         if (playerHealth > playerHealthMax)
             playerHealth = playerHealthMax;
         nm.ns1.winLossText.text = "Press the Action Button to continue...";
@@ -134,10 +139,7 @@ public class BattleTransitions : MonoBehaviour {
         yield return new WaitUntil(() => Input.GetButtonDown("Submit") && !nm.ns1.waitForScript); // Wait until the player hits Space and we aren't waiting for script.
 
         Destroy(battle.gameObject);
-        if (win)
-        {
-            Destroy(currentEnemy.gameObject);
-        }
+        
         //GameObject thing = GameObject.Find("FullBattlePrefab");
         battlePrefab.SetActive(false);
         battling = false;
@@ -149,6 +151,7 @@ public class BattleTransitions : MonoBehaviour {
 
     public IEnumerator EndOfBattle(bool win)            //this gets called by the enemy's death in enemyBehavior
     {
+        bci.ResetBattleSystem();
         yield return new WaitForSeconds(1.5f);
         ingredients = bci.ingredientINV;
         for (int i = 0; i < OverworldObjects.Length; i++)
@@ -156,11 +159,7 @@ public class BattleTransitions : MonoBehaviour {
             OverworldObjects[i].SetActive(true);
         }
         BlackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
-        for (int i = 0; i < 101; i++)
-        {
-            BlackScreen.color = new Color(0, 0, 0, BlackScreen.color.a - 0.01f);
-            yield return new WaitForSeconds(0.01f);
-        }
+        StartCoroutine(nm.bci.FadeImageToFullAlpha(1.5f, BlackScreen));
         BlackScreen.color = Color.black;
         yield return new WaitForSeconds(1);
         //ph.healthUpdate();
@@ -172,28 +171,20 @@ public class BattleTransitions : MonoBehaviour {
         if (playerHealth > playerHealthMax)
             playerHealth = playerHealthMax;
         nm.ns1.winLossText.text = "";
-        /*for (int i = 0; i < 101; i++)
-        {
-            nm.ns1.blackScreen.color = new Color(0, 0, 0, nm.ns1.blackScreen.color.a - 0.01f);
-            yield return new WaitForEndOfFrame();
-        }*/
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        if (win && !battle.gameObject.GetComponent<TutorialEnemy>())
+        
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !nm.owm.canMove);
+        nm.owm.canMove = true;
+        if (win)
         {
             Destroy(currentEnemy.gameObject);
-            /*for (int i = 0; i < 101; i++)
-            {
-                BlackScreen.color = new Color(0, 0, 0, BlackScreen.color.a + 0.01f);
-                yield return new WaitForSeconds(0.01f);
-            }
-            BlackScreen.color = new Color(0, 0, 0, 0);*/
         }
-        Destroy(battle.gameObject);
+        battle.SetActive(false);                         // this is the line that breaks it
         //GameObject thing = GameObject.Find("FullBattlePrefab");
         battlePrefab.SetActive(false);
         nm.combatUI.SetActive(false);
         currentEnemy = null;
-
+        StartCoroutine(nm.bci.FadeImageToZeroAlpha(1.5f, BlackScreen));
+        BlackScreen.color = new Color(0, 0, 0, 0);
         yield return new WaitForSeconds(0.2f);
         db.GetComponent<Animator>().ResetTrigger("Popdown");
     }

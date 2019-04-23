@@ -106,6 +106,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     public IEnumerator TakeDamage (float finalDamage) //calculates damage taken by enemy
     {
+        Debug.Log("EB: Take Damage called! Begin.");
         yield return null;
         enemyArmor = baseArmor;
         //Debug.Log(BCI);
@@ -138,10 +139,13 @@ public class EnemyBehavior : MonoBehaviour {
             StartCoroutine(setAboveText("Resisted!"));
         }
         SlowEnemy();
+        Debug.Log("EB: Slow Enemy called, set bool.");
         hasBeenDamaged = true;
         cantMove = true;
+        Debug.Log("EB: hasBeenDamaged = " + hasBeenDamaged + " and cantMove = " + cantMove);
         damagedPosition = this.transform.position;
         StartCoroutine(SetTicksWhenReady());
+        Debug.Log("EB: call settickswhenready");
         //clockAnim.SetBool("Stopped", true);                           fix this later
         Debug.Log(finalDamage);
         BCI.StopAllCoroutines();
@@ -174,9 +178,16 @@ public class EnemyBehavior : MonoBehaviour {
             StartCoroutine(setAboveText("Crying!"));
         }
 
-        
 
-             
+
+        Debug.Log("EB: TakeDamage done.");  
+    }
+
+    public void StartTakeDamage(float damage)
+    {
+        // Wrapper function. I hate this, too.
+
+        StartCoroutine(TakeDamage(damage));
     }
 
     public IEnumerator setAboveText(string text)
@@ -203,6 +214,7 @@ public class EnemyBehavior : MonoBehaviour {
         yield return null;
         if (enemyHealth <= 0)
         {
+            cantMove = true;
             BCI.StopTheCoroutines();
             dead = true;
             //anim.SetTrigger("Damaged");
