@@ -86,7 +86,10 @@ public class OverworldMovement : MonoBehaviour {
         playerSprite = GetComponent<SpriteRenderer>();
 
         intTrigger = GetComponentInChildren<BoxCollider2D>();
-        intTriggerBaseOffset = intTrigger.offset;
+        if (!playerSprite.flipX)
+            intTriggerBaseOffset = intTrigger.offset;
+        else
+            intTriggerBaseOffset = intTrigger.offset * new Vector2(-1, 1);
 
         battTran = gameController.GetComponent<BattleTransitions>();
         damText = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();

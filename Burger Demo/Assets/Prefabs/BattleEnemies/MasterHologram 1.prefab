@@ -568,7 +568,7 @@ MonoBehaviour:
   resistsMustard: 0
   resistsBun: 0
   baseSpeed: 10
-  enemySpeed: 12
+  enemySpeed: 32
   slowStacks: 0
   baseDamage: 0
   enemyDamage: 0
@@ -619,6 +619,8 @@ MonoBehaviour:
   wrongCombo: 0
   fuckedUp: 0
   actSel: {fileID: 0}
+  timerEnabled: 0
+  timerInProgress: 0
 --- !u!212 &212000844065589002
 SpriteRenderer:
   m_ObjectHideFlags: 1

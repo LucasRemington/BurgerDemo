@@ -135,6 +135,9 @@ public class NarrativeManager : MonoBehaviour {
             case 5:
                 StartCoroutine(ns1.eventFive());
                 break;
+            case 6:
+                StartCoroutine(ns1.eventSix());
+                break;
         }
     }
 

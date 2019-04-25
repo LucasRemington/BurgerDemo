@@ -171,10 +171,16 @@ public class BattleTransitions : MonoBehaviour {
         if (playerHealth > playerHealthMax)
             playerHealth = playerHealthMax;
         nm.ns1.winLossText.text = "";
-        
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !nm.owm.canMove);
-        nm.owm.canMove = true;
+
         if (win)
+            nm.BattleWon = true;
+        else
+            nm.BattleWon = false;
+
+        nm.BattleDone = true;
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) /*&& !nm.owm.canMove*/);
+        nm.owm.canMove = true;
+        if (win && !isCurrentEnemyScripted)
         {
             Destroy(currentEnemy.gameObject);
         }

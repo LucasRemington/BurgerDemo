@@ -347,7 +347,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => nm.room == 4);
         GetComponent<FollowPlayer>().battleCamera = new Vector3(-44, 10, -1);
         player.GetComponent<OverworldMovement>().canMove = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         dennis = GameObject.FindGameObjectWithTag("Dennis");
         dennisAnim = dennis.GetComponent<Animator>();
         Debug.Log("move now");
@@ -377,7 +377,8 @@ public class NarrativeScript1 : MonoBehaviour {
         nm.nameTSCombat.text = "Dixie";
         //playerSR.flipX = false;
         MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
-        yield return new WaitUntil(() => animationFlag);
+        yield return new WaitUntil(() => animationFlag && nm.room == 4);
+        animationFlag = false;
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(nm.bt.StartBattle(BattleDixie, true));
         yield return new WaitForSeconds(0.3f);
@@ -385,6 +386,7 @@ public class NarrativeScript1 : MonoBehaviour {
         yield return new WaitUntil(() => nm.bci.gameObject);
         nm.bci.isTutorial = false;
         yield return new WaitUntil(() => nm.BattleDone);
+        nm.BattleDone = false;
         if (!nm.BattleWon)
         {
             nm.ev++;
@@ -403,12 +405,14 @@ public class NarrativeScript1 : MonoBehaviour {
         //playerSR.flipX = false;
         MainCamera.GetComponent<FollowPlayer>().battleCamera = new Vector3(-44f, 10, -1);
         yield return new WaitUntil(() => animationFlag);
+        animationFlag = false;
         StartCoroutine(nm.bt.StartBattle(BattleDixie, true));
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(nm.dialogueEnd());
         yield return new WaitUntil(() => nm.bci.gameObject);
         nm.bci.isTutorial = false;
         yield return new WaitUntil(() => nm.BattleDone);
+        nm.BattleDone = false;
         if (!nm.BattleWon)
         {
             nm.CheckEvent();
@@ -419,6 +423,10 @@ public class NarrativeScript1 : MonoBehaviour {
             nm.CheckEvent();
         }
 
+    }
+
+    public IEnumerator eventSix() {
+        yield return null;
     }
 
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
@@ -1285,7 +1293,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 animationFlag = false;
                 nm.owm.canMove = true;
                 dh.ongoingEvent = false;
-                yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
+                yield return new WaitUntil(() => Input.GetButtonDown("Submit") && nm.canAdvance);
                 dh.scriptedConvoDone[10] = true;
                 holomAnim.SetTrigger("Sleep");
                 dh.CancelDialogue(true);
