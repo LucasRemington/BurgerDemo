@@ -184,6 +184,10 @@ public class BattleTransitions : MonoBehaviour {
         {
             Destroy(currentEnemy.gameObject);
         }
+        else {
+            SaveLoad saveLoad = GameObject.FindGameObjectWithTag("Base").GetComponent<SaveLoad>();
+            saveLoad.StartCoroutine(saveLoad.LoadGame(true));
+        }
         battle.SetActive(false);                         // this is the line that breaks it
         //GameObject thing = GameObject.Find("FullBattlePrefab");
         battlePrefab.SetActive(false);

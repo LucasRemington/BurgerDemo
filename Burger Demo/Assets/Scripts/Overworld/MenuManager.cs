@@ -78,24 +78,32 @@ public class MenuManager : MonoBehaviour {
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) //This sets the default menu based on the scene: currently, it's only different if mainmenu is the current scene. Also calls all the initial coroutines.
     {
-        currentScene = SceneManager.GetActiveScene();
-        optionText[1].text = "Options";
-        if (currentScene.name == "MainMenu")
+        if (this != null)
         {
-            mainMenu = true;
-            menuBox.transform.localPosition = new Vector3(125, 0, 0);
-            optionText[0].text = "Play";
+            currentScene = SceneManager.GetActiveScene();
+            optionText[2].text = "Options";
+            if (currentScene.name == "MainMenu")
+            {
+                mainMenu = true;
+                menuBox.transform.localPosition = new Vector3(125, 0, 0);
+                optionText[0].text = "Continue";
+                optionText[1].text = "New Game";
+                optionText[3].text = "Quit Game";
+            }
+            else
+            {
+                mainMenu = false;
+                menuBox.transform.localPosition = new Vector3(220, 0, 0);
+                optionText[0].text = "Resume";
+                optionText[1].text = "Respawn";
+                optionText[3].text = "Main Menu";
+            }
+            StopAllCoroutines();
+            StartCoroutine(openMenu());
+            StartCoroutine(selectOption());
+            StartCoroutine(optionChoice());
         }
-        else
-        {
-            mainMenu = false;
-            menuBox.transform.localPosition = new Vector3(220, 0, 0);
-            optionText[0].text = "Respawn";
-        }
-        StopAllCoroutines();
-        StartCoroutine(openMenu());
-        StartCoroutine(selectOption());
-        StartCoroutine(optionChoice());
+        
     }
 
     void TurnOnText (bool on) //This function serves two purposes: when called as true, it turns on the text component all optiontext. When called as false, it turns those off instead. 
@@ -208,7 +216,7 @@ public class MenuManager : MonoBehaviour {
         soundMaker.clip = CloseSound; //Sets the clip to the appropriate sound and plays it.
         soundMaker.Play();
         boxUI.SetTrigger("Escape"); //Sets the variables needed by the animator.
-        boxUI.SetInteger("OptionSelected", 3);
+        boxUI.SetInteger("OptionSelected", 5);
         TurnOnText(false); //Turns off the text immediately.
         yield return new WaitForSeconds (4 / 12f); //Waits until the close animation is finished, then switches off the appropriate variables.
         foreach (Text textItem in optionText)
@@ -228,7 +236,7 @@ public class MenuManager : MonoBehaviour {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.DownArrow) && MenuOpen == true || Input.GetKeyDown(KeyCode.UpArrow) && MenuOpen == true); //Waits until the menu is open, and the up and down arrow keys are pressed.
         if (Input.GetKeyDown(KeyCode.DownArrow)) //If the input is down, and optionSelect is less than two, it increases. The appropriate sound is played, and the animation is set.
         {
-            if (optionSelected < 2)
+            if (optionSelected < 3)
             {
                 soundMaker.clip = menuMoveSound;
                 soundMaker.Play();
@@ -261,28 +269,6 @@ public class MenuManager : MonoBehaviour {
             switch (optionSelected)
             {
                 case 0: //This changes the submenu to the 'playgame' submenu, setting the text as appropriate and turning on the relevant bool.
-                    optionText[0].text = "Continue";
-                    optionText[1].text = "New Game";
-                    optionText[2].text = "Back";
-                    playGame = true;
-                    break;
-
-                case 1: //This changes the submenu to the 'options' submenu, which is a complex set of operations contained within its own function.
-                    Debug.Log("Options");
-                    StartCoroutine(Options());
-                    break;
-
-                case 2: //This quits the game from the main menu. No action needed.
-                    Debug.Log("Quit");
-                    QuitGame();
-                    break;
-            }
-        }
-        else if (mainMenu == true && playGame == true) //This is the playgame submenu, accessible only through the mainmenu.
-        {
-            switch (optionSelected)
-            {
-                case 0:
                     Debug.Log("Continue"); //this continues the current game. Eventually, it will pull the relevant save data.
 
                     if (!saveDataExists)
@@ -302,8 +288,6 @@ public class MenuManager : MonoBehaviour {
                     // Once the screen is dark, set the player active.
                     yield return new WaitUntil(() => saveLoad.blackScreen.color.a >= 1);
                     ovm.gameObject.SetActive(true);
-                    
-                    
                     break;
 
                 case 1:
@@ -315,15 +299,18 @@ public class MenuManager : MonoBehaviour {
 
                     yield return new WaitUntil(() => saveLoad.blackScreen.color.a >= 1);
                     saveLoad.gameObject.transform.position = Vector2.zero;
-                    
+
                     SceneManager.LoadScene("OriginFreezer");
                     break;
 
-                case 2: //This backs out of the submenu, 'resetting' back to the default main menu screen. 
-                    optionText[0].text = "Play Game";
-                    optionText[1].text = "Options";
-                    optionText[2].text = "Quit";
-                    playGame = false;
+                case 2: //This changes the submenu to the 'options' submenu, which is a complex set of operations contained within its own function.
+                    Debug.Log("Options");
+                    StartCoroutine(Options());
+                    break;
+
+                case 3: //This quits the game from the main menu. No action needed.
+                    Debug.Log("Quit");
+                    QuitGame();
                     break;
             }
         }
@@ -368,13 +355,19 @@ public class MenuManager : MonoBehaviour {
                             break;
                     }
                     break;
-        }
+            }
         }
         else
         {
             switch (optionSelected) //This is the default menu during gameplay.
             {
-                case 0: // Originally Inventory. Now sends the player back to the last Meat Locker they visited.
+                case 0://closes the menu
+                    Debug.Log("Back");
+                    closeNow = true;
+                    mainMenuDone = true;
+                    break;
+
+                case 1: // Originally Inventory. Now sends the player back to the last Meat Locker they visited.
                     
                     if (meatLockersVisited)
                     {
@@ -389,15 +382,14 @@ public class MenuManager : MonoBehaviour {
                     }
                     break;
 
-                case 1://opens the options menu, as above.
+                case 2://opens the options menu, as above.
                     Debug.Log("Options"); 
                     StartCoroutine(Options());
                     break;
 
-                case 2://closes the menu
-                    Debug.Log("Back");
-                    closeNow = true;
-                    mainMenuDone = true;
+                case 3:
+                    Debug.Log("Reset");
+                    StartCoroutine(GameObject.FindGameObjectWithTag("SoftReset").GetComponent<SoftReset>().ResetGame());
                     break;
             }
         }
@@ -546,10 +538,10 @@ public class MenuManager : MonoBehaviour {
             StartCoroutine(FadeImageToFullAlpha(0.5f, healthImg[i]));
         }
         ingredientText[0].text = "Meat: " + bt.playerHealth + " / " + bt.playerHealthMax;
-        healthImg[2].fillAmount = (float)bt.playerHealth / (float)bt.playerHealthMax; //this should always reference health bar fill
+        healthImg[1].fillAmount = (float)bt.playerHealth / (float)bt.playerHealthMax; //this should always reference health bar fill
         ingredientText[1].text = "Tomato: " + bt.ingredients[1];
         ingredientText[2].text = "Lettuce: " + bt.ingredients[2];
-        ingredientText[3].text = "Onion: " + bt.ingredients[3];
+        ingredientText[3].text = "Cheese: " + bt.ingredients[3];
 
     }
 

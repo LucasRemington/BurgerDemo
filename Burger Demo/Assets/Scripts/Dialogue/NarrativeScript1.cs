@@ -363,10 +363,11 @@ public class NarrativeScript1 : MonoBehaviour {
         dennisAnim.SetTrigger("Gun");
         yield return new WaitUntil(() => dh.scriptedConvo[12] == 2);
         dennisAnim.SetTrigger("Bounce");
-        yield return new WaitUntil(() => dh.scriptedConvo[12] == 3);
-        dennisAnim.SetTrigger("Write");
         nm.ev++;
         nm.CheckEvent();
+        yield return new WaitUntil(() => dh.scriptedConvo[12] == 3);
+        dennisAnim.SetTrigger("Write");
+        
     }
 
     public IEnumerator eventFour() {
@@ -396,6 +397,9 @@ public class NarrativeScript1 : MonoBehaviour {
             nm.ev += 2;
             nm.CheckEvent();
         }
+
+        yield return new WaitForSeconds(1);
+        nm.db.GetComponent<Animator>().ResetTrigger("Popdown");
     }
 
     public IEnumerator eventFive() {
@@ -422,11 +426,21 @@ public class NarrativeScript1 : MonoBehaviour {
             nm.ev++;
             nm.CheckEvent();
         }
-
+        yield return new WaitForSeconds(1);
+        nm.db.GetComponent<Animator>().ResetTrigger("Popdown");
     }
 
     public IEnumerator eventSix() {
-        yield return null;
+        Debug.Log("Event 6 Start");
+        yield return new WaitUntil(() => saveLoad.louNotesSeen[0]);
+        Debug.Log("Lou Note Seen");
+
+        blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
+        for (int i = 0; i < 100; i++)
+        {
+            blackScreen.color = new Color(0, 0, 0, blackScreen.color.a + 0.01f);
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.

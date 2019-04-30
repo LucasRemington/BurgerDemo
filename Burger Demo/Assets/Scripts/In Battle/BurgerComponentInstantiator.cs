@@ -150,7 +150,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         //ingredientINV[10] = 1;
         //IconDimmer();
         IconTextUpdate();
-        StartCoroutine(enableCheats());
+        //StartCoroutine(enableCheats());
         //StartCoroutine(FadeImageToZeroAlpha(1, fadeBlack));
         StartCoroutine(setComboText(""));
     }
@@ -162,7 +162,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && actSelect.enemyReset && actSelect.isReady && actSelect.readyUp && batTran.ingUnlocked[11] && nm.ns1.canProceed)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && actSelect.enemyReset && actSelect.isReady /*&& actSelect.readyUp*/ && batTran.ingUnlocked[11] && nm.ns1.canProceed)
         {
             Debug.Log("Clear burger");
             StartCoroutine(ClearBurger(false));
@@ -203,7 +203,7 @@ public class BurgerComponentInstantiator : MonoBehaviour {
         }
     }
 
-    public IEnumerator enableCheats () //press p for unlimited ammo
+    public IEnumerator enableCheats () //press p for unlimited ammo. Disabled.
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.P) == true);
         ph.playerHealth = 100;

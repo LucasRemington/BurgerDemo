@@ -344,7 +344,9 @@
     <Compile Include="Assets\Scripts\Overworld\Enemy.cs" />
     <Compile Include="Assets\Scripts\Overworld\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\Overworld\GenericSounds.cs" />
+    <Compile Include="Assets\Scripts\Overworld\GlassFloor.cs" />
     <Compile Include="Assets\Scripts\Overworld\Hazard.cs" />
+    <Compile Include="Assets\Scripts\Overworld\HealyFridge.cs" />
     <Compile Include="Assets\Scripts\Overworld\Interactable.cs" />
     <Compile Include="Assets\Scripts\Overworld\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Overworld\OverworldMovement.cs" />
@@ -356,6 +358,7 @@
     <Compile Include="Assets\Scripts\Overworld\ScriptedMovement.cs" />
     <Compile Include="Assets\Scripts\Overworld\ShudderSlam.cs" />
     <Compile Include="Assets\Scripts\Overworld\Sign.cs" />
+    <Compile Include="Assets\Scripts\Overworld\SoftReset.cs" />
     <Compile Include="Assets\Scripts\PseudoStart.cs" />
     <Compile Include="Assets\Scripts\RoomEventChecker.cs" />
     <Compile Include="Assets\Scripts\SaveData.cs" />

@@ -23,7 +23,7 @@ public class InteractDia : MonoBehaviour {
 
     [Tooltip("Each dialogue that this object should bring up. Each interaction increments the index by one, but won't exceed length. So effectively, only add as many dialogues as you want the player to see, and the last will be repeated. Keep size to 1 for a single interaction that never changes.")] public List<Dialogue> dialogueList;
     //private int listLength;
-    [HideInInspector] public int i = 0;
+    public int i = 0;
 
 
     private void Start()
@@ -60,14 +60,19 @@ public class InteractDia : MonoBehaviour {
         {
             // If our iterator has exceeded our list of dialogues, bring it back one to repeat the last in the list.
             if (i >= dialogueList.Count)
-                i--;            
-                StartCoroutine(dh.GenericInteractableNew(dialogueList[i], this.gameObject, isNPC));
-                StartCoroutine(interactTimer());
-                if (gameObject.tag == "MeatLocker")
-                {
-                    StartCoroutine(MainCamera.GetComponentInParent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
-                }
-           }
+                i--;
+            StartCoroutine(dh.GenericInteractableNew(dialogueList[i], this.gameObject, isNPC));
+            StartCoroutine(interactTimer());
+            if (gameObject.tag == "MeatLocker")
+            {
+                StartCoroutine(MainCamera.GetComponentInParent<SaveLoad>().MeatLockerEvent(dialogueList[i]));
+            }
+            else if (gameObject.tag == "HealFridge")
+            {
+                if (!gameObject.GetComponent<HealyFridge>().used)
+                 StartCoroutine(gameObject.GetComponent<HealyFridge>().Fridge(dialogueList[i]));
+            }
+        }
     }
 
     IEnumerator interactTimer ()

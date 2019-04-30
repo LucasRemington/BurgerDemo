@@ -92,8 +92,6 @@ public class ActionSelector : MonoBehaviour
         ToggleText(comboHolder, false, true);
         ToggleText(itemHolder, false, false);
 
-        
-
         StartCoroutine(StartStuff());
 
         enemyReset = true;

@@ -31,6 +31,7 @@ TagManager:
   - HealthBar
   - LouNote
   - Music
+  - SoftReset
   layers:
   - Default
   - TransparentFX
@@ -44,8 +45,8 @@ TagManager:
   - Ladder
   - InteractionHitbox
   - Hazard
-  - 
-  - 
+  - LouNote
+  - Player
   - 
   - 
   - 

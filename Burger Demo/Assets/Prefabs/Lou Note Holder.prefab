@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4998626044328384}
   - component: {fileID: 114216506117077824}
+  - component: {fileID: 114535179793235918}
   m_Layer: 0
   m_Name: Lou Note Holder
   m_TagString: LouNote
@@ -99,7 +100,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1076439704745166}
   m_LocalRotation: {x: -0, y: -0, z: -0.258819, w: 0.9659259}
-  m_LocalPosition: {x: 0.77684104, y: 1.3454107, z: 14.584211}
+  m_LocalPosition: {x: 38.42, y: 46.63, z: 14.584211}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4343741269708426}
@@ -149,7 +150,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 163868b52112e25439b5e7e7e0648528, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -162,7 +163,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1076439704745166}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2939adc81e5c297438b55d9a19b05d22, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -196,7 +197,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -9.93}
+  m_Offset: {x: -1.8, y: -0.7}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -207,7 +208,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 20}
+  m_Size: {x: 1.5, y: 4.25}
   m_EdgeRadius: 0
 --- !u!114 &114216506117077824
 MonoBehaviour:
@@ -222,7 +223,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   louNoteList:
   - {fileID: 1076439704745166}
-  louNotesSeen: 
   saveLoad: {fileID: 0}
 --- !u!114 &114416737081918602
 MonoBehaviour:
@@ -235,10 +235,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d4c9bd5cce8c64fa40b34089d40781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 50062363942215804}
   bounceCount: 3
   isChild: 1
   read: 0
+  intDia: {fileID: 114575047238188152}
+  dia: {fileID: 11400000, guid: ec4e450514134e74da92d17629d74941, type: 2}
+--- !u!114 &114535179793235918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1064815275258978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d4c9bd5cce8c64fa40b34089d40781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  bounceCount: 3
+  isChild: 0
+  read: 1
+  intDia: {fileID: 114575047238188152}
+  dia: {fileID: 11400000, guid: ec4e450514134e74da92d17629d74941, type: 2}
 --- !u!114 &114575047238188152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,9 +270,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: ec4e450514134e74da92d17629d74941, type: 2}
-  i: 0
+  i: 1
 --- !u!212 &212153975247696694
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -288,13 +308,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 937bf15608eb3584f9b1497efc4966db, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: d333486a3033dbd4b98d8df170f6509a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

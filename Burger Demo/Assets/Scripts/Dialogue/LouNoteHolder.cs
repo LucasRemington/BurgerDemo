@@ -41,6 +41,7 @@ public class LouNoteHolder : MonoBehaviour
         {
             if (saveLoad.louNotes[i] == dia) // If the dialogue in saveLoad is the same as the dialogue that's been read...
             {
+                Debug.Log("Lou Note seen from LouNoteHolder");
                 saveLoad.louNotesSeen[i] = true; // We mark it as having been so, and then break.
                 break;
             }

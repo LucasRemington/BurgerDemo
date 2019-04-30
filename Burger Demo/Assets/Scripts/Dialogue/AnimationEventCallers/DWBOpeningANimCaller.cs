@@ -20,6 +20,8 @@ public class DWBOpeningANimCaller : MonoBehaviour {
     [HideInInspector] public AudioSource audS; //The audio source used to play some sounds: on the object.
     private bool shrinking; // If we shrink early, don't do it again.
 
+    private SoftReset sRes; // The soft reset script.
+
     void Start () //Grabs all the relevant scripts and objects. black still needs to be set in inspector - it's the black screen that will fade out.
     {
         openingLogo = this.gameObject;
@@ -29,17 +31,21 @@ public class DWBOpeningANimCaller : MonoBehaviour {
         mm = optionMenu.GetComponent<MenuManager>();
         audS = GetComponent<AudioSource>();
         black = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
+        sRes = GameObject.FindGameObjectWithTag("SoftReset").GetComponent<SoftReset>();
     }
 
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && !sRes.hasReset)
             Shrink();
+
+        if (mm == null)
+            mm = GameObject.FindGameObjectWithTag("OptionsMenu").GetComponent<MenuManager>();
     }
 
     void Shrink () //called from an animation event, this calls LerpOver when the animation finishes.
     {
-        if (nm.room == 0 && !shrinking)
+        if (nm.room == -1 && !shrinking)
         {
             startPosition = this.transform.localPosition;
             StartCoroutine(lerpOver());

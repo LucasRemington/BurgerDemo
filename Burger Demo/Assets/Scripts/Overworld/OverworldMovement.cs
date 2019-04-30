@@ -615,6 +615,13 @@ public class OverworldMovement : MonoBehaviour {
 
             FallDamage(distance - damStartDist + 1);
         }
+
+        // As a small aside: sometimes we fall while in dialogue. If that happens, break the dialogue immediately.
+        if (distance >= 0.2f && GameObject.FindGameObjectWithTag("MainCamera").GetComponent<NarrativeManager>().db.enabled)
+        {
+            Debug.Log("Cancel dialogue.");
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<DialogueHolder>().CancelDialogue(true);
+        }
             
 
     }
@@ -623,7 +630,6 @@ public class OverworldMovement : MonoBehaviour {
     private void FallDamage(float dist)
     {
         //Debug.Log("Distance: " + dist);
-
 
         float damage = 0;
         if (dist > 0)
