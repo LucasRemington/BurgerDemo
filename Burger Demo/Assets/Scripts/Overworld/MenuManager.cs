@@ -389,6 +389,8 @@ public class MenuManager : MonoBehaviour {
 
                 case 3:
                     Debug.Log("Reset");
+                    StartCoroutine(saveLoad.SaveGame());
+                    yield return new WaitUntil(() => !saveLoad.saving);
                     StartCoroutine(GameObject.FindGameObjectWithTag("SoftReset").GetComponent<SoftReset>().ResetGame());
                     break;
             }

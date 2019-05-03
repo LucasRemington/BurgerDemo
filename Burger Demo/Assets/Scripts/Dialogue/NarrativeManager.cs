@@ -138,6 +138,9 @@ public class NarrativeManager : MonoBehaviour {
             case 6:
                 StartCoroutine(ns1.eventSix());
                 break;
+            case 7:
+                SceneManager.LoadScene(6);
+                break;
         }
     }
 

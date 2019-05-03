@@ -79,17 +79,21 @@ public class OverworldMovement : MonoBehaviour {
     public enum DamageType { LinearDamage, ExponentialDamage, FibonacciDamage };
     [Tooltip("The type of damage the player takes when falling. Linear = Damage * Distance (5, 10, 15, 20, 25, etc);\n Expo = Doubles each block fallen (5, 10, 20, 40, etc);\n Fibonacci: Damage is equal to the past two values added to each other (5, 5, 10, 15, 25, etc);")] public DamageType damageType;
 
+    public void Start()
+    {
+        intTrigger = GetComponentInChildren<BoxCollider2D>();
+        if (!playerSprite.flipX)
+            intTriggerBaseOffset = intTrigger.offset;
+        else
+            intTriggerBaseOffset = intTrigger.offset * new Vector2(-1, 1);
+    }
 
     public void PseudoStart () {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         playerAnim = GetComponent<Animator>();
         playerSprite = GetComponent<SpriteRenderer>();
 
-        intTrigger = GetComponentInChildren<BoxCollider2D>();
-        if (!playerSprite.flipX)
-            intTriggerBaseOffset = intTrigger.offset;
-        else
-            intTriggerBaseOffset = intTrigger.offset * new Vector2(-1, 1);
+        
 
         battTran = gameController.GetComponent<BattleTransitions>();
         damText = GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();

@@ -587,14 +587,13 @@ public class ActionSelector : MonoBehaviour
 
         if (!ns1.waitForScript) // As long as we're not waiting for the narrative script, we can confirm an option.
         {
+            StartEnemyTimer(); // Start our timer, having selected things.
 
             switch (commandOpen) // Base how Confirm behaves on which menu we're in.
             {
                 case CommandMenus.None:
                     if (!backHome || !isReady) // If we haven't returned to the main menu or are otherwise not ready, don't do anything.
                         break;
-
-                    StartEnemyTimer(); // Start our timer, having selected things.
 
                     switch (choice) // If we're in the base command menu, select our command.
                     {
@@ -806,8 +805,10 @@ public class ActionSelector : MonoBehaviour
         {
             if (bci.te.timerEnabled && !bci.te.timerInProgress)
             {
-                StartCoroutine(bci.te.EnemyTimer());
+                Debug.Log("Enable timer from ActSelect");
                 bci.te.seconds = (int)bci.te.enemySpeed - 2;
+                StartCoroutine(bci.te.EnemyTimer());
+                
             }
         }
         else if (!bci.isTutorial) // If we're NOT in the tutorial...also do that. But always.

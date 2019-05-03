@@ -11856,6 +11856,7 @@ MonoBehaviour:
   blackScreen: {fileID: 0}
   readyForFade: 0
   faded: 0
+  saving: 0
   playerHolder: {fileID: 0}
   refuseDialogue: {fileID: 0}
   meatLockerList: []
@@ -12718,13 +12719,15 @@ MonoBehaviour:
   blackScreen: {fileID: 114423975984493842}
   readyForFade: 0
   faded: 0
+  saving: 0
   playerHolder: {fileID: 0}
   refuseDialogue: {fileID: 11400000, guid: 55fda0e4e0e746b4789c5db3009ffc24, type: 2}
   meatLockerList: []
   meatLockerIndex: 0
   meatLockerPos: {x: 0, y: 0}
-  louNotes: []
-  louNotesSeen: 
+  louNotes:
+  - {fileID: 11400000, guid: ec4e450514134e74da92d17629d74941, type: 2}
+  louNotesSeen: 00
   louDone: 0
 --- !u!114 &114761236925991842
 MonoBehaviour:

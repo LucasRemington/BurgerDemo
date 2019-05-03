@@ -28,7 +28,7 @@ public class SaveLoad : MonoBehaviour
     [Tooltip("The black screen UI image, used in fading in and out. We may not use it that much. Set via script.")] public Image blackScreen;
     [Tooltip("Checks if we are ready to fade again.")] public bool readyForFade;
     [Tooltip("Checks if the image has fully faded out or not.")] public bool faded;
-    private bool saving = false;
+    [HideInInspector] public bool saving = false;
 
     [Header("Player References")]
     [HideInInspector] [Tooltip("The player holder, which other components are derived from. Set via script. If this is empty at runtime, that is an issue.")] public GameObject playerHolder;

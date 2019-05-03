@@ -22,9 +22,9 @@ public class PlayerHealth : MonoBehaviour {
     public Image shieldBar;
 
     void Start () {
+        gameController = GameObject.FindGameObjectWithTag("GameController");
         healthBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Fill").GetComponent<Image>();
         shieldBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Shield").GetComponent<Image>();
-        gameController = GameObject.FindGameObjectWithTag("GameController");
         burgerSpawner = GameObject.Find("CombatUI").transform.GetChild(2).gameObject;
         playerHealth = gameController.GetComponent<BattleTransitions>().playerHealth;       // takes from the gameController for now, will probably be changed to the overworld player controller
         playerHealthMax = gameController.GetComponent<BattleTransitions>().playerHealthMax; // also takes from the gameController
@@ -38,20 +38,28 @@ public class PlayerHealth : MonoBehaviour {
 
     public IEnumerator DelayedHealthBarSpawn() {
         yield return new WaitForSeconds(1);
+        if (healthBar == null)
+            healthBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Fill").GetComponent<Image>();
         healthBar.transform.parent.gameObject.SetActive(true);
     }
 	
 	public void DealDamage(int damage) //used to deal damage, takes amount of damage as an argument
     {
         int newDamage = damage;
-        Debug.Log("dealtdamage");
+        Debug.Log("PlayerHealth: Dealt damage! Damage = " + damage);
         if (shields > 0) {
             newDamage = damage - shields;
         }
-        if (newDamage >= 3)
+        if (newDamage >= 1)
         {
             protag.SetTrigger("Hurt");
+            Debug.Log("Hurt! Damage animation.");
         }
+        else if (newDamage <= 0)
+        {
+            protag.SetTrigger("Shielded");
+        } 
+
         if (newDamage >= 0) {
             shields = 0;
             previousHealth = playerHealth;
@@ -73,6 +81,8 @@ public class PlayerHealth : MonoBehaviour {
             protag.SetTrigger("CombatLost");
             StartCoroutine(BCI.nm.bt.EndOfBattle(false));
         }
+        if (shieldBar == null)
+            shieldBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Shield").GetComponent<Image>();
         shieldBar.fillAmount = (float)shields / (float)playerHealthMax;
     }
 
@@ -94,6 +104,9 @@ public class PlayerHealth : MonoBehaviour {
         //playerHealth = playerHealth + addShields;
         roundedHealth = Mathf.FloorToInt(playerHealth / 10);
         roundedPreviousHealth = Mathf.FloorToInt(previousHealth / 10);
+
+        if (healthBar == null)
+            healthBar = GameObject.FindGameObjectWithTag("HealthBar").transform.Find("HealthBar Fill").GetComponent<Image>();
         healthBar.fillAmount = (float)playerHealth / (float)playerHealthMax;
         healthText.text = playerHealth.ToString();
         shieldBar.fillAmount = (float)shields / (float)playerHealthMax;

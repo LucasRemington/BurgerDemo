@@ -544,10 +544,12 @@ public class TutorialEnemy : MonoBehaviour {
             BCI.bciDone = true;
             actSel.enemyReset = true;
             RecieveAttack();
+            timerInProgress = false;
             BCI.gameObject.SetActive(false);
         }
         else {
             secondsText.text = "";
+            timerInProgress = false;
         }
         
     }

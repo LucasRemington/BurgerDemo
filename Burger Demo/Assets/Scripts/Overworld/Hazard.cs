@@ -21,7 +21,7 @@ public class Hazard : MonoBehaviour
     [Tooltip("How long does it take for the player to be able to move again? Make sure this is less than the player's own invulnerability timer!")] public float knockbackTime;
     [Tooltip("For how long does the player slip for?")] public float slipTime;
     [Tooltip("When the scene starts, it will take this amount of time for the hazard to become active.")] public float delayTime;
-    private bool delayDone;
+    private bool delayDone; // If the initial delay for something to activate has finished.
     [Tooltip("If this is a timed hazard, how long is its active phase?")] public float activeTime;
     [Tooltip("If this is a timed hazard, how long is its inactive phase?")] public float inactiveTime;
 
@@ -29,9 +29,65 @@ public class Hazard : MonoBehaviour
     [Tooltip("The amount of damage that this hazard does. Set at or above 100% to be lethal.")] public int damage;
     [Tooltip("How much force is applied to knock the player away from the hazard if it's a knockback hazard?")] public float knockbackForce;
 
+    [Header("Hidden Values")]
+    private GameObject player; // Overworld player.
+    private OverworldMovement ovwMove; // The Overworld Movement script attached to the player.
+    private bool playerFalling; // Whether the player is currently falling, used for pitfalls to activate.
+    private bool playerHere; // Whether the player has entered the damagebox or not; once they leave, we can disable the colliders.
+    private PolygonCollider2D polyColl; // The collider that the player stands on for greasetraps; part of the child.
+    private BoxCollider2D triggerbox; // The triggerbox that actually damages the player in the greasetrap; part of the parent.
+    private int layer; // The sorting order layer of the greasetrap.
+    private int playerLayer; // The sorting layer of the player.
+
     private void Start()
     {
         StartCoroutine(Timer());
+
+        // At start, if this is a greasetrap, grab the relevant colliders.
+        if (hazardType == HazardType.Pitfall)
+        {
+            triggerbox = gameObject.GetComponent<BoxCollider2D>();
+            if (transform.GetChild(0).gameObject.GetComponent<PolygonCollider2D>())
+            {
+                polyColl = transform.GetChild(0).gameObject.GetComponent<PolygonCollider2D>();
+            }
+        }
+
+        // Grab the player, either way.
+        player = GameObject.FindGameObjectWithTag("Overworld");
+        if (player != null)
+        {
+            ovwMove = player.GetComponent<OverworldMovement>();
+            playerLayer = player.GetComponent<SpriteRenderer>().sortingOrder;
+        }
+
+        layer = 0; // We initialize layer as not the sorting layer, so that we can use it as a constant rather than have layer itself change.
+        layer = GetComponent<SpriteRenderer>().sortingOrder;
+    }
+
+    // Update is used to determine if the player is falling for the sake of pitfall traps. If they are, we activate the colliders. Deactivate them if the player is not falling and they've also left the colliders.
+    private void Update()
+    {
+        if (hazardType == HazardType.Pitfall)
+        {
+            if (!ovwMove.grounded)
+                playerFalling = true;
+            else
+                playerFalling = false;
+
+            if (playerFalling)
+            {
+                polyColl.enabled = true;
+                triggerbox.enabled = true;
+                GetComponent<SpriteRenderer>().sortingOrder = layer;
+            }
+            else if (!playerFalling && !playerHere)
+            {
+                polyColl.enabled = false;
+                triggerbox.enabled = false;
+                GetComponent<SpriteRenderer>().sortingOrder = playerLayer - 1;
+            }
+        }
     }
 
     private IEnumerator Timer()
@@ -61,48 +117,52 @@ public class Hazard : MonoBehaviour
         if (other.gameObject.tag == "Overworld")
         {
             bool activated = false;
-            OverworldMovement owMove = other.GetComponent<OverworldMovement>();
+            playerHere = true; // When the player collides, they activate this bool to signal such.
+
             switch (hazardType)
             {
                 case HazardType.Pitfall:
-                    if (!owMove.invuln)
+                    if (!ovwMove.invuln)
                     {
-                        StartCoroutine(owMove.FloatingDamage(damage));
-                        StartCoroutine(owMove.InvulnTimer());
-                        owMove.invuln = true;
-                        activated = true;
+                        if (GameObject.FindGameObjectWithTag("GameController").GetComponent<BattleTransitions>().playerHealth > 0)
+                        {
+                            StartCoroutine(ovwMove.FloatingDamage(damage));
+                            StartCoroutine(ovwMove.InvulnTimer());
+                            ovwMove.invuln = true;
+                            activated = true;
+                        }                        
                     }
                     break;
                 case HazardType.Slip:
-                    if (!owMove.slipping && !owMove.crouching)
+                    if (!ovwMove.slipping && !ovwMove.crouching)
                     {
                         if (Input.GetKey(KeyCode.LeftArrow))
                         {
-                            owMove.slipRight = false;
-                            owMove.slipLeft = true;
+                            ovwMove.slipRight = false;
+                            ovwMove.slipLeft = true;
                         }
                         else if (Input.GetKey(KeyCode.RightArrow))
                         {
-                            owMove.slipRight = true;
-                            owMove.slipLeft = false;
+                            ovwMove.slipRight = true;
+                            ovwMove.slipLeft = false;
                         }
                     }
 
 
-                    if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && !owMove.crouching)
+                    if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && !ovwMove.crouching)
                     {
-                        owMove.slipping = true;
-                        StopCoroutine(owMove.SlipTimer(slipTime));
-                        StartCoroutine(owMove.SlipTimer(slipTime));
+                        ovwMove.slipping = true;
+                        StopCoroutine(ovwMove.SlipTimer(slipTime));
+                        StartCoroutine(ovwMove.SlipTimer(slipTime));
                         activated = true;
                     }
                        
                     break;
                 case HazardType.Knockback:
-                    if (!owMove.invuln)
+                    if (!ovwMove.invuln && GameObject.FindGameObjectWithTag("GameController").GetComponent<BattleTransitions>().playerHealth > 0)
                     {
-                        StartCoroutine(owMove.FloatingDamage(damage));
-                        StartCoroutine(owMove.InvulnTimer());
+                        StartCoroutine(ovwMove.FloatingDamage(damage));
+                        StartCoroutine(ovwMove.InvulnTimer());
                         Vector2 direction = other.gameObject.transform.position - gameObject.transform.position;
 
                         if (direction.x > 0)
@@ -115,19 +175,19 @@ public class Hazard : MonoBehaviour
                         }
                         else
                         {
-                            if (owMove.playerSprite.flipX)
+                            if (ovwMove.playerSprite.flipX)
                             {
                                 other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * knockbackForce, ForceMode2D.Impulse);
                             }
                             else
                                 other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * knockbackForce, ForceMode2D.Impulse);
                         }
-                        owMove.invuln = true;
-                        owMove.canMove = false;
-                        owMove.LadderJump();
+                        ovwMove.invuln = true;
+                        ovwMove.canMove = false;
+                        ovwMove.LadderJump();
 
-                        StopCoroutine(KnockbackTimer(owMove));
-                        StartCoroutine(KnockbackTimer(owMove));
+                        StopCoroutine(KnockbackTimer(ovwMove));
+                        StartCoroutine(KnockbackTimer(ovwMove));
 
                         activated = true;
                     }
@@ -140,6 +200,15 @@ public class Hazard : MonoBehaviour
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Collider2D>().enabled = false;
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // When the player exits our collider, deactivate the relevant bool. Mostly just used for greasetraps.
+        if (other.gameObject.tag == "Overworld")
+        {
+            playerHere = false;
         }
     }
 

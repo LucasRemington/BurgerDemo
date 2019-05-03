@@ -8249,7 +8249,53 @@ Prefab:
         type: 3}
     - target: {fileID: 4647925299638524, guid: 12294ff8f898af44f8abd751dcb346d7, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7.13
+      value: 3.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726911673614252, guid: 12294ff8f898af44f8abd751dcb346d7, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212503306719775366, guid: 12294ff8f898af44f8abd751dcb346d7,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 212503306719775366, guid: 12294ff8f898af44f8abd751dcb346d7,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 212503306719775366, guid: 12294ff8f898af44f8abd751dcb346d7,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 212503306719775366, guid: 12294ff8f898af44f8abd751dcb346d7,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300155204907424, guid: 12294ff8f898af44f8abd751dcb346d7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -5.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 212147539472191980, guid: 12294ff8f898af44f8abd751dcb346d7,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212503306719775366, guid: 12294ff8f898af44f8abd751dcb346d7,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625112403742670, guid: 12294ff8f898af44f8abd751dcb346d7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 8.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1310320538177862, guid: 12294ff8f898af44f8abd751dcb346d7, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12294ff8f898af44f8abd751dcb346d7, type: 2}
@@ -11144,6 +11190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: ef7a4e705e363174485839f65207adbe, type: 2}
   i: 0
@@ -11690,6 +11737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 63d75844216cc6f4a8c8c12eb2434102, type: 2}
   i: 0
@@ -12567,6 +12615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: bbe4adcfc0b72774fb03a372bf283bdb, type: 2}
   i: 0
@@ -12677,6 +12726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 26752722ba186c241831e3b4edc1a8d5, type: 2}
   i: 0
@@ -12998,6 +13048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
+  isNPC: 0
   dialogueList:
   - {fileID: 11400000, guid: 0be25c6259d2e054aa2a006f03a20280, type: 2}
   i: 0

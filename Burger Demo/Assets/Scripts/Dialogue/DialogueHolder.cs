@@ -80,7 +80,22 @@ public class DialogueHolder : MonoBehaviour {
                     ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
                 }
                 break;
+
             case 4:
+                if (ns1 != null)
+                {
+                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
+                }
+                break;
+
+            case 5:
+                if (ns1 != null)
+                {
+                    ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);
+                }
+                break;
+
+            case 6:
                 if (ns1 != null)
                 {
                     ns1.convoChecker(scriptedConversation, scriptedConvo[scriptedConversation]);

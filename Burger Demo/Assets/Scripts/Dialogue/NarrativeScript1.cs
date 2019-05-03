@@ -431,16 +431,46 @@ public class NarrativeScript1 : MonoBehaviour {
     }
 
     public IEnumerator eventSix() {
+        yield return new WaitUntil(()=>!nm.owm.canMove);
+        nm.owm.canMove = true;
         Debug.Log("Event 6 Start");
         yield return new WaitUntil(() => saveLoad.louNotesSeen[0]);
         Debug.Log("Lou Note Seen");
+        if (!dennis) {
+            dennis = GameObject.FindGameObjectWithTag("Dennis");
+        }
+        dennis.transform.position = player.transform.position - new Vector3(10,-0.22f,0);
+        dennis.GetComponent<Animator>().SetTrigger("Walk");
+        nm.owm.canMove = false;
 
+        StartCoroutine(sm.MoveTo(dennis, (player.transform.position - dennis.transform.position - new Vector3(0.6f,0,0))*2, 2));
+        yield return new WaitUntil(() => sm.finished);
+        dennis.GetComponent<Animator>().SetTrigger("Idle");
+        player.GetComponent<SpriteRenderer>().flipX = true;
+        convoStartNS1(17);
+        yield return new WaitUntil(() => nm.owm.canMove);
+        nm.owm.canMove = false;
+        player.GetComponent<Animator>().SetTrigger("BeingDragged");
+        player.transform.parent = dennis.transform;
+        dennis.GetComponent<SpriteRenderer>().flipX = true;
+        dennis.GetComponent<Animator>().SetTrigger("DragPlayer");
+        dennis.GetComponent<BoxCollider2D>().enabled = true;
+        dennis.GetComponent<Rigidbody2D>().simulated = true;
+        StartCoroutine(sm.MoveTo(dennis, new Vector3(-37, 0, 0), 2.5f));
+        yield return new WaitForSeconds(2.3f);
+        //yield return new WaitUntil(() => !player.GetComponent<OverworldMovement>().grounded && sm.finished);
+        player.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+        dennis.GetComponent<Animator>().SetTrigger("Fall");
+        yield return new WaitForSeconds(0.9f);
+        dennis.GetComponent<Animator>().SetTrigger("HitGround");
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<Image>();
         for (int i = 0; i < 100; i++)
         {
             blackScreen.color = new Color(0, 0, 0, blackScreen.color.a + 0.01f);
             yield return new WaitForEndOfFrame();
         }
+        nm.ev++;
+        nm.CheckEvent();
     }
 
     public void convoChecker(int dia, int scriptedConvo) //if the conversation has events, they're called from here. If the conversation has no events, this should immediately break.
@@ -501,6 +531,9 @@ public class NarrativeScript1 : MonoBehaviour {
                     break;
                 case 16:
                     StartCoroutine(TutorialIngredientsOut(dia, scriptedConvo, false));
+                    break;
+                case 17:
+                    // FILL THIS IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIN
                     break;
             }
 
@@ -828,6 +861,9 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 13:
                 StartCoroutine(dh.GenericFirstConvo(13, false));
+                break;
+            case 17:
+                StartCoroutine(dh.GenericFirstConvo(17, false));
                 break;
         }
     }
@@ -1530,6 +1566,32 @@ public class NarrativeScript1 : MonoBehaviour {
     public IEnumerator DennisConvo3(int dia, int scriptedConvo)
     {
         yield return new WaitForSeconds(0);
+        switch (scriptedConvo)
+        {
+            case 0:
+                dh.ongoingEvent = true;
+                yield return new WaitForSeconds(0.5f);
+                dennisAnim.SetTrigger("Gun");
+                dh.ongoingEvent = false;
+                break;
+            case 1:
+                dh.ongoingEvent = true;
+                dennisAnim.SetTrigger("Bounce");
+                dh.ongoingEvent = false;
+                break;
+            case 2:
+                dh.ongoingEvent = true;
+                dennisAnim.SetBool("Looping", true);
+                dennisAnim.SetTrigger("Write");
+                yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
+                dennis.GetComponent<SpriteRenderer>().flipX = true;
+                dh.ongoingEvent = false;
+                break;
+
+        }
+    }
+    public IEnumerator DennisConvo4(int dia, int scriptedConvo) {
+        yield return null;
         switch (scriptedConvo)
         {
             case 0:
