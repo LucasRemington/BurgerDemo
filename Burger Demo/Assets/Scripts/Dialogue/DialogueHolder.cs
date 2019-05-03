@@ -190,14 +190,14 @@ public class DialogueHolder : MonoBehaviour {
             }
             sizeOfListInteractable = dia.DialogItems.Count;
         }
-        if (isNPC)
+        if (isNPC && theObject.GetComponent<SpriteRenderer>() != null)
         {
             float dir = nm.player.transform.position.x - theObject.transform.position.x;
             if (dir > 0) // If the player is to the right of the NPC.
             {
                 theObject.GetComponent<SpriteRenderer>().flipX = false;
             }
-            else // If the player is directly on top of or to the left of the NPC.
+            else if (theObject.GetComponent<SpriteRenderer>() != null) // If the player is directly on top of or to the left of the NPC.
             {
                 theObject.GetComponent<SpriteRenderer>().flipX = true;
             }

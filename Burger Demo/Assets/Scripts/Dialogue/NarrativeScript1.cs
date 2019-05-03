@@ -245,7 +245,7 @@ public class NarrativeScript1 : MonoBehaviour {
             convoStartNS1(8);
             yield return new WaitUntil(() => nm.owm.canMove == true);
             nm.owm.canMove = false;
-            yield return new WaitUntil(() => dh.scriptedConvoDone[10] == true);
+            yield return new WaitUntil(() => dh.scriptedConvoDone[8] == true);
             nm.owm.canMove = true;
             nm.ev++;
 
@@ -298,6 +298,7 @@ public class NarrativeScript1 : MonoBehaviour {
             dennis.GetComponent<SpriteRenderer>().flipX = false;
             StartCoroutine(sm.MoveTo(dennis, new Vector3(-3.04f, 0, 0), 0.01f));
             playerSR.flipX = false;
+            nm.owm.canMove = false;
         }
         yield return new WaitForSeconds(0.02f);
         nm.owm.canMove = false;
@@ -316,6 +317,12 @@ public class NarrativeScript1 : MonoBehaviour {
         else
             convoStartNS1(13);
         //nm.dbAnim.SetTrigger("Popup");
+        Debug.Log("Wait for convo done");
+        if (left)
+        {
+            yield return new WaitUntil(() => nm.owm.canMove);
+            nm.owm.canMove = false;
+        }
         yield return new WaitUntil(() => convoDone);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return new WaitForSeconds(2);
@@ -728,7 +735,7 @@ public class NarrativeScript1 : MonoBehaviour {
                 eventInProgress = true;
                 actSel.isReady = false;
                 actSel.option = -255;
-
+                TV = GameObject.FindGameObjectWithTag("TV");
                 tutEnemy = GameObject.FindGameObjectWithTag("BattleEnemy"); // Set our tutorial enemy and relevant script once battle is underway.
                 te = tutEnemy.GetComponent<TutorialEnemy>();
                 te.secondsText.text = "";
@@ -745,6 +752,9 @@ public class NarrativeScript1 : MonoBehaviour {
             case 1:
                 // To begin this process, select Serve from your Command menu by pressing your Action button. [Flash Command menu]
                 dh.ongoingEvent = true;
+                Animator TVanim = TV.GetComponent<Animator>();
+                TVanim.SetInteger("Phase", 1);
+                TVanim.SetTrigger("Go");
                 combatUIAnim.SetTrigger("OptionsFlash"); // Flash command menu.
                 actSel.commandsAvailable[0] = true;
                 actSel.isReady = true;
@@ -877,6 +887,8 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0: // Truly pathetic.
                 eventInProgress = true;
                 dh.ongoingEvent = true;
+                Animator TVanim = TV.GetComponent<Animator>();
+                TVanim.SetTrigger("Stop");
                 waitForScript = true;
 
                 actSel.isReady = false;
@@ -954,6 +966,9 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 5: // Use your arrow keys to highlight each item, and then follow the instructions to add one of each to your burger. As a new employee, you may only add four total ingredients to each burger.
                 dh.ongoingEvent = true;
+                TVanim = TV.GetComponent<Animator>();
+                TVanim.SetInteger("Phase", 2);
+                TVanim.SetTrigger("Go");
                 combatUIAnim.SetTrigger("InfoFlash"); // Stop flashing our info panel.
 
                 // Now we get ingredients. Reflect that in their animators.
@@ -996,6 +1011,8 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0: // Your creativity is appalling, yet you are improving. The improvement is negligble, but it is improvement nonetheless. [ Disable options, etc]
                 dh.ongoingEvent = true;
                 eventInProgress = true;
+                Animator TVanim = TV.GetComponent<Animator>();
+                TVanim.SetTrigger("Stop");
                 actSel.isReady = false;
                 actSel.commandsAvailable[0] = false;
                 waitForScript = true;
@@ -1096,6 +1113,8 @@ public class NarrativeScript1 : MonoBehaviour {
             case 7: // Serve me. Failure to serve the appropriate Combo will result in punishment. [ Won't serve burger until dialogue is closed ]
                 dh.ongoingEvent = true;
                 actSel.commandsAvailable[0] = true; // Unlock command menu in case we decide to retreat a menu.
+                TVanim = TV.GetComponent<Animator>();
+                TVanim.SetTrigger("Go");
                 yield return new WaitUntil(() => nm.canAdvance);
                 actSel.isReady = true;
                 waitForScript = true;
@@ -1125,6 +1144,8 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0: // Hm...acceptable. [ Reset ]
                 dh.ongoingEvent = true;
                 eventInProgress = true;
+                Animator TVanim = TV.GetComponent<Animator>();
+                TVanim.SetTrigger("Stop");
                 actSel.isReady = false;
                 actSel.commandsAvailable[0] = false;
                 actSel.commandsAvailable[1] = false;
@@ -1148,6 +1169,8 @@ public class NarrativeScript1 : MonoBehaviour {
                 break;
             case 3: // Now, serve me. [ Allow player free reign. ]
                 dh.ongoingEvent = true;
+                TVanim = TV.GetComponent<Animator>();
+                TVanim.SetTrigger("Go");
                 yield return new WaitUntil(() => nm.canAdvance);
 
                 actSel.isReady = true;
@@ -1196,6 +1219,8 @@ public class NarrativeScript1 : MonoBehaviour {
             case 0: // Satisfactory. [ Reset. ]
                 dh.ongoingEvent = true;
                 eventInProgress = true;
+                Animator TVanim = TV.GetComponent<Animator>();
+                TVanim.SetTrigger("Stop");
                 actSel.isReady = false;
                 actSel.commandsAvailable[0] = false;
                 actSel.commandsAvailable[1] = false;

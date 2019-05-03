@@ -303,8 +303,7 @@ public class SaveLoad : MonoBehaviour
         narrMan.owm.playerAnim.SetTrigger("ResetIdle");
 
         StartCoroutine(FadeImageToZeroAlpha(1.5f, blackScreen));
-        yield return new WaitUntil(() => blackScreen.color.a <= 0);
-        
+        yield return new WaitUntil(() => blackScreen.color.a <= 0.2f);
         narrMan.owm.canMove = true;
     }
 

@@ -161,6 +161,7 @@ public class Hazard : MonoBehaviour
                 case HazardType.Knockback:
                     if (!ovwMove.invuln && GameObject.FindGameObjectWithTag("GameController").GetComponent<BattleTransitions>().playerHealth > 0)
                     {
+                        player.GetComponent<Animator>().SetTrigger("Burned");
                         StartCoroutine(ovwMove.FloatingDamage(damage));
                         StartCoroutine(ovwMove.InvulnTimer());
                         Vector2 direction = other.gameObject.transform.position - gameObject.transform.position;

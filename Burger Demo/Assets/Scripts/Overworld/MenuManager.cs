@@ -150,13 +150,13 @@ public class MenuManager : MonoBehaviour {
             {
                 optionText[i].color = Color.white;
 
-                if ((optionText[i].text == "Respawn" && !meatLockersVisited) || (optionText[i].text == "Continue" && !saveDataExists))
+                if ((optionText[i].text == "Respawn" && (!meatLockersVisited || player.GetComponent<OverworldMovement>().onLadder)) || (optionText[i].text == "Continue" && !saveDataExists))
                 {
                     optionText[i].color = new Color(0.3f, 0.3f, 0.3f);
                 }
             }
             optionText[optionSelected].color = Color.red;
-            if ((optionText[optionSelected].text == "Respawn" && !meatLockersVisited) || (optionText[optionSelected].text == "Continue" && !saveDataExists))
+            if ((optionText[optionSelected].text == "Respawn" && (!meatLockersVisited || player.GetComponent<OverworldMovement>().onLadder)) || (optionText[optionSelected].text == "Continue" && !saveDataExists))
             {
                 optionText[optionSelected].color = Color.red * new Color(0.3f, 0.3f, 0.3f);
             }
@@ -369,12 +369,22 @@ public class MenuManager : MonoBehaviour {
 
                 case 1: // Originally Inventory. Now sends the player back to the last Meat Locker they visited.
                     
-                    if (meatLockersVisited)
+                    if (meatLockersVisited && !ovm.onLadder)
                     {
                         Debug.Log("Respawn");
                         soundMaker.clip = OpenSound;
-                        StartCoroutine(saveLoad.LoadGame(true));
                         closeNow = true;
+                        yield return new WaitUntil(() => ovm.canMove); // Once the menu closes...disable movement and trigger our respawn animation.
+                        ovm.canMove = false;
+                        Animator playerAnim = player.GetComponent<Animator>();
+
+                        playerAnim.SetTrigger("Respawn");
+
+                        player.GetComponent<DennisAnimEvent>().respawnAnimFlag = false;
+                        yield return new WaitUntil(() => player.GetComponent<DennisAnimEvent>().respawnAnimFlag); // Once the animation is done, respawn.
+
+                        saveLoad.LoadGameFunc(true);
+                        //StartCoroutine(saveLoad.LoadGame(true));
                     }
                     else
                     {

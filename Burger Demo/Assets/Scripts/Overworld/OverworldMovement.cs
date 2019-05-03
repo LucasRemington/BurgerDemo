@@ -137,7 +137,7 @@ public class OverworldMovement : MonoBehaviour {
         
 
         // Here's our movement! We go by time.deltatime so that movement isn't tied to overclocking or framerate.
-        if (!battTran.battling)
+        if (battTran != null && !battTran.battling)
         {
             if (Input.GetKey(KeyCode.RightArrow) && !onLadder && canMove && grounded)
             {

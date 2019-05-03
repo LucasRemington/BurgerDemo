@@ -19,6 +19,8 @@ public class DennisAnimEvent : MonoBehaviour {
     private int i;
     private bool Started;
 
+    public bool respawnAnimFlag;
+
     void Start () {
         audio = GetComponent<AudioSource>();
         StartCoroutine(lateStart());
@@ -47,6 +49,11 @@ public class DennisAnimEvent : MonoBehaviour {
             nm.ns1.animationFlag = true;
             did = true;
         }
+    }
+
+    public void TriggerRespawnFlag()
+    {
+        respawnAnimFlag = true;
     }
 
     public void triggerAnim ()
